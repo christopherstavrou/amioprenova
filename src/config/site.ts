@@ -26,4 +26,62 @@ export const siteConfig = {
 
   // Newsletter
   mailchimpSignupUrl: '', // TODO: Add Mailchimp signup form URL
+
+  // Affiliate links (displayed on Support/Buy page)
+  affiliateLinks: [
+    {
+      label: 'Recommended Gear',
+      url: '', // TODO: Add affiliate link
+      note: 'Equipment and tools I use',
+    },
+    {
+      label: 'Music Production Software',
+      url: '', // TODO: Add affiliate link
+      note: 'Software recommendations',
+    },
+  ],
+
+  // Links page (linktree-style hub)
+  linksPageLinks: [
+    {
+      label: 'Listen on Spotify',
+      url: '', // TODO: Add Spotify URL
+      category: 'music',
+    },
+    {
+      label: 'Buy on Bandcamp',
+      url: '', // TODO: Add Bandcamp URL
+      category: 'music',
+    },
+    {
+      label: 'Watch on YouTube',
+      url: '', // TODO: Add YouTube URL
+      category: 'music',
+    },
+    {
+      label: 'Instagram',
+      url: '', // TODO: Add Instagram URL
+      category: 'social',
+    },
+    {
+      label: 'TikTok',
+      url: '', // TODO: Add TikTok URL
+      category: 'social',
+    },
+    {
+      label: 'Facebook',
+      url: '', // TODO: Add Facebook URL
+      category: 'social',
+    },
+    {
+      label: 'Support Me',
+      url: '', // TODO: Add donation URL
+      category: 'support',
+    },
+    {
+      label: 'Get Tickets',
+      url: '', // TODO: Add tickets URL
+      category: 'support',
+    },
+  ],
 } as const;
