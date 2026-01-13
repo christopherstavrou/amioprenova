@@ -147,7 +147,60 @@ Site configuration is centralized in `src/config/site.ts`. Update placeholder UR
 - Email addresses
 - External platform URLs
 
-##Deployment
+## Press Assets
+
+### Location
+
+All press assets (photos, logo, tech rider) are stored in `public/press/`:
+
+```
+public/press/
+├── press-photo-1.jpg    # High-resolution press photo(s)
+├── logo.png             # Official logo
+└── tech-rider.pdf       # Technical rider PDF
+```
+
+### Replacing Press Assets
+
+To update press materials:
+
+1. **Press Photos**:
+   - Replace `public/press/press-photo-1.jpg` with your high-resolution press photo
+   - Add more photos by creating `press-photo-2.jpg`, etc.
+   - Update the `pressAssets.photos` array in `src/config/site.ts`:
+     ```typescript
+     pressAssets: {
+       photos: [
+         '/press/press-photo-1.jpg',
+         '/press/press-photo-2.jpg'  // Add new photos here
+       ],
+       // ...
+     }
+     ```
+
+2. **Logo**:
+   - Replace `public/press/logo.png` with your official logo (PNG format recommended)
+
+3. **Technical Rider**:
+   - Replace `public/press/tech-rider.pdf` with your actual technical rider PDF
+
+### Press Page Content
+
+To update the press page biography and metadata:
+
+1. **Bio Text**: Edit the content directly in the press page files:
+   - English: `src/pages/en/press.astro`
+   - Bulgarian: `src/pages/bg/press.astro`
+
+2. **Genres & RIYL Tags**: Update in `src/config/site.ts`:
+   ```typescript
+   genres: ['Electronic', 'Ambient', 'Experimental'],
+   riylTags: ['Artist Name 1', 'Artist Name 2', 'Artist Name 3'],
+   ```
+
+3. **External Links**: All press page links (social media, music platforms) come from `src/config/site.ts`. Update the placeholder URLs with real values.
+
+## Deployment
 
 This is a static site. After running `npm run build`, deploy the `dist/` folder to any static hosting service:
 

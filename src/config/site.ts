@@ -29,6 +29,15 @@ export const siteConfig = {
   // Newsletter
   mailchimpSignupUrl: 'https://mailchimp.com/signup', // TODO: Replace with real Mailchimp signup form URL
 
+  // Press / Media Kit
+  genres: ['Electronic', 'Ambient', 'Experimental'], // TODO: Replace with actual genres
+  riylTags: ['Artist Name 1', 'Artist Name 2', 'Artist Name 3'], // TODO: Replace with "Recommended If You Like" artists
+  pressAssets: {
+    photos: ['/press/press-photo-1.jpg'], // TODO: Add more press photos as needed
+    logo: '/press/logo.png',
+    techRider: '/press/tech-rider.pdf',
+  },
+
   // Affiliate links (displayed on Support/Buy page)
   affiliateLinks: [
     {

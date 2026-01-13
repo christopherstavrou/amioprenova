@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { siteConfig } from '../../config/site';
 ---
 
 <Layout
@@ -7,6 +8,128 @@ import Layout from '../../layouts/Layout.astro';
   description="Преса кит и медийни ресурси за amioprenova. Високо качествени снимки, биография и контакт за преса."
   lang="bg"
 >
-  <h1 class="text-4xl font-bold mb-4">Преса</h1>
-  <p class="text-gray-600">Заместител на страницата преса</p>
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold mb-8">Преса / Медиа Кит</h1>
+
+    <!-- Short Bio -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Кратка биография</h2>
+      <div class="prose max-w-none">
+        <p class="text-lg leading-relaxed">
+          amioprenova е музикант и композитор, създаващ атмосферни електронни звукови пейзажи, които съчетават ambient текстури с експериментална продукция. Базиран в София, България, техният труд изследва пресечната точка между органични и синтетични звуци.
+        </p>
+      </div>
+    </section>
+
+    <!-- Long Bio -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Пълна биография</h2>
+      <div class="prose max-w-none">
+        <p class="mb-4">
+          amioprenova е музикант, композитор и sound designer, чиято работа съществува на кръстопътя между електронния експеримент и емоционалното разказване. Вдъхновен от ambient пионерите, модерните електронни продуценти и природните звукови пейзажи на България, тяхната музика създава имерсивни звукови среди, които канят към дълбоко слушане.
+        </p>
+        <p class="mb-4">
+          От появата си на независимата музикална сцена, amioprenova е развил отличителен глас, характеризиращ се с наслоени синт текстури, field recordings и внимателно изградени ритмични елементи. Техният подход към композицията приоритизира атмосферата и емоционалния резонанс, създавайки музика, която служи едновременно като фонова медитация и преден план на наративa.
+        </p>
+        <p>
+          С изпълнения, вариращи от интимни слушателни зали до фестивални сцени, amioprenova продължава да разширява границите на електронната музика, като същевременно поддържа достъпност и емоционална дълбочина. Техните творби са били представени в независими радиостанции и кюрирани плейлисти, изграждайки отдадена аудитория от слушатели, които оценяват внимателната, атмосферна електронна музика.
+        </p>
+      </div>
+    </section>
+
+    <!-- Genre & RIYL -->
+    <section class="mb-12">
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h2 class="text-2xl font-semibold mb-4">Жанр</h2>
+          <div class="flex flex-wrap gap-2">
+            {siteConfig.genres.map((genre) => (
+              <span class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full text-sm">
+                {genre}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h2 class="text-2xl font-semibold mb-4">Препоръчано ако харесвате</h2>
+          <div class="flex flex-wrap gap-2">
+            {siteConfig.riylTags.map((artist) => (
+              <span class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full text-sm">
+                {artist}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Links -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Връзки</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <a href={siteConfig.baseUrl} class="text-blue-600 hover:underline">Официален уебсайт</a>
+        <a href={siteConfig.bandcampUrl} class="text-blue-600 hover:underline">Bandcamp</a>
+        <a href={siteConfig.spotifyUrl} class="text-blue-600 hover:underline">Spotify</a>
+        <a href={siteConfig.youtubeUrl} class="text-blue-600 hover:underline">YouTube</a>
+        <a href={siteConfig.instagramUrl} class="text-blue-600 hover:underline">Instagram</a>
+        <a href={siteConfig.facebookUrl} class="text-blue-600 hover:underline">Facebook</a>
+      </div>
+    </section>
+
+    <!-- Downloads -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Изтегляния</h2>
+      <div class="bg-gray-100 rounded-lg p-6">
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-semibold mb-2">Преса снимки</h3>
+            <ul class="space-y-2">
+              {siteConfig.pressAssets.photos.map((photo) => (
+                <li>
+                  <a href={photo} download class="text-blue-600 hover:underline flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Преса снимка (високо качество)
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-2">Лого</h3>
+            <a href={siteConfig.pressAssets.logo} download class="text-blue-600 hover:underline flex items-center">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Официално лого (PNG)
+            </a>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-2">Технически райдър</h3>
+            <a href={siteConfig.pressAssets.techRider} download class="text-blue-600 hover:underline flex items-center">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Технически райдър (PDF)
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Преса контакт</h2>
+      <p class="text-lg">
+        За преса запитвания, интервюта и медийни искания, моля свържете се с:{' '}
+        <a
+          href={`mailto:${siteConfig.pressEmail}?subject=Преса%20запитване`}
+          class="text-blue-600 hover:underline font-semibold"
+        >
+          Преса контакт
+        </a>
+      </p>
+    </section>
+  </div>
 </Layout>

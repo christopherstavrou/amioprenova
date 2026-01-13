@@ -197,6 +197,47 @@ This project uses a **content-driven multilingual strategy**. Pages are language
 - SEO changes must not break existing functionality
 - Always test builds after SEO modifications
 
+## Press Assets & Media Kit
+
+**Location:**
+- All press assets are stored in `public/press/`
+- Assets include:
+  - Press photos (high-resolution images)
+  - Logo files (PNG format)
+  - Technical rider (PDF)
+
+**File paths:**
+- Press photos: `public/press/press-photo-1.jpg` (add more as needed)
+- Logo: `public/press/logo.png`
+- Technical rider: `public/press/tech-rider.pdf`
+
+**Configuration:**
+- Press asset paths are defined in `src/config/site.ts` under `pressAssets`
+- Bio text, genres, and RIYL tags are also configured in `site.ts`
+- Press page pulls all external links (social media, music platforms) from central config
+
+**Press page structure:**
+- Short bio section (paragraph in page file)
+- Long bio section (multiple paragraphs in page file)
+- Genre tags (from config)
+- Recommended If You Like (RIYL) tags (from config)
+- Key links (website, music, socials - all from config)
+- Downloads section (photos, logo, tech rider - paths from config)
+- Press contact link (mailto with pressEmail from config)
+
+**Important conventions:**
+- **NEVER hardcode external URLs** in page templates - always use `siteConfig`
+- **Downloads are public assets** - they must exist under `public/` to be directly accessible
+- Press page biography text lives in language-specific page files (`/en/press.astro`, `/bg/press.astro`)
+- Metadata (genres, RIYL, asset paths) lives in `src/config/site.ts`
+- Footer social links automatically render from config and hide empty URLs
+
+**Contact page:**
+- Booking and Press sections as clickable cards
+- Mailto links use structured templates (name, venue, dates, budget, etc.)
+- Emails pulled from `siteConfig.bookingEmail` and `siteConfig.pressEmail`
+- Raw email addresses are NOT displayed as plain text - only as mailto links
+
 ## Notes for AI Assistant
 
 **General principles:**
