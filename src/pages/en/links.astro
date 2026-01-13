@@ -1,8 +1,36 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { siteConfig } from '../../config/site';
+
+const activeLinks = siteConfig.linksPageLinks.filter(link => link.url);
 ---
 
 <Layout title="Links - amioprenova" lang="en">
-  <h1 class="text-4xl font-bold mb-4">Links</h1>
-  <p class="text-gray-600">Links page placeholder</p>
+  <div class="max-w-2xl mx-auto">
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold mb-3">amioprenova</h1>
+      <p class="text-gray-600">All my links in one place</p>
+    </div>
+
+    {activeLinks.length > 0 ? (
+      <div class="space-y-4">
+        {activeLinks.map(link => (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="block w-full py-4 px-6 text-center border-2 border-gray-900 rounded-lg font-medium hover:bg-gray-900 hover:text-white transition-colors"
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <p class="text-gray-600 text-lg">
+          Links coming soon. Check back later!
+        </p>
+      </div>
+    )}
+  </div>
 </Layout>
