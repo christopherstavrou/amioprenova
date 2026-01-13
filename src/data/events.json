@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "title": "Summer Music Festival",
+    "startDate": "2026-07-15T20:00:00+03:00",
+    "venue": "Open Air Stage",
+    "city": "Sofia",
+    "country": "Bulgaria",
+    "ticketUrl": "https://example.com/tickets/1",
+    "mapUrl": "https://maps.google.com/?q=Sofia+Open+Air+Stage"
+  },
+  {
+    "id": "2",
+    "title": "Jazz Night",
+    "startDate": "2026-08-22T21:00:00+03:00",
+    "venue": "Blue Note Club",
+    "city": "Plovdiv",
+    "country": "Bulgaria",
+    "ticketUrl": "",
+    "mapUrl": "https://maps.google.com/?q=Plovdiv+Blue+Note+Club"
+  },
+  {
+    "id": "3",
+    "title": "Acoustic Session",
+    "startDate": "2026-09-10T19:30:00+03:00",
+    "venue": "The Art Cafe",
+    "city": "Varna",
+    "country": "Bulgaria",
+    "ticketUrl": "https://example.com/tickets/3",
+    "mapUrl": ""
+  },
+  {
+    "id": "4",
+    "title": "Winter Concert Series",
+    "startDate": "2026-12-05T20:00:00+02:00",
+    "venue": "National Palace of Culture",
+    "city": "Sofia",
+    "country": "Bulgaria",
+    "ticketUrl": "https://example.com/tickets/4",
+    "mapUrl": "https://maps.google.com/?q=Sofia+NDK"
+  }
+]
