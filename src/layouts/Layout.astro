@@ -4,11 +4,19 @@ import { siteConfig } from '../config/site';
 
 export interface Props {
   title: string;
+  description: string;
   lang: Language;
+  ogImage?: string;
 }
 
-const { title, lang } = Astro.props;
+const { title, description, lang, ogImage } = Astro.props;
 const t = ui[lang];
+
+// SEO: Canonical URL
+const canonicalURL = new URL(Astro.url.pathname, siteConfig.baseUrl).href;
+
+// SEO: OpenGraph image
+const ogImageUrl = new URL(ogImage || siteConfig.ogImage, siteConfig.baseUrl).href;
 
 const navItems = [
   { href: `/${lang}`, label: t.nav.home },
@@ -29,7 +37,27 @@ const navItems = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO: Primary Meta Tags -->
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- SEO: OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content={siteConfig.siteName} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'bg_BG'} />
+
+    <!-- SEO: Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
   </head>
   <body class="min-h-screen flex flex-col bg-white text-gray-900">
     <header class="border-b border-gray-200">
