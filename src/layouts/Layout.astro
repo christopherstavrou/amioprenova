@@ -1,22 +1,25 @@
 ---
+import { ui, type Language } from '../i18n/ui';
+
 export interface Props {
   title: string;
-  lang: 'en' | 'bg';
+  lang: Language;
 }
 
 const { title, lang } = Astro.props;
+const t = ui[lang];
 
 const navItems = [
-  { href: `/${lang}`, label: lang === 'en' ? 'Home' : 'Начало' },
-  { href: `/${lang}/about`, label: lang === 'en' ? 'About' : 'За мен' },
-  { href: `/${lang}/music`, label: lang === 'en' ? 'Music' : 'Музика' },
-  { href: `/${lang}/video`, label: lang === 'en' ? 'Video' : 'Видео' },
-  { href: `/${lang}/shows`, label: lang === 'en' ? 'Shows' : 'Концерти' },
-  { href: `/${lang}/support`, label: lang === 'en' ? 'Support' : 'Подкрепи' },
-  { href: `/${lang}/blog`, label: lang === 'en' ? 'News' : 'Новини' },
-  { href: `/${lang}/press`, label: lang === 'en' ? 'Press' : 'Преса' },
-  { href: `/${lang}/contact`, label: lang === 'en' ? 'Contact' : 'Контакт' },
-  { href: `/${lang}/links`, label: lang === 'en' ? 'Links' : 'Връзки' },
+  { href: `/${lang}`, label: t.nav.home },
+  { href: `/${lang}/about`, label: t.nav.about },
+  { href: `/${lang}/music`, label: t.nav.music },
+  { href: `/${lang}/video`, label: t.nav.video },
+  { href: `/${lang}/shows`, label: t.nav.shows },
+  { href: `/${lang}/support`, label: t.nav.support },
+  { href: `/${lang}/blog`, label: t.nav.news },
+  { href: `/${lang}/press`, label: t.nav.press },
+  { href: `/${lang}/contact`, label: t.nav.contact },
+  { href: `/${lang}/links`, label: t.nav.links },
 ];
 ---
 
@@ -61,7 +64,7 @@ const navItems = [
 
     <footer class="border-t border-gray-200 mt-auto">
       <div class="container mx-auto px-4 py-6 text-center text-sm text-gray-600">
-        <p>&copy; {new Date().getFullYear()} amioprenova. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} amioprenova. {t.footer.copyright}</p>
       </div>
     </footer>
 
