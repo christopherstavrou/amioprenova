@@ -4,7 +4,7 @@
 **amioprenova** is a static website for a musician. It serves as the artist's official online presence for fans, promoters, and press. The site prioritizes performance, simplicity, low cost, and long-term maintainability.
 
 ## Project Type
-Static website only. No backend, no database, no CMS in V1.
+Static website only.
 
 ## Technology Stack
 - **Static Site Generator**: Astro
