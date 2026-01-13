@@ -11,32 +11,32 @@ export const siteConfig = {
   pressEmail: 'press@example.com', // TODO: Replace with real email
 
   // Music platforms
-  bandcampUrl: '', // TODO: Add Bandcamp URL
-  spotifyUrl: '', // TODO: Add Spotify URL
-  youtubeUrl: '', // TODO: Add YouTube URL
+  bandcampUrl: 'https://amioprenova.bandcamp.com', // TODO: Replace with real Bandcamp URL
+  spotifyUrl: 'https://open.spotify.com/artist/example', // TODO: Replace with real Spotify URL
+  youtubeUrl: 'https://youtube.com/@amioprenova', // TODO: Replace with real YouTube URL
 
   // Social media
-  instagramUrl: '', // TODO: Add Instagram URL
-  tiktokUrl: '', // TODO: Add TikTok URL
-  facebookUrl: '', // TODO: Add Facebook URL
+  instagramUrl: 'https://instagram.com/amioprenova', // TODO: Replace with real Instagram URL
+  tiktokUrl: 'https://tiktok.com/@amioprenova', // TODO: Replace with real TikTok URL
+  facebookUrl: 'https://facebook.com/amioprenova', // TODO: Replace with real Facebook URL
 
   // Monetization
-  donationUrl: '', // TODO: Add Ko-fi or Buy Me a Coffee URL
-  ticketsPlatformUrl: '', // TODO: Add Eventbrite/Tito URL
+  donationUrl: 'https://ko-fi.com/amioprenova', // TODO: Replace with real Ko-fi or Buy Me a Coffee URL
+  ticketsPlatformUrl: 'https://eventbrite.com/o/amioprenova', // TODO: Replace with real Eventbrite/Tito URL
 
   // Newsletter
-  mailchimpSignupUrl: '', // TODO: Add Mailchimp signup form URL
+  mailchimpSignupUrl: 'https://mailchimp.com/signup', // TODO: Replace with real Mailchimp signup form URL
 
   // Affiliate links (displayed on Support/Buy page)
   affiliateLinks: [
     {
       label: 'Recommended Gear',
-      url: '', // TODO: Add affiliate link
+      url: 'https://example.com/gear', // TODO: Replace with real affiliate link
       note: 'Equipment and tools I use',
     },
     {
       label: 'Music Production Software',
-      url: '', // TODO: Add affiliate link
+      url: 'https://example.com/software', // TODO: Replace with real affiliate link
       note: 'Software recommendations',
     },
   ],
@@ -45,42 +45,42 @@ export const siteConfig = {
   linksPageLinks: [
     {
       label: 'Listen on Spotify',
-      url: '', // TODO: Add Spotify URL
+      url: 'https://open.spotify.com/artist/example', // TODO: Replace with real Spotify URL
       category: 'music',
     },
     {
       label: 'Buy on Bandcamp',
-      url: '', // TODO: Add Bandcamp URL
+      url: 'https://amioprenova.bandcamp.com', // TODO: Replace with real Bandcamp URL
       category: 'music',
     },
     {
       label: 'Watch on YouTube',
-      url: '', // TODO: Add YouTube URL
+      url: 'https://youtube.com/@amioprenova', // TODO: Replace with real YouTube URL
       category: 'music',
     },
     {
       label: 'Instagram',
-      url: '', // TODO: Add Instagram URL
+      url: 'https://instagram.com/amioprenova', // TODO: Replace with real Instagram URL
       category: 'social',
     },
     {
       label: 'TikTok',
-      url: '', // TODO: Add TikTok URL
+      url: 'https://tiktok.com/@amioprenova', // TODO: Replace with real TikTok URL
       category: 'social',
     },
     {
       label: 'Facebook',
-      url: '', // TODO: Add Facebook URL
+      url: 'https://facebook.com/amioprenova', // TODO: Replace with real Facebook URL
       category: 'social',
     },
     {
       label: 'Support Me',
-      url: '', // TODO: Add donation URL
+      url: 'https://ko-fi.com/amioprenova', // TODO: Replace with real donation URL
       category: 'support',
     },
     {
       label: 'Get Tickets',
-      url: '', // TODO: Add tickets URL
+      url: 'https://eventbrite.com/o/amioprenova', // TODO: Replace with real tickets URL
       category: 'support',
     },
   ],
