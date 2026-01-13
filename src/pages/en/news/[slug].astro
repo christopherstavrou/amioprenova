@@ -1,0 +1,135 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../../layouts/Layout.astro';
+import { siteConfig } from '../../../config/site';
+
+export const getStaticPaths = (async () => {
+  const allPosts = await getCollection('blog', ({ id }) => id.startsWith('en/'));
+  return allPosts.map(post => ({
+    params: { slug: post.slug.replace('en/', '') },
+    props: { post },
+  }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+
+const canonicalURL = new URL(Astro.url.pathname, siteConfig.baseUrl).href;
+const shareTitle = encodeURIComponent(post.data.title);
+const shareURL = encodeURIComponent(canonicalURL);
+
+// Social share URLs
+const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${shareURL}`;
+const twitterShareURL = `https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareURL}`;
+---
+
+<Layout
+  title={`${post.data.title} - amioprenova`}
+  description={post.data.description}
+  lang="en"
+>
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold mb-4">{post.data.title}</h1>
+      <div class="flex items-center gap-4 text-sm text-gray-600">
+        <time datetime={post.data.pubDate}>{formattedDate}</time>
+        {post.data.tags && post.data.tags.length > 0 && (
+          <div class="flex gap-2">
+            {post.data.tags.map(tag => (
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <div class="prose prose-lg max-w-none mb-12">
+      <Content />
+    </div>
+
+    {/* Social Share */}
+    <footer class="border-t border-gray-200 pt-8">
+      <div class="flex items-center gap-4">
+        <span class="text-sm font-medium text-gray-700">Share:</span>
+        <a
+          href={facebookShareURL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded hover:border-gray-900 transition-colors text-sm"
+        >
+          Facebook
+        </a>
+        <a
+          href={twitterShareURL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded hover:border-gray-900 transition-colors text-sm"
+        >
+          Twitter / X
+        </a>
+      </div>
+
+      <div class="mt-8">
+        <a
+          href="/en/news"
+          class="inline-block text-sm hover:underline"
+        >
+          ← Back to all posts
+        </a>
+      </div>
+    </footer>
+  </article>
+</Layout>
+
+<style>
+  /* Basic prose styling for markdown content */
+  .prose h2 {
+    @apply text-2xl font-bold mt-8 mb-4;
+  }
+
+  .prose h3 {
+    @apply text-xl font-bold mt-6 mb-3;
+  }
+
+  .prose p {
+    @apply mb-4 leading-relaxed;
+  }
+
+  .prose ul,
+  .prose ol {
+    @apply mb-4 ml-6;
+  }
+
+  .prose li {
+    @apply mb-2;
+  }
+
+  .prose ul li {
+    @apply list-disc;
+  }
+
+  .prose ol li {
+    @apply list-decimal;
+  }
+
+  .prose a {
+    @apply text-gray-900 underline hover:text-gray-600;
+  }
+
+  .prose code {
+    @apply bg-gray-100 px-1 py-0.5 rounded text-sm;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-gray-300 pl-4 italic my-4;
+  }
+</style>

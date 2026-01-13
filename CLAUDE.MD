@@ -45,6 +45,52 @@ npm run build    # Production build
 - Links (Linktree-style page at `/links`)
 - Privacy
 
+## Blog / News System
+
+The site includes a static blog/news system using Markdown files and Astro Content Collections.
+
+**Architecture:**
+- Blog posts are Markdown (`.md`) files stored in `src/content/blog/`
+- English posts: `src/content/blog/en/`
+- Bulgarian posts: `src/content/blog/bg/`
+- Each post is automatically published when the Markdown file exists (NO draft concept)
+- Posts are rendered at build time
+- Removing a Markdown file removes the post on next build
+
+**Required frontmatter:**
+```yaml
+---
+title: "Post Title"
+description: "Post description for SEO"
+pubDate: "2026-01-13"  # ISO date string
+tags: ["tag1", "tag2"]  # Optional array
+---
+```
+
+**URLs:**
+- Blog index: `/en/news` and `/bg/news`
+- Individual posts: `/en/news/[slug]` and `/bg/news/[slug]`
+- Pagination: `/en/news/page/2/`, `/en/news/page/3/`, etc.
+- Legacy `/blog` routes redirect to `/news`
+
+**Features:**
+- Static pagination (6 posts per page, generated at build time)
+- Client-side search with build-time JSON index
+- Social share links (Facebook, Twitter/X) using static URLs
+- Posts sorted newest-first
+- No inline translation logic for post content
+
+**Search:**
+- Search index generated at build time: `/search-index.json`
+- Client-side filtering by title, description, and tags
+- Minimal JavaScript (simple substring matching)
+- Results link directly to post pages
+
+**Bulgarian posts:**
+- If no Bulgarian posts exist, empty state message is shown
+- English posts are NOT automatically translated
+- Bulgarian posts must be created separately in `src/content/blog/bg/`
+
 ## Multilingual Support (i18n)
 
 This project uses a **content-driven multilingual strategy**. Pages are language-specific files with no translation logic embedded.

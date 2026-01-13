@@ -1,0 +1,183 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../../layouts/Layout.astro';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const allPosts = await getCollection('blog', ({ id }) => id.startsWith('en/'));
+  const sortedPosts = allPosts.sort((a, b) =>
+    new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+  );
+
+  return paginate(sortedPosts, { pageSize: 6 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const posts = page.data;
+---
+
+<Layout
+  title={page.currentPage === 1 ? "News - amioprenova" : `News - Page ${page.currentPage} - amioprenova`}
+  description="Latest news, updates, and announcements from amioprenova. Stay informed about releases, shows, and projects."
+  lang="en"
+>
+  <div class="max-w-4xl mx-auto">
+    <div class="flex justify-between items-baseline mb-8">
+      <h1 class="text-4xl font-bold">News</h1>
+      <div class="relative">
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search posts..."
+          class="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-900"
+        />
+        <div id="search-results" class="hidden absolute top-full mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto z-10"></div>
+      </div>
+    </div>
+
+    <div class="space-y-8 mb-12">
+      {posts.map(post => (
+        <article class="border-b border-gray-200 pb-8">
+          <a href={`/en/news/${post.slug.replace('en/', '')}`} class="group">
+            <h2 class="text-2xl font-bold mb-2 group-hover:text-gray-600 transition-colors">
+              {post.data.title}
+            </h2>
+          </a>
+          <p class="text-sm text-gray-500 mb-3">
+            {new Date(post.data.pubDate).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </p>
+          <p class="text-gray-600 mb-3">{post.data.description}</p>
+          {post.data.tags && post.data.tags.length > 0 && (
+            <div class="flex gap-2 flex-wrap mb-3">
+              {post.data.tags.map(tag => (
+                <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+          <a
+            href={`/en/news/${post.slug.replace('en/', '')}`}
+            class="text-sm font-medium hover:underline"
+          >
+            Read more →
+          </a>
+        </article>
+      ))}
+    </div>
+
+    {/* Pagination */}
+    {(page.lastPage > 1) && (
+      <nav class="flex justify-between items-center border-t border-gray-200 pt-8">
+        <div>
+          {page.url.prev ? (
+            <a
+              href={page.url.prev}
+              class="inline-block px-4 py-2 border border-gray-300 rounded hover:border-gray-900 transition-colors"
+            >
+              ← Previous
+            </a>
+          ) : (
+            <span class="inline-block px-4 py-2 border border-gray-200 rounded text-gray-400 cursor-not-allowed">
+              ← Previous
+            </span>
+          )}
+        </div>
+
+        <span class="text-sm text-gray-600">
+          Page {page.currentPage} of {page.lastPage}
+        </span>
+
+        <div>
+          {page.url.next ? (
+            <a
+              href={page.url.next}
+              class="inline-block px-4 py-2 border border-gray-300 rounded hover:border-gray-900 transition-colors"
+            >
+              Next →
+            </a>
+          ) : (
+            <span class="inline-block px-4 py-2 border border-gray-200 rounded text-gray-400 cursor-not-allowed">
+              Next →
+            </span>
+          )}
+        </div>
+      </nav>
+    )}
+  </div>
+
+  <script>
+    // @ts-nocheck
+    // Client-side search functionality
+    let searchIndex = [];
+
+    async function loadSearchIndex() {
+      try {
+        const response = await fetch('/search-index.json');
+        searchIndex = await response.json();
+      } catch (error) {
+        console.error('Failed to load search index:', error);
+      }
+    }
+
+    function performSearch(query) {
+      if (!query || query.length < 2) return [];
+
+      const lowerQuery = query.toLowerCase();
+      return searchIndex
+        .filter(post => {
+          const titleMatch = post.title.toLowerCase().includes(lowerQuery);
+          const descMatch = post.description.toLowerCase().includes(lowerQuery);
+          const tagsMatch = post.tags.some(tag => tag.toLowerCase().includes(lowerQuery));
+          return titleMatch || descMatch || tagsMatch;
+        })
+        .slice(0, 10);
+    }
+
+    function displayResults(results) {
+      const resultsContainer = document.getElementById('search-results');
+      if (!resultsContainer) return;
+
+      if (results.length === 0) {
+        resultsContainer.classList.add('hidden');
+        return;
+      }
+
+      resultsContainer.innerHTML = results.map(post => `
+        <a href="${post.url}" class="block p-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0">
+          <div class="font-medium text-sm">${post.title}</div>
+          <div class="text-xs text-gray-500 mt-1">${post.date}</div>
+        </a>
+      `).join('');
+
+      resultsContainer.classList.remove('hidden');
+    }
+
+    // Initialize search
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSearchIndex();
+
+      const searchInput = document.getElementById('search-input');
+      const resultsContainer = document.getElementById('search-results');
+
+      if (searchInput && resultsContainer) {
+        searchInput.addEventListener('input', (e) => {
+          const query = e.target.value;
+          const results = performSearch(query);
+          displayResults(results);
+        });
+
+        // Close results when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
+            resultsContainer.classList.add('hidden');
+          }
+        });
+      }
+    });
+  </script>
+</Layout>
