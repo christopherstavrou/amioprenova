@@ -5,6 +5,8 @@ export const siteConfig = {
   // Site identity
   siteName: 'amioprenova',
   copyrightName: 'amioprenova',
+  baseUrl: 'https://example.com', // TODO: Replace with production URL
+  ogImage: '/og-default.png', // Default OpenGraph image
 
   // Contact emails
   bookingEmail: 'booking@example.com', // TODO: Replace with real email
