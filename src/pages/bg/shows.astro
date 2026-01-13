@@ -5,7 +5,11 @@ import { getUpcomingEvents, formatEventDate } from '../../lib/events';
 const upcomingEvents = getUpcomingEvents();
 ---
 
-<Layout title="Концерти - amioprenova" lang="bg">
+<Layout
+  title="Концерти - amioprenova"
+  description="Намерете предстоящи концерти и изпълнения на amioprenova. Вземете билети и вижте дати, места и локации на концертите."
+  lang="bg"
+>
   <h1 class="text-4xl font-bold mb-8">Предстоящи концерти</h1>
 
   {upcomingEvents.length === 0 ? (
