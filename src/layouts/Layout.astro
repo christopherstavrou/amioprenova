@@ -1,0 +1,108 @@
+---
+export interface Props {
+  title: string;
+  lang: 'en' | 'bg';
+}
+
+const { title, lang } = Astro.props;
+
+const navItems = [
+  { href: `/${lang}`, label: lang === 'en' ? 'Home' : 'Начало' },
+  { href: `/${lang}/about`, label: lang === 'en' ? 'About' : 'За мен' },
+  { href: `/${lang}/music`, label: lang === 'en' ? 'Music' : 'Музика' },
+  { href: `/${lang}/video`, label: lang === 'en' ? 'Video' : 'Видео' },
+  { href: `/${lang}/shows`, label: lang === 'en' ? 'Shows' : 'Концерти' },
+  { href: `/${lang}/support`, label: lang === 'en' ? 'Support' : 'Подкрепи' },
+  { href: `/${lang}/blog`, label: lang === 'en' ? 'News' : 'Новини' },
+  { href: `/${lang}/press`, label: lang === 'en' ? 'Press' : 'Преса' },
+  { href: `/${lang}/contact`, label: lang === 'en' ? 'Contact' : 'Контакт' },
+  { href: `/${lang}/links`, label: lang === 'en' ? 'Links' : 'Връзки' },
+];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen flex flex-col bg-white text-gray-900">
+    <header class="border-b border-gray-200">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <nav class="flex gap-6 flex-wrap">
+            {navItems.map(item => (
+              <a
+                href={item.href}
+                class="text-sm hover:text-gray-600 transition-colors"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <div class="relative">
+            <select
+              id="language-switcher"
+              class="appearance-none border border-gray-300 rounded px-3 py-1 text-sm bg-white cursor-pointer hover:border-gray-400"
+            >
+              <option value="en" selected={lang === 'en'}>EN</option>
+              <option value="bg" selected={lang === 'bg'}>BG</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8">
+      <slot />
+    </main>
+
+    <footer class="border-t border-gray-200 mt-auto">
+      <div class="container mx-auto px-4 py-6 text-center text-sm text-gray-600">
+        <p>&copy; {new Date().getFullYear()} amioprenova. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Language switcher functionality
+      const languageSwitcher = document.getElementById('language-switcher') as HTMLSelectElement;
+
+      // Get current path and language
+      const currentPath = window.location.pathname;
+      const currentLang = currentPath.startsWith('/bg') ? 'bg' : 'en';
+
+      // Set the correct option
+      if (languageSwitcher) {
+        languageSwitcher.value = currentLang;
+
+        // Store language preference
+        const storedLang = localStorage.getItem('preferred-language');
+        if (storedLang && storedLang !== currentLang) {
+          languageSwitcher.value = storedLang;
+        }
+
+        // Handle language change
+        languageSwitcher.addEventListener('change', (e) => {
+          const newLang = (e.target as HTMLSelectElement).value;
+          localStorage.setItem('preferred-language', newLang);
+
+          // Replace current language in path
+          let newPath = currentPath;
+          if (currentPath.startsWith('/en')) {
+            newPath = currentPath.replace(/^\/en/, `/${newLang}`);
+          } else if (currentPath.startsWith('/bg')) {
+            newPath = currentPath.replace(/^\/bg/, `/${newLang}`);
+          } else if (currentPath === '/') {
+            newPath = `/${newLang}`;
+          } else {
+            newPath = `/${newLang}${currentPath}`;
+          }
+
+          window.location.href = newPath;
+        });
+      }
+    </script>
+  </body>
+</html>

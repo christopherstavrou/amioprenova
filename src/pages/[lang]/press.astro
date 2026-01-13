@@ -1,0 +1,22 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' } },
+    { params: { lang: 'bg' } }
+  ];
+}
+
+const { lang } = Astro.params;
+const title = lang === 'en' ? 'Press - amioprenova' : 'Преса - amioprenova';
+---
+
+<Layout title={title} lang={lang as 'en' | 'bg'}>
+  <h1 class="text-4xl font-bold mb-4">
+    {lang === 'en' ? 'Press' : 'Преса'}
+  </h1>
+  <p class="text-gray-600">
+    {lang === 'en' ? 'Press page placeholder' : 'Заместител на страницата преса'}
+  </p>
+</Layout>
