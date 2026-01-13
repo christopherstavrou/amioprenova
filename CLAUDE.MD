@@ -116,6 +116,41 @@ This project uses a **content-driven multilingual strategy**. Pages are language
 - Accessible markup and sensible semantics
 - SEO-friendly structure
 
+## SEO & Metadata Conventions
+
+**All pages must implement proper SEO:**
+- Every page must define a `title` and `description` prop passed to the Layout component
+- Titles and descriptions must be language-specific (English in `/en`, Bulgarian in `/bg`)
+- Titles should follow the pattern: "Page Name - amioprenova"
+- Descriptions should be concise (150-160 characters) and descriptive
+
+**SEO implementation:**
+- SEO logic is centralized in `src/layouts/Layout.astro`
+- The Layout component generates:
+  - Primary meta tags (title, description, canonical URL)
+  - OpenGraph metadata (og:title, og:description, og:type, og:url, og:image, og:locale)
+  - Twitter Card metadata
+- Base URL and OG image configured in `src/config/site.ts`
+- Canonical URLs automatically generated per page
+- Language attribute (`lang`) set correctly per route
+
+**Metadata requirements:**
+- Do NOT copy/paste meta tags into individual pages
+- Do NOT hardcode production URLs
+- Do NOT invent real metadata values - use placeholders with TODO comments
+- Placeholders are acceptable until real content is provided
+
+**Search engine configuration:**
+- `robots.txt` located in `/public` - allows all indexing
+- Sitemap generation: Temporarily disabled due to build incompatibility
+  - See `astro.config.mjs` for instructions to re-enable when production URL is set
+  - Sitemap will include all `/en` and `/bg` routes when enabled
+
+**Important:**
+- Do NOT introduce analytics or tracking as part of SEO work
+- SEO changes must not break existing functionality
+- Always test builds after SEO modifications
+
 ## Notes for AI Assistant
 
 **General principles:**
