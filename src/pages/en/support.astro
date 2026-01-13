@@ -1,8 +1,101 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { siteConfig } from '../../config/site';
+
+const hasMusic = siteConfig.bandcampUrl;
+const hasTickets = siteConfig.ticketsPlatformUrl;
+const hasDonation = siteConfig.donationUrl;
+const hasAffiliates = siteConfig.affiliateLinks.some(link => link.url);
 ---
 
 <Layout title="Support / Buy - amioprenova" lang="en">
-  <h1 class="text-4xl font-bold mb-4">Support / Buy</h1>
-  <p class="text-gray-600">Support page placeholder</p>
+  <div class="max-w-4xl">
+    <h1 class="text-4xl font-bold mb-4">Support / Buy</h1>
+    <p class="text-lg text-gray-600 mb-12">
+      Support my music and get access to exclusive content, merch, and more.
+    </p>
+
+    <div class="space-y-12">
+      {hasMusic && (
+        <section>
+          <h2 class="text-2xl font-bold mb-4">Buy Music & Merch</h2>
+          <p class="text-gray-600 mb-6">
+            Get albums, digital downloads, and exclusive merchandise on Bandcamp.
+          </p>
+          <a
+            href={siteConfig.bandcampUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+          >
+            Visit Bandcamp
+          </a>
+        </section>
+      )}
+
+      {hasTickets && (
+        <section>
+          <h2 class="text-2xl font-bold mb-4">Get Tickets</h2>
+          <p class="text-gray-600 mb-6">
+            Find and purchase tickets for upcoming shows and events.
+          </p>
+          <a
+            href={siteConfig.ticketsPlatformUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+          >
+            View Tickets
+          </a>
+        </section>
+      )}
+
+      {hasDonation && (
+        <section>
+          <h2 class="text-2xl font-bold mb-4">Support My Work</h2>
+          <p class="text-gray-600 mb-6">
+            Help support my music and creative projects. Every contribution helps me continue creating.
+          </p>
+          <a
+            href={siteConfig.donationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+          >
+            Make a Donation
+          </a>
+        </section>
+      )}
+
+      {hasAffiliates && (
+        <section>
+          <h2 class="text-2xl font-bold mb-4">Recommended</h2>
+          <p class="text-gray-600 mb-6">
+            Tools, gear, and services I use and recommend.
+          </p>
+          <div class="grid gap-4 sm:grid-cols-2">
+            {siteConfig.affiliateLinks.filter(link => link.url).map(link => (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="block border border-gray-300 rounded-lg p-4 hover:border-gray-900 transition-colors"
+              >
+                <h3 class="font-bold mb-1">{link.label}</h3>
+                {link.note && <p class="text-sm text-gray-600">{link.note}</p>}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {!hasMusic && !hasTickets && !hasDonation && !hasAffiliates && (
+        <div class="text-center py-12">
+          <p class="text-gray-600 text-lg">
+            Support options coming soon. Check back later or follow on social media for updates!
+          </p>
+        </div>
+      )}
+    </div>
+  </div>
 </Layout>
