@@ -220,4 +220,6 @@ This is a static site. After running `npm run build`, deploy the `dist/` folder 
 
 ## Support
 
-For detailed technical documentation, see `CLAUDE.MD` in the repository root.
+**Technical documentation**: See `CLAUDE.MD` in the repository root for project architecture, conventions, and development guidelines.
+
+**Design documentation**: See `DESIGN.md` for the complete visual design system, including colour palette, typography, layout standards, and component specifications. This is the primary reference for all styling decisions.
