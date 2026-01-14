@@ -105,6 +105,70 @@ tags: ["tag1", "tag2"]  # Optional array
 - English posts are NOT automatically translated
 - Bulgarian posts must be created separately in `src/content/blog/bg/`
 
+## About Page Content
+
+The About page uses Markdown files in the `pages` Content Collection for long-form biography content.
+
+**Location:**
+- English: `src/content/pages/en/about.md`
+- Bulgarian: `src/content/pages/bg/about.md`
+
+**Structure:**
+- Frontmatter contains title, description, and optional portrait image URL
+- Body contains Markdown-formatted biography text with headings, paragraphs, and lists
+- Page template renders Markdown content with portrait image in a two-column layout
+
+**Conventions:**
+- Long-form content must live in Markdown files, not in page templates
+- No inline translation logic—each language has its own Markdown file
+- Portrait images use placeholder URLs until real assets are provided
+
+## Releases (Music)
+
+Releases are managed through `src/data/releases.json`.
+
+**Structure:**
+- JSON array of release objects
+- Each release contains: id, title, year, description, streaming URLs, cover image, featured flag
+
+**Featured releases:**
+- ONE release can be marked with `"featured": true`
+- Featured releases appear prominently on Home and Music pages
+- If no release is featured, the first release is used as fallback
+
+**URLs:**
+- All streaming URLs (Bandcamp, Spotify, Apple Music) are optional
+- Buttons only render if URL is provided
+- URLs must not be hardcoded in templates—always pull from data file
+
+**Images:**
+- Cover images should be 600x600px square
+- Use placehold.co URLs until real artwork is available
+- Images must be accessible at build time
+
+## Videos
+
+Videos are managed through `src/data/videos.json`.
+
+**Structure:**
+- JSON array of video objects
+- Each video contains: id, title, youtubeUrl, thumbnail, date, description, featured flag
+
+**Featured videos:**
+- ONE video can be marked with `"featured": true`
+- Featured videos appear on Home and Video pages
+- If no video is featured, the first video is used as fallback
+
+**YouTube links:**
+- Videos link to YouTube (no embedded players to avoid page weight)
+- Thumbnail images with play button overlay provide visual preview
+- Clicking opens video in new tab
+
+**Thumbnails:**
+- Use 16:9 aspect ratio (640x360px recommended)
+- Use placehold.co URLs until real thumbnails are available
+- Can extract thumbnails from YouTube or use custom images
+
 ## Multilingual Support (i18n)
 
 This project uses a **content-driven multilingual strategy**. Pages are language-specific files with no translation logic embedded.

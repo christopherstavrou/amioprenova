@@ -116,6 +116,95 @@ To remove a blog post:
 - Visitors can search posts by title, description, or tags
 - No server required for search functionality
 
+## About Page Content
+
+The About page content is managed through Markdown files in the pages Content Collection.
+
+### Updating About Page
+
+1. **Edit the About content**:
+   - English: `src/content/pages/en/about.md`
+   - Bulgarian: `src/content/pages/bg/about.md`
+
+2. **Frontmatter fields**:
+   ```yaml
+   ---
+   title: "About Ami Opprenova"
+   description: "Brief description for SEO"
+   image: "https://placehold.co/800x800/..."  # Portrait image URL
+   ---
+   ```
+
+3. **Body content**: Write your biography in Markdown below the frontmatter
+
+4. **Rebuild**: Run `npm run build` to see changes
+
+## Music / Releases
+
+Releases are managed through a JSON data file at `src/data/releases.json`.
+
+### Adding a New Release
+
+1. **Open `src/data/releases.json`**
+
+2. **Add a new release object**:
+   ```json
+   {
+     "id": "album-name",
+     "title": "Album Title",
+     "year": 2026,
+     "description": "Album description text",
+     "bandcampUrl": "https://...",
+     "spotifyUrl": "https://...",
+     "appleMusicUrl": "https://...",
+     "coverImage": "https://placehold.co/600x600/...",
+     "featured": false
+   }
+   ```
+
+3. **Featured releases**: Set `"featured": true` for one release to display it prominently on the Home and Music pages
+
+4. **Cover images**: Use 600x600px square images. Replace placeholder URLs with real album artwork
+
+5. **Rebuild**: Run `npm run build`
+
+### Removing a Release
+
+1. Delete the release object from `releases.json`
+2. Rebuild the site
+
+## Videos
+
+Videos are managed through a JSON data file at `src/data/videos.json`.
+
+### Adding a New Video
+
+1. **Open `src/data/videos.json`**
+
+2. **Add a new video object**:
+   ```json
+   {
+     "id": "video-id",
+     "title": "Video Title",
+     "youtubeUrl": "https://youtube.com/watch?v=...",
+     "thumbnail": "https://placehold.co/640x360/...",
+     "date": "2026-01-15",
+     "description": "Video description",
+     "featured": false
+   }
+   ```
+
+3. **Featured videos**: Set `"featured": true` for one video to display it prominently on the Home and Video pages
+
+4. **Thumbnails**: Use 16:9 aspect ratio (640x360px recommended). You can extract thumbnails from YouTube or use custom images
+
+5. **Rebuild**: Run `npm run build`
+
+### Removing a Video
+
+1. Delete the video object from `videos.json`
+2. Rebuild the site
+
 ## File Structure
 
 ```
@@ -124,18 +213,21 @@ src/
 │   ├── blog/
 │   │   ├── en/          # English blog posts
 │   │   └── bg/          # Bulgarian blog posts
+│   ├── pages/
+│   │   ├── en/          # English page content (About, etc.)
+│   │   └── bg/          # Bulgarian page content
 │   └── config.ts        # Content schema definition
 ├── pages/
-│   ├── en/              # English pages
-│   │   └── news/        # Blog index and posts
-│   └── bg/              # Bulgarian pages
-│       └── news/        # Blog index and posts
+│   ├── en/              # English page templates
+│   └── bg/              # Bulgarian page templates
+├── data/
+│   ├── events.json      # Event listings
+│   ├── releases.json    # Album/release data
+│   └── videos.json      # Video data
 ├── layouts/
 │   └── Layout.astro     # Global layout with SEO
-├── config/
-│   └── site.ts          # Site configuration
-└── data/
-    └── events.json      # Event listings
+└── config/
+    └── site.ts          # Site configuration
 ```
 
 ## Configuration

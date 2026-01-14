@@ -1,12 +1,63 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import videos from '../../data/videos.json';
+
+const featuredVideo = videos.find(v => v.featured);
+const otherVideos = videos.filter(v => !v.featured);
 ---
 
 <Layout
   title="Видео - amioprenova"
-  description="Гледайте музикални видеоклипове, концертни записи и съдържание зад кулисите от amioprenova в YouTube и други платформи."
+  description="Гледайте музикални клипове, концертни изпълнения и материали зад кулисите от Ами Опренова. Изследвайте визуалното изкуство и записи на живо."
   lang="bg"
 >
-  <h1 class="text-4xl font-bold mb-4">Видео</h1>
-  <p class="text-gray-600">Заместител на страницата видео</p>
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-bold mb-12 text-center" style="font-family: 'Playfair Display', serif;">Видеа</h1>
+
+    <!-- Featured Video -->
+    {featuredVideo && (
+      <section class="mb-20">
+        <h2 class="text-2xl md:text-3xl font-bold mb-8" style="font-family: 'Playfair Display', serif;">Препоръчано Видео</h2>
+        <div class="max-w-4xl mx-auto">
+          <a href={featuredVideo.youtubeUrl} target="_blank" rel="noopener noreferrer" class="block relative group">
+            <img src={featuredVideo.thumbnail} alt={featuredVideo.title} class="w-full rounded-lg shadow-lg" />
+            <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 group-hover:bg-opacity-50 transition-opacity rounded-lg">
+              <svg class="w-24 h-24 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </a>
+          <div class="mt-6">
+            <h3 class="text-2xl font-bold mb-2">{featuredVideo.title}</h3>
+            <p class="text-gray-600 mb-2">{new Date(featuredVideo.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            <p class="text-gray-700 leading-relaxed">{featuredVideo.description}</p>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- All Videos Grid -->
+    <section>
+      <h2 class="text-2xl md:text-3xl font-bold mb-8" style="font-family: 'Playfair Display', serif;">Още Видеа</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {otherVideos.map(video => (
+          <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+            <a href={video.youtubeUrl} target="_blank" rel="noopener noreferrer" class="block relative group">
+              <img src={video.thumbnail} alt={video.title} class="w-full aspect-video object-cover" />
+              <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 group-hover:bg-opacity-50 transition-opacity">
+                <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </a>
+            <div class="p-6">
+              <h3 class="text-lg font-bold mb-2 line-clamp-2">{video.title}</h3>
+              <p class="text-sm text-gray-600 mb-2">{new Date(video.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</p>
+              <p class="text-sm text-gray-700 line-clamp-2">{video.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
 </Layout>

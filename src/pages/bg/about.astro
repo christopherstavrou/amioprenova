@@ -1,12 +1,33 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { getEntry } from 'astro:content';
+
+const about = await getEntry('pages', 'bg/about');
+const { Content } = await about.render();
 ---
 
 <Layout
-  title="За мен - amioprenova"
-  description="Научете повече за amioprenova - музикант, композитор и изпълнител. Биография, произход и артистичен път."
+  title={`${about.data.title} - amioprenova`}
+  description={about.data.description}
   lang="bg"
 >
-  <h1 class="text-4xl font-bold mb-4">За мен</h1>
-  <p class="text-gray-600">Заместител на страницата за мен</p>
+  <div class="max-w-4xl mx-auto">
+    <div class="grid md:grid-cols-3 gap-12 mb-12">
+      <div class="md:col-span-1">
+        <img
+          src={about.data.image || 'https://placehold.co/800x800/8B1C3B/FFFFFF?text=Portrait'}
+          alt="Ами Опренова"
+          class="w-full rounded-lg shadow-lg"
+        />
+      </div>
+      <div class="md:col-span-2">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6" style="font-family: 'Playfair Display', serif;">
+          {about.data.title}
+        </h1>
+        <div class="prose prose-lg max-w-none">
+          <Content />
+        </div>
+      </div>
+    </div>
+  </div>
 </Layout>

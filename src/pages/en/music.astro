@@ -1,12 +1,87 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import releases from '../../data/releases.json';
+
+const featuredRelease = releases.find(r => r.featured);
+const otherReleases = releases.filter(r => !r.featured);
 ---
 
 <Layout
   title="Music - amioprenova"
-  description="Explore the music of amioprenova. Albums, releases, and streaming links on Spotify, Bandcamp, and more."
+  description="Explore the discography of Ami Opprenova. Albums, releases, and streaming links on Spotify, Bandcamp, and Apple Music."
   lang="en"
 >
-  <h1 class="text-4xl font-bold mb-4">Music</h1>
-  <p class="text-gray-600">Music page placeholder</p>
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-bold mb-12 text-center" style="font-family: 'Playfair Display', serif;">Music</h1>
+
+    <!-- Featured Release -->
+    {featuredRelease && (
+      <section class="mb-20">
+        <h2 class="text-2xl md:text-3xl font-bold mb-8" style="font-family: 'Playfair Display', serif;">Featured Release</h2>
+        <div class="bg-[#F7F4F0] rounded-lg p-8 md:p-12 shadow-lg">
+          <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <img src={featuredRelease.coverImage} alt={featuredRelease.title} class="w-full rounded-lg shadow-md" />
+            </div>
+            <div>
+              <h3 class="text-3xl font-bold mb-2" style="font-family: 'Playfair Display', serif;">{featuredRelease.title}</h3>
+              <p class="text-xl text-gray-600 mb-4">{featuredRelease.year}</p>
+              <p class="text-gray-700 mb-6 leading-relaxed">{featuredRelease.description}</p>
+              <div class="flex flex-wrap gap-3">
+                {featuredRelease.bandcampUrl && (
+                  <a href={featuredRelease.bandcampUrl} target="_blank" rel="noopener noreferrer" class="px-5 py-2 bg-[#8B1C3B] text-white rounded hover:bg-[#771830] transition-colors font-semibold">
+                    Buy on Bandcamp
+                  </a>
+                )}
+                {featuredRelease.spotifyUrl && (
+                  <a href={featuredRelease.spotifyUrl} target="_blank" rel="noopener noreferrer" class="px-5 py-2 border-2 border-[#8B1C3B] text-[#8B1C3B] rounded hover:bg-[#8B1C3B] hover:text-white transition-colors font-semibold">
+                    Spotify
+                  </a>
+                )}
+                {featuredRelease.appleMusicUrl && (
+                  <a href={featuredRelease.appleMusicUrl} target="_blank" rel="noopener noreferrer" class="px-5 py-2 border-2 border-[#8B1C3B] text-[#8B1C3B] rounded hover:bg-[#8B1C3B] hover:text-white transition-colors font-semibold">
+                    Apple Music
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- All Releases Grid -->
+    <section>
+      <h2 class="text-2xl md:text-3xl font-bold mb-8" style="font-family: 'Playfair Display', serif;">Discography</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {otherReleases.map(release => (
+          <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+            <img src={release.coverImage} alt={release.title} class="w-full aspect-square object-cover" />
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-1">{release.title}</h3>
+              <p class="text-gray-600 mb-3">{release.year}</p>
+              <p class="text-gray-700 text-sm mb-4 line-clamp-3">{release.description}</p>
+              <div class="flex flex-wrap gap-2">
+                {release.bandcampUrl && (
+                  <a href={release.bandcampUrl} target="_blank" rel="noopener noreferrer" class="text-sm px-3 py-1 bg-[#8B1C3B] text-white rounded hover:bg-[#771830] transition-colors">
+                    Buy
+                  </a>
+                )}
+                {release.spotifyUrl && (
+                  <a href={release.spotifyUrl} target="_blank" rel="noopener noreferrer" class="text-sm px-3 py-1 border border-[#8B1C3B] text-[#8B1C3B] rounded hover:bg-[#8B1C3B] hover:text-white transition-colors">
+                    Spotify
+                  </a>
+                )}
+                {release.appleMusicUrl && (
+                  <a href={release.appleMusicUrl} target="_blank" rel="noopener noreferrer" class="text-sm px-3 py-1 border border-[#8B1C3B] text-[#8B1C3B] rounded hover:bg-[#8B1C3B] hover:text-white transition-colors">
+                    Apple
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
 </Layout>
