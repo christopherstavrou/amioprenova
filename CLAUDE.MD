@@ -13,6 +13,20 @@ Static website only.
 - **Fonts**: System fonts by default
 - **Deployment**: Static hosting (to be configured)
 
+## Design & Styling
+
+**Primary design reference**: `DESIGN.md` contains the complete visual design system for amioprenova.com. It is the **sole primary reference** for all styling, colour palette, typography, layout, components, and visual guidelines.
+
+**Key design specifications**:
+- Colour palette with light and dark mode variants
+- Typography hierarchy (Playfair Display/Merriweather for headings, Inter/Open Sans for body)
+- Component specifications (buttons, cards, hero sections, event lists, video grids)
+- Layout and spacing standards
+- Accessibility requirements (WCAG 2.1 AA compliance)
+- Responsive design breakpoints
+
+**Important**: All styling decisions must reference and comply with `DESIGN.md`. When implementing new features or modifying existing ones, consult the design guide to ensure consistency.
+
 ## Repository Structure
 - Standard Astro project layout
 - Central configuration file for external URLs and constants
