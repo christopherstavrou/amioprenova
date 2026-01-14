@@ -1,5 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
+import Card from '../../components/Card.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
 import releases from '../../data/releases.json';
 
 const featuredRelease = releases.find(r => r.featured);
@@ -12,74 +16,74 @@ const otherReleases = releases.filter(r => !r.featured);
   lang="bg"
 >
   <div class="max-w-6xl mx-auto">
-    <h1 class="text-4xl md:text-5xl font-bold mb-12 text-center" style="font-family: 'Playfair Display', serif;">Музика</h1>
+    <PageHeader title="Музика" align="center" class="mb-12" />
 
     <!-- Featured Release -->
     {featuredRelease && (
       <section class="mb-20">
-        <h2 class="text-2xl md:text-3xl font-bold mb-8" style="font-family: 'Playfair Display', serif;">Ново Издание</h2>
-        <div class="bg-[#F7F4F0] rounded-lg p-8 md:p-12 shadow-lg">
+        <SectionHeader title="Ново Издание" class="mb-8" />
+        <Card padding="lg" class="md:p-12 shadow-lg">
           <div class="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <img src={featuredRelease.coverImage} alt={featuredRelease.title} class="w-full rounded-lg shadow-md" />
             </div>
             <div>
-              <h3 class="text-3xl font-bold mb-2" style="font-family: 'Playfair Display', serif;">{featuredRelease.title}</h3>
-              <p class="text-xl text-gray-600 mb-4">{featuredRelease.year}</p>
-              <p class="text-gray-700 mb-6 leading-relaxed">{featuredRelease.description}</p>
+              <h3 class="font-serif text-3xl font-bold mb-2">{featuredRelease.title}</h3>
+              <p class="text-xl text-text-secondary mb-4">{featuredRelease.year}</p>
+              <p class="text-text-secondary mb-6 leading-relaxed">{featuredRelease.description}</p>
               <div class="flex flex-wrap gap-3">
                 {featuredRelease.bandcampUrl && (
-                  <a href={featuredRelease.bandcampUrl} target="_blank" rel="noopener noreferrer" class="px-5 py-2 bg-[#8B1C3B] text-white rounded hover:bg-[#771830] transition-colors font-semibold">
+                  <Button href={featuredRelease.bandcampUrl} variant="primary" target="_blank" rel="noopener noreferrer" class="px-5 py-2 font-semibold">
                     Buy on Bandcamp
-                  </a>
+                  </Button>
                 )}
                 {featuredRelease.spotifyUrl && (
-                  <a href={featuredRelease.spotifyUrl} target="_blank" rel="noopener noreferrer" class="px-5 py-2 border-2 border-[#8B1C3B] text-[#8B1C3B] rounded hover:bg-[#8B1C3B] hover:text-white transition-colors font-semibold">
+                  <Button href={featuredRelease.spotifyUrl} variant="secondary" target="_blank" rel="noopener noreferrer" class="px-5 py-2 font-semibold">
                     Spotify
-                  </a>
+                  </Button>
                 )}
                 {featuredRelease.appleMusicUrl && (
-                  <a href={featuredRelease.appleMusicUrl} target="_blank" rel="noopener noreferrer" class="px-5 py-2 border-2 border-[#8B1C3B] text-[#8B1C3B] rounded hover:bg-[#8B1C3B] hover:text-white transition-colors font-semibold">
+                  <Button href={featuredRelease.appleMusicUrl} variant="secondary" target="_blank" rel="noopener noreferrer" class="px-5 py-2 font-semibold">
                     Apple Music
-                  </a>
+                  </Button>
                 )}
               </div>
             </div>
           </div>
-        </div>
+        </Card>
       </section>
     )}
 
     <!-- All Releases Grid -->
     <section>
-      <h2 class="text-2xl md:text-3xl font-bold mb-8" style="font-family: 'Playfair Display', serif;">Дискография</h2>
+      <SectionHeader title="Дискография" class="mb-8" />
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {otherReleases.map(release => (
-          <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+          <Card padding="none" hover class="overflow-hidden hover:shadow-xl">
             <img src={release.coverImage} alt={release.title} class="w-full aspect-square object-cover" />
             <div class="p-6">
               <h3 class="text-xl font-bold mb-1">{release.title}</h3>
-              <p class="text-gray-600 mb-3">{release.year}</p>
-              <p class="text-gray-700 text-sm mb-4 line-clamp-3">{release.description}</p>
+              <p class="text-text-secondary mb-3">{release.year}</p>
+              <p class="text-text-secondary text-sm mb-4 line-clamp-3">{release.description}</p>
               <div class="flex flex-wrap gap-2">
                 {release.bandcampUrl && (
-                  <a href={release.bandcampUrl} target="_blank" rel="noopener noreferrer" class="text-sm px-3 py-1 bg-[#8B1C3B] text-white rounded hover:bg-[#771830] transition-colors">
+                  <Button href={release.bandcampUrl} variant="primary" target="_blank" rel="noopener noreferrer" class="text-sm px-3 py-1">
                     Buy
-                  </a>
+                  </Button>
                 )}
                 {release.spotifyUrl && (
-                  <a href={release.spotifyUrl} target="_blank" rel="noopener noreferrer" class="text-sm px-3 py-1 border border-[#8B1C3B] text-[#8B1C3B] rounded hover:bg-[#8B1C3B] hover:text-white transition-colors">
+                  <Button href={release.spotifyUrl} variant="secondary" target="_blank" rel="noopener noreferrer" class="text-sm px-3 py-1">
                     Spotify
-                  </a>
+                  </Button>
                 )}
                 {release.appleMusicUrl && (
-                  <a href={release.appleMusicUrl} target="_blank" rel="noopener noreferrer" class="text-sm px-3 py-1 border border-[#8B1C3B] text-[#8B1C3B] rounded hover:bg-[#8B1C3B] hover:text-white transition-colors">
+                  <Button href={release.appleMusicUrl} variant="secondary" target="_blank" rel="noopener noreferrer" class="text-sm px-3 py-1">
                     Apple
-                  </a>
+                  </Button>
                 )}
               </div>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
     </section>
