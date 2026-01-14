@@ -1,0 +1,281 @@
+/* Global Styles for amioprenova.com
+ * Design system implementation based on DESIGN.md
+ * Includes CSS variables for automatic light/dark mode support
+ */
+
+/* ===== CSS Variables ===== */
+/* Light mode (default) */
+:root {
+  /* Backgrounds */
+  --color-bg: #F7F4F0;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F7F4F0;
+
+  /* Text */
+  --color-text-primary: #1F1F1F;
+  --color-text-secondary: #9A9A9A;
+  --color-text-inverse: #FFFFFF;
+
+  /* Accents */
+  --color-accent-primary: #8B1C3B;
+  --color-accent-primary-hover: #771830;
+  --color-accent-secondary: #CDA34A;
+
+  /* Borders & Dividers */
+  --color-border: #E5E5E5;
+  --color-border-light: #F0F0F0;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+}
+
+/* Dark mode - automatically applied based on system preference */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Backgrounds */
+    --color-bg: #0B0B0B;
+    --color-surface: #1C1C1C;
+    --color-surface-muted: #151515;
+
+    /* Text */
+    --color-text-primary: #F5F5F5;
+    --color-text-secondary: #B3B3B3;
+    --color-text-inverse: #1F1F1F;
+
+    /* Accents */
+    --color-accent-primary: #8B1C3B;
+    --color-accent-primary-hover: #A52344;
+    --color-accent-secondary: #D3B35A;
+
+    /* Borders & Dividers */
+    --color-border: #2A2A2A;
+    --color-border-light: #222222;
+
+    /* Shadows - lighter shadows for dark mode */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* ===== Base Styles ===== */
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: 'Inter', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+/* ===== Typography ===== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', 'Merriweather', Georgia, serif;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2.25rem; /* 36px */
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 1.5rem; /* 24px */
+  margin-bottom: 1.25rem;
+}
+
+h3 {
+  font-size: 1.25rem; /* 20px */
+  margin-bottom: 1rem;
+}
+
+/* Desktop typography scaling */
+@media (min-width: 768px) {
+  h1 {
+    font-size: 3rem; /* 48px */
+  }
+
+  h2 {
+    font-size: 2.5rem; /* 40px */
+  }
+
+  h3 {
+    font-size: 1.75rem; /* 28px */
+  }
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+small {
+  font-size: 0.875rem; /* 14px */
+}
+
+/* ===== Links ===== */
+
+a {
+  color: var(--color-accent-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent-primary-hover);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== Content Width Constraints ===== */
+
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Readable text width for long-form content */
+.prose {
+  max-width: 65ch;
+}
+
+/* ===== Section Spacing ===== */
+
+section {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+/* ===== Form Elements ===== */
+
+input[type="text"],
+input[type="email"],
+input[type="search"],
+textarea {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px rgba(139, 28, 59, 0.1);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-secondary);
+}
+
+/* ===== Utility Classes ===== */
+
+/* Surface backgrounds */
+.bg-surface {
+  background-color: var(--color-surface);
+}
+
+.bg-surface-muted {
+  background-color: var(--color-surface-muted);
+}
+
+/* Text colors */
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-inverse {
+  color: var(--color-text-inverse);
+}
+
+/* Borders */
+.border-color {
+  border-color: var(--color-border);
+}
+
+/* Shadows */
+.shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+/* ===== Smooth Transitions ===== */
+
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: var(--transition-fast);
+  transition-timing-function: ease;
+}
+
+/* Disable transitions for elements that should change instantly */
+button,
+a,
+input,
+select,
+textarea {
+  transition-property: background-color, border-color, color, transform, box-shadow;
+}
