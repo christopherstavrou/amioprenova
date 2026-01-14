@@ -15,6 +15,7 @@ export const siteConfig = {
   // Music platforms
   bandcampUrl: 'https://amioprenova.bandcamp.com', // TODO: Replace with real Bandcamp URL
   spotifyUrl: 'https://open.spotify.com/artist/example', // TODO: Replace with real Spotify URL
+  appleMusicUrl: 'https://music.apple.com/artist/example', // TODO: Replace with real Apple Music URL
   youtubeUrl: 'https://youtube.com/@amioprenova', // TODO: Replace with real YouTube URL
 
   // Social media
@@ -30,8 +31,8 @@ export const siteConfig = {
   mailchimpSignupUrl: 'https://mailchimp.com/signup', // TODO: Replace with real Mailchimp signup form URL
 
   // Press / Media Kit
-  genres: ['Electronic', 'Ambient', 'Experimental'], // TODO: Replace with actual genres
-  riylTags: ['Artist Name 1', 'Artist Name 2', 'Artist Name 3'], // TODO: Replace with "Recommended If You Like" artists
+  genres: ['Jazz', 'Vocal Jazz', 'Contemporary Jazz'], // TODO: Replace with actual genres
+  riylTags: ['Ella Fitzgerald', 'Sarah Vaughan', 'Diana Krall'], // TODO: Replace with "Recommended If You Like" artists
   pressAssets: {
     photos: ['/press/press-photo-1.jpg'], // TODO: Add more press photos as needed
     logo: '/press/logo.png',

@@ -1,0 +1,46 @@
+[
+  {
+    "id": "eternal-melody",
+    "title": "Eternal Melody",
+    "year": 2025,
+    "description": "An exploration of timeless jazz standards reimagined through contemporary production. Eternal Melody weaves together classic vocal techniques with modern electronic textures.",
+    "bandcampUrl": "https://amioprenova.bandcamp.com/album/eternal-melody",
+    "spotifyUrl": "https://open.spotify.com/album/example-eternal-melody",
+    "appleMusicUrl": "https://music.apple.com/album/example-eternal-melody",
+    "coverImage": "https://placehold.co/600x600/8B1C3B/FFFFFF?text=Eternal+Melody",
+    "featured": true
+  },
+  {
+    "id": "midnight-sessions",
+    "title": "Midnight Sessions",
+    "year": 2024,
+    "description": "Recorded live in Sofia's most intimate jazz club, Midnight Sessions captures the raw energy and spontaneity of late-night performances.",
+    "bandcampUrl": "https://amioprenova.bandcamp.com/album/midnight-sessions",
+    "spotifyUrl": "https://open.spotify.com/album/example-midnight-sessions",
+    "appleMusicUrl": "https://music.apple.com/album/example-midnight-sessions",
+    "coverImage": "https://placehold.co/600x600/1F1F1F/CDA34A?text=Midnight+Sessions",
+    "featured": false
+  },
+  {
+    "id": "velvet-skies",
+    "title": "Velvet Skies",
+    "year": 2023,
+    "description": "A collection of original compositions inspired by nocturnal landscapes. Velvet Skies blends atmospheric jazz with subtle electronic elements.",
+    "bandcampUrl": "https://amioprenova.bandcamp.com/album/velvet-skies",
+    "spotifyUrl": "https://open.spotify.com/album/example-velvet-skies",
+    "appleMusicUrl": "https://music.apple.com/album/example-velvet-skies",
+    "coverImage": "https://placehold.co/600x600/CDA34A/1F1F1F?text=Velvet+Skies",
+    "featured": false
+  },
+  {
+    "id": "first-light",
+    "title": "First Light",
+    "year": 2022,
+    "description": "The debut album that introduced Ami Opprenova's distinctive voice to the jazz world. First Light showcases a fresh take on classic standards.",
+    "bandcampUrl": "https://amioprenova.bandcamp.com/album/first-light",
+    "spotifyUrl": "https://open.spotify.com/album/example-first-light",
+    "appleMusicUrl": "https://music.apple.com/album/example-first-light",
+    "coverImage": "https://placehold.co/600x600/F7F4F0/8B1C3B?text=First+Light",
+    "featured": false
+  }
+]
