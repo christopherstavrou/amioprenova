@@ -2,6 +2,8 @@
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import Badge from '../../../components/Badge.astro';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const allPosts = await getCollection('blog', ({ id }) => id.startsWith('en/'));
@@ -21,48 +23,47 @@ const posts = page.data;
   description="Latest news, updates, and announcements from amioprenova. Stay informed about releases, shows, and projects."
   lang="en"
 >
+  <PageHeader title="News" />
+
   <div class="max-w-4xl mx-auto">
-    <div class="flex justify-between items-baseline mb-8">
-      <h1 class="text-4xl font-bold">News</h1>
-      <div class="relative">
+    <div class="flex justify-end mb-8">
+      <div class="relative w-full md:w-64">
         <input
           type="search"
           id="search-input"
           placeholder="Search posts..."
-          class="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-900"
+          class="w-full px-4 py-2 bg-surface border border-border rounded-lg focus:outline-none focus:border-accent-primary text-text-primary placeholder:text-text-secondary transition-colors"
         />
-        <div id="search-results" class="hidden absolute top-full mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto z-10"></div>
+        <div id="search-results" class="hidden absolute top-full mt-2 w-full bg-surface-elevated border border-border rounded-lg shadow-lg max-h-96 overflow-y-auto z-10"></div>
       </div>
     </div>
 
     <div class="space-y-8 mb-12">
       {posts.map(post => (
-        <article class="border-b border-gray-200 pb-8">
+        <article class="border-b border-border pb-8">
           <a href={`/en/news/${post.slug.replace('en/', '')}`} class="group">
-            <h2 class="text-2xl font-bold mb-2 group-hover:text-gray-600 transition-colors">
+            <h2 class="font-serif text-2xl font-bold text-text-primary mb-2 group-hover:text-accent-primary transition-colors">
               {post.data.title}
             </h2>
           </a>
-          <p class="text-sm text-gray-500 mb-3">
+          <p class="text-sm text-text-secondary mb-3">
             {new Date(post.data.pubDate).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
             })}
           </p>
-          <p class="text-gray-600 mb-3">{post.data.description}</p>
+          <p class="text-text-primary mb-3">{post.data.description}</p>
           {post.data.tags && post.data.tags.length > 0 && (
             <div class="flex gap-2 flex-wrap mb-3">
               {post.data.tags.map(tag => (
-                <span class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">
-                  {tag}
-                </span>
+                <Badge>{tag}</Badge>
               ))}
             </div>
           )}
           <a
             href={`/en/news/${post.slug.replace('en/', '')}`}
-            class="text-sm font-medium hover:underline"
+            class="text-sm font-medium text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors"
           >
             Read more →
           </a>
@@ -72,23 +73,23 @@ const posts = page.data;
 
     {/* Pagination */}
     {(page.lastPage > 1) && (
-      <nav class="flex justify-between items-center border-t border-gray-200 pt-8">
+      <nav class="flex justify-between items-center border-t border-border pt-8">
         <div>
           {page.url.prev ? (
             <a
               href={page.url.prev}
-              class="inline-block px-4 py-2 border border-gray-300 rounded hover:border-gray-900 transition-colors"
+              class="inline-block px-4 py-2 border border-border rounded hover:border-accent-primary hover:text-accent-primary transition-colors"
             >
               ← Previous
             </a>
           ) : (
-            <span class="inline-block px-4 py-2 border border-gray-200 rounded text-gray-400 cursor-not-allowed">
+            <span class="inline-block px-4 py-2 border border-border-light rounded text-text-secondary cursor-not-allowed opacity-50">
               ← Previous
             </span>
           )}
         </div>
 
-        <span class="text-sm text-gray-600">
+        <span class="text-sm text-text-secondary">
           Page {page.currentPage} of {page.lastPage}
         </span>
 
@@ -96,12 +97,12 @@ const posts = page.data;
           {page.url.next ? (
             <a
               href={page.url.next}
-              class="inline-block px-4 py-2 border border-gray-300 rounded hover:border-gray-900 transition-colors"
+              class="inline-block px-4 py-2 border border-border rounded hover:border-accent-primary hover:text-accent-primary transition-colors"
             >
               Next →
             </a>
           ) : (
-            <span class="inline-block px-4 py-2 border border-gray-200 rounded text-gray-400 cursor-not-allowed">
+            <span class="inline-block px-4 py-2 border border-border-light rounded text-text-secondary cursor-not-allowed opacity-50">
               Next →
             </span>
           )}
@@ -148,9 +149,9 @@ const posts = page.data;
       }
 
       resultsContainer.innerHTML = results.map(post => `
-        <a href="${post.url}" class="block p-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0">
-          <div class="font-medium text-sm">${post.title}</div>
-          <div class="text-xs text-gray-500 mt-1">${post.date}</div>
+        <a href="${post.url}" class="block p-3 hover:bg-surface-muted border-b border-border last:border-b-0 transition-colors">
+          <div class="font-medium text-sm text-text-primary">${post.title}</div>
+          <div class="text-xs text-text-secondary mt-1">${post.date}</div>
         </a>
       `).join('');
 
