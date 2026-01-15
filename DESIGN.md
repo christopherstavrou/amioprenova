@@ -20,18 +20,32 @@ Use the primary colour sparingly to draw attention to interactive elements (butt
 
 ### Dark Mode Palette
 
-When the browser or operating system is set to dark mode, the site should automatically switch to a palette optimised for low-light environments. Use the CSS media query `@media (prefers-color-scheme: dark)` to apply these variables. The dark theme preserves the overall brand but ensures sufficient contrast and readability.
+The dark theme uses a warm, sophisticated palette with **gold as a prominent accent color** for headings and highlights. This creates visual warmth and elegance while maintaining excellent contrast. Dark mode is applied via the `data-theme="dark"` attribute on the `<html>` element, allowing for instant theme switching without page reload.
 
 | Palette name | Hex | Usage |
 |---|---|---|
-| Dark Background | #0B0B0B | Near-black base for pages, cards and sections in dark mode. |
-| Dark Surface | #1C1C1C | Slightly lighter than the base; use for cards and elevated elements. |
-| Primary (dark) | #8B1C3B | Same burgundy accent—works well on dark surfaces. |
-| Secondary (dark) | #D3B35A | Gold accent brightened slightly for legibility on dark backgrounds. |
-| Text Primary (dark) | #F5F5F5 | Main copy colour in dark mode; off-white for comfortable contrast. |
+| Dark Background | #0D0C0B | Warm near-black base with subtle brown undertones for pages and sections. |
+| Dark Surface | #1A1816 | Cards and elevated elements; warmer than pure gray. |
+| Dark Surface Muted | #121110 | Slightly darker than base for subtle depth differences. |
+| Dark Surface Elevated | #221F1D | Dropdowns, modals, tooltips that need to stand above content. |
+| Primary (dark) | #8B1C3B | Burgundy accent for CTAs and buttons; consistent with light mode. |
+| Secondary Gold | #D4AF37 | **Gold accent used prominently for headings, section titles, and highlights.** |
+| Text Heading | #D4AF37 | **All H1-H6 headings use gold color** for visual warmth and brand distinction. |
+| Text Primary (dark) | #F5F5F5 | Main body copy; off-white for comfortable reading. |
 | Text Secondary (dark) | #B3B3B3 | Subdued text and metadata; ensures hierarchy. |
+| Border | #2D2926 | Warm-toned borders instead of flat grays. |
+| Border Light | #252320 | Subtle dividers with warm undertones. |
 
-The primary and secondary colours remain consistent across themes, but they may need slight adjustments in opacity or brightness to maintain contrast. Always test colour combinations using tools like the [WCAG contrast checker](https://webaim.org/resources/contrastchecker/) to ensure accessible contrast ratios in both light and dark modes.
+**Gold Usage Rules**:
+- **Headings (H1-H6)**: Always gold (#D4AF37) in dark mode for prominence and warmth
+- **Section titles**: Use gold to create visual interest and hierarchy
+- **Accent highlights**: Subtle gold borders or separators on featured content
+- **Logo**: Gets gold treatment in dark mode (uses heading color)
+- **NOT for body text**: Body copy remains off-white (#F5F5F5) for readability
+
+**Color Philosophy**: The dark theme prioritizes warmth over sterile blacks and grays. Backgrounds have brown undertones (#0D0C0B), and borders use warm tones (#2D2926). Gold (#D4AF37) provides elegance and draws the eye to important content without overwhelming. Burgundy (#8B1C3B) remains the primary action color for buttons and CTAs.
+
+**Contrast Requirements**: All text/background combinations meet WCAG AA standards (4.5:1 for body text, 3:1 for large text). Test with [WCAG contrast checker](https://webaim.org/resources/contrastchecker/) when making adjustments.
 
 ### Extended Colour Tokens
 
@@ -39,11 +53,13 @@ In addition to the core palette above, the design system includes extended token
 
 | Token | Light Mode | Dark Mode | Usage |
 |---|---|---|---|
-| Border | #E5E5E5 | #2A2A2A | Default borders for cards, inputs, dividers |
-| Border Light | #F0F0F0 | #222222 | Subtle dividers and separators |
+| Border | #E5E5E5 | #2D2926 | Default borders for cards, inputs, dividers (warm-toned in dark) |
+| Border Light | #F0F0F0 | #252320 | Subtle dividers and separators (warm-toned in dark) |
 | Border Focus | #8B1C3B | #8B1C3B | Interactive element focus states (uses accent primary) |
-| Surface Muted | #F7F4F0 | #151515 | Slightly darker/lighter than main surface for subtle contrast |
-| Surface Elevated | #FFFFFF | #242424 | For dropdown menus, modals, tooltips that need to appear above other content |
+| Surface Muted | #F7F4F0 | #121110 | Slightly darker/lighter than main surface for subtle contrast |
+| Surface Elevated | #FFFFFF | #221F1D | For dropdown menus, modals, tooltips that need to appear above other content |
+| Text Heading | #1F1F1F | #D4AF37 | Heading color (black in light, gold in dark) |
+| Accent Gold | #CDA34A | #D4AF37 | Gold accent color for highlights and decorative elements |
 
 ### Link Colour Convention
 
@@ -64,14 +80,14 @@ The site header uses a modern "glass morphism" effect that remains visible as us
 - **Position**: `position: sticky; top: 0;`
 - **Z-index**: High enough to appear above page content (e.g., `z-index: 50`)
 - **Background**: Semi-transparent with backdrop blur
-  - Light mode: `background: rgba(247, 244, 240, 0.8);` (80% opacity of Background Light)
-  - Dark mode: `background: rgba(11, 11, 11, 0.8);` (80% opacity of Dark Background)
-- **Backdrop filter**: `backdrop-filter: blur(12px);`
+  - Light mode: `background: rgba(247, 244, 240, 0.85);` (85% opacity of Background Light)
+  - Dark mode: `background: rgba(13, 12, 11, 0.85);` (85% opacity of Dark Background)
+- **Backdrop filter**: `backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);`
 - **Border**: Subtle bottom border for definition
   - Light mode: `border-bottom: 1px solid rgba(229, 229, 229, 0.5);`
-  - Dark mode: `border-bottom: 1px solid rgba(42, 42, 42, 0.5);`
+  - Dark mode: `border-bottom: 1px solid rgba(45, 41, 38, 0.5);`
 - **Padding**: Generous vertical padding (e.g., `py-4` or 1rem) for comfortable touch targets
-- **Transition**: Smooth transition on scroll state changes if needed
+- **Transition**: Smooth transition on theme changes
 
 **Browser support**: The `backdrop-filter` property requires vendor prefixes for older browsers. Include `-webkit-backdrop-filter` for Safari compatibility. Provide a fallback with higher background opacity for browsers that don't support backdrop filters.
 
