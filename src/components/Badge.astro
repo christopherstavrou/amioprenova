@@ -1,0 +1,31 @@
+---
+/**
+ * Badge component
+ * Small label for tags, categories, and metadata
+ * Based on DESIGN.md color palette
+ */
+
+export interface Props {
+  variant?: 'default' | 'accent' | 'muted';
+  class?: string;
+}
+
+const {
+  variant = 'default',
+  class: className = ''
+} = Astro.props;
+
+const variantClasses = {
+  default: 'bg-surface-muted text-text-primary border border-border',
+  accent: 'bg-accent-primary text-text-inverse',
+  muted: 'bg-surface text-text-secondary border border-border'
+};
+
+const baseClasses = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium';
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${className}`;
+---
+
+<span class={classes}>
+  <slot />
+</span>

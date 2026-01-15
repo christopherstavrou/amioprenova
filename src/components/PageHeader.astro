@@ -1,0 +1,34 @@
+---
+/**
+ * PageHeader component
+ * Large page title with optional introduction text
+ * Based on DESIGN.md typography specifications
+ */
+
+export interface Props {
+  title: string;
+  description?: string;
+  align?: 'left' | 'center';
+  class?: string;
+}
+
+const {
+  title,
+  description,
+  align = 'left',
+  class: className = ''
+} = Astro.props;
+
+const alignClasses = align === 'center' ? 'text-center' : 'text-left';
+---
+
+<header class={`mb-16 ${alignClasses} ${className}`}>
+  <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6">
+    {title}
+  </h1>
+  {description && (
+    <p class="text-xl md:text-2xl text-text-secondary max-w-prose mx-auto">
+      {description}
+    </p>
+  )}
+</header>

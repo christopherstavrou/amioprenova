@@ -1,0 +1,35 @@
+---
+/**
+ * Card component
+ * Reusable card container with consistent styling
+ * Based on DESIGN.md specifications: 8px radius, 24px padding, subtle shadow
+ */
+
+export interface Props {
+  class?: string;
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+  hover?: boolean;
+}
+
+const {
+  class: className = '',
+  padding = 'md',
+  hover = false
+} = Astro.props;
+
+const paddingClasses = {
+  none: '',
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8'
+};
+
+const baseClasses = 'bg-surface rounded-md shadow-md transition-shadow duration-fast';
+const hoverClasses = hover ? 'hover:shadow-lg' : '';
+
+const classes = `${baseClasses} ${paddingClasses[padding]} ${hoverClasses} ${className}`;
+---
+
+<div class={classes}>
+  <slot />
+</div>

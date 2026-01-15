@@ -1,6 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getEntry } from 'astro:content';
+import Button from '../../components/Button.astro';
+import Card from '../../components/Card.astro';
+import PageHeader from '../../components/PageHeader.astro';
 
 const about = await getEntry('pages', 'bg/about');
 const { Content } = await about.render();
@@ -21,7 +24,7 @@ const { Content } = await about.render();
         />
       </div>
       <div class="md:col-span-2">
-        <h1 class="text-4xl md:text-5xl font-bold mb-6" style="font-family: 'Playfair Display', serif;">
+        <h1 class="font-serif text-4xl md:text-5xl font-bold text-text-primary mb-6">
           {about.data.title}
         </h1>
         <div class="prose prose-lg max-w-none">
