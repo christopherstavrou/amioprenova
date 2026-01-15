@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
 ---
 
 <Layout
@@ -7,6 +8,9 @@ import Layout from '../../layouts/Layout.astro';
   description="Политика за поверителност на уебсайта на amioprenova. Научете как се обработват вашите данни и защитаваме вашата поверителност."
   lang="bg"
 >
-  <h1 class="text-4xl font-bold mb-4">Поверителност</h1>
-  <p class="text-gray-600">Заместител на страницата поверителност</p>
+  <PageHeader title="Поверителност" />
+
+  <div class="max-w-3xl mx-auto">
+    <p class="text-text-secondary">Заместител на страницата поверителност</p>
+  </div>
 </Layout>
