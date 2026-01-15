@@ -69,6 +69,27 @@ const isActive = (href: string) => {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Inline theme script to prevent FOUC -->
+    <script is:inline>
+      // Apply theme immediately before page renders
+      (function() {
+        function getCookie(name) {
+          const value = '; ' + document.cookie;
+          const parts = value.split('; ' + name + '=');
+          if (parts.length === 2) return parts.pop().split(';').shift();
+          return null;
+        }
+
+        function getSystemTheme() {
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        const savedTheme = getCookie('site_theme');
+        const theme = (savedTheme === 'light' || savedTheme === 'dark') ? savedTheme : getSystemTheme();
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </head>
   <body class="min-h-screen flex flex-col bg-bg text-text-primary">
     <!-- Sticky Glass Header -->
@@ -81,7 +102,7 @@ const isActive = (href: string) => {
           </a>
 
           <!-- Desktop Navigation -->
-          <nav class="hidden md:flex gap-6 flex-1 justify-center">
+          <nav class="hidden lg:flex gap-6 flex-1 justify-center">
             {navItems.map(item => (
               <a
                 href={item.href}
@@ -97,7 +118,7 @@ const isActive = (href: string) => {
           </nav>
 
           <!-- Desktop Controls: Theme Toggle + Language Switcher -->
-          <div class="hidden md:flex items-center gap-4">
+          <div class="hidden lg:flex items-center gap-4">
             <!-- Theme Toggle Button -->
             <button
               id="theme-toggle"
@@ -127,7 +148,7 @@ const isActive = (href: string) => {
           <button
             id="mobile-menu-toggle"
             type="button"
-            class="md:hidden p-2 rounded-lg hover:bg-surface-muted transition-colors"
+            class="lg:hidden p-2 rounded-lg hover:bg-surface-muted transition-colors"
             aria-label="Toggle menu"
             aria-expanded="false"
           >
@@ -144,9 +165,9 @@ const isActive = (href: string) => {
       <!-- Mobile Menu Overlay -->
       <div
         id="mobile-menu"
-        class="mobile-menu md:hidden fixed inset-0 top-[73px] opacity-0 invisible transition-all duration-300 ease-in-out"
+        class="mobile-menu lg:hidden fixed inset-0 opacity-0 invisible transition-all duration-300 ease-in-out overflow-y-auto"
       >
-        <div class="container mx-auto px-4 py-6">
+        <div class="container mx-auto px-4 py-6 pt-24">
           <nav class="flex flex-col items-center gap-4 mb-6">
             {navItems.map(item => (
               <a
