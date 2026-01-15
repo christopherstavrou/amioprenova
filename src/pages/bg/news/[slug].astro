@@ -2,6 +2,8 @@
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Layout from '../../../layouts/Layout.astro';
+import Badge from '../../../components/Badge.astro';
+import Button from '../../../components/Button.astro';
 import { siteConfig } from '../../../config/site';
 
 export const getStaticPaths = (async () => {
@@ -43,15 +45,13 @@ const twitterShareURL = `https://twitter.com/intent/tweet?text=${shareTitle}&url
 >
   <article class="max-w-3xl mx-auto">
     <header class="mb-8">
-      <h1 class="text-4xl font-bold mb-4">{post.data.title}</h1>
-      <div class="flex items-center gap-4 text-sm text-gray-600">
+      <h1 class="font-serif text-4xl font-bold text-text-primary mb-4">{post.data.title}</h1>
+      <div class="flex items-center gap-4 text-sm text-text-secondary">
         <time datetime={post.data.pubDate}>{formattedDate}</time>
         {post.data.tags && post.data.tags.length > 0 && (
           <div class="flex gap-2">
             {post.data.tags.map(tag => (
-              <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
-                {tag}
-              </span>
+              <Badge>{tag}</Badge>
             ))}
           </div>
         )}
@@ -63,33 +63,35 @@ const twitterShareURL = `https://twitter.com/intent/tweet?text=${shareTitle}&url
     </div>
 
     {/* Social Share */}
-    <footer class="border-t border-gray-200 pt-8">
-      <div class="flex items-center gap-4">
-        <span class="text-sm font-medium text-gray-700">Споделете:</span>
-        <a
+    <footer class="border-t border-border pt-8">
+      <div class="flex items-center gap-4 flex-wrap">
+        <span class="text-sm font-medium text-text-primary">Сподели:</span>
+        <Button
+          variant="secondary"
           href={facebookShareURL}
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded hover:border-gray-900 transition-colors text-sm"
+          class="text-sm"
         >
           Facebook
-        </a>
-        <a
+        </Button>
+        <Button
+          variant="secondary"
           href={twitterShareURL}
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded hover:border-gray-900 transition-colors text-sm"
+          class="text-sm"
         >
           Twitter / X
-        </a>
+        </Button>
       </div>
 
       <div class="mt-8">
         <a
           href="/bg/news"
-          class="inline-block text-sm hover:underline"
+          class="inline-block text-sm text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors"
         >
-          ← Обратно към всички публикации
+          ← Назад към всички публикации
         </a>
       </div>
     </footer>
@@ -97,45 +99,94 @@ const twitterShareURL = `https://twitter.com/intent/tweet?text=${shareTitle}&url
 </Layout>
 
 <style>
-  /* Basic prose styling for markdown content */
+  /* Prose styling for markdown content with theme colors */
+  .prose {
+    color: var(--color-text-primary);
+  }
+
   .prose h2 {
-    @apply text-2xl font-bold mt-8 mb-4;
+    @apply font-serif text-2xl font-bold mt-8 mb-4 text-text-primary;
   }
 
   .prose h3 {
-    @apply text-xl font-bold mt-6 mb-3;
+    @apply font-serif text-xl font-bold mt-6 mb-3 text-text-primary;
+  }
+
+  .prose h4 {
+    @apply font-serif text-lg font-bold mt-4 mb-2 text-text-primary;
   }
 
   .prose p {
-    @apply mb-4 leading-relaxed;
+    @apply mb-4 text-text-primary leading-relaxed;
+  }
+
+  .prose a {
+    @apply text-accent-primary hover:text-accent-primary-hover underline transition-colors;
+  }
+
+  .prose strong {
+    @apply font-semibold text-text-primary;
+  }
+
+  .prose em {
+    @apply italic;
   }
 
   .prose ul,
   .prose ol {
-    @apply mb-4 ml-6;
+    @apply ml-6 mb-4 text-text-primary;
+  }
+
+  .prose ul {
+    @apply list-disc;
+  }
+
+  .prose ol {
+    @apply list-decimal;
   }
 
   .prose li {
     @apply mb-2;
   }
 
-  .prose ul li {
-    @apply list-disc;
-  }
-
-  .prose ol li {
-    @apply list-decimal;
-  }
-
-  .prose a {
-    @apply text-gray-900 underline hover:text-gray-600;
+  .prose blockquote {
+    @apply border-l-4 border-accent-primary pl-4 italic my-4 text-text-secondary;
   }
 
   .prose code {
-    @apply bg-gray-100 px-1 py-0.5 rounded text-sm;
+    @apply bg-surface-muted px-1.5 py-0.5 rounded text-sm font-mono text-accent-primary;
   }
 
-  .prose blockquote {
-    @apply border-l-4 border-gray-300 pl-4 italic my-4;
+  .prose pre {
+    @apply bg-surface-muted p-4 rounded my-4 overflow-x-auto;
+  }
+
+  .prose pre code {
+    @apply bg-transparent p-0 text-text-primary;
+  }
+
+  .prose img {
+    @apply rounded-lg my-6;
+  }
+
+  .prose hr {
+    @apply border-border my-8;
+  }
+
+  .prose table {
+    @apply w-full border-collapse my-6;
+  }
+
+  .prose th,
+  .prose td {
+    @apply border border-border px-4 py-2 text-left;
+  }
+
+  .prose th {
+    @apply bg-surface-muted font-semibold text-text-primary;
+  }
+
+  .prose td {
+    @apply text-text-primary;
   }
 </style>
