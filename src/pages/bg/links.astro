@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
 import { siteConfig } from '../../config/site';
 
 const activeLinks = siteConfig.linksPageLinks.filter(link => link.url);
@@ -12,26 +13,27 @@ const activeLinks = siteConfig.linksPageLinks.filter(link => link.url);
 >
   <div class="max-w-2xl mx-auto">
     <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold mb-3">amioprenova</h1>
-      <p class="text-gray-600">Всички мои връзки на едно място</p>
+      <h1 class="font-serif text-4xl font-bold text-text-primary mb-3">amioprenova</h1>
+      <p class="text-text-secondary">Всички мои връзки на едно място</p>
     </div>
 
     {activeLinks.length > 0 ? (
       <div class="space-y-4">
         {activeLinks.map(link => (
-          <a
+          <Button
+            variant="secondary"
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="block w-full py-4 px-6 text-center border-2 border-gray-900 rounded-lg font-medium hover:bg-gray-900 hover:text-white transition-colors"
+            class="w-full text-center"
           >
             {link.label}
-          </a>
+          </Button>
         ))}
       </div>
     ) : (
       <div class="text-center py-12">
-        <p class="text-gray-600 text-lg">
+        <p class="text-text-secondary text-lg">
           Връзки скоро. Проверете отново по-късно!
         </p>
       </div>
