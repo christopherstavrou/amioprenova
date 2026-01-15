@@ -1,0 +1,59 @@
+---
+/**
+ * Logo Component
+ *
+ * Displays "Ami Oprenova" as an SVG text element using the Dancing Script font.
+ * The logo adapts to the current theme (light/dark) automatically.
+ *
+ * Props:
+ * - class: Optional additional CSS classes
+ */
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<svg
+  class={`logo ${className}`}
+  viewBox="0 0 300 80"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-labelledby="logo-title"
+  role="img"
+>
+  <title id="logo-title">Ami Oprenova</title>
+  <text
+    x="150"
+    y="50"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    class="logo-text"
+  >
+    Ami Oprenova
+  </text>
+</svg>
+
+<style>
+  .logo {
+    width: auto;
+    height: 2rem;
+    display: inline-block;
+  }
+
+  .logo-text {
+    font-family: 'Dancing Script', 'Pacifico', cursive, serif;
+    font-size: 42px;
+    font-weight: 400;
+    fill: var(--color-text-primary);
+    transition: fill var(--transition-base);
+  }
+
+  /* Responsive sizing */
+  @media (min-width: 768px) {
+    .logo {
+      height: 2.5rem;
+    }
+  }
+</style>

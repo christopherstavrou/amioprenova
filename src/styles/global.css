@@ -3,6 +3,9 @@
  * Includes CSS variables for automatic light/dark mode support
  */
 
+/* ===== Google Fonts ===== */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;700&display=swap');
+
 /* ===== CSS Variables ===== */
 /* Light mode (default) */
 :root {
@@ -223,6 +226,29 @@ textarea:focus {
 input::placeholder,
 textarea::placeholder {
   color: var(--color-text-secondary);
+}
+
+/* ===== Header Glass Effect ===== */
+
+.header-glass {
+  background: rgba(247, 244, 240, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: rgba(229, 229, 229, 0.5);
+  transition: background-color var(--transition-base), border-color var(--transition-base);
+}
+
+@media (prefers-color-scheme: dark) {
+  .header-glass {
+    background: rgba(11, 11, 11, 0.8);
+    border-bottom-color: rgba(42, 42, 42, 0.5);
+  }
+}
+
+/* Mobile menu animation */
+.mobile-menu.open {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* ===== Utility Classes ===== */
