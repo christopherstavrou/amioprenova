@@ -77,7 +77,7 @@ const isActive = (href: string) => {
         <div class="flex justify-between items-center gap-4">
           <!-- Logo -->
           <a href={`/${lang}`} class="flex-shrink-0 hover:opacity-80 transition-opacity">
-            <Logo class="h-8" />
+            <Logo />
           </a>
 
           <!-- Desktop Navigation -->
@@ -144,10 +144,10 @@ const isActive = (href: string) => {
       <!-- Mobile Menu Overlay -->
       <div
         id="mobile-menu"
-        class="mobile-menu md:hidden fixed inset-0 top-[73px] bg-surface-elevated/95 backdrop-blur-lg opacity-0 invisible transition-all duration-300 ease-in-out"
+        class="mobile-menu md:hidden fixed inset-0 top-[73px] opacity-0 invisible transition-all duration-300 ease-in-out"
       >
         <div class="container mx-auto px-4 py-6">
-          <nav class="flex flex-col gap-4 mb-6">
+          <nav class="flex flex-col items-center gap-4 mb-6">
             {navItems.map(item => (
               <a
                 href={item.href}
@@ -163,12 +163,12 @@ const isActive = (href: string) => {
           </nav>
 
           <!-- Mobile Controls -->
-          <div class="flex flex-col gap-4 pt-4 border-t border-border">
+          <div class="flex flex-col items-center gap-4 pt-4 border-t border-border">
             <!-- Theme Toggle in Mobile -->
             <button
               id="mobile-theme-toggle"
               type="button"
-              class="flex items-center gap-3 py-2 text-text-primary hover:text-accent-primary transition-colors"
+              class="flex items-center justify-center gap-3 py-2 text-text-primary hover:text-accent-primary transition-colors"
             >
               <svg class="w-5 h-5 sun-icon-mobile" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
@@ -291,8 +291,8 @@ const isActive = (href: string) => {
       }
 
       function applyTheme(theme: 'light' | 'dark') {
-        // For now, we rely on prefers-color-scheme
-        // Future: implement data-theme attribute on html element
+        // Set data-theme attribute on html element
+        document.documentElement.setAttribute('data-theme', theme);
         updateThemeIcons(theme);
       }
 
@@ -301,8 +301,6 @@ const isActive = (href: string) => {
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
         setCookie('site_theme', newTheme, 365);
         applyTheme(newTheme);
-        // Note: Full theme switch requires page reload or data-theme implementation
-        window.location.reload();
       }
 
       // Initialize theme on page load
