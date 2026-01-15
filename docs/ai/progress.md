@@ -20,30 +20,34 @@ This document tracks what's been completed, what's in progress, and what's next.
 - i18n system for multilingual support (EN + BG)
 - Content Collections configured for blog and pages
 
-### Design System
+### Design System ✅ **COMPLETE**
 - Created `DESIGN.md` with complete visual specifications
+- Extended color tokens: border-focus, surface-elevated, link conventions
 - Implemented CSS variables for light/dark mode (`src/styles/global.css`)
 - Configured automatic theme switching via `prefers-color-scheme`
 - Created reusable UI components:
   - `Button.astro` (primary, secondary, ghost variants)
   - `Card.astro` (consistent card styling with hover states)
-  - `PageHeader.astro` (large page titles)
+  - `PageHeader.astro` (large page titles with optional description)
   - `SectionHeader.astro` (section titles)
   - `Badge.astro` (tags and labels)
 - Refactored Layout.astro with theme support (header, nav, footer)
+- Updated tailwind.config.mjs with all theme tokens
+- **ALL pages refactored** with design system components and theme colors
 
-### Pages Implemented
+### Pages Implemented (All with Design System ✅)
 - **Home** (EN + BG): Hero, featured release, shows preview, featured video, newsletter signup
 - **About** (EN + BG): Markdown-driven biography with portrait image
 - **Music** (EN + BG): Release grid with featured album and discography
 - **Video** (EN + BG): Video grid with featured video and YouTube links
-- **Shows** (EN + BG): Event listings with venue details and ticket links *(design system partially applied)*
-- **Blog/News** (EN + BG): Markdown blog system with pagination, search index
-- **Press** (EN + BG): Media kit with bio, downloadable assets, external links
-- **Contact** (EN + BG): Booking and press mailto links
-- **Links** (EN + BG): Linktree-style external links page
-- **Support/Buy** (EN + BG): Links to merch, tickets, donations
-- **Privacy** (EN + BG): Privacy policy page
+- **Shows** (EN + BG): Event listings with venue details and ticket links
+- **Blog/News Index** (EN + BG): Pagination, search, Badge components for tags
+- **Blog/News Post** (EN + BG): Single post template with comprehensive prose styling
+- **Press** (EN + BG): Media kit with bio, Badge tags, Button download links, Card sections
+- **Contact** (EN + BG): Card and Button components for booking/press inquiries
+- **Links** (EN + BG): Button components for external links (Linktree-style)
+- **Support/Buy** (EN + BG): PageHeader, Button, Card for merch/tickets/donations
+- **Privacy** (EN + BG): PageHeader, simple placeholder page
 
 ### SEO & Metadata
 - Centralized SEO implementation in Layout.astro
@@ -71,78 +75,62 @@ This document tracks what's been completed, what's in progress, and what's next.
 
 ## 🟡 In Progress
 
-### Design System Application
-- **Shows page redesign**: Partially refactored with design system components (last session interrupted)
-- **Remaining pages**: Blog, Press, Contact, Links, Support, Privacy pages need design system refactor
-- **Blog post template**: Single post pages need design system styling
+*Nothing currently in progress. Design system rollout complete as of 2026-01-15.*
 
 ---
 
 ## ⏭ Next
 
-### Complete Design System Rollout
-1. **Finish Shows page refactor** (EN + BG)
-   - Apply Card, Button, PageHeader components
-   - Replace hardcoded colors with theme variables
-   - Ensure responsive design matches DESIGN.md
+### Content & Assets
+1. **Replace placeholder images**
+   - Hero image (home page)
+   - About page portrait
+   - Album covers (currently using placeholders)
+   - Add real press photos to Press page
 
-2. **Refactor Blog pages** (EN + BG)
-   - Blog index with pagination
-   - Single post template
-   - Search interface
-   - Apply design system components and theme colors
+2. **Complete Privacy Policy**
+   - Write full privacy policy content
+   - Update Privacy pages (EN + BG) with actual policy text
 
-3. **Refactor Press pages** (EN + BG)
-   - Replace hardcoded colors with theme variables
-   - Use Card components for bio sections
-   - Use Button components for download links
+3. **Add Real Content**
+   - Update About page biography with real content (currently lorem ipsum)
+   - Add actual events to `src/data/events.json`
+   - Add actual releases to `src/data/releases.json`
+   - Add actual videos to `src/data/videos.json`
 
-4. **Refactor Contact pages** (EN + BG)
-   - Apply Card components to booking/press sections
-   - Update mailto buttons with Button component
+### Future Enhancements (V2)
+1. **Newsletter Integration**
+   - Integrate Mailchimp or similar service
+   - Add functional signup form (currently placeholder)
 
-5. **Refactor Links pages** (EN + BG)
-   - Apply Card components to link sections
-   - Update link buttons with Button component
+2. **Contact Form**
+   - Consider form backend (Formspree, Netlify Forms, etc.)
+   - Replace mailto links with actual form (optional)
 
-6. **Refactor Support pages** (EN + BG)
-   - Apply Card components to support options
-   - Update external links with Button component
+3. **Analytics**
+   - Add privacy-friendly analytics (Plausible, Fathom)
+   - Track page views and conversions
 
-7. **Refactor Privacy pages** (EN + BG)
-   - Apply proper typography from design system
-   - Ensure readable text layout
+4. **Performance Optimization**
+   - Optimize images (WebP, responsive sizes)
+   - Implement lazy loading for videos
+   - Consider CDN for static assets
 
-### Testing & Quality Assurance
-8. **Cross-browser testing**
+5. **Enable Sitemap**
+   - Set production `baseUrl` in `src/config/site.ts`
+   - Uncomment sitemap in `astro.config.mjs`
+   - Rebuild and verify sitemap.xml
+
+### Testing & Deployment
+6. **Cross-browser testing**
    - Test light/dark mode in Chrome, Firefox, Safari
    - Verify responsive breakpoints on mobile, tablet, desktop
    - Check keyboard navigation and focus states
 
-9. **Build verification**
-   - Ensure `npm run build` succeeds without errors
-   - Verify all 43 pages generate correctly
-   - Check for TypeScript errors
-
-### Documentation Updates
-10. **Update README.md**
-    - Add section on testing light/dark mode in Chrome DevTools
-    - Document design system usage
-
-11. **Update CLAUDE.md**
-    - Add design system conventions
-    - Reference docs/ai/ for detailed context
-
-### Deployment Preparation
-12. **Replace placeholder URLs**
-    - Update `src/config/site.ts` with real URLs once provided
-    - Replace placehold.co images with real assets
-    - Update press kit files in `public/press/`
-
-13. **Enable sitemap**
-    - Set production `baseUrl` in `src/config/site.ts`
-    - Uncomment sitemap in `astro.config.mjs`
-    - Rebuild and verify sitemap.xml
+7. **Deploy to Cloudflare Pages**
+   - Link repository to Cloudflare Pages
+   - Configure build settings (branch: `main` for production, `develop` and `test` for previews)
+   - Verify deployments work correctly
 
 ---
 
@@ -190,15 +178,17 @@ npm run dev
 
 ## 📋 Notes for Future Sessions
 
-### Current Branch
-- **Active branch**: `claude/context-pack` (branched from `develop`)
-- **Target**: Open PR to `develop`
+### Current Status (as of 2026-01-15)
+- **Design system rollout**: ✅ **COMPLETE**
+- **Build status**: ✅ Passing (0 errors)
+- **Pages ready**: All 43 pages generated successfully
+- **Next priorities**: Content & assets (see "Next" section above)
 
-### What to Resume
-If this session was interrupted, resume with:
-1. Complete Shows page design system refactor (if not done)
-2. Continue with Blog pages refactor
-3. Work through the "Next" list above sequentially
+### What to Work On Next
+1. Replace placeholder images with real assets
+2. Add real content to About, Events, Releases, Videos
+3. Complete Privacy Policy text
+4. Consider V2 enhancements (newsletter integration, analytics, etc.)
 
 ### Key Files to Update After Major Work
 - This file (`docs/ai/progress.md`) - Update ✅ Done and ⏭ Next sections
