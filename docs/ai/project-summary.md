@@ -2,7 +2,7 @@
 
 ## What is this project?
 
-**amioprenova** is the official website for jazz vocalist and composer Ami Opprenova. It serves as her online presence for fans, promoters, and press.
+**amioprenova** is the official website for jazz vocalist and composer Ami Oprenova. It serves as her online presence for fans, promoters, and press.
 
 ## Project Goals
 

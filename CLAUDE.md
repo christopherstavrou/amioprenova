@@ -6,11 +6,22 @@
 
 ## Project Overview
 
-**amioprenova** is a static website for jazz vocalist Ami Opprenova. Built with Astro, it serves as the artist's official online presence for fans, promoters, and press.
+**amioprenova** is a static website for jazz vocalist **Ami Oprenova** (note: spelled with one "p" in Oprenova). Built with Astro, it serves as the artist's official online presence for fans, promoters, and press.
 
 **Type**: Static site only
 **Stack**: Astro, Tailwind CSS, TypeScript
 **Languages**: English (/en) + Bulgarian (/bg)
+
+### Visual Reference & Branding
+
+**CRITICAL**: The artist's name is **Ami Oprenova** with one "p" in Oprenova, NOT "Ami Opprenova". This is the correct spelling and must be used consistently throughout:
+- Code comments and documentation
+- Configuration files (`src/config/site.ts`)
+- All page content (EN and BG)
+- Meta tags and SEO data
+- Data files (events, releases, videos)
+
+The design implementation is based on a provided reference image that shows the intended visual aesthetic in both light and dark modes on desktop and mobile. All styling decisions should align with this visual reference, documented in detail in `DESIGN.md`.
 
 ---
 
@@ -48,9 +59,25 @@ npm run preview  # Preview production build
 ### Styling & Design
 - **Primary reference**: `DESIGN.md` for all visual design decisions
 - **Design system**: CSS variables in `src/styles/global.css`
-- **Theme switching**: Automatic via `prefers-color-scheme` (no manual toggle)
+- **Theme switching**: Default to system preference (`prefers-color-scheme`), manual override via theme toggle with cookie persistence
 - **Components**: Use reusable components in `src/components/`
 - **NO hardcoded colors**: Use theme classes (bg-accent-primary, text-text-primary, etc.)
+- **Header**: Sticky glass morphism effect with backdrop blur
+- **Mobile navigation**: Hamburger menu with slide/fade animation
+- **Logo**: SVG wordmark "Ami Oprenova" in script/signature font
+
+### Cookie-Based Persistence
+User preferences are stored in browser cookies for server-side access:
+- **`site_theme`**: User's theme preference (`"light"` or `"dark"`)
+  - First visit: Uses system preference via `prefers-color-scheme`
+  - After manual toggle: Cookie overrides system preference
+  - Max-Age: 365 days
+- **`site_lang`**: User's language preference (`"en"` or `"bg"`)
+  - First visit: Defaults to English
+  - After selection: Cookie stores preference
+  - Max-Age: 365 days
+
+**Implementation**: Simple JavaScript cookie helpers in client-side scripts. On page load, check cookies and apply stored preferences. Theme applied via `data-theme` attribute on `<html>` element.
 
 ---
 

@@ -1,10 +1,10 @@
 ---
-title: "About Ami Opprenova"
-description: "Jazz vocalist and composer Ami Opprenova brings soulful interpretations and timeless elegance to contemporary jazz."
-image: "https://placehold.co/800x800/8B1C3B/FFFFFF?text=Ami+Opprenova"
+title: "About Ami Oprenova"
+description: "Jazz vocalist and composer Ami Oprenova brings soulful interpretations and timeless elegance to contemporary jazz."
+image: "https://placehold.co/800x800/8B1C3B/FFFFFF?text=Ami+Oprenova"
 ---
 
-Ami Opprenova is a jazz vocalist and composer whose artistry bridges the golden age of jazz with contemporary sensibilities. Based in Sofia, Bulgaria, Ami has captivated audiences across Europe with her warm, expressive voice and sophisticated musical arrangements.
+Ami Oprenova is a jazz vocalist and composer whose artistry bridges the golden age of jazz with contemporary sensibilities. Based in Sofia, Bulgaria, Ami has captivated audiences across Europe with her warm, expressive voice and sophisticated musical arrangements.
 
 ## Musical Journey
 

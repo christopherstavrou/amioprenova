@@ -129,7 +129,7 @@ The About page content is managed through Markdown files in the pages Content Co
 2. **Frontmatter fields**:
    ```yaml
    ---
-   title: "About Ami Opprenova"
+   title: "About Ami Oprenova"
    description: "Brief description for SEO"
    image: "https://placehold.co/800x800/..."  # Portrait image URL
    ---

@@ -1,6 +1,8 @@
-# Design Kit for amioprenova.com
+# Design Kit for Ami Oprenova
 
-This design guide defines the visual language and component rules for amioprenova.com, the official website for jazz artist Ami Opprenova. It is intended to be a reference for developers and content editors so the site remains cohesive and polished as it grows.
+**Visual Reference**: This design is based on a provided reference image that serves as the primary styling source of truth. All implementation decisions should align with the visual aesthetic shown in that reference.
+
+This design guide defines the visual language and component rules for the official website of jazz artist **Ami Oprenova** (note: spelled with one "p" in Oprenova). It is intended to be a reference for developers and content editors so the site remains cohesive and polished as it grows.
 
 ## Colour Palette
 
@@ -52,11 +54,151 @@ All text links should use the **Primary burgundy** (`#8B1C3B`) colour with an ap
 
 Do not use blue (`#0000FF` or similar) for links, as this deviates from the warm, sophisticated palette. The burgundy accent is distinctive enough to indicate interactivity while maintaining brand cohesion.
 
+## Header & Navigation
+
+### Sticky Glass Header
+
+The site header uses a modern "glass morphism" effect that remains visible as users scroll. This creates an elegant, floating appearance while maintaining readability.
+
+**Technical specifications**:
+- **Position**: `position: sticky; top: 0;`
+- **Z-index**: High enough to appear above page content (e.g., `z-index: 50`)
+- **Background**: Semi-transparent with backdrop blur
+  - Light mode: `background: rgba(247, 244, 240, 0.8);` (80% opacity of Background Light)
+  - Dark mode: `background: rgba(11, 11, 11, 0.8);` (80% opacity of Dark Background)
+- **Backdrop filter**: `backdrop-filter: blur(12px);`
+- **Border**: Subtle bottom border for definition
+  - Light mode: `border-bottom: 1px solid rgba(229, 229, 229, 0.5);`
+  - Dark mode: `border-bottom: 1px solid rgba(42, 42, 42, 0.5);`
+- **Padding**: Generous vertical padding (e.g., `py-4` or 1rem) for comfortable touch targets
+- **Transition**: Smooth transition on scroll state changes if needed
+
+**Browser support**: The `backdrop-filter` property requires vendor prefixes for older browsers. Include `-webkit-backdrop-filter` for Safari compatibility. Provide a fallback with higher background opacity for browsers that don't support backdrop filters.
+
+### Logo
+
+The site logo displays "Ami Oprenova" in a script/signature font style. It should be implemented as an inline SVG for scalability and styling control.
+
+**Font style**: Script or signature font (handwritten appearance)
+- Recommended fonts: Dancing Script, Pacifico, Great Vibes, or similar cursive fonts
+- Fallback stack: `'Script Font', cursive, serif`
+- Use a web font (e.g., Google Fonts) or create a custom SVG path for the logo text
+
+**Styling**:
+- Color matches text primary in current theme
+- Size: Proportional to header height, typically 1.5–2rem
+- On mobile: May scale down slightly for better fit
+
+### Navigation Menu
+
+**Desktop layout**: Horizontal navigation links displayed inline, typically to the right of the logo
+- Font: Body sans-serif font
+- Links use theme text color with accent color on hover
+- Include language selector and theme toggle icon
+
+**Mobile layout**: Hamburger menu icon that opens an animated overlay
+- Hamburger icon: Three horizontal lines (☰), positioned in top-right corner
+- Overlay animation: Slide in from right or top with fade effect
+- Overlay background: Matches header glass effect for consistency
+- Navigation items: Stacked vertically with generous spacing
+- Include language selector and theme toggle within overlay
+
+**Hamburger animation**:
+- Transform lines into an X when open
+- Use CSS transitions for smooth animation (e.g., `transition: transform 0.3s ease`)
+
+### Theme Toggle
+
+A sun/moon icon button that allows users to manually override the system theme preference.
+
+**Icon states**:
+- Light mode active: Show moon icon (☾) to indicate "switch to dark mode"
+- Dark mode active: Show sun icon (☀) to indicate "switch to light mode"
+
+**Behavior**:
+- On first visit: Use system preference (`prefers-color-scheme`)
+- After manual toggle: Store preference in cookie and override system setting
+- Icon updates immediately when clicked
+- Smooth transition between themes (e.g., `transition: background-color 0.3s ease, color 0.3s ease`)
+
+**Positioning**:
+- Desktop: In header alongside navigation
+- Mobile: Inside hamburger overlay menu
+
+## Theme & Language Persistence
+
+User preferences for theme (light/dark) and language (en/bg) are stored in browser cookies for server-side access and long-term persistence.
+
+### Cookie Specifications
+
+**Cookie names**:
+- `site_theme`: Stores user's theme preference (`"light"` or `"dark"`)
+- `site_lang`: Stores user's language preference (`"en"` or `"bg"`)
+
+**Cookie attributes**:
+- **Path**: `/` (site-wide)
+- **Max-Age**: 365 days (31,536,000 seconds) for long-term persistence
+- **SameSite**: `Lax` for security
+- **Secure**: True in production (HTTPS only)
+
+**Default behavior**:
+- **Theme**: On first visit, detect system preference via `prefers-color-scheme`. If user manually changes theme, store in cookie and override system preference on subsequent visits.
+- **Language**: Default to English (`en`). Store user's selection in cookie.
+
+**Implementation**: Use simple JavaScript cookie helpers to read and write these values. On page load, check for cookies and apply the stored preferences. When user changes theme or language, update the cookie and apply the new setting immediately.
+
+### JavaScript Cookie Helpers
+
+Create utility functions for cookie management:
+```javascript
+// Set a cookie
+function setCookie(name, value, days) {
+  const maxAge = days * 24 * 60 * 60;
+  document.cookie = `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Lax`;
+}
+
+// Get a cookie value
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
+```
+
+**On page load**:
+1. Check for `site_theme` cookie. If present, apply that theme. If not, use system preference.
+2. Check for `site_lang` cookie. If present, redirect to that language path if needed.
+
+**On theme toggle**:
+1. Determine new theme value (opposite of current)
+2. Call `setCookie('site_theme', newTheme, 365)`
+3. Update `data-theme` attribute on `<html>` element
+4. Update theme toggle icon
+
 ## Typography
 
-**Display font**: Playfair Display or Merriweather. These serif faces convey elegance and sophistication suitable for jazz. Use them for headings, hero statements and pull quotes. Headings should be bold.
+The typography system uses three distinct font families to create visual hierarchy and maintain brand elegance.
 
-**Body font**: Inter or Open Sans. These sans-serif fonts ensure legibility across devices. Use them for paragraphs, navigation and UI text. Use regular weight for default copy and medium weight for emphasis.
+### Font Families
+
+**Logo font (Script/Signature)**: Dancing Script, Pacifico, Great Vibes, or similar cursive fonts
+- **Usage**: Logo SVG only ("Ami Oprenova" wordmark)
+- **Fallback stack**: `'Dancing Script', 'Pacifico', cursive, serif`
+- **Weight**: Regular (400)
+- **Character**: Handwritten, elegant, personal
+
+**Display font (Serif)**: Playfair Display or Merriweather
+- **Usage**: Headings (H1–H3), hero statements, pull quotes, section titles
+- **Fallback stack**: `'Playfair Display', 'Merriweather', Georgia, serif`
+- **Weight**: Bold (700) for headings, Regular (400) for decorative text
+- **Character**: Elegant, sophisticated, classical
+
+**Body font (Sans-serif)**: Inter or Open Sans
+- **Usage**: Paragraphs, navigation, UI text, buttons, forms, metadata
+- **Fallback stack**: `'Inter', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`
+- **Weight**: Regular (400) for body copy, Medium (500) for emphasis, Bold (700) for strong emphasis
+- **Character**: Clean, modern, highly legible
 
 ### Font Sizing & Hierarchy
 
@@ -90,11 +232,52 @@ Keep paragraph line height around 1.6 and heading line height around 1.2 to ensu
 
 ### Buttons
 
-**Primary button**: Filled with the primary burgundy colour, white text, rounded corners. On hover, darken slightly (e.g. #771830).
+Buttons use the design system's accent colors and must maintain clear visibility in both light and dark themes. All button states should have smooth transitions (e.g., `transition: all 0.2s ease`).
 
-**Secondary button**: Bordered variant with primary colour border and text; transparent background. On hover, fill with a very light burgundy tint and darken border.
+**Primary button (Filled)**:
+- **Background**: Primary burgundy (`#8B1C3B`)
+- **Text**: White (`#FFFFFF`)
+- **Border**: None
+- **Border radius**: 8px
+- **Padding**: `px-6 py-3` (24px horizontal, 12px vertical)
+- **Font weight**: Medium (500)
 
-**Text link**: Underscored or subtle underline; changes colour on hover. Do not over-underline menu items—use bold and colour instead.
+**Primary button states**:
+- **Default**: `bg: #8B1C3B`, `color: #FFFFFF`
+- **Hover**: `bg: #771830` (darkened), `color: #FFFFFF`
+- **Focus**: `bg: #8B1C3B`, `color: #FFFFFF`, `outline: 2px solid #8B1C3B`, `outline-offset: 2px`
+- **Active**: `bg: #6B1428` (further darkened), `color: #FFFFFF`
+- **Disabled**: `bg: #9A9A9A`, `color: #E5E5E5`, `cursor: not-allowed`, `opacity: 0.6`
+
+**Secondary button (Outlined)**:
+- **Background**: Transparent
+- **Text**: Primary burgundy in light mode, same burgundy in dark mode
+- **Border**: 2px solid primary burgundy
+- **Border radius**: 8px
+- **Padding**: `px-6 py-3` (match primary for consistency)
+- **Font weight**: Medium (500)
+
+**Secondary button states**:
+- **Default (light)**: `bg: transparent`, `color: #8B1C3B`, `border: 2px solid #8B1C3B`
+- **Default (dark)**: `bg: transparent`, `color: #8B1C3B`, `border: 2px solid #8B1C3B`
+- **Hover (light)**: `bg: rgba(139, 28, 59, 0.1)`, `color: #771830`, `border: 2px solid #771830`
+- **Hover (dark)**: `bg: rgba(139, 28, 59, 0.2)`, `color: #A52344`, `border: 2px solid #A52344`
+- **Focus**: Add `outline: 2px solid #8B1C3B`, `outline-offset: 2px`
+- **Active (light)**: `bg: rgba(139, 28, 59, 0.15)`, `color: #6B1428`, `border: 2px solid #6B1428`
+- **Active (dark)**: `bg: rgba(139, 28, 59, 0.25)`, `color: #C5294D`, `border: 2px solid #C5294D`
+- **Disabled**: `bg: transparent`, `color: #9A9A9A`, `border: 2px solid #9A9A9A`, `cursor: not-allowed`, `opacity: 0.6`
+
+**Text link**:
+- Use accent primary color with underline decoration (optional)
+- On hover: Darken in light mode, lighten in dark mode (use `text-accent-primary-hover`)
+- Font weight: Regular (400) or Medium (500) depending on context
+- Do not over-underline navigation menu items—use color change and bold instead
+
+**Accessibility requirements**:
+- All buttons must have minimum 44px height for touch targets
+- Focus states must be clearly visible with sufficient contrast
+- Disabled buttons should not be focusable
+- Use `aria-label` or visible text for icon-only buttons
 
 ### Cards
 
@@ -124,7 +307,7 @@ Provide clear download links for press kit assets (photos, logos, technical ride
 
 ## Imagery
 
-**Photography**: Use high-resolution portraits of Ami Opprenova on the home and about pages. Include photos of live performances and candid moments for authenticity. Ensure consistent colour grading (warm tones, high contrast) to align with the burgundy palette.
+**Photography**: Use high-resolution portraits of Ami Oprenova on the home and about pages. Include photos of live performances and candid moments for authenticity. Ensure consistent colour grading (warm tones, high contrast) to align with the burgundy palette.
 
 **Album covers**: Display square or circular album art on the music page. Maintain consistent sizing and spacing between releases.
 
@@ -148,7 +331,7 @@ During the initial development phase or when actual assets are not yet available
 
 - Ensure colour contrasts meet [WCAG 2.1 AA](https://www.w3.org/WAI/WCAG21/quickref/) standards—particularly between text and background. Avoid low contrast combinations (e.g. burgundy text on gold).
 
-- Provide descriptive alt text for images (e.g. "Ami Opprenova performing on stage").
+- Provide descriptive alt text for images (e.g. "Ami Oprenova performing on stage").
 
 - Make links and buttons keyboard navigable and ensure focus states are visible. Use `:focus-visible` styles alongside `:hover` styles.
 
@@ -204,4 +387,4 @@ These variables can then be used in your styles or Tailwind configuration to ens
 
 ## Conclusion
 
-This design kit provides a foundation for building a cohesive, accessible and professional web presence for Ami Opprenova. By following these guidelines, developers and content editors can maintain consistent branding, clear hierarchy and engaging layouts, ensuring the site remains easy to update and appealing to fans, press and promoters alike.
+This design kit provides a foundation for building a cohesive, accessible and professional web presence for Ami Oprenova. By following these guidelines, developers and content editors can maintain consistent branding, clear hierarchy and engaging layouts, ensuring the site remains easy to update and appealing to fans, press and promoters alike.
