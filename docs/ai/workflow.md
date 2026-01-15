@@ -16,23 +16,32 @@ This document defines the **mandatory workflow** for all Claude Code sessions wo
 
 ## Branch Strategy
 
+### Cloudflare Pages Deployment Model
+
+This repository uses **Cloudflare Pages** for hosting, with each branch linked to a staging environment:
+
 ### Long-Lived Branches
 
-- **`main`**: Production-ready code
-  - Protected branch (recommend enabling branch protection on GitHub)
-  - Merges only from `develop` via PR
-  - Represents what's live or deployable
+- **`main`**: **Production/Live Site** (Cloudflare Pages production deployment)
+  - **CRITICAL**: Claude NEVER merges to `main` directly
+  - **CRITICAL**: Claude NEVER creates PRs targeting `main`
+  - Protected branch (enable branch protection on GitHub)
+  - Only repository owner merges here (from `test` after QA)
+  - Represents the live public website
 
-- **`develop`**: Integration/staging branch
+- **`develop`**: **Development Staging Environment** (Cloudflare Pages preview)
   - Default branch for Claude work
-  - All feature branches branch from here
-  - All PRs merge back to here
-  - Periodically merged to `main` for releases
+  - All `claude/*` feature branches branch from here
+  - All Claude PRs merge to `develop` only
+  - Repository owner reviews changes here before promoting to `test`
+  - Linked to Cloudflare Pages preview URL for testing
 
-- **`test`**: QA/experiments branch
-  - Optional: For testing risky changes
-  - Can be reset or force-pushed
-  - Not required for normal workflow
+- **`test`**: **QA Staging Environment** (Cloudflare Pages preview)
+  - Repository owner merges `develop` here for final QA before production
+  - **CRITICAL**: Claude NEVER merges to `test` without explicit permission
+  - Used for final review and testing before going live
+  - Linked to Cloudflare Pages preview URL for QA
+  - Once approved, repository owner merges to `main`
 
 ### Feature Branches
 
@@ -293,19 +302,30 @@ git push
 
 *These settings cannot be configured by Claude, but should be enabled by repository owner:*
 
-### For `main` branch:
-- ✅ Require pull request reviews before merging
+### For `main` branch (Production):
+- ✅ **Require pull request reviews before merging** (CRITICAL)
 - ✅ Require status checks to pass before merging
 - ✅ Require branches to be up to date before merging
 - ✅ Do not allow bypassing the above settings
+- ✅ Restrict who can push to matching branches (only repository owner)
 - ❌ Allow force pushes: **DISABLED**
 - ❌ Allow deletions: **DISABLED**
+- **Note**: Only merge from `test` branch after full QA
 
-### For `develop` branch:
-- ✅ Require pull request reviews (optional, but recommended)
+### For `test` branch (QA Staging):
+- ✅ Require pull request reviews before merging
 - ✅ Require status checks to pass before merging
+- ✅ Restrict who can push to matching branches (only repository owner)
 - ❌ Allow force pushes: **DISABLED**
 - ❌ Allow deletions: **DISABLED**
+- **Note**: Only merge from `develop` branch after development review
+
+### For `develop` branch (Development Staging):
+- ✅ Require status checks to pass before merging
+- ✅ Require pull request reviews (optional, but recommended)
+- ❌ Allow force pushes: **DISABLED**
+- ❌ Allow deletions: **DISABLED**
+- **Note**: This is where Claude PRs merge to
 
 ---
 

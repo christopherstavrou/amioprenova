@@ -227,23 +227,57 @@ This document records key decisions made during the project's development.
 
 ---
 
+## Deployment & Branching Strategy
+
+### Cloudflare Pages with Multi-Environment Setup
+
+**Decision**: Use Cloudflare Pages for hosting with Git-based deployments. Each long-lived branch maps to a separate staging environment.
+
+**Rationale**:
+- **Zero configuration deployments**: Cloudflare Pages automatically builds and deploys from Git
+- **Preview environments**: Each branch gets its own preview URL for testing
+- **Performance**: Cloudflare's global CDN ensures fast page loads worldwide
+- **Cost**: Free tier sufficient for static sites
+- **CI/CD built-in**: No need for GitHub Actions or external CI/CD
+
+**Branch-to-Environment Mapping**:
+- `main` → Production (live public site)
+- `develop` → Development staging (for reviewing Claude's work)
+- `test` → QA staging (final review before production)
+- `claude/*` → Ephemeral preview URLs (automatic, temporary)
+
+**Workflow**:
+1. Claude creates PRs to `develop`
+2. Repository owner reviews changes in develop staging environment
+3. When ready, owner merges `develop` → `test` for QA
+4. After QA approval, owner merges `test` → `main` for production
+
+**Constraints**:
+- Claude NEVER creates PRs to `main` or `test`
+- Claude NEVER merges to `test` without explicit permission
+- Only repository owner promotes code through environments
+
+**Status**: ✅ Implemented
+
+**Date**: 2026-01-15
+
+---
+
 ## Open Questions
 
 Questions that need answers before proceeding:
 
-1. **Deployment platform**: Cloudflare Pages is planned, but not confirmed. Should we configure GitHub Actions or rely on Cloudflare's Git integration?
+1. **Real URLs**: When will the artist provide real external URLs (Bandcamp, social media, email addresses)?
 
-2. **Real URLs**: When will the artist provide real external URLs (Bandcamp, social media, email addresses)?
+2. **Press assets**: When will high-resolution press photos, logos, and technical rider be available?
 
-3. **Press assets**: When will high-resolution press photos, logos, and technical rider be available?
+3. **Domain name**: What will the production domain be? (Needed for SEO, sitemap, social meta tags)
 
-4. **Domain name**: What will the production domain be? (Needed for SEO, sitemap, social meta tags)
+4. **Google Calendar integration**: Should future event management pull from a Google Calendar? If so, which calendar?
 
-5. **Google Calendar integration**: Should future event management pull from a Google Calendar? If so, which calendar?
+5. **Analytics**: Does the artist want analytics tracking? If so, which tool? (Google Analytics, Plausible, Fathom, none?)
 
-6. **Analytics**: Does the artist want analytics tracking? If so, which tool? (Google Analytics, Plausible, Fathom, none?)
-
-7. **Newsletter platform**: Mailchimp is currently used. Is this the final choice? Placeholder URL needs replacement.
+6. **Newsletter platform**: Mailchimp is currently used. Is this the final choice? Placeholder URL needs replacement.
 
 ---
 

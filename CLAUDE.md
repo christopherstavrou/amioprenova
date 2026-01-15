@@ -27,11 +27,18 @@ npm run preview  # Preview production build
 
 ## Mandatory Rules
 
-### Branch Workflow
-1. **NEVER commit directly to `main`**
-2. **Always branch from `develop`** using `claude/<feature-name>` pattern
-3. **Open PRs frequently** - small PRs are better
-4. **Build must succeed** before committing: `npm run build` → 0 errors
+### Branch Workflow (Cloudflare Pages Deployment)
+1. **NEVER commit directly to `main`** (production/live site)
+2. **NEVER create PRs to `main` or `test`** - PRs go to `develop` only
+3. **Always branch from `develop`** using `claude/<feature-name>` pattern
+4. **Open PRs to `develop` frequently** - small PRs are better
+5. **Build must succeed** before committing: `npm run build` → 0 errors
+
+**Branch model**:
+- `main` = Production (live site) - owner only
+- `develop` = Development staging - Claude PRs merge here
+- `test` = QA staging - owner merges develop here before production
+- `claude/*` = Feature branches - temporary, deleted after merge
 
 ### Documentation First
 - **Start every session**: Read `docs/ai/progress.md`
