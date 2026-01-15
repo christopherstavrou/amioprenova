@@ -1,5 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Card from '../../components/Card.astro';
+import Badge from '../../components/Badge.astro';
+import Button from '../../components/Button.astro';
 import { siteConfig } from '../../config/site';
 ---
 
@@ -8,14 +12,14 @@ import { siteConfig } from '../../config/site';
   description="Press kit and media resources for amioprenova. High-resolution photos, biography, and press contact information."
   lang="en"
 >
-  <div class="max-w-4xl mx-auto">
-    <h1 class="text-4xl font-bold mb-8">Press / Media Kit</h1>
+  <PageHeader title="Press / Media Kit" />
 
+  <div class="max-w-4xl mx-auto">
     <!-- Short Bio -->
     <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4">Short Bio</h2>
+      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Short Bio</h2>
       <div class="prose max-w-none">
-        <p class="text-lg leading-relaxed">
+        <p class="text-lg leading-relaxed text-text-primary">
           amioprenova is a musician and composer creating atmospheric electronic soundscapes that blend ambient textures with experimental production. Based in Sofia, Bulgaria, their work explores the intersection of organic and synthetic sounds.
         </p>
       </div>
@@ -23,15 +27,15 @@ import { siteConfig } from '../../config/site';
 
     <!-- Long Bio -->
     <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4">Long Bio</h2>
+      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Long Bio</h2>
       <div class="prose max-w-none">
-        <p class="mb-4">
+        <p class="mb-4 text-text-primary">
           amioprenova is a musician, composer, and sound designer whose work exists at the crossroads of electronic experimentation and emotive storytelling. Drawing inspiration from ambient pioneers, modern electronic producers, and the natural soundscapes of Bulgaria, their music creates immersive sonic environments that invite deep listening.
         </p>
-        <p class="mb-4">
+        <p class="mb-4 text-text-primary">
           Since emerging on the independent music scene, amioprenova has developed a distinctive voice characterized by layered synth textures, field recordings, and carefully crafted rhythmic elements. Their approach to composition prioritizes atmosphere and emotional resonance, creating music that serves as both background meditation and foreground narrative.
         </p>
-        <p>
+        <p class="text-text-primary">
           With performances ranging from intimate listening rooms to festival stages, amioprenova continues to push the boundaries of electronic music while maintaining accessibility and emotional depth. Their work has been featured on independent radio stations and curated playlists, building a dedicated audience of listeners who appreciate thoughtful, atmospheric electronic music.
         </p>
       </div>
@@ -41,22 +45,18 @@ import { siteConfig } from '../../config/site';
     <section class="mb-12">
       <div class="grid md:grid-cols-2 gap-8">
         <div>
-          <h2 class="text-2xl font-semibold mb-4">Genre</h2>
+          <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Genre</h2>
           <div class="flex flex-wrap gap-2">
             {siteConfig.genres.map((genre) => (
-              <span class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full text-sm">
-                {genre}
-              </span>
+              <Badge>{genre}</Badge>
             ))}
           </div>
         </div>
         <div>
-          <h2 class="text-2xl font-semibold mb-4">Recommended If You Like</h2>
+          <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Recommended If You Like</h2>
           <div class="flex flex-wrap gap-2">
             {siteConfig.riylTags.map((artist) => (
-              <span class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full text-sm">
-                {artist}
-              </span>
+              <Badge>{artist}</Badge>
             ))}
           </div>
         </div>
@@ -65,67 +65,65 @@ import { siteConfig } from '../../config/site';
 
     <!-- Key Links -->
     <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4">Links</h2>
+      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Links</h2>
       <div class="grid md:grid-cols-2 gap-4">
-        <a href={siteConfig.baseUrl} class="text-blue-600 hover:underline">Official Website</a>
-        <a href={siteConfig.bandcampUrl} class="text-blue-600 hover:underline">Bandcamp</a>
-        <a href={siteConfig.spotifyUrl} class="text-blue-600 hover:underline">Spotify</a>
-        <a href={siteConfig.youtubeUrl} class="text-blue-600 hover:underline">YouTube</a>
-        <a href={siteConfig.instagramUrl} class="text-blue-600 hover:underline">Instagram</a>
-        <a href={siteConfig.facebookUrl} class="text-blue-600 hover:underline">Facebook</a>
+        <a href={siteConfig.baseUrl} class="text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors">Official Website</a>
+        <a href={siteConfig.bandcampUrl} class="text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors">Bandcamp</a>
+        <a href={siteConfig.spotifyUrl} class="text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors">Spotify</a>
+        <a href={siteConfig.youtubeUrl} class="text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors">YouTube</a>
+        <a href={siteConfig.instagramUrl} class="text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors">Instagram</a>
+        <a href={siteConfig.facebookUrl} class="text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors">Facebook</a>
       </div>
     </section>
 
     <!-- Downloads -->
     <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4">Downloads</h2>
-      <div class="bg-gray-100 rounded-lg p-6">
-        <div class="space-y-4">
+      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Downloads</h2>
+      <Card padding="lg" class="bg-surface-muted">
+        <div class="space-y-6">
           <div>
-            <h3 class="font-semibold mb-2">Press Photos</h3>
-            <ul class="space-y-2">
+            <h3 class="font-semibold text-text-primary mb-3">Press Photos</h3>
+            <div class="space-y-2">
               {siteConfig.pressAssets.photos.map((photo) => (
-                <li>
-                  <a href={photo} download class="text-blue-600 hover:underline flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Press Photo (High Resolution)
-                  </a>
-                </li>
+                <Button variant="secondary" href={photo} target="_blank" rel="noopener noreferrer" class="w-full justify-start">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Press Photo (High Resolution)
+                </Button>
               ))}
-            </ul>
+            </div>
           </div>
           <div>
-            <h3 class="font-semibold mb-2">Logo</h3>
-            <a href={siteConfig.pressAssets.logo} download class="text-blue-600 hover:underline flex items-center">
+            <h3 class="font-semibold text-text-primary mb-3">Logo</h3>
+            <Button variant="secondary" href={siteConfig.pressAssets.logo} target="_blank" rel="noopener noreferrer" class="w-full justify-start">
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
               Official Logo (PNG)
-            </a>
+            </Button>
           </div>
           <div>
-            <h3 class="font-semibold mb-2">Technical Rider</h3>
-            <a href={siteConfig.pressAssets.techRider} download class="text-blue-600 hover:underline flex items-center">
+            <h3 class="font-semibold text-text-primary mb-3">Technical Rider</h3>
+            <Button variant="secondary" href={siteConfig.pressAssets.techRider} target="_blank" rel="noopener noreferrer" class="w-full justify-start">
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
               Technical Rider (PDF)
-            </a>
+            </Button>
           </div>
         </div>
-      </div>
+      </Card>
     </section>
 
     <!-- Contact -->
     <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4">Press Contact</h2>
-      <p class="text-lg">
+      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Press Contact</h2>
+      <p class="text-lg text-text-primary">
         For press inquiries, interviews, and media requests, please contact:{' '}
         <a
           href={`mailto:${siteConfig.pressEmail}?subject=Press%20Inquiry`}
-          class="text-blue-600 hover:underline font-semibold"
+          class="text-accent-primary hover:text-accent-primary-hover hover:underline font-semibold transition-colors"
         >
           Press Contact
         </a>

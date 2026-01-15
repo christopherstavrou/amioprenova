@@ -10,6 +10,7 @@
   --color-bg: #F7F4F0;
   --color-surface: #FFFFFF;
   --color-surface-muted: #F7F4F0;
+  --color-surface-elevated: #FFFFFF;
 
   /* Text */
   --color-text-primary: #1F1F1F;
@@ -24,6 +25,7 @@
   /* Borders & Dividers */
   --color-border: #E5E5E5;
   --color-border-light: #F0F0F0;
+  --color-border-focus: #8B1C3B;
 
   /* Shadows */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -47,6 +49,7 @@
     --color-bg: #0B0B0B;
     --color-surface: #1C1C1C;
     --color-surface-muted: #151515;
+    --color-surface-elevated: #242424;
 
     /* Text */
     --color-text-primary: #F5F5F5;
@@ -61,6 +64,7 @@
     /* Borders & Dividers */
     --color-border: #2A2A2A;
     --color-border-light: #222222;
+    --color-border-focus: #8B1C3B;
 
     /* Shadows - lighter shadows for dark mode */
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);

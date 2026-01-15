@@ -1,5 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Card from '../../components/Card.astro';
+import Button from '../../components/Button.astro';
 import { siteConfig } from '../../config/site';
 
 // Booking mailto template
@@ -49,39 +52,39 @@ const pressMailto = `mailto:${siteConfig.pressEmail}?subject=${pressSubject}&bod
   description="Get in touch with amioprenova for booking inquiries, press requests, and general questions. Contact via email."
   lang="en"
 >
-  <div class="max-w-2xl">
-    <h1 class="text-4xl font-bold mb-8">Contact</h1>
+  <PageHeader title="Contact" />
 
-    <p class="text-lg text-gray-600 mb-8">
+  <div class="max-w-2xl mx-auto">
+    <p class="text-lg text-text-secondary mb-12">
       Get in touch for bookings, press inquiries, or general questions.
     </p>
 
-    <div class="grid gap-6 sm:grid-cols-2">
-      <a
-        href={bookingMailto}
-        class="block border-2 border-gray-900 rounded-lg p-6 hover:bg-gray-900 hover:text-white transition-colors group"
-      >
-        <h2 class="text-2xl font-bold mb-2">Booking</h2>
-        <p class="text-sm text-gray-600 group-hover:text-gray-200">
+    <div class="grid gap-6 sm:grid-cols-2 mb-12">
+      <Card hover={true} class="text-center">
+        <h2 class="font-serif text-2xl font-bold text-text-primary mb-2">Booking</h2>
+        <p class="text-sm text-text-secondary mb-6">
           Inquire about performances, concerts, and appearances
         </p>
-      </a>
+        <Button variant="primary" href={bookingMailto} class="w-full">
+          Send Booking Inquiry
+        </Button>
+      </Card>
 
-      <a
-        href={pressMailto}
-        class="block border-2 border-gray-900 rounded-lg p-6 hover:bg-gray-900 hover:text-white transition-colors group"
-      >
-        <h2 class="text-2xl font-bold mb-2">Press</h2>
-        <p class="text-sm text-gray-600 group-hover:text-gray-200">
+      <Card hover={true} class="text-center">
+        <h2 class="font-serif text-2xl font-bold text-text-primary mb-2">Press</h2>
+        <p class="text-sm text-text-secondary mb-6">
           Media inquiries, interviews, and press materials
         </p>
-      </a>
+        <Button variant="primary" href={pressMailto} class="w-full">
+          Send Press Inquiry
+        </Button>
+      </Card>
     </div>
 
-    <div class="mt-12 p-6 bg-gray-50 rounded-lg">
-      <p class="text-sm text-gray-600">
+    <Card class="bg-surface-muted">
+      <p class="text-sm text-text-secondary text-center">
         Please allow 2-3 business days for a response. For urgent matters, please indicate so in your message.
       </p>
-    </div>
+    </Card>
   </div>
 </Layout>

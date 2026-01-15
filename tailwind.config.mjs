@@ -9,6 +9,7 @@ export default {
         bg: 'var(--color-bg)',
         surface: 'var(--color-surface)',
         'surface-muted': 'var(--color-surface-muted)',
+        'surface-elevated': 'var(--color-surface-elevated)',
         'text-primary': 'var(--color-text-primary)',
         'text-secondary': 'var(--color-text-secondary)',
         'text-inverse': 'var(--color-text-inverse)',
@@ -19,6 +20,7 @@ export default {
         },
         border: 'var(--color-border)',
         'border-light': 'var(--color-border-light)',
+        'border-focus': 'var(--color-border-focus)',
       },
       fontFamily: {
         sans: ['Inter', 'Open Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],

@@ -31,6 +31,27 @@ When the browser or operating system is set to dark mode, the site should automa
 
 The primary and secondary colours remain consistent across themes, but they may need slight adjustments in opacity or brightness to maintain contrast. Always test colour combinations using tools like the [WCAG contrast checker](https://webaim.org/resources/contrastchecker/) to ensure accessible contrast ratios in both light and dark modes.
 
+### Extended Colour Tokens
+
+In addition to the core palette above, the design system includes extended tokens for specific UI purposes:
+
+| Token | Light Mode | Dark Mode | Usage |
+|---|---|---|---|
+| Border | #E5E5E5 | #2A2A2A | Default borders for cards, inputs, dividers |
+| Border Light | #F0F0F0 | #222222 | Subtle dividers and separators |
+| Border Focus | #8B1C3B | #8B1C3B | Interactive element focus states (uses accent primary) |
+| Surface Muted | #F7F4F0 | #151515 | Slightly darker/lighter than main surface for subtle contrast |
+| Surface Elevated | #FFFFFF | #242424 | For dropdown menus, modals, tooltips that need to appear above other content |
+
+### Link Colour Convention
+
+All text links should use the **Primary burgundy** (`#8B1C3B`) colour with an appropriate hover state:
+- **Default state**: `text-accent-primary`
+- **Hover state**: `text-accent-primary-hover` (darkens to `#771830` in light mode, lightens to `#A52344` in dark mode)
+- **Visited links**: Same as default (no special visited state for brand consistency)
+
+Do not use blue (`#0000FF` or similar) for links, as this deviates from the warm, sophisticated palette. The burgundy accent is distinctive enough to indicate interactivity while maintaining brand cohesion.
+
 ## Typography
 
 **Display font**: Playfair Display or Merriweather. These serif faces convey elegance and sophistication suitable for jazz. Use them for headings, hero statements and pull quotes. Headings should be bold.
