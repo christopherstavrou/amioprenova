@@ -1,317 +1,211 @@
 # amioprenova
 
-Official website for amioprenova - a static musician website built with Astro.
+Official website for jazz vocalist **Ami Oprenova** — a static site built with Astro, Tailwind CSS, and TypeScript. Multilingual (English + Bulgarian), deployed via Cloudflare Pages.
 
-## Overview
-
-This is a static website that serves as the online presence for the musician amioprenova. It features:
-- Multilingual support (English and Bulgarian)
-- Blog/News system with Markdown files
-- Event listings
-- Contact forms via mailto links
-- Social media integration
+---
 
 ## Development
 
 ### Prerequisites
 
-- Node.js (v18 or later recommended)
+- Node.js v18 or later
 - npm
 
-### Getting Started
+### Commands
 
+| Command | Purpose |
+|---------|---------|
+| `npm install` | Install dependencies |
+| `npm run dev` | Development server at `http://localhost:4321` |
+| `npm run build` | Production build → `dist/` |
+| `npm run preview` | Preview the production build locally |
+| `npx astro check` | TypeScript type checking (0 errors expected) |
+
+**Always run `npm run build` before committing.** The build must pass with 0 errors.
+
+### Testing Light/Dark Mode
+
+1. Open `http://localhost:4321/en` in Chrome
+2. Open DevTools (`F12`) → More tools → Rendering
+3. Toggle `prefers-color-scheme` between `light` and `dark`
+4. Verify all colors and text adapt correctly
+
+### Troubleshooting
+
+**Port already in use:**
 ```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+lsof -ti:4321 | xargs kill -9
+# or run on a different port:
+npm run dev -- --port 3000
 ```
 
-The development server will run at `http://localhost:4321`
+**Build fails with TypeScript errors:**
+1. Read the error message and line number
+2. Run `npx astro check` for detailed diagnostics
+3. Fix the type annotation or prop definition
+4. Re-run `npm run build`
 
-## Blog / News System
+**Changes not showing in browser:**
+- Hard refresh: `Ctrl+Shift+R` (Windows/Linux) or `Cmd+Shift+R` (Mac)
+- Stop the dev server (`Ctrl+C`) and restart with `npm run dev`
 
-### How it Works
+**`git push` returns HTTP 403:**
+- Ensure your branch name starts with `claude/` (required by branch protection rules)
 
-The blog system uses Markdown files that are processed at build time. When you create a new `.md` file in the blog folder, it automatically becomes a published post on the next build.
+---
 
-**Important: There is no draft system.** If a Markdown file exists, it's published.
+## Content Management
 
-### Adding a New Blog Post
+### Blog Posts
 
-Follow these steps to add a new blog post:
+Blog posts are Markdown files. When a file exists, it is published — there is no draft system.
 
-1. **Create a new Markdown file** in the appropriate language folder:
-   - English posts: `src/content/blog/en/your-post-name.md`
-   - Bulgarian posts: `src/content/blog/bg/your-post-name.md`
-
-2. **Add required frontmatter** at the top of the file:
+**Add a post:**
+1. Create `src/content/blog/en/your-post-name.md` (and `/bg/` for Bulgarian)
+2. Add required frontmatter:
    ```markdown
    ---
-   title: "Your Post Title"
-   description: "A brief description for SEO and previews (150-160 characters)"
-   pubDate: "2026-01-13"
+   title: "Post Title"
+   description: "150–160 character description for SEO"
+   pubDate: "2026-01-15"
    tags: ["music", "announcement"]
    ---
 
-   Your post content goes here in Markdown format.
-
-   ## You can use headings
-
-   - And bullet points
-   - Like this
-
-   **Bold text** and *italic text* are supported.
+   Post content in Markdown.
    ```
+3. Run `npm run build` — post is live at `/en/news/your-post-name`
 
-3. **Save the file** - the filename (without `.md`) becomes the URL slug
+**Delete a post:** Remove the Markdown file and rebuild.
 
-4. **Rebuild the site**:
-   ```bash
-   npm run build
-   ```
+Posts are paginated (6 per page), sorted newest-first. Search index is generated at build time.
 
-5. **The post is now published** at:
-   - English: `/en/news/your-post-name`
-   - Bulgarian: `/bg/news/your-post-name`
+---
 
-### Required Frontmatter Fields
+### About Page
 
-Every blog post MUST include:
+Edit `src/content/pages/en/about.md` (and `/bg/`) with this frontmatter:
 
-- `title` - The post title
-- `description` - Brief description for SEO
-- `pubDate` - Publication date in ISO format (YYYY-MM-DD)
-- `tags` - (Optional) Array of tags like `["music", "tour"]`
+```yaml
+---
+title: "About Ami Oprenova"
+description: "SEO description"
+image: "https://..."   # Portrait image URL
+---
+```
 
-### Example Posts
+Body content is Markdown. Rebuild to see changes.
 
-Example blog posts can be found in `src/content/blog/en/`. You can use these as templates for new posts.
+---
 
-### Deleting a Post
+### Music Releases
 
-To remove a blog post:
-1. Delete the Markdown file from `src/content/blog/en/` or `src/content/blog/bg/`
-2. Rebuild the site with `npm run build`
-3. The post will no longer appear
+Edit `src/data/releases.json`. Each release:
 
-### Pagination
+```json
+{
+  "id": "album-name",
+  "title": "Album Title",
+  "year": 2026,
+  "description": "Album description",
+  "bandcampUrl": "https://...",
+  "spotifyUrl": "https://...",
+  "appleMusicUrl": "https://...",
+  "coverImage": "https://placehold.co/600x600/...",
+  "featured": false
+}
+```
 
-- Blog posts are paginated automatically (6 posts per page)
-- Pagination is generated at build time
-- URLs: `/en/news/`, `/en/news/page/2/`, etc.
-- Posts are sorted newest-first by publication date
+Set `"featured": true` on one release to feature it on the Home and Music pages. Cover images should be 600×600px square.
 
-### Search Functionality
+---
 
-- Search is client-side and lightweight
-- A search index is generated at build time (`/search-index.json`)
-- Visitors can search posts by title, description, or tags
-- No server required for search functionality
+### Videos
 
-## About Page Content
+Edit `src/data/videos.json`. Each video:
 
-The About page content is managed through Markdown files in the pages Content Collection.
+```json
+{
+  "id": "video-id",
+  "title": "Video Title",
+  "youtubeUrl": "https://youtube.com/watch?v=...",
+  "thumbnail": "https://placehold.co/640x360/...",
+  "date": "2026-01-15",
+  "description": "Video description",
+  "featured": false
+}
+```
 
-### Updating About Page
+Set `"featured": true` on one video to feature it on the Home and Video pages. Thumbnails should be 16:9 (640×360px).
 
-1. **Edit the About content**:
-   - English: `src/content/pages/en/about.md`
-   - Bulgarian: `src/content/pages/bg/about.md`
+---
 
-2. **Frontmatter fields**:
-   ```yaml
-   ---
-   title: "About Ami Oprenova"
-   description: "Brief description for SEO"
-   image: "https://placehold.co/800x800/..."  # Portrait image URL
-   ---
-   ```
+### Shows / Events
 
-3. **Body content**: Write your biography in Markdown below the frontmatter
+Edit `src/data/events.json`. Rebuild to update the Shows page.
 
-4. **Rebuild**: Run `npm run build` to see changes
+---
 
-## Music / Releases
+### Press Assets
 
-Releases are managed through a JSON data file at `src/data/releases.json`.
+Store press materials in `public/press/`:
 
-### Adding a New Release
+```
+public/press/
+├── press-photo-1.jpg    # High-resolution press photo
+├── logo.png             # Official logo
+└── tech-rider.pdf       # Technical rider
+```
 
-1. **Open `src/data/releases.json`**
+Update `pressAssets` in `src/config/site.ts` after adding new photos.
 
-2. **Add a new release object**:
-   ```json
-   {
-     "id": "album-name",
-     "title": "Album Title",
-     "year": 2026,
-     "description": "Album description text",
-     "bandcampUrl": "https://...",
-     "spotifyUrl": "https://...",
-     "appleMusicUrl": "https://...",
-     "coverImage": "https://placehold.co/600x600/...",
-     "featured": false
-   }
-   ```
+---
 
-3. **Featured releases**: Set `"featured": true` for one release to display it prominently on the Home and Music pages
+### Site Configuration
 
-4. **Cover images**: Use 600x600px square images. Replace placeholder URLs with real album artwork
+All external URLs and metadata are in `src/config/site.ts`. Update placeholder values before going live:
 
-5. **Rebuild**: Run `npm run build`
+- `baseUrl` — production domain
+- Social media URLs
+- Email addresses
+- Music platform URLs (Bandcamp, Spotify, Apple Music)
 
-### Removing a Release
-
-1. Delete the release object from `releases.json`
-2. Rebuild the site
-
-## Videos
-
-Videos are managed through a JSON data file at `src/data/videos.json`.
-
-### Adding a New Video
-
-1. **Open `src/data/videos.json`**
-
-2. **Add a new video object**:
-   ```json
-   {
-     "id": "video-id",
-     "title": "Video Title",
-     "youtubeUrl": "https://youtube.com/watch?v=...",
-     "thumbnail": "https://placehold.co/640x360/...",
-     "date": "2026-01-15",
-     "description": "Video description",
-     "featured": false
-   }
-   ```
-
-3. **Featured videos**: Set `"featured": true` for one video to display it prominently on the Home and Video pages
-
-4. **Thumbnails**: Use 16:9 aspect ratio (640x360px recommended). You can extract thumbnails from YouTube or use custom images
-
-5. **Rebuild**: Run `npm run build`
-
-### Removing a Video
-
-1. Delete the video object from `videos.json`
-2. Rebuild the site
+---
 
 ## File Structure
 
 ```
 src/
-├── content/
-│   ├── blog/
-│   │   ├── en/          # English blog posts
-│   │   └── bg/          # Bulgarian blog posts
-│   ├── pages/
-│   │   ├── en/          # English page content (About, etc.)
-│   │   └── bg/          # Bulgarian page content
-│   └── config.ts        # Content schema definition
-├── pages/
-│   ├── en/              # English page templates
-│   └── bg/              # Bulgarian page templates
-├── data/
-│   ├── events.json      # Event listings
-│   ├── releases.json    # Album/release data
-│   └── videos.json      # Video data
-├── layouts/
-│   └── Layout.astro     # Global layout with SEO
-└── config/
-    └── site.ts          # Site configuration
+├── content/blog/{en,bg}/    # Blog posts (Markdown)
+├── content/pages/{en,bg}/   # Page content, e.g. About (Markdown)
+├── pages/{en,bg}/           # Page templates (Astro)
+├── data/                    # events.json, releases.json, videos.json
+├── components/              # Reusable UI components
+├── layouts/Layout.astro     # Global layout with SEO
+├── config/site.ts           # Central site configuration
+└── styles/global.css        # CSS variables and design tokens
 ```
 
-## Configuration
-
-Site configuration is centralized in `src/config/site.ts`. Update placeholder URLs with real values:
-
-- `baseUrl` - Your production website URL
-- Social media links
-- Email addresses
-- External platform URLs
-
-## Press Assets
-
-### Location
-
-All press assets (photos, logo, tech rider) are stored in `public/press/`:
-
-```
-public/press/
-├── press-photo-1.jpg    # High-resolution press photo(s)
-├── logo.png             # Official logo
-└── tech-rider.pdf       # Technical rider PDF
-```
-
-### Replacing Press Assets
-
-To update press materials:
-
-1. **Press Photos**:
-   - Replace `public/press/press-photo-1.jpg` with your high-resolution press photo
-   - Add more photos by creating `press-photo-2.jpg`, etc.
-   - Update the `pressAssets.photos` array in `src/config/site.ts`:
-     ```typescript
-     pressAssets: {
-       photos: [
-         '/press/press-photo-1.jpg',
-         '/press/press-photo-2.jpg'  // Add new photos here
-       ],
-       // ...
-     }
-     ```
-
-2. **Logo**:
-   - Replace `public/press/logo.png` with your official logo (PNG format recommended)
-
-3. **Technical Rider**:
-   - Replace `public/press/tech-rider.pdf` with your actual technical rider PDF
-
-### Press Page Content
-
-To update the press page biography and metadata:
-
-1. **Bio Text**: Edit the content directly in the press page files:
-   - English: `src/pages/en/press.astro`
-   - Bulgarian: `src/pages/bg/press.astro`
-
-2. **Genres & RIYL Tags**: Update in `src/config/site.ts`:
-   ```typescript
-   genres: ['Electronic', 'Ambient', 'Experimental'],
-   riylTags: ['Artist Name 1', 'Artist Name 2', 'Artist Name 3'],
-   ```
-
-3. **External Links**: All press page links (social media, music platforms) come from `src/config/site.ts`. Update the placeholder URLs with real values.
+---
 
 ## Deployment
 
-This is a static site. After running `npm run build`, deploy the `dist/` folder to any static hosting service:
+This is a static site. Run `npm run build` and deploy the `dist/` folder to any static host:
 
-- Netlify
-- Vercel
-- GitHub Pages
-- CloudFlare Pages
-- AWS S3 + CloudFront
+- **Cloudflare Pages** (current target)
+- Netlify, Vercel, GitHub Pages, AWS S3 + CloudFront
 
-## Notes for Maintainers
+Before deploying, set `baseUrl` in `src/config/site.ts` to the production domain, then re-enable the sitemap in `astro.config.mjs`.
 
-- **No CMS**: Content is managed through Markdown files and Git
-- **No database**: Everything is static files
-- **Multilingual**: English is primary, Bulgarian is optional
-- **SEO**: All pages include proper meta tags for search engines
-- **Performance**: Minimal JavaScript, fast loading times
+---
 
-## Support
+## Documentation
 
-**Technical documentation**: See `CLAUDE.MD` in the repository root for project architecture, conventions, and development guidelines.
-
-**Design documentation**: See `DESIGN.md` for the complete visual design system, including colour palette, typography, layout standards, and component specifications. This is the primary reference for all styling decisions.
+| File | Audience | Purpose |
+|------|----------|---------|
+| `README.md` | Everyone | Content management, commands, deployment |
+| `CLAUDE.md` | AI agents | Entrypoint: hard rules, doc index |
+| `DESIGN.md` | Developers | Visual design system |
+| `docs/ai/workflow.md` | AI agents | Branch model, PR process |
+| `docs/ai/standards.md` | AI agents | Implementation conventions |
+| `docs/ai/decisions.md` | AI agents | Architectural decisions |
+| `docs/ai/progress.md` | AI agents | Session state: done / next |

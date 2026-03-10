@@ -2,7 +2,7 @@
 
 **Visual Reference**: This design is based on a provided reference image that serves as the primary styling source of truth. All implementation decisions should align with the visual aesthetic shown in that reference.
 
-This design guide defines the visual language and component rules for the official website of jazz artist **Ami Oprenova** (note: spelled with one "p" in Oprenova). It is intended to be a reference for developers and content editors so the site remains cohesive and polished as it grows.
+This design guide defines the visual language and component rules for the official website of jazz artist **Ami Oprenova**. It is intended to be a reference for developers and content editors so the site remains cohesive and polished as it grows.
 
 ## Colour Palette
 
@@ -15,6 +15,7 @@ This design guide defines the visual language and component rules for the offici
 | Text Primary | #1F1F1F | Main body copy on light backgrounds. |
 | Text Inverse | #FFFFFF | Text on dark backgrounds or accent blocks. |
 | Neutral Grey | #9A9A9A | Secondary text, borders, muted notes. |
+| Logo Text | #1F1F1F | Title with ID "logo-title" and text with class "logo-text"|
 
 Use the primary colour sparingly to draw attention to interactive elements (buttons, links) and avoid overusing it in large backgrounds. The secondary gold brings warmth and works well for subtle separators or icon accents.
 
@@ -28,11 +29,12 @@ The dark theme uses a warm, sophisticated palette with **gold as a prominent acc
 | Dark Surface | #1A1816 | Cards and elevated elements; warmer than pure gray. |
 | Dark Surface Muted | #121110 | Slightly darker than base for subtle depth differences. |
 | Dark Surface Elevated | #221F1D | Dropdowns, modals, tooltips that need to stand above content. |
-| Primary (dark) | #8B1C3B | Burgundy accent for CTAs and buttons; consistent with light mode. |
+| Primary (dark) | #F5F5F5 | Burgundy accent for CTAs and buttons; consistent with light mode. |
 | Secondary Gold | #D4AF37 | **Gold accent used prominently for headings, section titles, and highlights.** |
 | Text Heading | #D4AF37 | **All H1-H6 headings use gold color** for visual warmth and brand distinction. |
 | Text Primary (dark) | #F5F5F5 | Main body copy; off-white for comfortable reading. |
 | Text Secondary (dark) | #B3B3B3 | Subdued text and metadata; ensures hierarchy. |
+| Logo Text (dark) | #F5F5F5 | Title with ID "logo-title" and text with class "logo-text"|
 | Border | #2D2926 | Warm-toned borders instead of flat grays. |
 | Border Light | #252320 | Subtle dividers with warm undertones. |
 

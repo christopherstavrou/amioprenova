@@ -95,19 +95,23 @@ This document records key decisions made during the project's development.
 
 ## Design System Decisions
 
-### Automatic Light/Dark Mode (No Manual Toggle)
+### Theme Switching via data-theme with Cookie Persistence
 
-**Decision**: Theme switching is automatic based on user's OS/browser preference (`prefers-color-scheme`). No manual theme toggle in V1.
+**Decision**: Theme switching uses a `data-theme` attribute on `<html>`, toggled by a sun/moon button in the header. Preference is stored in a `site_theme` cookie (365-day expiry). First visit defaults to system preference via `prefers-color-scheme`.
 
 **Rationale**:
-- Simplicity: No UI for theme selection, no localStorage persistence
-- Standards-aligned: Respects user's system-wide preference
-- Zero JavaScript: Works purely with CSS media queries
-- Accessibility: Users with visual preferences get their preferred theme automatically
+- Cookie-based persistence works server-side and survives page navigation
+- `data-theme` attribute allows instant switching without page reload
+- An inline `<script>` in `<head>` applies the theme before first paint, preventing FOUC
+- Manual toggle respects user intent while still honoring system preference on first visit
+
+**Cookie names**:
+- `site_theme`: `"light"` or `"dark"`
+- `site_lang`: `"en"` or `"bg"`
 
 **Status**: ✅ Implemented
 
-**Future consideration**: Add manual toggle if user feedback requests it
+**Date**: 2026-01-15
 
 ---
 
@@ -263,24 +267,6 @@ This document records key decisions made during the project's development.
 
 ---
 
-## Open Questions
-
-Questions that need answers before proceeding:
-
-1. **Real URLs**: When will the artist provide real external URLs (Bandcamp, social media, email addresses)?
-
-2. **Press assets**: When will high-resolution press photos, logos, and technical rider be available?
-
-3. **Domain name**: What will the production domain be? (Needed for SEO, sitemap, social meta tags)
-
-4. **Google Calendar integration**: Should future event management pull from a Google Calendar? If so, which calendar?
-
-5. **Analytics**: Does the artist want analytics tracking? If so, which tool? (Google Analytics, Plausible, Fathom, none?)
-
-6. **Newsletter platform**: Mailchimp is currently used. Is this the final choice? Placeholder URL needs replacement.
-
----
-
 ## Non-Negotiable Constraints (V1)
 
 These are hard limits that MUST NOT be violated in V1:
@@ -293,25 +279,4 @@ These are hard limits that MUST NOT be violated in V1:
 6. **Content-driven multilingual** - No inline translation logic in pages
 7. **Design.md compliance** - All styling must reference DESIGN.md
 
----
 
-## Decision Log Template
-
-When documenting new decisions, use this template:
-
-```markdown
-### [Decision Title]
-
-**Decision**: [One-sentence summary]
-
-**Rationale**:
-- [Reason 1]
-- [Reason 2]
-
-**Constraints** (if any):
-- [Constraint 1]
-
-**Status**: [✅ Implemented | 🟡 In Progress | ⏸️ Paused | ❌ Rejected]
-
-**Date**: YYYY-MM-DD
-```
