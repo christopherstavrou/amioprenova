@@ -57,4 +57,4 @@ jobs:
           claude_args: |
             --max-turns 10
             --allowedTools "Bash(npm install),Bash(npm run build),Bash(npm run dev),Bash(npx astro check),Read,Write,Edit,Glob,Grep,WebFetch,WebSearch"
-            --append-system-prompt "Always branch from develop using claude/<feature-name>. PRs target develop only. Run npm run build before committing. No hardcoded hex colors — use Tailwind tokens. Read docs/ai/progress.md at the start of every task."
+            --system-prompt "Always branch from develop using claude/<feature-name>. PRs target develop only. Run npm run build before committing. No hardcoded hex colors — use Tailwind tokens. Read docs/ai/progress.md at the start of every task."
