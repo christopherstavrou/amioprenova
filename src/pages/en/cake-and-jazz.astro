@@ -1,0 +1,78 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
+import Card from '../../components/Card.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import cakeAndJazz from '../../data/cake-and-jazz.json';
+---
+
+<Layout
+  title="Cake & Jazz - amioprenova"
+  description="Cake & Jazz is a unique event series by Ami Oprenova combining live jazz performance with the finest artisan cakes. Explore the albums and relive the memories."
+  lang="en"
+>
+  <div class="max-w-5xl mx-auto">
+    <PageHeader title="Cake & Jazz" align="center" class="mb-6" />
+
+    <!-- Introduction -->
+    <p class="text-lg text-text-secondary text-center max-w-2xl mx-auto mb-16 leading-relaxed">
+      A unique concept where live jazz meets the finest artisan cakes. Each edition brings together
+      music, flavour, and community for an unforgettable evening of sensory delight.
+    </p>
+
+    <!-- Featured Video -->
+    <section class="mb-20">
+      <SectionHeader title="Watch" class="mb-8" />
+      <div class="max-w-4xl mx-auto">
+        <a
+          href={cakeAndJazz.video.youtubeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block relative group rounded-lg overflow-hidden shadow-lg"
+        >
+          <img
+            src={cakeAndJazz.video.thumbnail}
+            alt={cakeAndJazz.video.title}
+            class="w-full"
+          />
+          <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 group-hover:bg-opacity-50 transition-opacity">
+            <svg class="w-24 h-24 text-text-inverse" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </a>
+        <p class="mt-4 text-center text-text-secondary">{cakeAndJazz.video.title}</p>
+      </div>
+    </section>
+
+    <!-- Albums -->
+    <section>
+      <SectionHeader title="Editions" class="mb-8" />
+      <div class="space-y-6">
+        {cakeAndJazz.albums.map(album => (
+          <Card padding="none" hover={true} class="overflow-hidden">
+            <div class="flex flex-col md:flex-row">
+              <div class="md:w-64 lg:w-80 flex-shrink-0">
+                <img
+                  src={album.image}
+                  alt={album.title}
+                  class="w-full h-48 md:h-full object-cover"
+                />
+              </div>
+              <div class="flex flex-col justify-center p-6 lg:p-8 gap-4">
+                <h3 class="font-serif text-2xl font-bold">{album.title}</h3>
+                <p class="text-text-secondary leading-relaxed">{album.description}</p>
+                <div>
+                  <Button href={album.albumUrl} variant="primary">
+                    View Album
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>

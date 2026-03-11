@@ -1,0 +1,30 @@
+{
+  "video": {
+    "youtubeUrl": "https://youtube.com/watch?v=example-cake-jazz",
+    "thumbnail": "https://placehold.co/1280x720/8B1C3B/FFFFFF?text=Cake+%26+Jazz+Live",
+    "title": "Cake & Jazz — Live Session"
+  },
+  "albums": [
+    {
+      "id": "cake-jazz-vol-3",
+      "title": "Cake & Jazz Vol. 3",
+      "image": "https://placehold.co/600x400/8B1C3B/FFFFFF?text=Cake+%26+Jazz+Vol.3",
+      "description": "The third edition of Cake & Jazz brought together the finest patisseries of Sofia alongside an evening of intimate jazz. A magical night of music, flavour, and connection.",
+      "albumUrl": "#"
+    },
+    {
+      "id": "cake-jazz-vol-2",
+      "title": "Cake & Jazz Vol. 2",
+      "image": "https://placehold.co/600x400/CDA34A/1F1F1F?text=Cake+%26+Jazz+Vol.2",
+      "description": "Building on the success of the first edition, Vol. 2 expanded to a larger venue and featured guest musicians from across Europe. An unforgettable evening of sweet melodies.",
+      "albumUrl": "#"
+    },
+    {
+      "id": "cake-jazz-vol-1",
+      "title": "Cake & Jazz Vol. 1",
+      "image": "https://placehold.co/600x400/1F1F1F/CDA34A?text=Cake+%26+Jazz+Vol.1",
+      "description": "Where it all began. The first Cake & Jazz event was an intimate gathering that combined artisan cakes with live jazz performance. A concept born from a love of two great pleasures.",
+      "albumUrl": "#"
+    }
+  ]
+}
