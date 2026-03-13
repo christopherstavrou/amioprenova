@@ -10,16 +10,16 @@ import '../styles/global.css';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ami Oprenova — Jazz Vocalist</title>
-    <meta name="description" content="Ami Oprenova is a jazz vocalist based in Bulgaria. Listen on Bandcamp, follow on Instagram and Facebook." />
+    <meta name="description" content="World class Bulgarian-British jazz vocalist and composer. Ami Oprenova mesmerises audiences around the world with her energy, pure style, and extraordinary scat singing." />
     <link rel="canonical" href="https://amioprenova.com/" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://amioprenova.com/" />
-    <meta property="og:title" content="Ami Oprenova — Jazz Vocalist" />
-    <meta property="og:description" content="Ami Oprenova is a jazz vocalist based in Bulgaria." />
+    <meta property="og:title" content="Ami Oprenova — Jazz Vocalist &amp; Composer" />
+    <meta property="og:description" content="World class Bulgarian-British jazz vocalist and composer. Mesmerising audiences around the world with extraordinary scat singing and pure style." />
     <meta property="og:site_name" content="amioprenova" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Ami Oprenova — Jazz Vocalist" />
-    <meta name="twitter:description" content="Ami Oprenova is a jazz vocalist based in Bulgaria." />
+    <meta name="twitter:title" content="Ami Oprenova — Jazz Vocalist &amp; Composer" />
+    <meta name="twitter:description" content="World class Bulgarian-British jazz vocalist and composer. Mesmerising audiences around the world with extraordinary scat singing and pure style." />
   </head>
   <body>
     <main>
@@ -27,11 +27,23 @@ import '../styles/global.css';
         <div class="ornament" aria-hidden="true">♩ ♪ ♫</div>
 
         <h1>Ami Oprenova</h1>
-        <p class="tagline">Jazz Vocalist</p>
+        <p class="tagline">World class Bulgarian-British jazz vocalist and composer</p>
+
+        <blockquote class="quote">
+          "Improvising is my way of expressing myself. The only time I feel truly alive and able to breathe in all that life has to offer."
+        </blockquote>
 
         <p class="bio">
-          Based in Bulgaria, Ami Oprenova brings a contemporary perspective to jazz vocals —
-          blending classic standards with modern sensibility.
+          For Ami Oprenova scatting isn't just a generic technique but a way of life. By opening
+          herself to the unknown and taking a journey of incredible musicianship, Ami has been
+          mesmerising audiences around the world with her energy and pure style. From a childhood
+          of violin virtuoso, composing and conducting, to becoming an exceptional jazz performer
+          and leader — Ami Oprenova has remarkable achievements behind her.
+        </p>
+
+        <p class="press-quote">
+          "Oprenova's rousing scat singing is full of excellent technical mastery with incredible falsetto…"
+          <cite>— Italia in Jazz ★★★★★</cite>
         </p>
 
         <nav class="links" aria-label="Social links">
@@ -132,19 +144,46 @@ import '../styles/global.css';
 
       .tagline {
         font-family: 'Playfair Display', Georgia, serif;
-        font-size: clamp(1rem, 3vw, 1.25rem);
+        font-size: clamp(0.875rem, 2.5vw, 1.0625rem);
         color: #B3B3B3;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
+        letter-spacing: 0.05em;
         margin-bottom: 2rem;
       }
 
+      .quote {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: clamp(1rem, 2.5vw, 1.125rem);
+        font-style: italic;
+        color: #D4AF37;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        padding: 0 0.5rem;
+        border: none;
+      }
+
       .bio {
-        font-size: 1rem;
+        font-size: 0.9375rem;
         color: #B3B3B3;
-        line-height: 1.7;
+        line-height: 1.75;
+        margin-bottom: 1.5rem;
+        padding: 0 0.5rem;
+        text-align: left;
+      }
+
+      .press-quote {
+        font-size: 0.875rem;
+        color: #888;
+        font-style: italic;
+        line-height: 1.6;
         margin-bottom: 3rem;
         padding: 0 0.5rem;
+      }
+
+      .press-quote cite {
+        display: block;
+        font-style: normal;
+        margin-top: 0.375rem;
+        color: #666;
       }
 
       .links {
