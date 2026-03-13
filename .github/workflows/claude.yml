@@ -50,6 +50,10 @@ jobs:
           # Store result as repository secret CLAUDE_CODE_OAUTH_TOKEN.
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
 
+          # Stable branch name per issue/PR — no timestamp, so repeated runs
+          # on the same issue push to the same branch instead of creating new ones.
+          branch_name_template: "{{prefix}}{{entityType}}-{{entityNumber}}"
+
           # Tool permissions and turn limit.
           # mcp__github_comment__* tools are granted automatically by the action.
           claude_args: --max-turns 80 --allowedTools Bash,Read,Write,Edit,Glob,Grep,WebFetch,WebSearch,Agent,TodoWrite
