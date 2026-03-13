@@ -54,5 +54,5 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ steps.app-token.outputs.token }}
-          claude_args: --max-turns 10 --allowedTools Bash,Read,Write,Edit,Glob,Grep,WebFetch,WebSearch
+          claude_args: --max-turns 80 --allowedTools Bash,Read,Write,Edit,Glob,Grep,WebFetch,WebSearch,Agent,TodoWrite,mcp__github_comment__update_claude_comment
           show_full_output: true
