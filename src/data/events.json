@@ -6,7 +6,7 @@
     "venue": "Open Air Stage",
     "city": "Sofia",
     "country": "Bulgaria",
-    "ticketUrl": "https://example.com/tickets/1",
+    "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=Sofia+Open+Air+Stage"
   },
   {
@@ -26,7 +26,7 @@
     "venue": "The Art Cafe",
     "city": "Varna",
     "country": "Bulgaria",
-    "ticketUrl": "https://example.com/tickets/3",
+    "ticketUrl": "",
     "mapUrl": ""
   },
   {
@@ -36,7 +36,7 @@
     "venue": "National Palace of Culture",
     "city": "Sofia",
     "country": "Bulgaria",
-    "ticketUrl": "https://example.com/tickets/4",
+    "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=Sofia+NDK"
   }
 ]

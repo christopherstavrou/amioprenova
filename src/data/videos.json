@@ -2,7 +2,7 @@
   {
     "id": "eternal-melody-official",
     "title": "Eternal Melody - Official Music Video",
-    "youtubeUrl": "https://youtube.com/watch?v=example1",
+    "youtubeUrl": "",
     "thumbnail": "https://placehold.co/640x360/8B1C3B/FFFFFF?text=Eternal+Melody+Video",
     "date": "2025-11-15",
     "description": "The official music video for the title track from Eternal Melody, filmed in Sofia's historic architecture.",
@@ -11,7 +11,7 @@
   {
     "id": "live-sofia-jazz-fest",
     "title": "Live at Sofia Jazz Festival 2024",
-    "youtubeUrl": "https://youtube.com/watch?v=example2",
+    "youtubeUrl": "",
     "thumbnail": "https://placehold.co/640x360/1F1F1F/CDA34A?text=Sofia+Jazz+Fest",
     "date": "2024-09-20",
     "description": "Full performance from Sofia Jazz Festival featuring classics and new material.",
@@ -20,7 +20,7 @@
   {
     "id": "midnight-sessions-acoustic",
     "title": "Midnight Sessions (Acoustic Performance)",
-    "youtubeUrl": "https://youtube.com/watch?v=example3",
+    "youtubeUrl": "",
     "thumbnail": "https://placehold.co/640x360/CDA34A/1F1F1F?text=Acoustic+Session",
     "date": "2024-06-10",
     "description": "Intimate acoustic rendition of tracks from Midnight Sessions, recorded in a historic Sofia venue.",
@@ -29,7 +29,7 @@
   {
     "id": "velvet-skies-behind-scenes",
     "title": "Velvet Skies - Behind the Scenes",
-    "youtubeUrl": "https://youtube.com/watch?v=example4",
+    "youtubeUrl": "",
     "thumbnail": "https://placehold.co/640x360/F7F4F0/8B1C3B?text=Behind+the+Scenes",
     "date": "2023-11-05",
     "description": "A look into the creative process behind Velvet Skies, featuring studio footage and interview segments.",
@@ -38,7 +38,7 @@
   {
     "id": "first-light-debut",
     "title": "First Light - Album Launch Performance",
-    "youtubeUrl": "https://youtube.com/watch?v=example5",
+    "youtubeUrl": "",
     "thumbnail": "https://placehold.co/640x360/9A9A9A/FFFFFF?text=First+Light+Launch",
     "date": "2022-04-22",
     "description": "Highlights from the album launch event celebrating the release of First Light.",

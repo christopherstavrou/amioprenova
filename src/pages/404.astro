@@ -1,0 +1,138 @@
+---
+// 404 Not Found page
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page Not Found — Ami Oprenova</title>
+    <meta name="description" content="The page you are looking for could not be found." />
+    <meta name="robots" content="noindex" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --burgundy: #8B1C3B;
+        --gold: #CDA34A;
+        --cream: #F7F4F0;
+        --near-black: #1A1816;
+      }
+
+      html {
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body {
+        min-height: 100dvh;
+        background-color: var(--near-black);
+        color: var(--cream);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(139, 28, 59, 0.15) 0%, transparent 70%);
+      }
+
+      .number {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: clamp(5rem, 20vw, 8rem);
+        font-weight: 700;
+        color: var(--burgundy);
+        line-height: 1;
+        margin-bottom: 1rem;
+        opacity: 0.8;
+      }
+
+      h1 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: clamp(1.25rem, 4vw, 1.75rem);
+        font-weight: 400;
+        color: var(--cream);
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1rem;
+        color: rgba(247, 244, 240, 0.55);
+        max-width: 360px;
+        line-height: 1.7;
+        margin-bottom: 2.5rem;
+      }
+
+      .home-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.75rem;
+        background-color: var(--burgundy);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        transition: background-color 0.2s ease, transform 0.15s ease;
+      }
+
+      .home-link:hover {
+        background-color: #6B1530;
+        transform: translateY(-1px);
+      }
+
+      .rule {
+        width: 40px;
+        height: 1px;
+        background: var(--gold);
+        margin: 2rem auto 0;
+        opacity: 0.35;
+      }
+
+      footer {
+        margin-top: 3rem;
+        font-size: 0.8125rem;
+        color: rgba(247, 244, 240, 0.25);
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        main {
+          animation: fadeUp 0.6s ease both;
+        }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <p class="number">404</p>
+      <h1>Page Not Found</h1>
+      <p>The page you are looking for doesn't exist or may have moved.</p>
+      <a href="/" class="home-link">
+        ← Back to Home
+      </a>
+      <div class="rule" aria-hidden="true"></div>
+    </main>
+
+    <footer>
+      <p>&copy; {new Date().getFullYear()} Ami Oprenova</p>
+    </footer>
+  </body>
+</html>
