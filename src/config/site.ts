@@ -5,30 +5,30 @@ export const siteConfig = {
   // Site identity
   siteName: 'amioprenova',
   copyrightName: 'amioprenova',
-  baseUrl: 'https://example.com', // TODO: Replace with production URL
+  baseUrl: 'https://amioprenova.com',
   ogImage: '/og-default.png', // Default OpenGraph image
 
   // Contact emails
-  bookingEmail: 'booking@example.com', // TODO: Replace with real email
-  pressEmail: 'press@example.com', // TODO: Replace with real email
+  bookingEmail: 'amioprenova@gmail.com',
+  pressEmail: 'amioprenova@gmail.com',
 
   // Music platforms
-  bandcampUrl: 'https://amioprenova.bandcamp.com', // TODO: Replace with real Bandcamp URL
-  spotifyUrl: 'https://open.spotify.com/artist/example', // TODO: Replace with real Spotify URL
-  appleMusicUrl: 'https://music.apple.com/artist/example', // TODO: Replace with real Apple Music URL
-  youtubeUrl: 'https://youtube.com/@amioprenova', // TODO: Replace with real YouTube URL
+  bandcampUrl: 'https://amioprenova.bandcamp.com',
+  spotifyUrl: '', // TODO: Add when verified
+  appleMusicUrl: '', // TODO: Add when verified
+  youtubeUrl: '', // TODO: Add when verified
 
   // Social media
-  instagramUrl: 'https://instagram.com/amioprenova', // TODO: Replace with real Instagram URL
-  tiktokUrl: 'https://tiktok.com/@amioprenova', // TODO: Replace with real TikTok URL
-  facebookUrl: 'https://facebook.com/amioprenova', // TODO: Replace with real Facebook URL
+  instagramUrl: 'https://instagram.com/amioprenova',
+  tiktokUrl: '', // TODO: Add when verified
+  facebookUrl: 'https://www.facebook.com/amioprenovamusic/',
 
   // Monetization
-  donationUrl: 'https://ko-fi.com/amioprenova', // TODO: Replace with real Ko-fi or Buy Me a Coffee URL
-  ticketsPlatformUrl: 'https://eventbrite.com/o/amioprenova', // TODO: Replace with real Eventbrite/Tito URL
+  donationUrl: '', // TODO: Add when verified
+  ticketsPlatformUrl: '', // TODO: Add when verified
 
   // Newsletter
-  mailchimpSignupUrl: 'https://mailchimp.com/signup', // TODO: Replace with real Mailchimp signup form URL
+  mailchimpSignupUrl: '', // TODO: Add when verified
 
   // Press / Media Kit
   genres: ['Jazz', 'Vocal Jazz', 'Contemporary Jazz'], // TODO: Replace with actual genres
@@ -43,12 +43,12 @@ export const siteConfig = {
   affiliateLinks: [
     {
       label: 'Recommended Gear',
-      url: 'https://example.com/gear', // TODO: Replace with real affiliate link
+      url: '', // TODO: Replace with real affiliate link
       note: 'Equipment and tools I use',
     },
     {
       label: 'Music Production Software',
-      url: 'https://example.com/software', // TODO: Replace with real affiliate link
+      url: '', // TODO: Replace with real affiliate link
       note: 'Software recommendations',
     },
   ],
@@ -57,42 +57,42 @@ export const siteConfig = {
   linksPageLinks: [
     {
       label: 'Listen on Spotify',
-      url: 'https://open.spotify.com/artist/example', // TODO: Replace with real Spotify URL
+      url: '', // TODO: Add when verified
       category: 'music',
     },
     {
       label: 'Buy on Bandcamp',
-      url: 'https://amioprenova.bandcamp.com', // TODO: Replace with real Bandcamp URL
+      url: 'https://amioprenova.bandcamp.com',
       category: 'music',
     },
     {
       label: 'Watch on YouTube',
-      url: 'https://youtube.com/@amioprenova', // TODO: Replace with real YouTube URL
+      url: '', // TODO: Add when verified
       category: 'music',
     },
     {
       label: 'Instagram',
-      url: 'https://instagram.com/amioprenova', // TODO: Replace with real Instagram URL
+      url: 'https://instagram.com/amioprenova',
       category: 'social',
     },
     {
       label: 'TikTok',
-      url: 'https://tiktok.com/@amioprenova', // TODO: Replace with real TikTok URL
+      url: '', // TODO: Add when verified
       category: 'social',
     },
     {
       label: 'Facebook',
-      url: 'https://facebook.com/amioprenova', // TODO: Replace with real Facebook URL
+      url: 'https://www.facebook.com/amioprenovamusic/',
       category: 'social',
     },
     {
       label: 'Support Me',
-      url: 'https://ko-fi.com/amioprenova', // TODO: Replace with real donation URL
+      url: '', // TODO: Add when verified
       category: 'support',
     },
     {
       label: 'Get Tickets',
-      url: 'https://eventbrite.com/o/amioprenova', // TODO: Replace with real tickets URL
+      url: '', // TODO: Add when verified
       category: 'support',
     },
   ],

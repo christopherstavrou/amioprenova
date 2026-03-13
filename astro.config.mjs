@@ -3,7 +3,7 @@ import tailwind from '@astrojs/tailwind';
 // import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://example.com', // TODO: Replace with production URL
+  site: 'https://amioprenova.com',
   integrations: [tailwind()],
   output: 'static',
   // Note: Sitemap generation temporarily disabled due to build errors.
