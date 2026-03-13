@@ -1,4 +1,4 @@
-name: Claude with Custom GitHub App
+name: Claude Code
 
 on:
   issue_comment:
@@ -12,9 +12,9 @@ on:
 
 jobs:
   claude:
-    # Only OWNER, MEMBER, and COLLABORATOR can trigger Claude.
-    # author_association is set by GitHub based on repo permissions, so this
-    # automatically blocks public users even if the repo is made public.
+    # Security: only repo owners, org members, and invited collaborators can
+    # trigger Claude. author_association is set by GitHub from repo permissions,
+    # so public users are blocked automatically even if this repo is made public.
     if: |
       (github.event_name == 'issue_comment' &&
        contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association) &&
@@ -37,22 +37,19 @@ jobs:
       actions: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
-
-      - name: Generate GitHub App token
-        id: app-token
-        uses: actions/create-github-app-token@v2
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Run Claude Code
         id: claude
         uses: anthropics/claude-code-action@v1
         with:
+          # Authentication: Claude.ai Pro/Max via OAuth token.
+          # Generate with: claude setup-token
+          # Store result as repository secret CLAUDE_CODE_OAUTH_TOKEN.
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          github_token: ${{ steps.app-token.outputs.token }}
-          claude_args: --max-turns 80 --allowedTools Bash,Read,Write,Edit,Glob,Grep,WebFetch,WebSearch,Agent,TodoWrite,mcp__github_comment__update_claude_comment
-          show_full_output: true
+
+          # Tool permissions and turn limit.
+          # mcp__github_comment__* tools are granted automatically by the action.
+          claude_args: --max-turns 80 --allowedTools Bash,Read,Write,Edit,Glob,Grep,WebFetch,WebSearch,Agent,TodoWrite

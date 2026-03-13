@@ -48,6 +48,7 @@ Implementation conventions → `docs/ai/standards.md`
 | `docs/ai/workflow.md` | Process questions — branching, commits, PR format |
 | `docs/ai/standards.md` | Implementation questions — naming, structure, patterns |
 | `docs/ai/decisions.md` | Architecture questions — why things are built the way they are |
+| `docs/ai/github-integration.md` | GitHub Actions setup, secrets, triggering, troubleshooting |
 | `DESIGN.md` | Visual questions — colors, typography, component specs |
 | `README.md` | Content/data management, commands, deployment |
 
