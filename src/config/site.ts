@@ -9,26 +9,26 @@ export const siteConfig = {
   ogImage: '/og-default.png', // Default OpenGraph image
 
   // Contact emails
-  bookingEmail: '', // TODO: Replace with real booking email
-  pressEmail: '', // TODO: Replace with real press email
+  bookingEmail: 'amioprenova@gmail.com',
+  pressEmail: 'amioprenova@gmail.com',
 
   // Music platforms
-  bandcampUrl: 'https://amioprenova.bandcamp.com', // Verified
-  spotifyUrl: '', // TODO: Verify and add real Spotify artist URL
-  appleMusicUrl: '', // TODO: Verify and add real Apple Music URL
-  youtubeUrl: '', // TODO: Verify and add real YouTube channel URL
+  bandcampUrl: 'https://amioprenova.bandcamp.com',
+  spotifyUrl: '', // TODO: Add when verified
+  appleMusicUrl: '', // TODO: Add when verified
+  youtubeUrl: '', // TODO: Add when verified
 
   // Social media
-  instagramUrl: 'https://www.instagram.com/vocalistami/', // Verified (@vocalistami)
-  tiktokUrl: '', // TODO: Verify and add real TikTok URL
-  facebookUrl: 'https://www.facebook.com/amioprenovamusic/', // Verified
+  instagramUrl: 'https://instagram.com/amioprenova',
+  tiktokUrl: '', // TODO: Add when verified
+  facebookUrl: 'https://www.facebook.com/amioprenovamusic/',
 
   // Monetization
-  donationUrl: '', // TODO: Verify and add real Ko-fi or Buy Me a Coffee URL
-  ticketsPlatformUrl: '', // TODO: Verify and add real Eventbrite/Tito URL
+  donationUrl: '', // TODO: Add when verified
+  ticketsPlatformUrl: '', // TODO: Add when verified
 
   // Newsletter
-  mailchimpSignupUrl: '', // TODO: Replace with real Mailchimp signup form URL
+  mailchimpSignupUrl: '', // TODO: Add when verified
 
   // Press / Media Kit
   genres: ['Jazz', 'Vocal Jazz', 'Contemporary Jazz'], // TODO: Replace with actual genres
@@ -40,25 +40,60 @@ export const siteConfig = {
   },
 
   // Affiliate links (displayed on Support/Buy page)
-  affiliateLinks: [] as Array<{ label: string; url: string; note: string }>, // TODO: Add real affiliate links
+  affiliateLinks: [
+    {
+      label: 'Recommended Gear',
+      url: '', // TODO: Replace with real affiliate link
+      note: 'Equipment and tools I use',
+    },
+    {
+      label: 'Music Production Software',
+      url: '', // TODO: Replace with real affiliate link
+      note: 'Software recommendations',
+    },
+  ],
 
   // Links page (linktree-style hub)
   linksPageLinks: [
     {
+      label: 'Listen on Spotify',
+      url: '', // TODO: Add when verified
+      category: 'music',
+    },
+    {
       label: 'Buy on Bandcamp',
-      url: 'https://amioprenova.bandcamp.com', // Verified
+      url: 'https://amioprenova.bandcamp.com',
+      category: 'music',
+    },
+    {
+      label: 'Watch on YouTube',
+      url: '', // TODO: Add when verified
       category: 'music',
     },
     {
       label: 'Instagram',
-      url: 'https://www.instagram.com/vocalistami/', // Verified (@vocalistami)
+      url: 'https://instagram.com/amioprenova',
+      category: 'social',
+    },
+    {
+      label: 'TikTok',
+      url: '', // TODO: Add when verified
       category: 'social',
     },
     {
       label: 'Facebook',
-      url: 'https://www.facebook.com/amioprenovamusic/', // Verified
+      url: 'https://www.facebook.com/amioprenovamusic/',
       category: 'social',
     },
-    // TODO: Add verified Spotify, YouTube, TikTok URLs when available
+    {
+      label: 'Support Me',
+      url: '', // TODO: Add when verified
+      category: 'support',
+    },
+    {
+      label: 'Get Tickets',
+      url: '', // TODO: Add when verified
+      category: 'support',
+    },
   ],
 } as const;
