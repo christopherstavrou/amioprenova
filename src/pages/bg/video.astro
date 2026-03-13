@@ -4,6 +4,7 @@ import Button from '../../components/Button.astro';
 import Card from '../../components/Card.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
+import { siteConfig } from '../../config/site';
 import videos from '../../data/videos.json';
 
 const featuredVideo = videos.find(v => v.featured);
@@ -16,52 +17,157 @@ const otherVideos = videos.filter(v => !v.featured);
   lang="bg"
 >
   <div class="max-w-6xl mx-auto">
-    <PageHeader title="Видеа" align="center" class="mb-12" />
+    <PageHeader title="Видеа" align="center" class="mb-4" />
 
-    <!-- Featured Video -->
+    <!-- Featured Video — plays inline on click -->
     {featuredVideo && (
-      <section class="mb-20">
-        <SectionHeader title="Препоръчано Видео" class="mb-8" />
-        <div class="max-w-4xl mx-auto">
-          <a href={featuredVideo.youtubeUrl} target="_blank" rel="noopener noreferrer" class="block relative group">
-            <img src={featuredVideo.thumbnail} alt={featuredVideo.title} class="w-full rounded-lg shadow-lg" />
-            <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 group-hover:bg-opacity-50 transition-opacity rounded-lg">
-              <svg class="w-24 h-24 text-text-inverse" fill="currentColor" viewBox="0 0 24 24">
+      <section class="mb-10">
+        <div>
+          <div
+            class="video-player-inline relative rounded-lg overflow-hidden shadow-lg cursor-pointer"
+            data-youtube-id={featuredVideo.youtubeId}
+          >
+            <img src={featuredVideo.thumbnail} alt={featuredVideo.title} class="w-full aspect-video object-cover" />
+            <div class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors">
+              <svg class="w-24 h-24 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>
-          </a>
+          </div>
           <div class="mt-6">
             <h3 class="font-serif text-2xl font-bold mb-2">{featuredVideo.title}</h3>
-            <p class="text-text-secondary mb-2">{new Date(featuredVideo.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            <p class="text-text-secondary mb-2">{new Date(featuredVideo.date).toLocaleDateString('bg-BG', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
             <p class="text-text-secondary leading-relaxed">{featuredVideo.description}</p>
           </div>
         </div>
       </section>
     )}
 
-    <!-- All Videos Grid -->
+    <!-- More Videos Grid — opens lightbox on click -->
     <section>
       <SectionHeader title="Още Видеа" class="mb-8" />
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {otherVideos.map(video => (
-          <Card padding="none" hover={true} class="overflow-hidden">
-            <a href={video.youtubeUrl} target="_blank" rel="noopener noreferrer" class="block relative group">
-              <img src={video.thumbnail} alt={video.title} class="w-full aspect-video object-cover" />
-              <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 group-hover:bg-opacity-50 transition-opacity">
-                <svg class="w-16 h-16 text-text-inverse" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
+          <Card padding="none" hover={false} class="overflow-hidden">
+            <button
+              class="video-lightbox-trigger w-full text-left"
+              data-youtube-id={video.youtubeId}
+              data-title={video.title}
+              aria-label={`Пусни ${video.title}`}
+            >
+              <div class="relative">
+                <img src={video.thumbnail} alt={video.title} class="w-full aspect-video object-cover" />
+                <div class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors">
+                  <svg class="w-14 h-14 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
               </div>
-            </a>
-            <div class="p-6">
-              <h3 class="text-lg font-bold mb-2 line-clamp-2">{video.title}</h3>
-              <p class="text-sm text-text-secondary mb-2">{new Date(video.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</p>
-              <p class="text-sm text-text-secondary line-clamp-2">{video.description}</p>
+            </button>
+            <div class="p-5">
+              <h3 class="text-base font-bold mb-1 line-clamp-2">{video.title}</h3>
+              <p class="text-sm text-text-secondary">{new Date(video.date).toLocaleDateString('bg-BG', { year: 'numeric', month: 'long' })}</p>
             </div>
           </Card>
         ))}
       </div>
     </section>
+
+    <!-- YouTube channel link -->
+    <div class="mt-16 text-center">
+      <p class="text-text-secondary mb-4">Още изпълнения и записи в YouTube</p>
+      <Button href={siteConfig.youtubeUrl} variant="secondary" target="_blank" rel="noopener noreferrer">
+        YouTube канал
+      </Button>
+    </div>
+  </div>
+
+  <!-- Lightbox overlay -->
+  <div
+    id="video-lightbox"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 p-4 md:p-8"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Видео плейър"
+  >
+    <div class="relative w-full max-w-4xl">
+      <!-- Close button -->
+      <button
+        id="lightbox-close"
+        class="absolute -top-10 right-0 text-white/80 hover:text-white transition-colors"
+        aria-label="Затвори видеото"
+      >
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <!-- iframe injected here by JS -->
+      <div id="lightbox-player" class="w-full aspect-video rounded-lg overflow-hidden bg-black"></div>
+      <p id="lightbox-title" class="mt-4 text-white font-semibold text-lg"></p>
+    </div>
   </div>
 </Layout>
+
+<script>
+  // Inline play for featured video
+  document.querySelectorAll<HTMLElement>('.video-player-inline').forEach(player => {
+    player.addEventListener('click', () => {
+      const id = player.dataset.youtubeId;
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+      iframe.title = 'YouTube video player';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.className = 'w-full aspect-video';
+      player.replaceWith(iframe);
+    }, { once: true });
+  });
+
+  // Lightbox for grid videos
+  const lightbox = document.getElementById('video-lightbox')!;
+  const lightboxPlayer = document.getElementById('lightbox-player')!;
+  const lightboxTitle = document.getElementById('lightbox-title')!;
+  const closeBtn = document.getElementById('lightbox-close')!;
+
+  function openLightbox(youtubeId: string, title: string) {
+    lightboxPlayer.innerHTML = `<iframe
+      src="https://www.youtube.com/embed/${youtubeId}?autoplay=1"
+      title="${title}"
+      class="w-full h-full"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>`;
+    lightboxTitle.textContent = title;
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightboxPlayer.innerHTML = '';
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll<HTMLElement>('.video-lightbox-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.youtubeId ?? '';
+      const title = btn.dataset.title ?? '';
+      openLightbox(id, title);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeLightbox);
+
+  // Click backdrop to close
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  // ESC to close
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>

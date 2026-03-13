@@ -20,10 +20,12 @@ const {
 } = Astro.props;
 
 const alignClasses = align === 'center' ? 'text-center' : 'text-left';
+// Only apply default bottom margin if the caller hasn't provided one
+const marginClass = className.includes('mb-') ? '' : 'mb-3';
 ---
 
-<div class={`mb-12 ${alignClasses} ${className}`}>
-  <h2 class="font-serif text-3xl md:text-4xl font-bold text-text-primary mb-4">
+<div class={`${marginClass} ${alignClasses} ${className}`}>
+  <h2 class="font-serif text-3xl md:text-4xl font-bold text-text-primary mb-2">
     {title}
   </h2>
   {description && (

@@ -2,7 +2,6 @@
 import Layout from '../../layouts/Layout.astro';
 import { getEntry } from 'astro:content';
 import Button from '../../components/Button.astro';
-import Card from '../../components/Card.astro';
 import PageHeader from '../../components/PageHeader.astro';
 
 const about = await getEntry('pages', 'en/about');
@@ -14,23 +13,80 @@ const { Content } = await about.render();
   description={about.data.description}
   lang="en"
 >
-  <div class="max-w-4xl mx-auto">
-    <div class="grid md:grid-cols-3 gap-12 mb-12">
-      <div class="md:col-span-1">
+  <div class="max-w-5xl mx-auto">
+    <!-- Portrait + Bio -->
+    <div class="grid md:grid-cols-5 gap-8 mb-6 items-start">
+      <!-- Portrait -->
+      <div class="md:col-span-2">
         <img
-          src={about.data.image || 'https://placehold.co/800x800/8B1C3B/FFFFFF?text=Portrait'}
-          alt="Ami Oprenova"
-          class="w-full rounded-lg shadow-lg"
+          src="/images/ami-portrait.jpg"
+          alt="Ami Oprenova portrait"
+          class="w-full rounded-lg shadow-xl object-cover"
+          style="aspect-ratio: 3/4; object-position: center top;"
         />
       </div>
-      <div class="md:col-span-2">
-        <h1 class="font-serif text-4xl md:text-5xl font-bold text-text-primary mb-6">
-          {about.data.title}
-        </h1>
-        <div class="prose prose-lg max-w-none">
+
+      <!-- Bio text -->
+      <div class="md:col-span-3 pt-2">
+        <PageHeader title={about.data.title} class="mb-6" />
+        <div class="prose prose-lg max-w-none text-text-primary">
           <Content />
         </div>
       </div>
     </div>
+
+    <!-- Performance Gallery Strip -->
+    <section class="mb-8 -mx-4">
+      <div class="grid grid-cols-3 gap-1">
+        <div class="overflow-hidden">
+          <img
+            src="/images/performance-spice.jpg"
+            alt="Ami Oprenova at Spice of Life"
+            class="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+          />
+        </div>
+        <div class="overflow-hidden">
+          <img
+            src="/images/band-ensemble.jpg"
+            alt="Ami Oprenova with the band"
+            class="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+          />
+        </div>
+        <div class="overflow-hidden">
+          <img
+            src="/images/duet.jpg"
+            alt="Ami Oprenova in duet"
+            class="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Beyond the Stage -->
+    <section class="mb-8 -mx-4 relative">
+      <img
+        src="/images/family-portrait.jpg"
+        alt="Ami Oprenova family"
+        class="w-full h-[420px] object-cover object-center"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-bg/90 via-bg/30 to-transparent flex items-end">
+        <div class="p-8 md:p-12 max-w-2xl">
+          <h2 class="font-serif text-3xl md:text-4xl font-bold text-text-inverse mb-4">Beyond the Stage</h2>
+          <p class="text-text-inverse/90 text-lg leading-relaxed">
+            Away from the spotlight, Ami is a devoted mother and partner. Family is the heartbeat
+            behind every note — the joy, warmth, and grounding force that infuses her music with
+            genuine feeling.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Press quote -->
+    <section class="mb-8 text-center max-w-3xl mx-auto px-4">
+      <blockquote class="font-serif text-2xl italic text-accent-secondary leading-relaxed mb-4">
+        "Oprenova's rousing scat singing is full of excellent technical mastery with incredible falsetto…"
+      </blockquote>
+      <cite class="not-italic text-text-secondary font-semibold">— Italia in Jazz ★★★★★</cite>
+    </section>
   </div>
 </Layout>
