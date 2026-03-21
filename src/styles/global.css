@@ -62,16 +62,16 @@
   --color-text-inverse: #1F1F1F;
   --color-text-heading: #D4AF37;
 
-  /* Accents - Gold prominent, burgundy for CTAs */
-  --color-accent-primary: #8B1C3B;
-  --color-accent-primary-hover: #A52344;
+  /* Accents - White for text/links, gold for secondary */
+  --color-accent-primary: #FFFFFF;
+  --color-accent-primary-hover: #E0E0E0;
   --color-accent-secondary: #D4AF37;
   --color-accent-gold: #D4AF37;
 
   /* Borders & Dividers - Warm subtle tones */
   --color-border: #2D2926;
   --color-border-light: #252320;
-  --color-border-focus: #8B1C3B;
+  --color-border-focus: #FFFFFF;
 
   /* Shadows - Stronger shadows for dark mode */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
