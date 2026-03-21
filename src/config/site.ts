@@ -16,7 +16,8 @@ export const siteConfig = {
   bandcampUrl: 'https://amioprenova.bandcamp.com',
   spotifyUrl: '', // TODO: Add when verified
   appleMusicUrl: '', // TODO: Add when verified
-  youtubeUrl: '', // TODO: Add when verified
+  youtubeUrl: 'https://www.youtube.com/@amioprenova496', // Newer channel
+  youtubeUrlOld: 'https://www.youtube.com/@amioprenova1789', // Original channel
 
   // Social media
   instagramUrl: 'https://instagram.com/amioprenova',
@@ -67,7 +68,7 @@ export const siteConfig = {
     },
     {
       label: 'Watch on YouTube',
-      url: '', // TODO: Add when verified
+      url: 'https://www.youtube.com/@amioprenova496',
       category: 'music',
     },
     {

@@ -9,6 +9,7 @@ import releases from '../../data/releases.json';
 import videos from '../../data/videos.json';
 
 const nextShows = getNextEvents(3);
+const nextShow = nextShows[0];
 const featuredRelease = releases.find(r => r.featured) || releases[0];
 const featuredVideo = videos.find(v => v.featured) || videos[0];
 ---
@@ -18,31 +19,138 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
   description="Джаз вокалистка и композитор Ами Опренова. Открийте вълнуващи интерпретации, предстоящи концерти и неподвластна на времето музика."
   lang="bg"
 >
-  <!-- Hero Section -->
-  <section class="relative -mx-4 -mt-8 mb-16 h-[600px] flex items-center justify-center bg-cover bg-center" style="background-image: linear-gradient(rgba(139, 28, 59, 0.7), rgba(31, 31, 31, 0.8)), url('https://placehold.co/1920x1080/8B1C3B/FFFFFF?text=Hero+Image');">
-    <div class="container mx-auto px-4 text-center text-text-inverse">
-      <h1 class="font-serif text-5xl md:text-6xl font-bold mb-4">Ами Опренова</h1>
-      <p class="text-xl md:text-2xl mb-8">Вълнуващ Джаз и Неподвластна на Времето Музика</p>
-      <div class="flex flex-wrap gap-4 justify-center">
-        <Button variant="primary" href={siteConfig.bandcampUrl} target="_blank" rel="noopener noreferrer">
-          Слушай
-        </Button>
-        <Button variant="secondary" href="/bg/video" class="bg-surface text-accent-primary border-surface hover:bg-surface-muted">
-          Гледай
-        </Button>
-        <Button variant="secondary" href="/bg/shows" class="border-text-inverse text-text-inverse hover:bg-text-inverse hover:text-accent-primary">
-          Концерти
-        </Button>
-        <Button variant="secondary" href="#newsletter" class="border-text-inverse text-text-inverse hover:bg-text-inverse hover:text-accent-primary">
-          Бюлетин
-        </Button>
+  <!-- Split Hero -->
+  <section class="relative -mx-4 -mt-8 mb-16 flex flex-col md:flex-row min-h-[600px]">
+    <!-- Photo column -->
+    <div class="md:w-[45%] h-[50vh] md:h-auto relative flex-shrink-0">
+      <img
+        src="/images/hero-performance.jpg"
+        alt="Ами Опренова на живо"
+        class="absolute inset-0 w-full h-full object-cover object-center"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-transparent to-bg/20 hidden md:block" aria-hidden="true"></div>
+    </div>
+
+    <!-- Text column -->
+    <div class="md:w-[55%] flex items-center bg-surface px-8 py-8 md:px-12 lg:px-16">
+      <div class="max-w-lg">
+        <p class="text-accent-secondary font-serif italic text-lg mb-3 tracking-wide">Джаз вокалистка и композитор</p>
+        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-text-heading leading-tight mb-6">
+          Ами Опренова
+        </h1>
+        <p class="text-text-secondary text-lg leading-relaxed mb-5">
+          Омайва публика по целия свят с изключителния си скат, чист стил и музикалност, обхващаща
+          от класическа цигулка до джаз сцената.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <Button variant="primary" href={siteConfig.bandcampUrl} target="_blank" rel="noopener noreferrer">
+            Слушай в Bandcamp
+          </Button>
+          <Button variant="secondary" href="/bg/video">
+            Гледай
+          </Button>
+        </div>
       </div>
     </div>
   </section>
 
-  <div class="max-w-6xl mx-auto">
-    <!-- Featured Release Section -->
-    <section class="mb-20">
+  
+    <!-- 3-column cards: Show / Release / Video -->
+    <section class="mb-10">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Upcoming Show -->
+        <Card padding="none" hover class="flex flex-col overflow-hidden">
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Предстоящ Концерт</p>
+            {nextShow ? (
+              <>
+                <h3 class="font-serif text-xl font-bold text-text-heading mb-2">{nextShow.title}</h3>
+                <p class="text-text-secondary text-sm mb-1">{formatEventDate(nextShow.startDate, 'bg')}</p>
+                <p class="text-text-secondary text-sm mb-6">{nextShow.venue} · {nextShow.city}</p>
+                <div class="mt-auto">
+                  {nextShow.ticketUrl ? (
+                    <Button variant="primary" href={nextShow.ticketUrl} target="_blank" rel="noopener noreferrer">
+                      Билети
+                    </Button>
+                  ) : (
+                    <Button variant="secondary" href="/bg/shows">
+                      Всички Концерти
+                    </Button>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                <p class="text-text-secondary text-sm mb-6 flex-1">Няма предстоящи концерти — проверете скоро.</p>
+                <div class="mt-auto">
+                  <Button variant="secondary" href="/bg/shows">
+                    Всички Концерти
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
+        </Card>
+
+        <!-- Latest Release -->
+        <Card padding="none" hover class="flex flex-col overflow-hidden">
+          <div class="aspect-square overflow-hidden">
+            <img
+              src={featuredRelease.coverImage}
+              alt={featuredRelease.title}
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Ново Издание</p>
+            <h3 class="font-serif text-xl font-bold text-text-heading mb-1">{featuredRelease.title}</h3>
+            <p class="text-text-secondary text-sm mb-6">{featuredRelease.year}</p>
+            <div class="mt-auto">
+              {featuredRelease.bandcampUrl && (
+                <Button variant="primary" href={featuredRelease.bandcampUrl} target="_blank" rel="noopener noreferrer">
+                  Слушай
+                </Button>
+              )}
+            </div>
+          </div>
+        </Card>
+
+        <!-- Featured Video -->
+        <Card padding="none" hover class="flex flex-col overflow-hidden">
+          <a
+            href={featuredVideo.youtubeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="block relative group aspect-video"
+          >
+            <img
+              src={featuredVideo.thumbnail}
+              alt={featuredVideo.title}
+              class="w-full h-full object-cover"
+            />
+            <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-colors">
+              <svg class="w-14 h-14 text-text-inverse drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </a>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Препоръчано Видео</p>
+            <h3 class="font-serif text-lg font-bold text-text-heading mb-6 line-clamp-2">{featuredVideo.title}</h3>
+            <div class="mt-auto">
+              <Button variant="secondary" href="/bg/video">
+                Още Видеа
+              </Button>
+            </div>
+          </div>
+        </Card>
+
+      </div>
+    </section>
+
+    <!-- Featured Release Section (full detail) -->
+    <section class="mb-10">
       <SectionHeader title="Ново Издание" align="center" />
       <Card padding="lg" class="bg-surface-muted">
         <div class="grid md:grid-cols-2 gap-8 items-center">
@@ -77,8 +185,8 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
 
     <!-- Upcoming Shows Section -->
     {nextShows.length > 0 && (
-      <section class="mb-20">
-        <div class="flex justify-between items-baseline mb-8">
+      <section class="mb-10">
+        <div class="flex justify-between items-baseline mb-5">
           <h2 class="font-serif text-3xl md:text-4xl font-bold text-text-primary">Предстоящи Концерти</h2>
           <a href="/bg/shows" class="text-accent-primary hover:text-accent-primary-hover font-semibold">
             Всички концерти →
@@ -112,7 +220,7 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
     )}
 
     <!-- Featured Video Section -->
-    <section class="mb-20">
+    <section class="mb-10">
       <SectionHeader title="Препоръчано Видео" align="center" />
       <div class="max-w-4xl mx-auto">
         <a href={featuredVideo.youtubeUrl} target="_blank" rel="noopener noreferrer" class="block relative group">
@@ -132,13 +240,13 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
     </section>
 
     <!-- Stay Connected Section -->
-    <section id="newsletter" class="mb-20 bg-surface rounded-md p-8 md:p-12 shadow-md border border-border">
+    <section id="newsletter" class="mb-10 bg-surface rounded-md p-6 md:p-8 shadow-md border border-border">
       <div class="max-w-2xl mx-auto text-center">
         <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4 text-text-primary">Бъдете Свързани</h2>
         <p class="text-lg mb-8 text-text-secondary">Получавайте последните новини, обявления за концерти и ексклузивно съдържание директно във вашата електронна поща.</p>
 
         <!-- Newsletter Signup Form -->
-        <form class="mb-8" action={siteConfig.mailchimpSignupUrl} method="post" target="_blank">
+        <form class="mb-5" action={siteConfig.mailchimpSignupUrl} method="post" target="_blank">
           <div class="flex flex-col sm:flex-row gap-3 justify-center">
             <input
               type="email"
@@ -183,5 +291,5 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
         </a>
       </div>
     </section>
-  </div>
+
 </Layout>

@@ -5,9 +5,6 @@ import Card from '../../components/Card.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import releases from '../../data/releases.json';
-
-const featuredRelease = releases.find(r => r.featured);
-const otherReleases = releases.filter(r => !r.featured);
 ---
 
 <Layout
@@ -15,50 +12,14 @@ const otherReleases = releases.filter(r => !r.featured);
   description="Изследвайте дискографията на Ами Опренова. Албуми, издания и линкове за слушане в Spotify, Bandcamp и Apple Music."
   lang="bg"
 >
-  <div class="max-w-6xl mx-auto">
-    <PageHeader title="Музика" align="center" class="mb-12" />
+  
+    <PageHeader title="Музика" align="center" class="mb-4" />
 
-    <!-- Featured Release -->
-    {featuredRelease && (
-      <section class="mb-20">
-        <SectionHeader title="Ново Издание" class="mb-8" />
-        <Card padding="lg" class="md:p-12 shadow-lg">
-          <div class="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <img src={featuredRelease.coverImage} alt={featuredRelease.title} class="w-full rounded-lg shadow-md" />
-            </div>
-            <div>
-              <h3 class="font-serif text-3xl font-bold mb-2">{featuredRelease.title}</h3>
-              <p class="text-xl text-text-secondary mb-4">{featuredRelease.year}</p>
-              <p class="text-text-secondary mb-6 leading-relaxed">{featuredRelease.description}</p>
-              <div class="flex flex-wrap gap-3">
-                {featuredRelease.bandcampUrl && (
-                  <Button href={featuredRelease.bandcampUrl} variant="primary" target="_blank" rel="noopener noreferrer" class="px-5 py-2 font-semibold">
-                    Buy on Bandcamp
-                  </Button>
-                )}
-                {featuredRelease.spotifyUrl && (
-                  <Button href={featuredRelease.spotifyUrl} variant="secondary" target="_blank" rel="noopener noreferrer" class="px-5 py-2 font-semibold">
-                    Spotify
-                  </Button>
-                )}
-                {featuredRelease.appleMusicUrl && (
-                  <Button href={featuredRelease.appleMusicUrl} variant="secondary" target="_blank" rel="noopener noreferrer" class="px-5 py-2 font-semibold">
-                    Apple Music
-                  </Button>
-                )}
-              </div>
-            </div>
-          </div>
-        </Card>
-      </section>
-    )}
-
-    <!-- All Releases Grid -->
+    <!-- Discography Grid -->
     <section>
       <SectionHeader title="Дискография" class="mb-8" />
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {otherReleases.map(release => (
+        {releases.map(release => (
           <Card padding="none" hover class="overflow-hidden hover:shadow-xl">
             <img src={release.coverImage} alt={release.title} class="w-full aspect-square object-cover" />
             <div class="p-6">
@@ -68,7 +29,7 @@ const otherReleases = releases.filter(r => !r.featured);
               <div class="flex flex-wrap gap-2">
                 {release.bandcampUrl && (
                   <Button href={release.bandcampUrl} variant="primary" target="_blank" rel="noopener noreferrer" class="text-sm px-3 py-1">
-                    Buy
+                    Купи
                   </Button>
                 )}
                 {release.spotifyUrl && (
@@ -87,5 +48,5 @@ const otherReleases = releases.filter(r => !r.featured);
         ))}
       </div>
     </section>
-  </div>
+
 </Layout>
