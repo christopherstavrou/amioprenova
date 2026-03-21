@@ -52,7 +52,7 @@ jobs:
 
           # Stable branch name per issue/PR — no timestamp, so repeated runs
           # on the same issue push to the same branch instead of creating new ones.
-          branch_name_template: "{{prefix}}{{entityType}}-{{entityNumber}}"
+          branch_name_template: "ai-{{entityType}}-{{entityNumber}}"
 
           # Tool permissions and turn limit.
           # mcp__github_comment__* tools are granted automatically by the action.

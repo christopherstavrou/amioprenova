@@ -50,7 +50,18 @@ npm run dev -- --port 3000
 - Stop the dev server (`Ctrl+C`) and restart with `npm run dev`
 
 **`git push` returns HTTP 403:**
-- Ensure your branch name starts with `claude/` (required by branch protection rules)
+- Ensure your branch name starts with `ai/` (required by branch protection rules)
+
+---
+
+## AI Agent Instructions
+
+This repository is optimized for AI coding agents.
+
+- **[AI.md](./AI.md)**: Universal entry point for all AI agents.
+- **[GEMINI.md](./GEMINI.md)**: Specific context for Gemini CLI.
+- **[.cursorrules](./.cursorrules)**: Rules for Cursor/Windsurf.
+- **[docs/ai/](./docs/ai/)**: Detailed standards, workflows, and progress tracking.
 
 ---
 
@@ -203,7 +214,7 @@ Before deploying, set `baseUrl` in `src/config/site.ts` to the production domain
 | File | Audience | Purpose |
 |------|----------|---------|
 | `README.md` | Everyone | Content management, commands, deployment |
-| `CLAUDE.md` | AI agents | Entrypoint: hard rules, doc index |
+| `AI.md` | AI agents | Entrypoint: hard rules, doc index |
 | `DESIGN.md` | Developers | Visual design system |
 | `docs/ai/workflow.md` | AI agents | Branch model, PR process |
 | `docs/ai/standards.md` | AI agents | Implementation conventions |

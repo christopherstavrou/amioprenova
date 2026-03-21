@@ -1,4 +1,4 @@
-# CLAUDE.md — AI Agent Instructions
+# AI.md — AI Agent Instructions
 
 **amioprenova** is a static website for jazz vocalist **Ami Oprenova**.
 Stack: Astro · Tailwind CSS · TypeScript · Cloudflare Pages
@@ -12,7 +12,7 @@ Every task follows this cycle:
 
 1. **Read the issue** — understand the requirement and identify affected files
 2. **Read `docs/ai/progress.md`** — understand current project state
-3. **Create branch** — `claude/<feature-name>` from `develop`
+3. **Create branch** — `ai/<feature-name>` from `develop`
 4. **Implement** — small focused commits, run `npm run dev` to verify as you go
 5. **Verify** — `npm run build` must pass; check affected pages visually
 6. **PR** — open against `develop` with clear summary and verification steps
@@ -29,7 +29,7 @@ Violating these will break the build or block the review.
 
 | Rule | Detail |
 |------|--------|
-| Branch from `develop` | Use `claude/<feature-name>` — never commit to `main` or `develop` directly |
+| Branch from `develop` | Use `ai/<feature-name>` — never commit to `main` or `develop` directly |
 | PR target | `develop` only — never `main` or `test` |
 | Build | `npm run build` → 0 errors before every commit |
 | Colors | No hardcoded hex values — use Tailwind design tokens only |

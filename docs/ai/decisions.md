@@ -246,19 +246,19 @@ This document records key decisions made during the project's development.
 
 **Branch-to-Environment Mapping**:
 - `main` → Production (live public site)
-- `develop` → Development staging (for reviewing Claude's work)
+- `develop` → Development staging (for reviewing AI Agent's work)
 - `test` → QA staging (final review before production)
-- `claude/*` → Ephemeral preview URLs (automatic, temporary)
+- `ai/*` → Ephemeral preview URLs (automatic, temporary)
 
 **Workflow**:
-1. Claude creates PRs to `develop`
+1. AI Agent creates PRs to `develop`
 2. Repository owner reviews changes in develop staging environment
 3. When ready, owner merges `develop` → `test` for QA
 4. After QA approval, owner merges `test` → `main` for production
 
 **Constraints**:
-- Claude NEVER creates PRs to `main` or `test`
-- Claude NEVER merges to `test` without explicit permission
+- AI Agent NEVER creates PRs to `main` or `test`
+- AI Agent NEVER merges to `test` without explicit permission
 - Only repository owner promotes code through environments
 
 **Status**: ✅ Implemented
