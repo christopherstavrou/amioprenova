@@ -27,12 +27,12 @@ issue assigned
 |--------|---------|-----------|
 | `main` | Production — live site | Owner only (from `test`) |
 | `test` | QA staging | Owner only (from `develop`) |
-| `develop` | Development staging — all PRs land here | Claude PRs |
-| `claude/*` | Feature branches — deleted after merge | — |
+| `develop` | Development staging — all PRs land here | AI-generated PRs |
+| `ai/*` | Feature branches — deleted after merge | — |
 
-Branch naming: `claude/<short-descriptive-name>` in kebab-case, 2–4 words.
+Branch naming: `ai/<short-descriptive-name>` in kebab-case, 2–4 words.
 
-Examples: `claude/blog-search` · `claude/fix-mobile-nav` · `claude/add-press-photos`
+Examples: `ai/blog-search` · `ai/fix-mobile-nav` · `ai/add-press-photos`
 
 ---
 
@@ -59,7 +59,7 @@ Write a short plan (3–5 bullet points) before starting implementation.
 ### 3. Create branch
 
 ```bash
-git checkout -b claude/your-feature-name
+git checkout -b ai/your-feature-name
 ```
 
 ### 4. Implement
@@ -95,13 +95,13 @@ Spot-check affected pages in the browser. Test dark mode: DevTools → Rendering
 ```bash
 git add <specific-files>   # Stage specific files, not git add .
 git commit -m "feat: description"
-git push -u origin claude/your-feature-name
+git push -u origin ai/your-feature-name
 ```
 
 ### 7. Open pull request
 
 ```bash
-gh pr create --base develop --head claude/your-feature-name \
+gh pr create --base develop --head ai/your-feature-name \
   --title "concise title under 50 chars" \
   --body "$(cat <<'EOF'
 ## Summary
@@ -186,7 +186,7 @@ After PR:
 **Merge conflicts:**
 ```bash
 git checkout develop && git pull origin develop
-git checkout claude/your-branch && git merge develop
+git checkout ai/your-branch && git merge develop
 # Resolve conflicts
 git add . && git commit -m "chore: resolve merge conflicts" && git push
 ```
@@ -194,15 +194,15 @@ git add . && git commit -m "chore: resolve merge conflicts" && git push
 **Wrong branch commit:**
 ```bash
 git reset HEAD~1 && git stash
-git checkout -b claude/correct-branch
+git checkout -b ai/correct-branch
 git stash pop && git add . && git commit -m "your message"
-git push -u origin claude/correct-branch
+git push -u origin ai/correct-branch
 ```
 
-**HTTP 403 on push** — Branch must start with `claude/`:
+**HTTP 403 on push** — Branch must start with `ai/`:
 ```bash
-git branch -m claude/your-feature-name
-git push -u origin claude/your-feature-name
+git branch -m ai/your-feature-name
+git push -u origin ai/your-feature-name
 ```
 
 **Port 4321 in use:**
@@ -216,7 +216,7 @@ lsof -ti:4321 | xargs kill -9 && npm run dev
 
 | Don't | Do instead |
 |-------|-----------|
-| Commit to `main` or `develop` | Use `claude/*` feature branches |
+| Commit to `main` or `develop` | Use `ai/*` feature branches |
 | Push code that doesn't build | Verify `npm run build` first |
 | Create a PR touching 10+ files | Split into focused PRs |
 | Mix unrelated changes in one commit | One logical change per commit |

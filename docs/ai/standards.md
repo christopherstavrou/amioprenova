@@ -133,7 +133,7 @@ Use relative paths. Do not use path aliases unless they are already configured i
 | CSS custom properties | `--kebab-case` | `--text-primary`, `--accent-primary` |
 | Tailwind custom tokens | `kebab-case` | `text-text-primary`, `bg-accent-primary` |
 | Data files | kebab-case | `events.json`, `releases.json` |
-| Git branches | `claude/kebab-case` | `claude/fix-mobile-nav` |
+| Git branches | `ai/kebab-case` | `ai/fix-mobile-nav` |
 | Commit scopes | kebab-case matching file scope | `feat(blog):`, `fix(nav):` |
 
 Name components after what they *are*, not what they do. `SectionHeader` not `RenderSectionTitle`.

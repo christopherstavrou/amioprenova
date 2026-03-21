@@ -1,0 +1,26 @@
+# Gemini Ignore Patterns
+# Use this to prevent Gemini from wasting tokens on large or irrelevant files.
+
+# Build artifacts
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large assets (optional, but recommended if they don't change often)
+public/images/
+public/press/
+design/
+
+# Git
+.git/

@@ -30,7 +30,7 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Sitemap configured (⏸️ disabled pending production domain)
 
 ### Documentation (2026-03-10)
-- Refactored docs: added `standards.md`, rewrote `workflow.md` and `CLAUDE.md`
+- Refactored docs: added `standards.md`, rewrote `workflow.md` and `AI.md` (generalized for all AI agents)
 - Deleted redundant `commands.md` and `project-summary.md`
 
 ---
