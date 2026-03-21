@@ -63,6 +63,15 @@ $RECYCLE.BIN/
 # Agent working memory (ephemeral, not committed)
 .agent/
 
+# Design assets — kept locally, not tracked in git
+design/
+
+# Claude local settings
+.claude/
+
+# WSL metadata files
+*Zone.Identifier
+
 # Testing
 coverage/
 .nyc_output/
