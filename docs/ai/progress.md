@@ -21,7 +21,7 @@ Session-to-session anchor for AI agents. Read this at the start of every session
 - `Logo.astro`
 
 ### Pages (all EN + BG, all with design system)
-Home · About · Music · Video · Shows · Blog/News · Press · Contact · Links · Support · Privacy
+Home · About · Music · Video · Shows · Blog/News · Press · Contact · Links · Cake & Jazz · Privacy
 
 ### Features
 - Sticky glass header with theme toggle and language switcher
@@ -52,17 +52,14 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 
 ---
 
----
-
 ## ⏭ Next
 
 ### Immediate — Content and Assets
-- Replace all placeholder images (hero, about portrait, album covers, press photos)
-- Write real About page biography (currently lorem ipsum)
-- Add real events to `src/data/events.json`
-- Add real releases to `src/data/releases.json`
-- Add real videos to `src/data/videos.json`
-- Write Privacy Policy content
+- Replace hero / about portrait images (still placeholder)
+- Write real About page biography (`src/content/pages/en/about.md` — currently lorem ipsum)
+- Write Privacy Policy content (`src/pages/en/privacy.astro`, `src/pages/bg/privacy.astro`)
+- Add BG blog posts (`src/content/blog/bg/` — directory not yet created; EN posts exist)
+- Add press assets to `public/press/` (photos, logo, tech rider)
 
 ### Deploy
 - Set production domain in `src/config/site.ts` → `baseUrl`
@@ -93,7 +90,7 @@ Awaiting answers from the artist/owner before these can progress:
 ## 🔢 Build Status
 
 ```bash
-npm run build   # Expected: 43 pages, 0 errors
+npm run build   # Expected: 44 pages, 0 errors
 npm run dev     # Expected: http://localhost:4321
 ```
 

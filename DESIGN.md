@@ -1,10 +1,8 @@
 # Design Kit for Ami Oprenova
 
-**Visual Reference**: This design is based on a provided reference image that serves as the primary styling source of truth. All implementation decisions should align with the visual aesthetic shown in that reference.
-
 This design guide defines the visual language and component rules for the official website of jazz artist **Ami Oprenova**. It is intended to be a reference for developers and content editors so the site remains cohesive and polished as it grows.
 
-## Colour Palette
+## Color Palette
 
 | Palette name | Hex | Usage |
 |---|---|---|
@@ -29,7 +27,7 @@ The dark theme uses a warm, sophisticated palette with **gold as a prominent acc
 | Dark Surface | #1A1816 | Cards and elevated elements; warmer than pure gray. |
 | Dark Surface Muted | #121110 | Slightly darker than base for subtle depth differences. |
 | Dark Surface Elevated | #221F1D | Dropdowns, modals, tooltips that need to stand above content. |
-| Primary (dark) | #F5F5F5 | Burgundy accent for CTAs and buttons; consistent with light mode. |
+| Accent Primary (dark) | #8B1C3B | Burgundy accent for CTAs and buttons — same as light mode. |
 | Secondary Gold | #D4AF37 | **Gold accent used prominently for headings, section titles, and highlights.** |
 | Text Heading | #D4AF37 | **All H1-H6 headings use gold color** for visual warmth and brand distinction. |
 | Text Primary (dark) | #F5F5F5 | Main body copy; off-white for comfortable reading. |
@@ -333,17 +331,12 @@ Provide clear download links for press kit assets (photos, logos, technical ride
 
 ### Placeholder Images
 
-During the initial development phase or when actual assets are not yet available, use simple placeholder images to help visualise layouts without breaking the design. We recommend using the [placehold.co](https://placehold.co/) service, which can generate configurable placeholder images on the fly.
+Real photos are in use across all main pages as of 2026-03-25. Do not add placehold.co images to existing pages — source real assets from the `design/` folder on disk.
 
-**Guidelines**:
-
-- **Aspect ratio**: Choose placeholder dimensions that match the intended content. For example, use `https://placehold.co/1920x1080?text=Hero+Image` for hero sections (16:9), `https://placehold.co/800x800?text=Album+Cover` for square album art, and `https://placehold.co/600x338?text=Video` for 16:9 video thumbnails. This ensures the layout looks correct even before real images are added.
-
-- **Colours**: Use colours that harmonise with the site's palette. You can customise placehold.co images via query parameters, e.g. `https://placehold.co/800x800/8B1C3B/FFFFFF?text=Album` will render a burgundy background with white text.
-
-- **Alt text**: Always specify alt text that describes the intended image (e.g. "Placeholder album cover"). When replacing with real images, update the alt text accordingly.
-
-- **Replace as soon as possible**: Placeholder images are a temporary solution. Replace them with actual photos and artwork as soon as assets become available to enhance the authenticity and storytelling of the website.
+When scaffolding a **new** page or section before real assets are available, use [placehold.co](https://placehold.co/) with these conventions:
+- Aspect ratios: `1920x1080` (hero/16:9), `800x800` (album cover/1:1), `640x360` (video thumbnail)
+- Use site palette: `https://placehold.co/800x800/8B1C3B/FFFFFF?text=Label`
+- Always set descriptive alt text and mark the image as a placeholder in the PR description
 
 ## Accessibility and Legibility
 
@@ -355,54 +348,40 @@ During the initial development phase or when actual assets are not yet available
 
 - Use ARIA labels on navigation, forms and icons to assist screen reader users.
 
-## Content Management
-
-**Markdown files**: Store long-form text content (biography, about page, blog posts) in Markdown files. Use YAML frontmatter fields (title, description, pubDate, tags) for metadata.
-
-**JSON/YAML data**: Use JSON or YAML files for structured collections such as upcoming shows (events.json), album releases (releases.json), and video listings (videos.json). Each entry should contain fields like title, date, location, url, etc.
-
-**Images**: Save images in `/public/assets/images` or similar and reference them in Markdown or JSON files. Include alternative text alongside each image entry.
-
 ## Implementation Guidelines
 
-**Tailwind CSS configuration**: Define custom colours in `tailwind.config.js` using the palette above. Extend the theme's font family with your selected fonts. Configure responsive breakpoints if the defaults need adjusting.
+**Tailwind CSS**: All colors are defined as CSS variables and referenced in `tailwind.config.mjs` via `var(--color-*)`. Do not add raw hex values to Tailwind config — extend the existing token structure only.
 
 ### Dark Mode Implementation
 
-Implement dark mode by defining corresponding colour variables and Tailwind theme values. Use the `prefers-color-scheme` media query to detect the user's preferred theme. For example, define CSS variables for both light and dark themes:
+Dark mode uses the `data-theme="dark"` attribute on `<html>` — **not** a CSS media query. CSS variables are overridden via attribute selector:
 
 ```css
-:root {
-  --bg: #F7F4F0;
-  --surface: #FFFFFF;
-  --text-primary: #1F1F1F;
-  --text-secondary: #9A9A9A;
-  --accent-primary: #8B1C3B;
-  --accent-secondary: #CDA34A;
+/* Light mode — defined in :root */
+:root, :root[data-theme="light"] {
+  --color-bg: #F7F4F0;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #1F1F1F;
+  --color-text-secondary: #9A9A9A;
+  --color-accent-primary: #8B1C3B;
+  --color-accent-secondary: #CDA34A;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0B0B0B;
-    --surface: #1C1C1C;
-    --text-primary: #F5F5F5;
-    --text-secondary: #B3B3B3;
-    --accent-primary: #8B1C3B;
-    --accent-secondary: #D3B35A;
-  }
+/* Dark mode — overridden via data-theme attribute */
+:root[data-theme="dark"] {
+  --color-bg: #0D0C0B;
+  --color-surface: #1A1816;
+  --color-text-primary: #F5F5F5;
+  --color-text-secondary: #B3B3B3;
+  --color-accent-primary: #8B1C3B;
+  --color-accent-secondary: #D4AF37;
 }
 ```
 
-These variables can then be used in your styles or Tailwind configuration to ensure the colour scheme adapts automatically when the user's system is set to dark mode. In Tailwind, you can enable the `darkMode` option (e.g. `'media'`) and define dark variants for your custom colours.
+> **Important**: `@media (prefers-color-scheme: dark)` is used **only** in an inline `<script>` in `<head>` for first-visit detection. Never use it to override CSS variables — use `[data-theme="dark"]` instead.
 
-**CSS variables**: Declare CSS variables for colours and border radius in a global stylesheet (e.g. `:root { --color-primary: #8B1C3B; }`) to maintain consistency across non-Tailwind styles.
+Do not write `dark:` Tailwind variants in component or page files. All theme adaptation is handled by the CSS variable layer.
 
-**Reusable components**: Build navigation, buttons, cards, event lists and video grids as reusable components in your framework (Astro/React) to ensure consistency. Use props to adjust layout or content when necessary.
+**Responsive design**: Mobile-first. Base styles target mobile; `md:` (768px) and `lg:` (1024px) override for larger screens.
 
-**Responsive design**: Use Tailwind's mobile-first responsive utilities to adapt layouts across breakpoints. Avoid absolute positioning unless necessary; rely on flexbox and grid to create responsive flows.
-
-**Testing**: Perform cross-browser testing (Chrome, Firefox, Safari) and test on devices of varying sizes. Use accessibility tools (e.g. Axe, Lighthouse) to verify colour contrast and keyboard navigation.
-
-## Conclusion
-
-This design kit provides a foundation for building a cohesive, accessible and professional web presence for Ami Oprenova. By following these guidelines, developers and content editors can maintain consistent branding, clear hierarchy and engaging layouts, ensuring the site remains easy to update and appealing to fans, press and promoters alike.
+**Testing**: Cross-browser test (Chrome, Firefox, Safari). Use DevTools → Rendering → `prefers-color-scheme` to simulate dark mode. Use Axe or Lighthouse to verify contrast ratios.

@@ -157,9 +157,9 @@ can be added back — but it is not required for functionality.
 The intended flow for feature work:
 
 1. **Open a GitHub issue** describing the feature or bug. Include `@claude` in the body to have Claude start immediately, or add it in a comment after.
-2. **Claude reads the issue**, checks out the repo, creates a branch (`claude/<feature-name>`), implements the work, and opens a PR against `develop`.
+2. **Claude reads the issue**, checks out the repo, creates a branch (`claude/<feature-name>`), implements the work, and opens a PR against `develop`. Note: the `claude/` prefix is used automatically by the GitHub Actions runner — this is distinct from the `ai/` prefix required for manual AI work per `AGENTS.md`.
 3. **Review the PR** — leave comments or a review with `@claude` to ask Claude to revise.
-4. **Merge the PR** into `develop`, then `develop` into `main` for production.
+4. **Merge the PR** into `develop`, then promote via the standard `develop` → `test` → `main` path.
 
 Claude follows the conventions in `CLAUDE.md` automatically: branching from `develop`,
 running `npm run build` before committing, using Tailwind design tokens, etc.

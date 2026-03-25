@@ -17,6 +17,8 @@ This document records key decisions made during the project's development.
 
 **Status**: ✅ Implemented
 
+**Date**: 2026-01-15
+
 ---
 
 ### Why Tailwind CSS + CSS Variables?
@@ -26,10 +28,12 @@ This document records key decisions made during the project's development.
 **Rationale**:
 - Tailwind provides rapid development and consistency
 - CSS variables enable automatic light/dark mode without JavaScript
-- Variables allow theme switching via `prefers-color-scheme` media query
+- Variables allow theme switching via `data-theme` attribute
 - Combination provides flexibility and maintainability
 
 **Status**: ✅ Implemented
+
+**Date**: 2026-01-15
 
 ---
 
@@ -52,6 +56,8 @@ This document records key decisions made during the project's development.
 
 **Status**: ✅ Implemented and non-negotiable for V1
 
+**Date**: 2026-01-15
+
 ---
 
 ### Multilingual Strategy: Content-Driven (No Translation Logic)
@@ -73,6 +79,8 @@ This document records key decisions made during the project's development.
 
 **Status**: ✅ Implemented
 
+**Date**: 2026-01-15
+
 ---
 
 ### Blog System: No Draft Concept
@@ -87,9 +95,11 @@ This document records key decisions made during the project's development.
 
 **Workaround for drafts**:
 - Use Git branches for work-in-progress posts
-- Only merge to main when ready to publish
+- Only merge to `develop` when ready for review — `main` is reached via the standard develop → test → main promotion path
 
 **Status**: ✅ Implemented
+
+**Date**: 2026-01-15
 
 ---
 
@@ -117,18 +127,19 @@ This document records key decisions made during the project's development.
 
 ### CSS Variables for Theming
 
-**Decision**: Define all colors, spacing, and design tokens as CSS variables in `:root`, override in `@media (prefers-color-scheme: dark)`.
+**Decision**: Define all colors, spacing, and design tokens as CSS variables in `:root`, override via `[data-theme="dark"]` attribute selector.
 
 **Rationale**:
 - Single source of truth for design tokens
 - Tailwind can reference CSS variables
 - Easy to maintain and update colors globally
-- No JavaScript required for theme switching
+- `data-theme` attribute allows JS-controlled theme switching AND prevents FOUC
 
 **Implementation**:
-- Light mode variables defined in `:root`
-- Dark mode variables override in `@media (prefers-color-scheme: dark) { :root { ... } }`
+- Light mode variables defined in `:root` and `:root[data-theme="light"]`
+- Dark mode variables override in `:root[data-theme="dark"]`
 - Tailwind config extends colors to use `var(--color-*)`
+- Note: `@media (prefers-color-scheme: dark)` is used ONLY in an inline `<head>` script for first-visit detection, not for CSS variable overrides
 
 **Status**: ✅ Implemented
 
@@ -189,7 +200,7 @@ This document records key decisions made during the project's development.
 - Descriptive text in placeholder: `?text=Hero+Image`
 - Proper aspect ratios: 1920x1080 (16:9), 800x800 (1:1), 640x360 (16:9)
 
-**Status**: ✅ Implemented
+**Status**: ✅ Superseded (2026-03-25) — Real assets now in use for all main pages. Convention remains valid for scaffolding new sections before real assets are available.
 
 ---
 
