@@ -8,6 +8,7 @@ This file ensures that Gemini CLI understands the foundational mandates and oper
 2. **Follow `docs/ai/`**: This directory contains detailed standards, workflows, and progress tracking.
 3. **Branching**: Always branch from `develop` using the prefix `ai/` (e.g., `ai/feature-name`).
 4. **Validation**: Never commit without running `npm run build` and ensuring 0 errors.
+5. **Commit Messages**: The AI agent must autonomously create descriptive commit messages following the Conventional Commits format.
 
 ## Technical Context
 

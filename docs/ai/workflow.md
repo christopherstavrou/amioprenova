@@ -64,7 +64,7 @@ git checkout -b ai/your-feature-name
 
 ### 4. Implement
 
-- Make small, focused commits — not one large commit at the end
+- Make small, focused commits — AI agent creates commit messages autonomously
 - Run `npm run dev` to verify changes as you work
 - Stay scoped to the issue — do not improve adjacent code
 
