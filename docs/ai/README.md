@@ -1,5 +1,7 @@
 # AI Agent Documentation
 
+**Universal Mandate**: All AI agents (including but not limited to Gemini CLI, Claude, and others) MUST autonomously follow all instructions, standards, and workflows defined in **all Markdown (`.md`) files** within this repository. These documents serve as the authoritative manual for all project work.
+
 This directory contains the operational manuals for AI agents working on the **amioprenova** project.
 
 ## Directory Index

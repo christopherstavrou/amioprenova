@@ -1,5 +1,7 @@
 # AI.md — AI Agent Instructions
 
+**Universal Mandate**: All AI agents (including but not limited to Claude, Gemini, Cursor, and others) MUST autonomously follow all instructions, standards, and workflows defined in **all Markdown (`.md`) files** within this repository. These documents serve as the authoritative manual for all automated and semi-automated development tasks.
+
 **amioprenova** is a static website for jazz vocalist **Ami Oprenova**.
 Stack: Astro · Tailwind CSS · TypeScript · Cloudflare Pages
 Languages: English (`/en`) + Bulgarian (`/bg`) · Theme: light/dark via `data-theme` cookie
