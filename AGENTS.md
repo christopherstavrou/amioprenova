@@ -1,4 +1,4 @@
-# AI.md — AI Agent Instructions
+# AGENTS.md — AI Agent Instructions
 
 **Universal Mandate**: All AI agents (including but not limited to Claude, Gemini, Cursor, and others) MUST autonomously follow all instructions, standards, and workflows defined in **all Markdown (`.md`) files** within this repository. These documents serve as the authoritative manual for all automated and semi-automated development tasks.
 
@@ -81,4 +81,3 @@ npm run build          # Production build (run before every commit)
 npx astro check        # TypeScript type check
 ```
 
-Agent working notes → `.agent/WORKING_NOTES.md` (ephemeral, not committed)

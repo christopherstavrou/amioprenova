@@ -187,8 +187,8 @@ After PR:
 ```bash
 git checkout develop && git pull origin develop
 git checkout ai/your-branch && git merge develop
-# Resolve conflicts
-git add . && git commit -m "chore: resolve merge conflicts" && git push
+# Resolve conflicts, then stage only the resolved files — do not use git add .
+git add <resolved-files> && git commit -m "chore: resolve merge conflicts" && git push
 ```
 
 **Wrong branch commit:**

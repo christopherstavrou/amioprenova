@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-03-21
+**Last updated**: 2026-03-25
 
 ---
 
@@ -21,7 +21,7 @@ Session-to-session anchor for AI agents. Read this at the start of every session
 - `Logo.astro`
 
 ### Pages (all EN + BG, all with design system)
-Home · About · Music · Video · Shows · Blog/News · Press · Contact · Links · Support · Privacy
+Home · About · Music · Video · Shows · Blog/News · Press · Contact · Links · Cake & Jazz · Privacy
 
 ### Features
 - Sticky glass header with theme toggle and language switcher
@@ -34,23 +34,33 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Refactored docs: added `standards.md`, rewrote `workflow.md` and `AI.md` (generalized for all AI agents)
 - Deleted redundant `commands.md` and `project-summary.md`
 
----
+### Frontend Redesign (2026-03-25)
+- Full visual overhaul: real photos, content, video lightbox
+- Favicon replaced with embedded Pacifico font "A" on white background (43KB SVG, down from 327KB)
+- Instagram URL and landing page refactored to use `siteConfig`
+- Language links removed from landing page
 
-## 🟡 In Progress
+### Repo Housekeeping (2026-03-25)
+- `design/` untracked from git (files remain on disk at `design/`) — ~1.3GB removed from future commits
+- `.gitignore` updated: `design/`, `.claude/`, `*Zone.Identifier`, build artifacts
+- WSL Zone.Identifier metadata files deleted
 
-*Nothing currently in progress.*
+### Agent-Agnostic Docs (2026-03-25)
+- `AI.md` renamed to `AGENTS.md` (open standard, read natively by all major agents)
+- `CLAUDE.md` created using `@`-import syntax — Claude gets full `docs/ai/` context automatically
+- `GEMINI.md` slimmed to a stub — eliminates drift risk when Gemini edits its own file
+- Fixed broken reference: `github-integration.md` → `github-integration-claude.md`
 
 ---
 
 ## ⏭ Next
 
 ### Immediate — Content and Assets
-- Replace all placeholder images (hero, about portrait, album covers, press photos)
-- Write real About page biography (currently lorem ipsum)
-- Add real events to `src/data/events.json`
-- Add real releases to `src/data/releases.json`
-- Add real videos to `src/data/videos.json`
-- Write Privacy Policy content
+- Replace hero / about portrait images (still placeholder)
+- Write real About page biography (`src/content/pages/en/about.md` — currently lorem ipsum)
+- Write Privacy Policy content (`src/pages/en/privacy.astro`, `src/pages/bg/privacy.astro`)
+- Add BG blog posts (`src/content/blog/bg/` — directory not yet created; EN posts exist)
+- Add press assets to `public/press/` (photos, logo, tech rider)
 
 ### Deploy
 - Set production domain in `src/config/site.ts` → `baseUrl`
@@ -81,7 +91,7 @@ Awaiting answers from the artist/owner before these can progress:
 ## 🔢 Build Status
 
 ```bash
-npm run build   # Expected: 43 pages, 0 errors
+npm run build   # Expected: 44 pages, 0 errors
 npm run dev     # Expected: http://localhost:4321
 ```
 

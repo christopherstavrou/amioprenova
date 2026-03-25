@@ -18,7 +18,7 @@ Official website for jazz vocalist **Ami Oprenova** — a static site built with
 | `npm install` | Install dependencies |
 | `npm run dev` | Development server at `http://localhost:4321` |
 | `npm run build` | Production build → `dist/` |
-| `npm run preview` | Preview the production build locally |
+| `npm run preview` | Preview the production build locally at `http://localhost:4321` |
 | `npx astro check` | TypeScript type checking (0 errors expected) |
 
 **Always run `npm run build` before committing.** The build must pass with 0 errors.
@@ -60,9 +60,7 @@ This repository is optimized for all AI coding agents (Claude, Gemini, Cursor, e
 
 **Universal Mandate**: AI agents MUST autonomously follow all instructions, standards, and workflows defined in **all Markdown (`.md`) files** within this repository.
 
-- **[AI.md](./AI.md)**: Universal entry point for all AI agents.
-- **[GEMINI.md](./GEMINI.md)**: Specific context for Gemini CLI.
-- **[.cursorrules](./.cursorrules)**: Rules for Cursor/Windsurf.
+- **[AGENTS.md](./AGENTS.md)**: Single source of truth for all AI agents.
 - **[docs/ai/](./docs/ai/)**: Detailed standards, workflows, and progress tracking.
 
 ---
@@ -74,7 +72,8 @@ This repository is optimized for all AI coding agents (Claude, Gemini, Cursor, e
 Blog posts are Markdown files. When a file exists, it is published — there is no draft system.
 
 **Add a post:**
-1. Create `src/content/blog/en/your-post-name.md` (and `/bg/` for Bulgarian)
+1. Create `src/content/blog/en/your-post-name.md`
+   Note: Bulgarian blog posts (`src/content/blog/bg/`) are not yet implemented — EN only.
 2. Add required frontmatter:
    ```markdown
    ---
@@ -188,7 +187,7 @@ All external URLs and metadata are in `src/config/site.ts`. Update placeholder v
 
 ```
 src/
-├── content/blog/{en,bg}/    # Blog posts (Markdown)
+├── content/blog/en/         # Blog posts (Markdown) — EN only; BG not yet implemented
 ├── content/pages/{en,bg}/   # Page content, e.g. About (Markdown)
 ├── pages/{en,bg}/           # Page templates (Astro)
 ├── data/                    # events.json, releases.json, videos.json
@@ -216,7 +215,7 @@ Before deploying, set `baseUrl` in `src/config/site.ts` to the production domain
 | File | Audience | Purpose |
 |------|----------|---------|
 | `README.md` | Everyone | Content management, commands, deployment |
-| `AI.md` | AI agents | Entrypoint: hard rules, doc index |
+| `AGENTS.md` | All AI agents | Entry point: hard rules, doc index |
 | `DESIGN.md` | Developers | Visual design system |
 | `docs/ai/workflow.md` | AI agents | Branch model, PR process |
 | `docs/ai/standards.md` | AI agents | Implementation conventions |
