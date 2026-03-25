@@ -60,10 +60,7 @@ This repository is optimized for all AI coding agents (Claude, Gemini, Cursor, e
 
 **Universal Mandate**: AI agents MUST autonomously follow all instructions, standards, and workflows defined in **all Markdown (`.md`) files** within this repository.
 
-- **[AGENTS.md](./AGENTS.md)**: Universal entry point — read by all AI agents.
-- **[CLAUDE.md](./CLAUDE.md)**: Claude Code — imports full `docs/ai/` context via `@`-imports.
-- **[GEMINI.md](./GEMINI.md)**: Gemini CLI — points to `AGENTS.md`.
-- **[.cursorrules](./.cursorrules)**: Cursor/Windsurf — points to `AGENTS.md`.
+- **[AGENTS.md](./AGENTS.md)**: Single source of truth for all AI agents.
 - **[docs/ai/](./docs/ai/)**: Detailed standards, workflows, and progress tracking.
 
 ---
@@ -219,7 +216,6 @@ Before deploying, set `baseUrl` in `src/config/site.ts` to the production domain
 |------|----------|---------|
 | `README.md` | Everyone | Content management, commands, deployment |
 | `AGENTS.md` | All AI agents | Entry point: hard rules, doc index |
-| `CLAUDE.md` | Claude Code | `@`-imports AGENTS.md + all docs/ai/ files |
 | `DESIGN.md` | Developers | Visual design system |
 | `docs/ai/workflow.md` | AI agents | Branch model, PR process |
 | `docs/ai/standards.md` | AI agents | Implementation conventions |
