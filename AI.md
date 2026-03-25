@@ -13,7 +13,7 @@ Every task follows this cycle:
 1. **Read the issue** — understand the requirement and identify affected files
 2. **Read `docs/ai/progress.md`** — understand current project state
 3. **Create branch** — `ai/<feature-name>` from `develop`
-4. **Implement** — small focused commits, run `npm run dev` to verify as you go
+4. **Implement** — small focused commits (AI agent creates commit messages autonomously), run `npm run dev` to verify as you go
 5. **Verify** — `npm run build` must pass; check affected pages visually
 6. **PR** — open against `develop` with clear summary and verification steps
 7. **Revise** — if reviewer leaves feedback, push additional commits to the same branch
