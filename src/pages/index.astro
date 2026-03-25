@@ -91,12 +91,6 @@ import '../styles/global.css';
             </a>
           </nav>
 
-          <nav class="site-entry" aria-label="Enter site">
-            <a href="/en/" class="entry-link">English</a>
-            <span class="entry-divider" aria-hidden="true">·</span>
-            <a href="/bg/" class="entry-link">На Български</a>
-          </nav>
-
           <footer>
             <p>&copy; {new Date().getFullYear()} Ami Oprenova</p>
           </footer>
@@ -266,32 +260,6 @@ import '../styles/global.css';
         width: 1.125rem;
         height: 1.125rem;
         flex-shrink: 0;
-      }
-
-      .site-entry {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .entry-link {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: var(--color-text-secondary);
-        text-decoration: none;
-        letter-spacing: 0.03em;
-        transition: color 0.15s ease;
-      }
-
-      .entry-link:hover {
-        color: var(--color-accent-gold);
-      }
-
-      .entry-divider {
-        color: var(--color-text-secondary);
-        opacity: 0.4;
       }
 
       footer {
