@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-03-10
+**Last updated**: 2026-03-21
 
 ---
 
@@ -28,6 +28,7 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Blog: Markdown posts, pagination (6/page), client-side search
 - SEO: OpenGraph, Twitter Card, canonical URLs, robots.txt
 - Sitemap configured (⏸️ disabled pending production domain)
+- Landing page: removed direct language links (Soft Launch ready)
 
 ### Documentation (2026-03-10)
 - Refactored docs: added `standards.md`, rewrote `workflow.md` and `AI.md` (generalized for all AI agents)
