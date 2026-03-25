@@ -20,7 +20,7 @@ export const siteConfig = {
   youtubeUrlOld: 'https://www.youtube.com/@amioprenova1789', // Original channel
 
   // Social media
-  instagramUrl: 'https://instagram.com/amioprenova',
+  instagramUrl: 'https://www.instagram.com/amioprenovamusic',
   tiktokUrl: '', // TODO: Add when verified
   facebookUrl: 'https://www.facebook.com/amioprenovamusic/',
 
@@ -73,7 +73,7 @@ export const siteConfig = {
     },
     {
       label: 'Instagram',
-      url: 'https://instagram.com/amioprenova',
+      url: 'https://www.instagram.com/amioprenovamusic',
       category: 'social',
     },
     {
