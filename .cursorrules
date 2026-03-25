@@ -2,7 +2,7 @@
 
 Follow these rules for all code generation and refactoring:
 
-1. **AI Entry Point**: Read `AI.md` for the current project state and core rules.
+1. **AI Entry Point**: Read `AGENTS.md` for the current project state and core rules.
 2. **Branching**: Use `ai/` prefix for all feature branches.
 3. **Styling**: No hardcoded hex colors. Use Tailwind tokens from `tailwind.config.mjs` and `src/styles/global.css`.
 4. **i18n**: Multilingual support via separate page files. Do not use language conditionals in `.astro` files.

@@ -8,7 +8,7 @@ This directory contains the operational manuals for AI agents working on the **a
 
 | File | Purpose |
 |------|---------|
-| [AI.md](../../AI.md) | **Start here.** Primary entry point and hard rules. |
+| [AGENTS.md](../../AGENTS.md) | **Start here.** Primary entry point and hard rules. |
 | [progress.md](progress.md) | **Current session state.** What's done, what's next. |
 | [standards.md](standards.md) | **Implementation manual.** Naming, structure, patterns. |
 | [workflow.md](workflow.md) | **Process manual.** Branching, commits, PR format. |

@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-03-10
+**Last updated**: 2026-03-25
 
 ---
 
@@ -33,11 +33,24 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Refactored docs: added `standards.md`, rewrote `workflow.md` and `AI.md` (generalized for all AI agents)
 - Deleted redundant `commands.md` and `project-summary.md`
 
+### Frontend Redesign (2026-03-25)
+- Full visual overhaul: real photos, content, video lightbox
+- Favicon replaced with embedded Pacifico font "A" on white background (43KB SVG, down from 327KB)
+- Instagram URL and landing page refactored to use `siteConfig`
+- Language links removed from landing page
+
+### Repo Housekeeping (2026-03-25)
+- `design/` untracked from git (files remain on disk at `design/`) — ~1.3GB removed from future commits
+- `.gitignore` updated: `design/`, `.claude/`, `*Zone.Identifier`, build artifacts
+- WSL Zone.Identifier metadata files deleted
+
+### Agent-Agnostic Docs (2026-03-25)
+- `AI.md` renamed to `AGENTS.md` (open standard, read natively by all major agents)
+- `CLAUDE.md` created using `@`-import syntax — Claude gets full `docs/ai/` context automatically
+- `GEMINI.md` slimmed to a stub — eliminates drift risk when Gemini edits its own file
+- Fixed broken reference: `github-integration.md` → `github-integration-claude.md`
+
 ---
-
-## 🟡 In Progress
-
-*Nothing currently in progress.*
 
 ---
 
