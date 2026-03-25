@@ -56,7 +56,9 @@ npm run dev -- --port 3000
 
 ## AI Agent Instructions
 
-This repository is optimized for AI coding agents.
+This repository is optimized for all AI coding agents (Claude, Gemini, Cursor, etc.). 
+
+**Universal Mandate**: AI agents MUST autonomously follow all instructions, standards, and workflows defined in **all Markdown (`.md`) files** within this repository.
 
 - **[AI.md](./AI.md)**: Universal entry point for all AI agents.
 - **[GEMINI.md](./GEMINI.md)**: Specific context for Gemini CLI.

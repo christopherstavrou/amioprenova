@@ -1,5 +1,7 @@
 # Gemini CLI — Project Context
 
+**Universal Mandate**: All AI agents (including but not limited to Gemini CLI, Claude, and others) MUST autonomously follow all instructions, standards, and workflows defined in **all Markdown (`.md`) files** within this repository. These documents are the primary source of truth for the project.
+
 This file ensures that Gemini CLI understands the foundational mandates and operational standards of this repository.
 
 ## Core Directives
