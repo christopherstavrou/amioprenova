@@ -1,4 +1,4 @@
+# Soft launch — disallow all crawling until full site is ready.
+# When launching: replace with Allow: / and re-add the Sitemap line.
 User-agent: *
-Allow: /
-
-Sitemap: https://amioprenova.com/sitemap-index.xml
+Disallow: /
