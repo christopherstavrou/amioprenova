@@ -1,0 +1,23 @@
+name: "@claude Task"
+description: Ask Claude to implement something on this repo
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Claude will pick this up automatically. Be specific — mention affected pages, languages (EN/BG), and any constraints.
+  - type: textarea
+    id: task
+    attributes:
+      label: Task
+      description: What should Claude do? Start with "@claude" to trigger the workflow.
+      placeholder: "@claude please..."
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context & constraints
+      description: Affected pages, files, or anything Claude should know before starting.
+    validations:
+      required: false
