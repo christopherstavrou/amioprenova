@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-03-25
+**Last updated**: 2026-03-26
 
 ---
 
@@ -46,25 +46,32 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 
 ### Agent-Agnostic Docs (2026-03-25)
 - `AI.md` renamed to `AGENTS.md` (open standard, read natively by all major agents)
-- `CLAUDE.md` created using `@`-import syntax — Claude gets full `docs/ai/` context automatically
-- `GEMINI.md` slimmed to a stub — eliminates drift risk when Gemini edits its own file
-- Fixed broken reference: `github-integration.md` → `github-integration-claude.md`
+- `CLAUDE.md` and `GEMINI.md` reduced to identical stubs pointing to `AGENTS.md`
+- Fixed broken reference: `github-integration-claude.md` → `github-integration.md`
+
+### Soft Launch (2026-03-26)
+- `public/_redirects` added — Cloudflare Pages redirects all `/en/*` and `/bg/*` to splash (`/`)
+- Splash page (`src/pages/index.astro`) is the only publicly visible page
+- Dev server unaffected — all inner pages still accessible at `localhost:4321`
+
+### Deploy (2026-03-26)
+- Production domain confirmed: `https://amioprenova.com` (set in `src/config/site.ts` and `astro.config.mjs`)
+- Cloudflare Pages connected to repo with GitHub Actions
+- Hero/about images and About page biography completed
 
 ---
 
 ## ⏭ Next
 
-### Immediate — Content and Assets
-- Replace hero / about portrait images (still placeholder)
-- Write real About page biography (`src/content/pages/en/about.md` — currently lorem ipsum)
-- Write Privacy Policy content (`src/pages/en/privacy.astro`, `src/pages/bg/privacy.astro`)
+### Content
+- Write Privacy Policy content when data collection begins
 - Add BG blog posts (`src/content/blog/bg/` — directory not yet created; EN posts exist)
 - Add press assets to `public/press/` (photos, logo, tech rider)
 
-### Deploy
-- Set production domain in `src/config/site.ts` → `baseUrl`
+### Full Launch
+- Fix outstanding bugs and improvements
+- Remove `public/_redirects` to expose full site
 - Re-enable sitemap in `astro.config.mjs`
-- Link repo to Cloudflare Pages (branch: `main` → production, `develop` + `test` → previews)
 
 ### V2 Enhancements
 - Newsletter: integrate Mailchimp (replace placeholder form)
