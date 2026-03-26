@@ -246,21 +246,26 @@ textarea::placeholder {
   border-bottom-color: rgba(45, 41, 38, 0.5);
 }
 
-/* Mobile menu with frosted glass background */
+/* Mobile menu overlay — hidden by default, shown via .open class */
 .mobile-menu {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(247, 244, 240, 0.97);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 40; /* below header z-50 so hamburger button stays tappable */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 :root[data-theme="dark"] .mobile-menu {
-  background: rgba(26, 24, 22, 0.9);
+  background: rgba(13, 12, 11, 0.97);
 }
 
-/* Mobile menu animation */
 .mobile-menu.open {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 /* ===== Utility Classes ===== */
