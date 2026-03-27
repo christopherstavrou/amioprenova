@@ -283,10 +283,12 @@ textarea::placeholder {
     padding-top: 4rem;
   }
 
-  /* Hero: drop the min-height so it doesn't force scroll on a short viewport */
+  /* Hero: drop the min-height, cancel section padding (md: bumps it to 4rem but -mt-10 only cancels 2.5rem) */
   .hero-split {
     min-height: 0;
     flex-direction: row;
+    padding-top: 0;
+    margin-top: 0;
   }
 
   /* Hero photo column: fill height in row layout */
