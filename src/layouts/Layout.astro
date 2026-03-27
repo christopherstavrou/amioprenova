@@ -450,14 +450,6 @@ const isActive = (href: string) => {
         });
       }
 
-      // Check for stored language preference
-      const storedLang = getCookie('site_lang');
-      if (storedLang && storedLang !== currentLang && (storedLang === 'en' || storedLang === 'bg')) {
-        // User has a language preference that differs from current page
-        // You can optionally redirect here, or just update the selectors
-        if (languageSwitcher) languageSwitcher.value = storedLang;
-        if (mobileLanguageSwitcher) mobileLanguageSwitcher.value = storedLang;
-      }
     </script>
   </body>
 </html>
