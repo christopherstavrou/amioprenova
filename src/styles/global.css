@@ -20,7 +20,7 @@
   --color-text-primary: #1A1A1A;
   --color-text-secondary: #666666;
   --color-text-inverse: #F0F0F0;
-  --color-text-heading: #8B1C3B;
+  --color-text-heading: #111111;
 
   /* Logo — flat near-black, no gradient */
   --color-logo-start: #111111;
@@ -69,7 +69,7 @@
   --color-text-primary: #E8E8E8;
   --color-text-secondary: #AAAAAA;
   --color-text-inverse: #1A1A1A;
-  --color-text-heading: #D4AF37;
+  --color-text-heading: #E8E8E8;
 
   /* Logo gradient stops */
   --color-logo-start: #D4AF37;
@@ -137,6 +137,7 @@ h2 {
   font-size: 1.5rem; /* 24px */
   margin-bottom: 1.25rem;
   letter-spacing: 0.015em;
+  color: var(--color-accent-primary);
 }
 
 h3 {
