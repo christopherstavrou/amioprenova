@@ -50,10 +50,17 @@ const { class: className = '' } = Astro.props;
     transition: fill var(--transition-base);
   }
 
-  /* Responsive sizing */
+  /* Larger on desktop */
   @media (min-width: 768px) {
     .logo {
       height: 5rem;
+    }
+  }
+
+  /* Landscape mobile — keep compact regardless of width breakpoint */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .logo {
+      height: 2.5rem;
     }
   }
 </style>

@@ -268,6 +268,34 @@ textarea::placeholder {
   pointer-events: auto;
 }
 
+/* ===== Landscape Mobile Overrides ===== */
+/* Targets phones in landscape (height ≤ 500px) but not tablets (height > 500px) */
+
+@media (orientation: landscape) and (max-height: 500px) {
+  /* Keep navbar compact — prevents md:py-5 from bloating the header */
+  .header-glass .header-body {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+  }
+
+  /* Reduce top clearance in mobile menu — viewport is short in landscape */
+  .mobile-menu .mobile-menu-body {
+    padding-top: 4rem;
+  }
+
+  /* Hero: drop the min-height so it doesn't force scroll on a short viewport */
+  .hero-split {
+    min-height: 0;
+    flex-direction: row;
+  }
+
+  /* Hero photo column: fill height in row layout */
+  .hero-split > div:first-child {
+    height: auto;
+    width: 40%;
+  }
+}
+
 /* ===== Utility Classes ===== */
 
 /* Surface backgrounds */
