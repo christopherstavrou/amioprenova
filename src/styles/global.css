@@ -383,7 +383,7 @@ input,
 select,
 textarea,
 [role="button"] {
-  transition-property: background-color, border-color, color, fill, stroke, transform, box-shadow, opacity;
+  transition-property: background-color, border-color, color, transform, box-shadow, opacity;
   transition-duration: var(--transition-fast);
   transition-timing-function: ease;
 }
