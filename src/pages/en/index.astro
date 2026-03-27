@@ -65,7 +65,7 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
             <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Upcoming Show</p>
             {nextShow ? (
               <>
-                <h3 class="font-serif text-xl font-bold text-text-heading mb-2">{nextShow.title}</h3>
+                <h2 class="font-serif text-xl font-bold mb-2">{nextShow.title}</h2>
                 <p class="text-text-secondary text-sm mb-1">{formatEventDate(nextShow.startDate, 'en')}</p>
                 <p class="text-text-secondary text-sm mb-6">{nextShow.venue} · {nextShow.city}</p>
                 <div class="mt-auto">
@@ -104,7 +104,7 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
           </div>
           <div class="p-6 flex flex-col flex-1">
             <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Latest Release</p>
-            <h3 class="font-serif text-xl font-bold text-text-heading mb-1">{featuredRelease.title}</h3>
+            <h2 class="font-serif text-xl font-bold mb-1">{featuredRelease.title}</h2>
             <p class="text-text-secondary text-sm mb-6">{featuredRelease.year}</p>
             <div class="mt-auto">
               {featuredRelease.bandcampUrl && (
@@ -137,7 +137,7 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
           </a>
           <div class="p-6 flex flex-col flex-1">
             <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Featured Video</p>
-            <h3 class="font-serif text-lg font-bold text-text-heading mb-6 line-clamp-2">{featuredVideo.title}</h3>
+            <h2 class="font-serif text-lg font-bold mb-6 line-clamp-2">{featuredVideo.title}</h2>
             <div class="mt-auto">
               <Button variant="secondary" href="/en/video">
                 Watch More
@@ -158,7 +158,7 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
             <img src={featuredRelease.coverImage} alt={featuredRelease.title} class="w-full rounded-md shadow-lg" />
           </div>
           <div>
-            <h3 class="font-serif text-3xl font-bold mb-2 text-text-primary">{featuredRelease.title}</h3>
+            <h2 class="font-serif text-3xl font-bold mb-2">{featuredRelease.title}</h2>
             <p class="text-lg text-text-secondary mb-4">{featuredRelease.year}</p>
             <p class="text-text-primary mb-6 leading-relaxed">{featuredRelease.description}</p>
             <div class="flex flex-wrap gap-3">
@@ -187,7 +187,7 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
     {nextShows.length > 0 && (
       <section class="mb-10">
         <div class="flex justify-between items-baseline mb-5">
-          <h2 class="font-serif text-3xl md:text-4xl font-bold text-text-primary">Upcoming Shows</h2>
+          <h2 class="font-serif text-3xl md:text-4xl font-bold">Upcoming Shows</h2>
           <a href="/en/shows" class="text-accent-primary hover:text-accent-primary-hover font-semibold">
             View all shows →
           </a>
@@ -197,7 +197,7 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
             <Card padding="md" hover class="border-2 border-border hover:border-accent-primary transition-colors">
               <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
                 <div class="flex-grow">
-                  <h3 class="text-xl font-bold mb-2 text-text-primary">{event.title}</h3>
+                  <h3 class="font-serif text-xl font-bold mb-2">{event.title}</h3>
                   <p class="text-text-secondary mb-1">
                     {formatEventDate(event.startDate, 'en')}
                   </p>
@@ -231,7 +231,7 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
             </svg>
           </div>
         </a>
-        <h3 class="font-serif text-2xl font-bold mt-4 mb-2 text-text-primary">{featuredVideo.title}</h3>
+        <h2 class="font-serif text-2xl font-bold mt-4 mb-2">{featuredVideo.title}</h2>
         <p class="text-text-secondary mb-4">{featuredVideo.description}</p>
         <a href="/en/video" class="inline-block text-accent-primary hover:text-accent-primary-hover font-semibold">
           Watch more videos →
@@ -242,7 +242,7 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
     <!-- Stay Connected Section -->
     <section id="newsletter" class="mb-10 bg-surface rounded-md p-6 md:p-8 shadow-md border border-border">
       <div class="max-w-2xl mx-auto text-center">
-        <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4 text-text-primary">Stay Connected</h2>
+        <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">Stay Connected</h2>
         <p class="text-lg mb-8 text-text-secondary">Get the latest news, show announcements, and exclusive content delivered to your inbox.</p>
 
         <!-- Newsletter Signup Form -->

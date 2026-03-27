@@ -17,7 +17,7 @@ import { siteConfig } from '../../config/site';
   <div class="max-w-4xl mx-auto">
     <!-- Short Bio -->
     <section class="mb-6">
-      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Short Bio</h2>
+      <h2 class="font-serif text-2xl font-bold mb-4">Short Bio</h2>
       <div class="prose max-w-none">
         <p class="text-lg leading-relaxed text-text-primary">
           amioprenova is a musician and composer creating atmospheric electronic soundscapes that blend ambient textures with experimental production. Based in Sofia, Bulgaria, their work explores the intersection of organic and synthetic sounds.
@@ -27,7 +27,7 @@ import { siteConfig } from '../../config/site';
 
     <!-- Long Bio -->
     <section class="mb-6">
-      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Long Bio</h2>
+      <h2 class="font-serif text-2xl font-bold mb-4">Long Bio</h2>
       <div class="prose max-w-none">
         <p class="mb-4 text-text-primary">
           amioprenova is a musician, composer, and sound designer whose work exists at the crossroads of electronic experimentation and emotive storytelling. Drawing inspiration from ambient pioneers, modern electronic producers, and the natural soundscapes of Bulgaria, their music creates immersive sonic environments that invite deep listening.
@@ -45,7 +45,7 @@ import { siteConfig } from '../../config/site';
     <section class="mb-6">
       <div class="grid md:grid-cols-2 gap-8">
         <div>
-          <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Genre</h2>
+          <h2 class="font-serif text-2xl font-bold mb-4">Genre</h2>
           <div class="flex flex-wrap gap-2">
             {siteConfig.genres.map((genre) => (
               <Badge>{genre}</Badge>
@@ -53,7 +53,7 @@ import { siteConfig } from '../../config/site';
           </div>
         </div>
         <div>
-          <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Recommended If You Like</h2>
+          <h2 class="font-serif text-2xl font-bold mb-4">Recommended If You Like</h2>
           <div class="flex flex-wrap gap-2">
             {siteConfig.riylTags.map((artist) => (
               <Badge>{artist}</Badge>
@@ -65,7 +65,7 @@ import { siteConfig } from '../../config/site';
 
     <!-- Key Links -->
     <section class="mb-6">
-      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Links</h2>
+      <h2 class="font-serif text-2xl font-bold mb-4">Links</h2>
       <div class="grid md:grid-cols-2 gap-4">
         <a href={siteConfig.baseUrl} class="text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors">Official Website</a>
         <a href={siteConfig.bandcampUrl} class="text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors">Bandcamp</a>
@@ -78,7 +78,7 @@ import { siteConfig } from '../../config/site';
 
     <!-- Downloads -->
     <section class="mb-6">
-      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Downloads</h2>
+      <h2 class="font-serif text-2xl font-bold mb-4">Downloads</h2>
       <Card padding="lg" class="bg-surface-muted">
         <div class="space-y-6">
           <div>
@@ -118,7 +118,7 @@ import { siteConfig } from '../../config/site';
 
     <!-- Contact -->
     <section class="mb-6">
-      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Press Contact</h2>
+      <h2 class="font-serif text-2xl font-bold mb-4">Press Contact</h2>
       <p class="text-lg text-text-primary">
         For press inquiries, interviews, and media requests, please contact:{' '}
         <a
