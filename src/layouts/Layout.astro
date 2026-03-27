@@ -149,7 +149,7 @@ const isActive = (href: string) => {
           <button
             id="mobile-menu-toggle"
             type="button"
-            class="lg:hidden p-2 rounded-lg hover:bg-surface-muted transition-colors"
+            class="lg:hidden transition-colors"
             aria-label="Toggle menu"
             aria-expanded="false"
           >
@@ -182,7 +182,7 @@ const isActive = (href: string) => {
         </svg>
       </button>
 
-      <div class="container mx-auto px-4 pb-6 pt-32">
+      <div class="container mx-auto px-4 pb-6 pt-24">
         <nav class="flex flex-col items-center gap-3 mb-6">
           {navItems.map(item => (
             <a
@@ -227,7 +227,7 @@ const isActive = (href: string) => {
       </div>
     </div>
 
-    <main class="flex-grow container mx-auto px-4 pt-2 pb-6">
+    <main class="flex-grow container mx-auto px-4 pb-6">
       <slot />
     </main>
 
