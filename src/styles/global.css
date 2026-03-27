@@ -265,7 +265,7 @@ textarea::placeholder {
   border-bottom-color: rgba(45, 41, 38, 0.5);
 }
 
-/* Burger/close icons: maroon in light mode, gold in dark mode (via --color-accent-primary) */
+/* Burger/close icons: uses accent-primary token (maroon in light, gold in dark) */
 #mobile-menu-toggle {
   color: var(--color-accent-primary);
 }

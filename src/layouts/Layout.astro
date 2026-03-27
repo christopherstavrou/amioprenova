@@ -213,10 +213,10 @@ const isActive = (href: string) => {
 
           <!-- Language Switcher in Mobile -->
           <div class="flex items-center w-full py-4 border-b border-border border-l-4 border-l-transparent pl-3 pr-2">
-            <span class="text-lg font-medium text-text-primary flex-1">Language</span>
+            <label for="mobile-language-switcher" class="text-lg font-medium text-text-primary flex-1">Language</label>
             <select
               id="mobile-language-switcher"
-              class="appearance-none bg-transparent text-text-primary text-base font-medium cursor-pointer focus:outline-none"
+              class="appearance-none bg-transparent text-text-primary text-base font-medium cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
             >
               <option value="en" selected={lang === 'en'}>EN</option>
               <option value="bg" selected={lang === 'bg'}>BG</option>
