@@ -2,7 +2,6 @@
 import { ui, type Language } from '../i18n/ui';
 import { siteConfig } from '../config/site';
 import Logo from '../components/Logo.astro';
-import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
 
 export interface Props {
@@ -72,8 +71,6 @@ const isActive = (href: string) => {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <ViewTransitions />
-
     <!-- Inline theme script to prevent FOUC -->
     <script is:inline>
       // Apply theme immediately before page renders
@@ -97,7 +94,7 @@ const isActive = (href: string) => {
   </head>
   <body class="min-h-screen flex flex-col bg-bg text-text-primary">
     <!-- Sticky Glass Header -->
-    <header transition:persist class="header-glass sticky top-0 z-50 border-b">
+    <header class="header-glass sticky top-0 z-50 border-b">
       <div class="header-body container mx-auto px-4 py-3 md:py-5">
         <div class="flex justify-between items-center gap-4">
           <!-- Logo -->
@@ -171,7 +168,6 @@ const isActive = (href: string) => {
     <!-- Mobile Menu Overlay — must be OUTSIDE header to avoid backdrop-filter containing block -->
     <div
       id="mobile-menu"
-      transition:persist
       class="mobile-menu lg:hidden fixed inset-0 overflow-y-auto"
     >
       <!-- Close button -->
@@ -231,7 +227,7 @@ const isActive = (href: string) => {
       </div>
     </div>
 
-    <main transition:name="main-content" class="flex-grow container mx-auto px-4 pb-6">
+    <main class="flex-grow container mx-auto px-4 pb-6">
       <slot />
     </main>
 
