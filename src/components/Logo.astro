@@ -23,6 +23,13 @@ const { class: className = '' } = Astro.props;
   aria-labelledby="logo-title"
   role="img"
 >
+  <defs>
+    <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop class="logo-grad-start" offset="0%" />
+      <stop class="logo-grad-mid" offset="50%" />
+      <stop class="logo-grad-end" offset="100%" />
+    </linearGradient>
+  </defs>
   <title id="logo-title">Ami Oprenova</title>
   <text
     x="4"
@@ -46,9 +53,12 @@ const { class: className = '' } = Astro.props;
     font-family: 'Dancing Script', 'Pacifico', cursive, serif;
     font-size: 42px;
     font-weight: 400;
-    fill: var(--color-logo);
-    transition: fill var(--transition-base);
+    fill: url(#logo-gradient);
   }
+
+  .logo-grad-start { stop-color: var(--color-logo-start); }
+  .logo-grad-mid   { stop-color: var(--color-logo-mid); }
+  .logo-grad-end   { stop-color: var(--color-logo-end); }
 
   /* Larger on desktop */
   @media (min-width: 768px) {

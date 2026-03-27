@@ -22,8 +22,10 @@
   --color-text-inverse: #F0F0F0;
   --color-text-heading: #111111;
 
-  /* Logo */
-  --color-logo: #111111;
+  /* Logo gradient stops */
+  --color-logo-start: #8B1C3B;
+  --color-logo-mid: #C4607A;
+  --color-logo-end: #8B1C3B;
 
   /* Accents — burgundy as the single accent */
   --color-accent-primary: #8B1C3B;
@@ -31,8 +33,9 @@
   --color-accent-secondary: #8B1C3B;
   --color-accent-gold: #8B1C3B;
 
-  /* Hero gradient — name treatment on home page */
-  --gradient-hero: linear-gradient(to right, #111111, #8B1C3B);
+  /* Shine gradients — burgundy → soft rose → burgundy */
+  --gradient-h1: linear-gradient(to right, #8B1C3B, #C4607A, #8B1C3B);
+  --gradient-hero: linear-gradient(to right, #8B1C3B, #C4607A, #8B1C3B);
 
   /* Borders & Dividers */
   --color-border: #E2E2E2;
@@ -68,8 +71,10 @@
   --color-text-inverse: #1A1A1A;
   --color-text-heading: #D4AF37;
 
-  /* Logo */
-  --color-logo: #F0F0F0;
+  /* Logo gradient stops */
+  --color-logo-start: #D4AF37;
+  --color-logo-mid: #F5E6A0;
+  --color-logo-end: #D4AF37;
 
   /* Accents — gold as the single dark-mode accent */
   --color-accent-primary: #D4AF37;
@@ -77,8 +82,9 @@
   --color-accent-secondary: #D4AF37;
   --color-accent-gold: #D4AF37;
 
-  /* Hero gradient — near-white to gold */
-  --gradient-hero: linear-gradient(to right, #E8E8E8, #D4AF37);
+  /* Shine gradients — gold → warm cream → gold */
+  --gradient-h1: linear-gradient(to right, #D4AF37, #F5E6A0, #D4AF37);
+  --gradient-hero: linear-gradient(to right, #D4AF37, #F5E6A0, #D4AF37);
 
   /* Borders & Dividers */
   --color-border: #2A2A2A;
@@ -121,6 +127,10 @@ h1 {
   font-size: 2.25rem; /* 36px */
   margin-bottom: 1.5rem;
   letter-spacing: 0.015em;
+  background: var(--gradient-h1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 h2 {
@@ -313,13 +323,12 @@ textarea::placeholder {
 }
 
 /* ===== Hero Name Gradient ===== */
-
+/* Uses --gradient-hero variable; same as h1 gradient by default */
 .hero-name {
   background: var(--gradient-hero);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: transparent;
 }
 
 /* ===== Utility Classes ===== */
