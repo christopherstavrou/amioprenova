@@ -142,7 +142,7 @@ const posts = page.data;
           const response = await fetch('/search-index.json');
           searchIndex = await response.json();
         } catch (error) {
-          console.error('Failed to load search index:', error);
+          if (import.meta.env.DEV) console.error('Failed to load search index:', error);
         }
       }
 

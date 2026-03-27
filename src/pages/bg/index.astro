@@ -2,14 +2,10 @@
 import Layout from '../../layouts/Layout.astro';
 import Button from '../../components/Button.astro';
 import Card from '../../components/Card.astro';
-import SectionHeader from '../../components/SectionHeader.astro';
-import { getNextEvents, formatEventDate } from '../../lib/events';
 import { siteConfig } from '../../config/site';
 import releases from '../../data/releases.json';
 import videos from '../../data/videos.json';
 
-const nextShows = getNextEvents(3);
-const nextShow = nextShows[0];
 const featuredRelease = releases.find(r => r.featured) || releases[0];
 const featuredVideo = videos.find(v => v.featured) || videos[0];
 ---
@@ -20,7 +16,7 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
   lang="bg"
 >
   <!-- Split Hero -->
-  <section class="hero-split relative -mx-4 -mt-10 mb-16 flex flex-col md:flex-row min-h-[600px]">
+  <section class="hero-split relative -mx-4 -mt-10 mb-6 pb-0 flex flex-col md:flex-row min-h-[600px]">
     <!-- Photo column -->
     <div class="md:w-[45%] h-[50vh] md:h-auto relative flex-shrink-0">
       <img
@@ -46,7 +42,7 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
           <Button variant="primary" href={siteConfig.bandcampUrl} target="_blank" rel="noopener noreferrer">
             Слушай в Bandcamp
           </Button>
-          <Button variant="secondary" href="/bg/video">
+          <Button variant="primary" href="/bg/video">
             Гледай
           </Button>
         </div>
@@ -54,44 +50,10 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
     </div>
   </section>
 
-  
-    <!-- 3-column cards: Show / Release / Video -->
-    <section class="mb-10">
+  <div class="space-y-10">
+    <!-- 3-column cards: Release / Video / Shows -->
+    <section class="py-0">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-        <!-- Upcoming Show -->
-        <Card padding="none" hover class="flex flex-col overflow-hidden">
-          <div class="p-6 flex flex-col flex-1">
-            <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Предстоящ Концерт</p>
-            {nextShow ? (
-              <>
-                <h2 class="font-serif text-xl font-bold mb-2">{nextShow.title}</h2>
-                <p class="text-text-secondary text-sm mb-1">{formatEventDate(nextShow.startDate, 'bg')}</p>
-                <p class="text-text-secondary text-sm mb-6">{nextShow.venue} · {nextShow.city}</p>
-                <div class="mt-auto">
-                  {nextShow.ticketUrl ? (
-                    <Button variant="primary" href={nextShow.ticketUrl} target="_blank" rel="noopener noreferrer">
-                      Билети
-                    </Button>
-                  ) : (
-                    <Button variant="secondary" href="/bg/shows">
-                      Всички Концерти
-                    </Button>
-                  )}
-                </div>
-              </>
-            ) : (
-              <>
-                <p class="text-text-secondary text-sm mb-6 flex-1">Няма предстоящи концерти — проверете скоро.</p>
-                <div class="mt-auto">
-                  <Button variant="secondary" href="/bg/shows">
-                    Всички Концерти
-                  </Button>
-                </div>
-              </>
-            )}
-          </div>
-        </Card>
 
         <!-- Latest Release -->
         <Card padding="none" hover class="flex flex-col overflow-hidden">
@@ -100,68 +62,15 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
               src={featuredRelease.coverImage}
               alt={featuredRelease.title}
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
             />
           </div>
           <div class="p-6 flex flex-col flex-1">
             <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Ново Издание</p>
             <h2 class="font-serif text-xl font-bold mb-1">{featuredRelease.title}</h2>
-            <p class="text-text-secondary text-sm mb-6">{featuredRelease.year}</p>
-            <div class="mt-auto">
-              {featuredRelease.bandcampUrl && (
-                <Button variant="primary" href={featuredRelease.bandcampUrl} target="_blank" rel="noopener noreferrer">
-                  Слушай
-                </Button>
-              )}
-            </div>
-          </div>
-        </Card>
-
-        <!-- Featured Video -->
-        <Card padding="none" hover class="flex flex-col overflow-hidden">
-          <a
-            href={featuredVideo.youtubeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="block relative group aspect-video"
-          >
-            <img
-              src={featuredVideo.thumbnail}
-              alt={featuredVideo.title}
-              class="w-full h-full object-cover"
-            />
-            <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-colors">
-              <svg class="w-14 h-14 text-text-inverse drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-          </a>
-          <div class="p-6 flex flex-col flex-1">
-            <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Препоръчано Видео</p>
-            <h2 class="font-serif text-lg font-bold mb-6 line-clamp-2">{featuredVideo.title}</h2>
-            <div class="mt-auto">
-              <Button variant="secondary" href="/bg/video">
-                Още Видеа
-              </Button>
-            </div>
-          </div>
-        </Card>
-
-      </div>
-    </section>
-
-    <!-- Featured Release Section (full detail) -->
-    <section class="mb-10">
-      <SectionHeader title="Ново Издание" align="center" />
-      <Card padding="lg" class="bg-surface-muted">
-        <div class="grid md:grid-cols-2 gap-8 items-center">
-          <div>
-            <img src={featuredRelease.coverImage} alt={featuredRelease.title} class="w-full rounded-md shadow-lg" />
-          </div>
-          <div>
-            <h2 class="font-serif text-3xl font-bold mb-2">{featuredRelease.title}</h2>
-            <p class="text-lg text-text-secondary mb-4">{featuredRelease.year}</p>
-            <p class="text-text-primary mb-6 leading-relaxed">{featuredRelease.description}</p>
-            <div class="flex flex-wrap gap-3">
+            <p class="text-text-secondary text-sm mb-3">{featuredRelease.year}</p>
+            <p class="text-text-secondary text-sm mb-4 line-clamp-3">{featuredRelease.description}</p>
+            <div class="mt-auto flex flex-wrap gap-2">
               {featuredRelease.bandcampUrl && (
                 <Button variant="primary" href={featuredRelease.bandcampUrl} target="_blank" rel="noopener noreferrer">
                   Слушай
@@ -179,117 +88,118 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
               )}
             </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+
+        <!-- Featured Video — plays inline on click -->
+        <Card padding="none" hover={false} class="flex flex-col overflow-hidden">
+          <div class="video-card" data-youtube-id={featuredVideo.youtubeId}>
+            <button
+              class="video-thumb w-full block relative group aspect-video"
+              aria-label={`Пусни ${featuredVideo.title}`}
+            >
+              <img
+                src={featuredVideo.thumbnail}
+                alt={featuredVideo.title}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-colors">
+                <svg class="w-14 h-14 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </button>
+            <div class="video-player hidden aspect-video overflow-hidden bg-black"></div>
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Препоръчано Видео</p>
+            <h2 class="font-serif text-lg font-bold mb-6 line-clamp-2">{featuredVideo.title}</h2>
+            <div class="mt-auto">
+              <Button variant="primary" href="/bg/video">
+                Още Видеа
+              </Button>
+            </div>
+          </div>
+        </Card>
+
+        <!-- Shows -->
+        <Card padding="none" hover class="flex flex-col overflow-hidden">
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Предстоящи Концерти</p>
+            <h2 class="font-serif text-xl font-bold mb-4">Живи Изпълнения</h2>
+            <p class="text-text-secondary text-sm mb-6 flex-1">
+              Гледайте Ами Опренова на живо — джаз концерти, интимни сесии и фестивални сцени из цяла Европа.
+            </p>
+            <div class="mt-auto">
+              <Button variant="primary" href="/bg/shows">
+                Виж Концертите
+              </Button>
+            </div>
+          </div>
+        </Card>
+
+      </div>
     </section>
 
-    <!-- Upcoming Shows Section -->
-    {nextShows.length > 0 && (
-      <section class="mb-10">
-        <div class="flex justify-between items-baseline mb-5">
-          <h2 class="font-serif text-3xl md:text-4xl font-bold">Предстоящи Концерти</h2>
-          <a href="/bg/shows" class="text-accent-primary hover:text-accent-primary-hover font-semibold">
-            Всички концерти →
+    <!-- Stay Connected -->
+    <section id="newsletter" class="py-0">
+      <div class="bg-surface rounded-md p-6 md:p-8 shadow-md border border-border">
+        <div class="max-w-2xl mx-auto text-center">
+          <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">Бъдете Свързани</h2>
+          <p class="text-lg mb-8 text-text-secondary">Получавайте последните новини, обявления за концерти и ексклузивно съдържание директно във вашата електронна поща.</p>
+
+          <!-- Newsletter Signup Form -->
+          <form class="mb-5" action={siteConfig.mailchimpSignupUrl} method="post" target="_blank">
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+              <label for="newsletter-email" class="sr-only">Имейл адрес</label>
+              <input
+                type="email"
+                id="newsletter-email"
+                name="EMAIL"
+                placeholder="Вашият имейл адрес"
+                required
+                class="px-4 py-3 rounded-md flex-grow max-w-md bg-surface text-text-primary border border-border focus:border-accent-primary focus:ring-2 focus:ring-accent-primary focus:ring-opacity-20"
+              />
+              <Button variant="primary" type="submit">
+                Абонирай се
+              </Button>
+            </div>
+          </form>
+
+          <!-- Social Links -->
+          <div class="flex justify-center gap-6 mb-6">
+            {siteConfig.instagramUrl && (
+              <a href={siteConfig.instagramUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-secondary transition-colors" aria-label="Instagram">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
+            )}
+            {siteConfig.facebookUrl && (
+              <a href={siteConfig.facebookUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-secondary transition-colors" aria-label="Facebook">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+            )}
+            {siteConfig.youtubeUrl && (
+              <a href={siteConfig.youtubeUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-secondary transition-colors" aria-label="YouTube">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+              </a>
+            )}
+          </div>
+
+          <a href="/bg/links" class="inline-block text-accent-secondary hover:text-accent-primary font-semibold">
+            Всички Връзки →
           </a>
         </div>
-        <div class="space-y-4">
-          {nextShows.map(event => (
-            <Card padding="md" hover class="border-2 border-border hover:border-accent-primary transition-colors">
-              <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
-                <div class="flex-grow">
-                  <h3 class="font-serif text-xl font-bold mb-2">{event.title}</h3>
-                  <p class="text-text-secondary mb-1">
-                    {formatEventDate(event.startDate, 'bg')}
-                  </p>
-                  <p class="text-text-secondary">
-                    {event.venue} · {event.city}, {event.country}
-                  </p>
-                </div>
-                <div>
-                  {event.ticketUrl && (
-                    <Button variant="primary" href={event.ticketUrl} target="_blank" rel="noopener noreferrer">
-                      Билети
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </section>
-    )}
-
-    <!-- Featured Video Section -->
-    <section class="mb-10">
-      <SectionHeader title="Препоръчано Видео" align="center" />
-      <div class="max-w-4xl mx-auto">
-        <a href={featuredVideo.youtubeUrl} target="_blank" rel="noopener noreferrer" class="block relative group">
-          <img src={featuredVideo.thumbnail} alt={featuredVideo.title} class="w-full rounded-md shadow-lg" />
-          <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 group-hover:bg-opacity-50 transition-opacity rounded-md">
-            <svg class="w-20 h-20 text-text-inverse" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </div>
-        </a>
-        <h2 class="font-serif text-2xl font-bold mt-4 mb-2">{featuredVideo.title}</h2>
-        <p class="text-text-secondary mb-4">{featuredVideo.description}</p>
-        <a href="/bg/video" class="inline-block text-accent-primary hover:text-accent-primary-hover font-semibold">
-          Още видеа →
-        </a>
       </div>
     </section>
-
-    <!-- Stay Connected Section -->
-    <section id="newsletter" class="mb-10 bg-surface rounded-md p-6 md:p-8 shadow-md border border-border">
-      <div class="max-w-2xl mx-auto text-center">
-        <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">Бъдете Свързани</h2>
-        <p class="text-lg mb-8 text-text-secondary">Получавайте последните новини, обявления за концерти и ексклузивно съдържание директно във вашата електронна поща.</p>
-
-        <!-- Newsletter Signup Form -->
-        <form class="mb-5" action={siteConfig.mailchimpSignupUrl} method="post" target="_blank">
-          <div class="flex flex-col sm:flex-row gap-3 justify-center">
-            <input
-              type="email"
-              name="EMAIL"
-              placeholder="Вашият имейл адрес"
-              required
-              class="px-4 py-3 rounded-md flex-grow max-w-md bg-surface text-text-primary border border-border focus:border-accent-primary focus:ring-2 focus:ring-accent-primary focus:ring-opacity-20"
-            />
-            <Button variant="primary" type="submit">
-              Абонирай се
-            </Button>
-          </div>
-        </form>
-
-        <!-- Social Links -->
-        <div class="flex justify-center gap-6 mb-6">
-          {siteConfig.instagramUrl && (
-            <a href={siteConfig.instagramUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-secondary transition-colors" aria-label="Instagram">
-              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
-            </a>
-          )}
-          {siteConfig.facebookUrl && (
-            <a href={siteConfig.facebookUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-secondary transition-colors" aria-label="Facebook">
-              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-              </svg>
-            </a>
-          )}
-          {siteConfig.youtubeUrl && (
-            <a href={siteConfig.youtubeUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-secondary transition-colors" aria-label="YouTube">
-              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-              </svg>
-            </a>
-          )}
-        </div>
-
-        <a href="/bg/links" class="inline-block text-accent-secondary hover:text-accent-primary font-semibold">
-          Всички Връзки →
-        </a>
-      </div>
-    </section>
-
+  </div>
 </Layout>
+
+<script>
+  import '../../scripts/inline-video';
+</script>

@@ -93,6 +93,14 @@ const isActive = (href: string) => {
     </script>
   </head>
   <body class="min-h-screen flex flex-col bg-bg text-text-primary">
+    <!-- Skip to main content (keyboard / screen reader) -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 z-[100] bg-surface text-text-primary px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-accent-primary"
+    >
+      Skip to content
+    </a>
+
     <!-- Sticky Glass Header -->
     <header class="header-glass sticky top-0 z-50 border-b">
       <div class="header-body container mx-auto px-4 py-3 md:py-5">
@@ -227,7 +235,7 @@ const isActive = (href: string) => {
       </div>
     </div>
 
-    <main class="flex-grow container mx-auto px-4 pb-6">
+    <main id="main-content" class="flex-grow container mx-auto px-4 pb-6">
       <slot />
     </main>
 
@@ -283,7 +291,7 @@ const isActive = (href: string) => {
       // ===== Cookie Helper Functions =====
       function setCookie(name: string, value: string, days: number = 365) {
         const maxAge = days * 24 * 60 * 60;
-        document.cookie = `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Lax`;
+        document.cookie = `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Strict; Secure`;
       }
 
       function getCookie(name: string): string | null {
@@ -385,14 +393,11 @@ const isActive = (href: string) => {
         mobileMenuClose.addEventListener('click', toggleMobileMenu);
       }
 
-      // Close mobile menu when clicking a nav link
-      const mobileNavLinks = mobileMenu?.querySelectorAll('nav a');
-      mobileNavLinks?.forEach(link => {
-        link.addEventListener('click', () => {
-          if (menuOpen) {
-            toggleMobileMenu();
-          }
-        });
+      // Close mobile menu when clicking a nav link (event delegation)
+      mobileMenu?.querySelector('nav')?.addEventListener('click', (e) => {
+        if ((e.target as Element).closest('a') && menuOpen) {
+          toggleMobileMenu();
+        }
       });
 
       // ===== Language Switcher =====
@@ -402,7 +407,10 @@ const isActive = (href: string) => {
       const currentPath = window.location.pathname;
       const currentLang = currentPath.startsWith('/bg') ? 'bg' : 'en';
 
+      const VALID_LOCALES = ['en', 'bg'] as const;
+
       function handleLanguageChange(newLang: string) {
+        if (!(VALID_LOCALES as readonly string[]).includes(newLang)) return;
         setCookie('site_lang', newLang, 365);
 
         let newPath = currentPath;

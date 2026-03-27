@@ -380,20 +380,17 @@ textarea::placeholder {
 }
 
 /* ===== Smooth Transitions ===== */
+/* Scoped to interactive elements to avoid performance issues on complex pages */
 
-* {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-duration: var(--transition-fast);
-  transition-timing-function: ease;
-}
-
-/* Disable transitions for elements that should change instantly */
-button,
 a,
+button,
 input,
 select,
-textarea {
-  transition-property: background-color, border-color, color, transform, box-shadow;
+textarea,
+[role="button"] {
+  transition-property: background-color, border-color, color, fill, stroke, transform, box-shadow, opacity;
+  transition-duration: var(--transition-fast);
+  transition-timing-function: ease;
 }
 
 /* ===== Page Load Animation ===== */
