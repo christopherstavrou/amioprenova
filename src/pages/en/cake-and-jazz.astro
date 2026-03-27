@@ -24,25 +24,24 @@ import cakeAndJazz from '../../data/cake-and-jazz.json';
     <!-- Featured Video -->
     <section class="mb-10">
       <SectionHeader title="Watch" class="mb-8" />
-      <div class="max-w-4xl mx-auto">
-        <div class="video-card rounded-lg overflow-hidden shadow-lg" data-youtube-id={cakeAndJazz.video.youtubeId}>
-          <button
-            class="video-thumb w-full block relative"
-            aria-label={`Play ${cakeAndJazz.video.title}`}
-          >
-            <img
-              src={cakeAndJazz.video.thumbnail}
-              alt={cakeAndJazz.video.title}
-              class="w-full aspect-video object-cover"
-            />
-            <div class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors">
-              <svg class="w-24 h-24 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-          </button>
-          <div class="video-player hidden aspect-video overflow-hidden bg-black"></div>
-        </div>
+      <div class="video-card" data-youtube-id={cakeAndJazz.video.youtubeId}>
+        <button
+          class="video-thumb w-full relative rounded-lg overflow-hidden shadow-lg cursor-pointer block"
+          aria-label={`Play ${cakeAndJazz.video.title}`}
+        >
+          <img
+            src={cakeAndJazz.video.thumbnail}
+            alt={cakeAndJazz.video.title}
+            class="w-full aspect-video object-cover"
+            loading="eager"
+          />
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors">
+            <svg class="w-24 h-24 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </button>
+        <div class="video-player hidden aspect-video rounded-lg overflow-hidden bg-black"></div>
         <p class="mt-4 text-center text-text-secondary">{cakeAndJazz.video.title}</p>
       </div>
     </section>

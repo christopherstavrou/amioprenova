@@ -132,6 +132,7 @@ h1 {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+  padding-bottom: 0.15em;
 }
 
 h2 {
