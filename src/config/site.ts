@@ -21,7 +21,7 @@ export const siteConfig = {
 
   // Social media
   instagramUrl: 'https://www.instagram.com/amioprenovamusic',
-  tiktokUrl: '', // TODO: Add when verified
+  tiktokUrl: 'https://www.tiktok.com/@amioprenovamusic',
   facebookUrl: 'https://www.facebook.com/amioprenovamusic/',
 
   // Monetization
@@ -78,7 +78,7 @@ export const siteConfig = {
     },
     {
       label: 'TikTok',
-      url: '', // TODO: Add when verified
+      url: 'https://www.tiktok.com/@amioprenovamusic',
       category: 'social',
     },
     {
