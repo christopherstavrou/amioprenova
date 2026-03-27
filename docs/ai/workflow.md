@@ -222,3 +222,4 @@ lsof -ti:4321 | xargs kill -9 && npm run dev
 | Mix unrelated changes in one commit | One logical change per commit |
 | Improve code outside the task scope | Stay focused on what was asked |
 | Leave work uncommitted at end of session | Commit, push, open PR |
+| Stage `.claude/settings.local.json` | It is gitignored — never commit it; it holds personal tool permissions |

@@ -66,8 +66,9 @@ $RECYCLE.BIN/
 # Design assets — kept locally, not tracked in git
 design/
 
-# Claude local settings
-.claude/
+# Claude settings — local permissions are personal and must not be committed
+# settings.json (shared plugin config) is tracked; settings.local.json is not
+.claude/settings.local.json
 
 # WSL metadata files
 *Zone.Identifier
