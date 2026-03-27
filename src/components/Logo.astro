@@ -25,9 +25,9 @@ const { class: className = '' } = Astro.props;
 >
   <title id="logo-title">Ami Oprenova</title>
   <text
-    x="150"
+    x="4"
     y="30"
-    text-anchor="middle"
+    text-anchor="start"
     dominant-baseline="middle"
     class="logo-text"
   >
@@ -39,7 +39,7 @@ const { class: className = '' } = Astro.props;
   .logo {
     width: auto;
     height: 4rem;
-    display: inline-block;
+    display: block;
   }
 
   .logo-text {
@@ -50,10 +50,11 @@ const { class: className = '' } = Astro.props;
     transition: fill var(--transition-base);
   }
 
-  /* Responsive sizing */
+  /* Larger on desktop */
   @media (min-width: 768px) {
     .logo {
       height: 5rem;
     }
   }
+
 </style>
