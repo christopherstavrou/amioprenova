@@ -4,6 +4,9 @@ export default {
   darkMode: 'media', // Use prefers-color-scheme for automatic theme switching
   theme: {
     extend: {
+      screens: {
+        nav: '1180px',
+      },
       colors: {
         // Using CSS variables for automatic light/dark mode support
         bg: 'var(--color-bg)',

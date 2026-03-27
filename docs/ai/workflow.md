@@ -95,8 +95,14 @@ Spot-check affected pages in the browser. Test dark mode: DevTools → Rendering
 ```bash
 git add <specific-files>   # Stage specific files, not git add .
 git commit -m "feat: description"
+
+# Always fetch before pushing — the remote may have moved since your last pull
+git fetch origin
+git rebase origin/ai/your-feature-name   # or origin/develop if pushing develop directly
 git push -u origin ai/your-feature-name
 ```
+
+**If you have unstaged changes when rebasing:** `git stash` before the rebase, `git stash pop` after, then push.
 
 ### 7. Open pull request
 
@@ -205,6 +211,16 @@ git branch -m ai/your-feature-name
 git push -u origin ai/your-feature-name
 ```
 
+**Push rejected — "fetch first"** — Remote has commits you don't have locally (Copilot review, auto-commits, another push):
+```bash
+git stash                          # if you have unstaged changes
+git fetch origin
+git rebase origin/<branch-name>
+git stash pop                      # if you stashed
+git push origin <branch-name>
+```
+Never use `--force` on `develop` or `main` — they are protected.
+
 **Port 4321 in use:**
 ```bash
 lsof -ti:4321 | xargs kill -9 && npm run dev
@@ -222,3 +238,5 @@ lsof -ti:4321 | xargs kill -9 && npm run dev
 | Mix unrelated changes in one commit | One logical change per commit |
 | Improve code outside the task scope | Stay focused on what was asked |
 | Leave work uncommitted at end of session | Commit, push, open PR |
+| Push without fetching first | Always `git fetch origin && git rebase origin/<branch>` before `git push` |
+| Stage `.claude/settings.local.json` | It is gitignored — never commit it; it holds personal tool permissions |
