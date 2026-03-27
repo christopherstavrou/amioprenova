@@ -265,12 +265,8 @@ textarea::placeholder {
   border-bottom-color: rgba(45, 41, 38, 0.5);
 }
 
-/* Burger/close icons: maroon in light mode, gold in dark mode */
+/* Burger/close icons: maroon in light mode, gold in dark mode (via --color-accent-primary) */
 #mobile-menu-toggle {
-  color: var(--color-accent-primary);
-}
-
-:root[data-theme="dark"] #mobile-menu-toggle {
   color: var(--color-accent-primary);
 }
 

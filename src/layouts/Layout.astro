@@ -178,18 +178,6 @@ const isActive = (href: string) => {
       id="mobile-menu"
       class="mobile-menu nav:hidden fixed inset-0 overflow-y-auto"
     >
-      <!-- Close button -->
-      <button
-        id="mobile-menu-close"
-        type="button"
-        class="absolute top-5 right-5 p-2 rounded-lg text-text-primary hover:text-accent-primary hover:bg-surface-muted transition-colors"
-        aria-label="Close menu"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-
       <div class="mobile-menu-body container mx-auto px-4 pb-6 pt-24">
         <nav class="flex flex-col border-t border-border">
           {navItems.map(item => (
@@ -390,11 +378,6 @@ const isActive = (href: string) => {
 
       if (mobileMenuToggle) {
         mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-      }
-
-      const mobileMenuClose = document.getElementById('mobile-menu-close');
-      if (mobileMenuClose) {
-        mobileMenuClose.addEventListener('click', toggleMobileMenu);
       }
 
       // Close mobile menu when clicking a nav link (event delegation)
