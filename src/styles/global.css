@@ -66,24 +66,24 @@
   --color-text-primary: #E8E8E8;
   --color-text-secondary: #888888;
   --color-text-inverse: #1A1A1A;
-  --color-text-heading: #F0F0F0;
+  --color-text-heading: #D4AF37;
 
   /* Logo */
   --color-logo: #F0F0F0;
 
-  /* Accents — brighter burgundy that reads on near-black */
-  --color-accent-primary: #C4294E;
-  --color-accent-primary-hover: #D62E55;
-  --color-accent-secondary: #C4294E;
-  --color-accent-gold: #C4294E;
+  /* Accents — gold as the single dark-mode accent */
+  --color-accent-primary: #D4AF37;
+  --color-accent-primary-hover: #C49B2A;
+  --color-accent-secondary: #D4AF37;
+  --color-accent-gold: #D4AF37;
 
-  /* Hero gradient — name treatment on home page */
-  --gradient-hero: linear-gradient(to right, #F0F0F0, #C4294E);
+  /* Hero gradient — near-white to gold */
+  --gradient-hero: linear-gradient(to right, #E8E8E8, #D4AF37);
 
   /* Borders & Dividers */
   --color-border: #2A2A2A;
   --color-border-light: #222222;
-  --color-border-focus: #C4294E;
+  --color-border-focus: #D4AF37;
 
   /* Shadows - Stronger shadows for dark mode */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
