@@ -1,7 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getEntry } from 'astro:content';
-import Button from '../../components/Button.astro';
 import PageHeader from '../../components/PageHeader.astro';
 
 const about = await getEntry('pages', 'bg/about');
@@ -19,8 +18,8 @@ const { Content } = await about.render();
       <!-- Portrait -->
       <div class="md:col-span-2">
         <img
-          src="/images/ami-portrait.jpg"
-          alt="Ами Опренова портрет"
+          src="/images/hero-performance-2.jpg"
+          alt="Ами Опренова на сцена"
           class="w-full rounded-lg shadow-xl object-cover"
           style="aspect-ratio: 3/4; object-position: center top;"
         />
@@ -65,14 +64,14 @@ const { Content } = await about.render();
     <!-- Отвъд сцената -->
     <section class="mb-8 -mx-4 relative">
       <img
-        src="/images/family-portrait.jpg"
-        alt="Ами Опренова семейство"
+        src="/images/performance-ronnies-2.jpg"
+        alt="Ами Опренова на сцена"
         class="w-full h-[420px] object-cover object-center"
       />
-      <div class="absolute inset-0 bg-gradient-to-t from-bg/90 via-bg/30 to-transparent flex items-end">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex items-end">
         <div class="p-8 md:p-12 max-w-2xl">
-          <h2 class="font-serif text-3xl md:text-4xl font-bold text-text-inverse mb-4">Отвъд Сцената</h2>
-          <p class="text-text-inverse/90 text-lg leading-relaxed">
+          <h2 class="font-serif text-3xl md:text-4xl font-bold text-white mb-4">Отвъд Сцената</h2>
+          <p class="text-white/90 text-lg leading-relaxed">
             Извън прожекторите Ами е отдадена майка и партньор. Семейството е ритъмът зад всяка
             нота — радостта, топлината и опорната точка, която вдъхва на музиката й истинско чувство.
           </p>

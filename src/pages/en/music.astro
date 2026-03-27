@@ -21,9 +21,9 @@ import releases from '../../data/releases.json';
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {releases.map(release => (
           <Card padding="none" hover class="overflow-hidden hover:shadow-xl">
-            <img src={release.coverImage} alt={release.title} class="w-full aspect-square object-cover" />
+            <img src={release.coverImage} alt={release.title} class="w-full aspect-square object-cover" loading="lazy" />
             <div class="p-6">
-              <h3 class="text-xl font-bold mb-1">{release.title}</h3>
+              <h3 class="font-serif text-xl font-bold mb-1">{release.title}</h3>
               <p class="text-text-secondary mb-3">{release.year}</p>
               <p class="text-text-secondary text-sm mb-4 line-clamp-3">{release.description}</p>
               <div class="flex flex-wrap gap-2">

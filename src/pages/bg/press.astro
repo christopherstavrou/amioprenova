@@ -17,7 +17,7 @@ import { siteConfig } from '../../config/site';
   <div class="max-w-4xl mx-auto">
     <!-- Short Bio -->
     <section class="mb-6">
-      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Кратка биография</h2>
+      <h2 class="font-serif text-2xl font-bold mb-4">Кратка биография</h2>
       <div class="prose max-w-none">
         <p class="text-lg leading-relaxed text-text-primary">
           amioprenova е музикант и композитор, създаващ атмосферни електронни звукови пейзажи, които съчетават ambient текстури с експериментална продукция. Базиран в София, България, техният труд изследва пресечната точка между органични и синтетични звуци.
@@ -27,7 +27,7 @@ import { siteConfig } from '../../config/site';
 
     <!-- Long Bio -->
     <section class="mb-6">
-      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Пълна биография</h2>
+      <h2 class="font-serif text-2xl font-bold mb-4">Пълна биография</h2>
       <div class="prose max-w-none">
         <p class="mb-4 text-text-primary">
           amioprenova е музикант, композитор и sound designer, чиято работа съществува на кръстопътя между електронния експеримент и емоционалното разказване. Вдъхновен от ambient пионерите, модерните електронни продуценти и природните звукови пейзажи на България, тяхната музика създава имерсивни звукови среди, които канят към дълбоко слушане.
@@ -45,7 +45,7 @@ import { siteConfig } from '../../config/site';
     <section class="mb-6">
       <div class="grid md:grid-cols-2 gap-8">
         <div>
-          <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Жанр</h2>
+          <h2 class="font-serif text-2xl font-bold mb-4">Жанр</h2>
           <div class="flex flex-wrap gap-2">
             {siteConfig.genres.map((genre) => (
               <Badge>{genre}</Badge>
@@ -53,7 +53,7 @@ import { siteConfig } from '../../config/site';
           </div>
         </div>
         <div>
-          <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Препоръчано ако харесвате</h2>
+          <h2 class="font-serif text-2xl font-bold mb-4">Препоръчано ако харесвате</h2>
           <div class="flex flex-wrap gap-2">
             {siteConfig.riylTags.map((artist) => (
               <Badge>{artist}</Badge>
@@ -65,7 +65,7 @@ import { siteConfig } from '../../config/site';
 
     <!-- Key Links -->
     <section class="mb-6">
-      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Връзки</h2>
+      <h2 class="font-serif text-2xl font-bold mb-4">Връзки</h2>
       <div class="grid md:grid-cols-2 gap-4">
         <a href={siteConfig.baseUrl} class="text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors">Официален уебсайт</a>
         <a href={siteConfig.bandcampUrl} class="text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors">Bandcamp</a>
@@ -78,7 +78,7 @@ import { siteConfig } from '../../config/site';
 
     <!-- Downloads -->
     <section class="mb-6">
-      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Изтегляния</h2>
+      <h2 class="font-serif text-2xl font-bold mb-4">Изтегляния</h2>
       <Card padding="lg" class="bg-surface-muted">
         <div class="space-y-6">
           <div>
@@ -118,7 +118,7 @@ import { siteConfig } from '../../config/site';
 
     <!-- Contact -->
     <section class="mb-6">
-      <h2 class="font-serif text-2xl font-bold text-text-primary mb-4">Преса контакт</h2>
+      <h2 class="font-serif text-2xl font-bold mb-4">Преса контакт</h2>
       <p class="text-lg text-text-primary">
         За преса запитвания, интервюта и медийни искания, моля свържете се с:{' '}
         <a
