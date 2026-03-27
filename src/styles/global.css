@@ -11,26 +11,32 @@
 :root,
 :root[data-theme="light"] {
   /* Backgrounds */
-  --color-bg: #F7F4F0;
+  --color-bg: #FAFAF8;
   --color-surface: #FFFFFF;
-  --color-surface-muted: #F7F4F0;
+  --color-surface-muted: #F4F4F2;
   --color-surface-elevated: #FFFFFF;
 
   /* Text */
-  --color-text-primary: #1F1F1F;
-  --color-text-secondary: #9A9A9A;
-  --color-text-inverse: #FFFFFF;
-  --color-text-heading: #1F1F1F;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #666666;
+  --color-text-inverse: #F0F0F0;
+  --color-text-heading: #111111;
 
-  /* Accents */
+  /* Logo */
+  --color-logo: #111111;
+
+  /* Accents — burgundy as the single accent */
   --color-accent-primary: #8B1C3B;
-  --color-accent-primary-hover: #771830;
-  --color-accent-secondary: #CDA34A;
-  --color-accent-gold: #CDA34A;
+  --color-accent-primary-hover: #701528;
+  --color-accent-secondary: #8B1C3B;
+  --color-accent-gold: #8B1C3B;
+
+  /* Hero gradient — name treatment on home page */
+  --gradient-hero: linear-gradient(to right, #111111, #8B1C3B);
 
   /* Borders & Dividers */
-  --color-border: #E5E5E5;
-  --color-border-light: #F0F0F0;
+  --color-border: #E2E2E2;
+  --color-border-light: #EBEBEB;
   --color-border-focus: #8B1C3B;
 
   /* Shadows */
@@ -50,28 +56,34 @@
 
 /* Dark mode - applied via data-theme="dark" attribute */
 :root[data-theme="dark"] {
-  /* Backgrounds - Warm near-black tones */
-  --color-bg: #0D0C0B;
-  --color-surface: #1A1816;
-  --color-surface-muted: #121110;
-  --color-surface-elevated: #221F1D;
+  /* Backgrounds */
+  --color-bg: #0C0C0C;
+  --color-surface: #171717;
+  --color-surface-muted: #111111;
+  --color-surface-elevated: #202020;
 
-  /* Text - Gold for headings, white for body */
-  --color-text-primary: #F5F5F5;
-  --color-text-secondary: #B3B3B3;
-  --color-text-inverse: #1F1F1F;
-  --color-text-heading: #D4AF37;
+  /* Text */
+  --color-text-primary: #E8E8E8;
+  --color-text-secondary: #888888;
+  --color-text-inverse: #1A1A1A;
+  --color-text-heading: #F0F0F0;
 
-  /* Accents - White for text/links, gold for secondary */
-  --color-accent-primary: #FFFFFF;
-  --color-accent-primary-hover: #E0E0E0;
-  --color-accent-secondary: #D4AF37;
-  --color-accent-gold: #D4AF37;
+  /* Logo */
+  --color-logo: #F0F0F0;
 
-  /* Borders & Dividers - Warm subtle tones */
-  --color-border: #2D2926;
-  --color-border-light: #252320;
-  --color-border-focus: #FFFFFF;
+  /* Accents — brighter burgundy that reads on near-black */
+  --color-accent-primary: #C4294E;
+  --color-accent-primary-hover: #D62E55;
+  --color-accent-secondary: #C4294E;
+  --color-accent-gold: #C4294E;
+
+  /* Hero gradient — name treatment on home page */
+  --gradient-hero: linear-gradient(to right, #F0F0F0, #C4294E);
+
+  /* Borders & Dividers */
+  --color-border: #2A2A2A;
+  --color-border-light: #222222;
+  --color-border-focus: #C4294E;
 
   /* Shadows - Stronger shadows for dark mode */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -108,11 +120,13 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 2.25rem; /* 36px */
   margin-bottom: 1.5rem;
+  letter-spacing: 0.015em;
 }
 
 h2 {
   font-size: 1.5rem; /* 24px */
   margin-bottom: 1.25rem;
+  letter-spacing: 0.015em;
 }
 
 h3 {
@@ -296,6 +310,16 @@ textarea::placeholder {
     height: auto;
     width: 40%;
   }
+}
+
+/* ===== Hero Name Gradient ===== */
+
+.hero-name {
+  background: var(--gradient-hero);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 /* ===== Utility Classes ===== */
