@@ -20,12 +20,12 @@
   --color-text-primary: #1A1A1A;
   --color-text-secondary: #666666;
   --color-text-inverse: #F0F0F0;
-  --color-text-heading: #111111;
+  --color-text-heading: #8B1C3B;
 
-  /* Logo gradient stops */
-  --color-logo-start: #8B1C3B;
-  --color-logo-mid: #C4607A;
-  --color-logo-end: #8B1C3B;
+  /* Logo — flat near-black, no gradient */
+  --color-logo-start: #111111;
+  --color-logo-mid: #111111;
+  --color-logo-end: #111111;
 
   /* Accents — burgundy as the single accent */
   --color-accent-primary: #8B1C3B;
@@ -33,9 +33,9 @@
   --color-accent-secondary: #8B1C3B;
   --color-accent-gold: #8B1C3B;
 
-  /* Shine gradients — burgundy → soft rose → burgundy */
-  --gradient-h1: linear-gradient(to right, #8B1C3B, #C4607A, #8B1C3B);
-  --gradient-hero: linear-gradient(to right, #8B1C3B, #C4607A, #8B1C3B);
+  /* Shine gradients — burgundy → deep rose → burgundy */
+  --gradient-h1: linear-gradient(to right, #8B1C3B, #A03055, #8B1C3B);
+  --gradient-hero: linear-gradient(to right, #8B1C3B, #A03055, #8B1C3B);
 
   /* Borders & Dividers */
   --color-border: #E2E2E2;
@@ -67,7 +67,7 @@
 
   /* Text */
   --color-text-primary: #E8E8E8;
-  --color-text-secondary: #888888;
+  --color-text-secondary: #AAAAAA;
   --color-text-inverse: #1A1A1A;
   --color-text-heading: #D4AF37;
 
@@ -268,6 +268,11 @@ textarea::placeholder {
 :root[data-theme="dark"] .header-glass {
   background: rgba(13, 12, 11, 0.85);
   border-bottom-color: rgba(45, 41, 38, 0.5);
+}
+
+/* Burger/close icons gold in dark mode */
+:root[data-theme="dark"] #mobile-menu-toggle {
+  color: var(--color-accent-primary);
 }
 
 /* Mobile menu overlay — hidden by default, shown via .open class */
