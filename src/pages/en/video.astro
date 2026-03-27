@@ -16,7 +16,7 @@ const otherVideos = videos.filter(v => !v.featured);
   description="Watch music videos, live performances, and behind-the-scenes content from Ami Oprenova. Explore the visual artistry and live recordings."
   lang="en"
 >
-  <PageHeader title="Videos" align="center" class="mb-4" />
+  <PageHeader title="Videos" align="center" class="mb-6" />
 
   <!-- Featured Video — plays inline on click -->
   {featuredVideo && (
@@ -85,7 +85,7 @@ const otherVideos = videos.filter(v => !v.featured);
   </section>
 
   <!-- YouTube channel link -->
-  <div class="mt-16 text-center">
+  <div class="mt-10 text-center">
     <p class="text-text-secondary mb-4">More performances and recordings on YouTube</p>
     <Button href={siteConfig.youtubeUrl} variant="secondary" target="_blank" rel="noopener noreferrer">
       Visit YouTube Channel

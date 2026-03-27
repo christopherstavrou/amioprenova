@@ -16,7 +16,7 @@ const otherVideos = videos.filter(v => !v.featured);
   description="Гледайте музикални клипове, концертни изпълнения и материали зад кулисите от Ами Опренова. Изследвайте визуалното изкуство и записи на живо."
   lang="bg"
 >
-  <PageHeader title="Видеа" align="center" class="mb-4" />
+  <PageHeader title="Видеа" align="center" class="mb-6" />
 
   <!-- Основно видео — пуска се вградено при клик -->
   {featuredVideo && (
@@ -85,7 +85,7 @@ const otherVideos = videos.filter(v => !v.featured);
   </section>
 
   <!-- Връзка към YouTube канал -->
-  <div class="mt-16 text-center">
+  <div class="mt-10 text-center">
     <p class="text-text-secondary mb-4">Още изпълнения и записи в YouTube</p>
     <Button href={siteConfig.youtubeUrl} variant="secondary" target="_blank" rel="noopener noreferrer">
       YouTube канал

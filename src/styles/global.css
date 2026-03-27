@@ -132,6 +132,7 @@ h1 {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+  padding-bottom: 0.15em;
 }
 
 h2 {
@@ -212,22 +213,8 @@ a:focus-visible {
 /* ===== Section Spacing ===== */
 
 section {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-}
-
-@media (min-width: 768px) {
-  section {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  section {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
-  }
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 /* ===== Form Elements ===== */
@@ -260,9 +247,7 @@ textarea::placeholder {
 /* ===== Nav Link Transition ===== */
 /* Used on desktop nav anchors — colour + border transition at base speed (250ms) */
 .nav-link {
-  transition-property: color, border-color;
-  transition-duration: var(--transition-base);
-  transition-timing-function: ease;
+  transition: color var(--transition-base), border-color var(--transition-base);
 }
 
 /* ===== Header Glass Effect ===== */
