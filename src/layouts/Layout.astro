@@ -27,7 +27,7 @@ const navItems = [
   { href: `/${lang}/video`, label: t.nav.video },
   { href: `/${lang}/cake-and-jazz`, label: t.nav.cakeAndJazz },
   { href: `/${lang}/shows`, label: t.nav.shows },
-  { href: `/${lang}/blog`, label: t.nav.news },
+  { href: `/${lang}/news`, label: t.nav.news },
   { href: `/${lang}/press`, label: t.nav.press },
   { href: `/${lang}/contact`, label: t.nav.contact },
 ];
@@ -407,6 +407,11 @@ const isActive = (href: string) => {
 
       const currentPath = window.location.pathname;
       const currentLang = currentPath.startsWith('/bg') ? 'bg' : 'en';
+
+      // Sync cookie with the actual page language on every load — ensures the
+      // language indicator stays correct when navigating via cross-language links
+      // (e.g. "view English news" from BG page) rather than the language switcher.
+      setCookie('site_lang', currentLang, 365);
 
       const VALID_LOCALES = ['en', 'bg'] as const;
 
