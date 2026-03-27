@@ -11,26 +11,35 @@
 :root,
 :root[data-theme="light"] {
   /* Backgrounds */
-  --color-bg: #F7F4F0;
+  --color-bg: #FAFAF8;
   --color-surface: #FFFFFF;
-  --color-surface-muted: #F7F4F0;
+  --color-surface-muted: #F4F4F2;
   --color-surface-elevated: #FFFFFF;
 
   /* Text */
-  --color-text-primary: #1F1F1F;
-  --color-text-secondary: #9A9A9A;
-  --color-text-inverse: #FFFFFF;
-  --color-text-heading: #1F1F1F;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #666666;
+  --color-text-inverse: #F0F0F0;
+  --color-text-heading: #111111;
 
-  /* Accents */
+  /* Logo — flat near-black, no gradient */
+  --color-logo-start: #111111;
+  --color-logo-mid: #111111;
+  --color-logo-end: #111111;
+
+  /* Accents — burgundy as the single accent */
   --color-accent-primary: #8B1C3B;
-  --color-accent-primary-hover: #771830;
-  --color-accent-secondary: #CDA34A;
-  --color-accent-gold: #CDA34A;
+  --color-accent-primary-hover: #701528;
+  --color-accent-secondary: #8B1C3B;
+  --color-accent-gold: #8B1C3B;
+
+  /* Shine gradients — burgundy → deep rose → burgundy */
+  --gradient-h1: linear-gradient(to right, #8B1C3B, #A03055, #8B1C3B);
+  --gradient-hero: linear-gradient(to right, #8B1C3B, #A03055, #8B1C3B);
 
   /* Borders & Dividers */
-  --color-border: #E5E5E5;
-  --color-border-light: #F0F0F0;
+  --color-border: #E2E2E2;
+  --color-border-light: #EBEBEB;
   --color-border-focus: #8B1C3B;
 
   /* Shadows */
@@ -50,28 +59,37 @@
 
 /* Dark mode - applied via data-theme="dark" attribute */
 :root[data-theme="dark"] {
-  /* Backgrounds - Warm near-black tones */
-  --color-bg: #0D0C0B;
-  --color-surface: #1A1816;
-  --color-surface-muted: #121110;
-  --color-surface-elevated: #221F1D;
+  /* Backgrounds */
+  --color-bg: #0C0C0C;
+  --color-surface: #171717;
+  --color-surface-muted: #111111;
+  --color-surface-elevated: #202020;
 
-  /* Text - Gold for headings, white for body */
-  --color-text-primary: #F5F5F5;
-  --color-text-secondary: #B3B3B3;
-  --color-text-inverse: #1F1F1F;
-  --color-text-heading: #D4AF37;
+  /* Text */
+  --color-text-primary: #E8E8E8;
+  --color-text-secondary: #AAAAAA;
+  --color-text-inverse: #1A1A1A;
+  --color-text-heading: #E8E8E8;
 
-  /* Accents - White for text/links, gold for secondary */
-  --color-accent-primary: #FFFFFF;
-  --color-accent-primary-hover: #E0E0E0;
+  /* Logo gradient stops */
+  --color-logo-start: #D4AF37;
+  --color-logo-mid: #F5E6A0;
+  --color-logo-end: #D4AF37;
+
+  /* Accents — gold as the single dark-mode accent */
+  --color-accent-primary: #D4AF37;
+  --color-accent-primary-hover: #C49B2A;
   --color-accent-secondary: #D4AF37;
   --color-accent-gold: #D4AF37;
 
-  /* Borders & Dividers - Warm subtle tones */
-  --color-border: #2D2926;
-  --color-border-light: #252320;
-  --color-border-focus: #FFFFFF;
+  /* Shine gradients — gold → warm cream → gold */
+  --gradient-h1: linear-gradient(to right, #D4AF37, #F5E6A0, #D4AF37);
+  --gradient-hero: linear-gradient(to right, #D4AF37, #F5E6A0, #D4AF37);
+
+  /* Borders & Dividers */
+  --color-border: #2A2A2A;
+  --color-border-light: #222222;
+  --color-border-focus: #D4AF37;
 
   /* Shadows - Stronger shadows for dark mode */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -108,11 +126,19 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 2.25rem; /* 36px */
   margin-bottom: 1.5rem;
+  letter-spacing: 0.015em;
+  background: var(--gradient-h1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 h2 {
   font-size: 1.5rem; /* 24px */
   margin-bottom: 1.25rem;
+  letter-spacing: 0.015em;
+  color: var(--color-accent-primary);
 }
 
 h3 {
@@ -246,6 +272,11 @@ textarea::placeholder {
   border-bottom-color: rgba(45, 41, 38, 0.5);
 }
 
+/* Burger/close icons gold in dark mode */
+:root[data-theme="dark"] #mobile-menu-toggle {
+  color: var(--color-accent-primary);
+}
+
 /* Mobile menu overlay — hidden by default, shown via .open class */
 .mobile-menu {
   background: rgba(247, 244, 240, 0.97);
@@ -298,6 +329,16 @@ textarea::placeholder {
   }
 }
 
+/* ===== Hero Name Gradient ===== */
+/* Uses --gradient-hero variable; same as h1 gradient by default */
+.hero-name {
+  background: var(--gradient-hero);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
 /* ===== Utility Classes ===== */
 
 /* Surface backgrounds */
@@ -341,20 +382,17 @@ textarea::placeholder {
 }
 
 /* ===== Smooth Transitions ===== */
+/* Scoped to interactive elements to avoid performance issues on complex pages */
 
-* {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-duration: var(--transition-fast);
-  transition-timing-function: ease;
-}
-
-/* Disable transitions for elements that should change instantly */
-button,
 a,
+button,
 input,
 select,
-textarea {
-  transition-property: background-color, border-color, color, transform, box-shadow;
+textarea,
+[role="button"] {
+  transition-property: background-color, border-color, color, fill, stroke, transform, box-shadow, opacity;
+  transition-duration: var(--transition-fast);
+  transition-timing-function: ease;
 }
 
 /* ===== Page Load Animation ===== */

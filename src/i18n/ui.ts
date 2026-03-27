@@ -19,6 +19,9 @@ export const ui = {
     footer: {
       copyright: 'All rights reserved.',
     },
+    a11y: {
+      skipToContent: 'Skip to content',
+    },
   },
   bg: {
     nav: {
@@ -36,6 +39,9 @@ export const ui = {
     },
     footer: {
       copyright: 'Всички права запазени.',
+    },
+    a11y: {
+      skipToContent: 'Към съдържанието',
     },
   },
 } as const;
