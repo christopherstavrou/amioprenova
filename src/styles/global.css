@@ -247,9 +247,7 @@ textarea::placeholder {
 /* ===== Nav Link Transition ===== */
 /* Used on desktop nav anchors — colour + border transition at base speed (250ms) */
 .nav-link {
-  transition-property: color, border-color;
-  transition-duration: var(--transition-base);
-  transition-timing-function: ease;
+  transition: color var(--transition-base), border-color var(--transition-base);
 }
 
 /* ===== Header Glass Effect ===== */
