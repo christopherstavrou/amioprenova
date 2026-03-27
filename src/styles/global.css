@@ -356,3 +356,39 @@ select,
 textarea {
   transition-property: background-color, border-color, color, transform, box-shadow;
 }
+
+/* ===== Page Transition Animations ===== */
+
+/* Outgoing page: fade out and drift upward */
+@keyframes pageLeave {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+
+/* Incoming page: fade in and settle from below */
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+::view-transition-old(main-content) {
+  animation: pageLeave 200ms ease-in forwards;
+}
+
+::view-transition-new(main-content) {
+  animation: pageEnter 250ms ease-out forwards;
+}
+
+/* Suppress the default full-page transition — we only animate main */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(main-content),
+  ::view-transition-new(main-content) {
+    animation: none;
+  }
+}
