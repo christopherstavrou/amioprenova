@@ -10,8 +10,12 @@
     "city": "Sofia",
     "country": "Bulgaria",
     "tags": ["festival", "outdoor", "sofia", "jazz"],
-    "image": "",
-    "gallery": [],
+    "image": "https://picsum.photos/seed/festival-sofia/1280/720",
+    "gallery": [
+      { "type": "image", "src": "https://picsum.photos/seed/festival-stage/1280/720", "alt": "Stage setup at the Open Air venue", "caption": "The main stage at sunset" },
+      { "type": "image", "src": "https://picsum.photos/seed/festival-crowd/1280/720", "alt": "Audience at the Summer Music Festival", "caption": "A packed crowd on opening night" },
+      { "type": "image", "src": "https://picsum.photos/seed/festival-perform/1280/720", "alt": "Performer on stage" }
+    ],
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=Sofia+Open+Air+Stage"
   },
@@ -26,7 +30,7 @@
     "city": "Plovdiv",
     "country": "Bulgaria",
     "tags": ["jazz", "intimate", "plovdiv"],
-    "image": "",
+    "image": "https://picsum.photos/seed/jazz-night-plovdiv/1280/720",
     "gallery": [],
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=Plovdiv+Blue+Note+Club"
@@ -42,7 +46,7 @@
     "city": "Varna",
     "country": "Bulgaria",
     "tags": ["acoustic", "varna", "cafe"],
-    "image": "",
+    "image": "https://picsum.photos/seed/acoustic-varna/1280/720",
     "gallery": [],
     "ticketUrl": "",
     "mapUrl": ""
@@ -58,7 +62,7 @@
     "city": "Sofia",
     "country": "Bulgaria",
     "tags": ["concert", "sofia", "winter", "ndk"],
-    "image": "",
+    "image": "https://picsum.photos/seed/winter-ndk/1280/720",
     "gallery": [],
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=Sofia+NDK"
@@ -74,9 +78,11 @@
     "city": "Sofia",
     "country": "Bulgaria",
     "tags": ["jazz", "sofia", "spring"],
-    "image": "",
+    "image": "https://picsum.photos/seed/spring-jazz-2025/1280/720",
     "gallery": [
-      { "type": "youtube", "id": "dQw4w9WgXcQ", "title": "Concert highlights" }
+      { "type": "youtube", "id": "dQw4w9WgXcQ", "title": "Concert highlights" },
+      { "type": "image", "src": "https://picsum.photos/seed/spring-stage/1280/720", "alt": "Stage at the Spring Jazz Session", "caption": "Opening night" },
+      { "type": "image", "src": "https://picsum.photos/seed/spring-backstage/1280/720", "alt": "Backstage before the show" }
     ],
     "ticketUrl": "",
     "mapUrl": ""
@@ -92,8 +98,12 @@
     "city": "Varna",
     "country": "Bulgaria",
     "tags": ["new year", "varna", "celebration"],
-    "image": "",
-    "gallery": [],
+    "image": "https://picsum.photos/seed/newyear-varna/1280/720",
+    "gallery": [
+      { "type": "youtube", "id": "dQw4w9WgXcQ", "title": "New Year countdown moment" },
+      { "type": "image", "src": "https://picsum.photos/seed/newyear-crowd/1280/720", "alt": "Crowd celebrating New Year", "caption": "Midnight countdown" },
+      { "type": "image", "src": "https://picsum.photos/seed/newyear-stage/1280/720", "alt": "Stage decorated for New Year's Eve" }
+    ],
     "ticketUrl": "",
     "mapUrl": ""
   }
