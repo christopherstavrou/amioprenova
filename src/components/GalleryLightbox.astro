@@ -88,13 +88,13 @@ const itemsJson = JSON.stringify(items.map(item => {
 -->
 <div
   id="gallery-lightbox"
-  class="hidden fixed inset-0 z-[60] overflow-hidden flex flex-col items-center"
+  class="hidden fixed inset-0 z-[60] overflow-hidden flex flex-col"
   role="dialog"
   aria-modal="true"
   aria-label="Gallery viewer"
 >
-  <!-- Content card -->
-  <div class="gl-card flex flex-col w-full max-w-5xl flex-1 min-h-0 gap-1.5 sm:gap-2">
+  <!-- Content card: mx-auto for horizontal centering; flex-1 min-h-0 fills overlay height -->
+  <div class="gl-card flex flex-col w-full max-w-5xl mx-auto flex-1 min-h-0 gap-1.5 sm:gap-2">
 
     <!-- Top bar: counter + close (fixed height) -->
     <div class="flex items-center justify-between shrink-0">
@@ -175,6 +175,14 @@ const itemsJson = JSON.stringify(items.map(item => {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     overscroll-behavior: none;
+    /*
+     * Explicit height so flex-1 on .gl-card has a definite parent size
+     * to grow into. position:fixed inset:0 already constrains to viewport,
+     * but some mobile Chrome builds don't treat that as a definite flex
+     * container height without an explicit value.
+     */
+    height: 100vh;
+    height: 100dvh;
     padding:
       max(0.75rem, env(safe-area-inset-top))
       max(0.75rem, env(safe-area-inset-right))
@@ -210,12 +218,15 @@ const itemsJson = JSON.stringify(items.map(item => {
 
   /*
    * ── Content area: fills the media row height ──
-   * flex:1 min-width:0 for horizontal, height:100% for vertical reference.
+   * align-self:stretch overrides the parent's align-items:center so
+   * .gl-content gets the full row height (= definite size). This breaks
+   * the percentage-height resolution issue that height:100% has when the
+   * parent uses align-items:center instead of stretch.
    */
   .gl-content {
     flex: 1;
     min-width: 0;
-    height: 100%;
+    align-self: stretch;
   }
 
   /* ── Images: fit within the content area ── */
