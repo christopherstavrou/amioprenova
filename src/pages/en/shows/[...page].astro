@@ -42,62 +42,64 @@ const pastEvents = getPastEvents();
         No upcoming shows at the moment. Check back soon or follow on social media for announcements!
       </p>
     ) : (
-      <div class="space-y-6 mb-6">
+      <div class="space-y-3 mb-6">
         {posts.map(event => (
-          <Card hover={true} padding="none">
-            {event.image && (
-              <a href={`/en/shows/${event.slug}`} class="block overflow-hidden rounded-t-lg">
-                <img
-                  src={event.image}
-                  alt={event.title}
-                  class="w-full aspect-video object-cover hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
-              </a>
-            )}
-            <div class={`flex flex-col md:flex-row md:justify-between md:items-start gap-4 ${event.image ? 'p-5 pt-4' : 'p-5'}`}>
-              <div class="flex-grow">
-                <a href={`/en/shows/${event.slug}`} class="group">
-                  <h2 class="font-serif text-2xl font-bold mb-2 group-hover:text-accent-primary transition-colors">{event.title}</h2>
+          <Card hover={true} padding="none" class="overflow-hidden">
+            <div class="flex flex-row">
+              {event.image && (
+                <a href={`/en/shows/${event.slug}`} class="shrink-0 w-28 sm:w-44">
+                  <img
+                    src={event.image}
+                    alt={event.title}
+                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
                 </a>
-                <p class="text-text-secondary mb-1">
-                  <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
-                </p>
-                <p class="text-text-secondary mb-2">
-                  {event.venue} · {event.city}, {event.country}
-                </p>
-                {event.tags && event.tags.length > 0 && (
-                  <div class="flex gap-2 flex-wrap mb-3">
-                    {event.tags.map(tag => (
-                      <Badge>{tag}</Badge>
-                    ))}
-                  </div>
-                )}
-                <p class="text-text-primary text-sm">{event.description}</p>
-              </div>
-              <div class="flex gap-3 shrink-0">
-                {event.ticketUrl && (
-                  <Button
-                    variant="primary"
-                    href={event.ticketUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-sm"
-                  >
-                    Tickets
-                  </Button>
-                )}
-                {event.mapUrl && (
-                  <Button
-                    variant="secondary"
-                    href={event.mapUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-sm"
-                  >
-                    Map
-                  </Button>
-                )}
+              )}
+              <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
+                <div class="flex-grow min-w-0">
+                  <a href={`/en/shows/${event.slug}`} class="group">
+                    <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">{event.title}</h2>
+                  </a>
+                  <p class="text-text-secondary text-sm mb-1">
+                    <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
+                  </p>
+                  <p class="text-text-secondary text-sm mb-2">
+                    {event.venue} · {event.city}, {event.country}
+                  </p>
+                  {event.tags && event.tags.length > 0 && (
+                    <div class="flex gap-1.5 flex-wrap mb-2">
+                      {event.tags.map(tag => (
+                        <Badge>{tag}</Badge>
+                      ))}
+                    </div>
+                  )}
+                  <p class="text-text-primary text-sm line-clamp-2">{event.description}</p>
+                </div>
+                <div class="flex gap-2 shrink-0 flex-wrap">
+                  {event.ticketUrl && (
+                    <Button
+                      variant="primary"
+                      href={event.ticketUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-sm"
+                    >
+                      Tickets
+                    </Button>
+                  )}
+                  {event.mapUrl && (
+                    <Button
+                      variant="secondary"
+                      href={event.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-sm"
+                    >
+                      Map
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
           </Card>
@@ -159,62 +161,64 @@ const pastEvents = getPastEvents();
           Show past shows ({pastEvents.length})
         </button>
 
-        <div id="past-shows-list" class="hidden space-y-6">
+        <div id="past-shows-list" class="hidden space-y-3">
           {pastEvents.map(event => (
-            <Card hover={true} padding="none">
-              {event.image && (
-                <a href={`/en/shows/${event.slug}`} class="block overflow-hidden rounded-t-lg">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    class="w-full aspect-video object-cover hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                  />
-                </a>
-              )}
-              <div class={`flex flex-col md:flex-row md:justify-between md:items-start gap-4 ${event.image ? 'p-5 pt-4' : 'p-5'}`}>
-                <div class="flex-grow">
-                  <a href={`/en/shows/${event.slug}`} class="group">
-                    <h2 class="font-serif text-2xl font-bold mb-2 group-hover:text-accent-primary transition-colors">{event.title}</h2>
+            <Card hover={true} padding="none" class="overflow-hidden">
+              <div class="flex flex-row">
+                {event.image && (
+                  <a href={`/en/shows/${event.slug}`} class="shrink-0 w-28 sm:w-44">
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
                   </a>
-                  <p class="text-text-secondary mb-1">
-                    <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
-                  </p>
-                  <p class="text-text-secondary mb-2">
-                    {event.venue} · {event.city}, {event.country}
-                  </p>
-                  {event.tags && event.tags.length > 0 && (
-                    <div class="flex gap-2 flex-wrap mb-3">
-                      {event.tags.map(tag => (
-                        <Badge>{tag}</Badge>
-                      ))}
-                    </div>
-                  )}
-                  <p class="text-text-primary text-sm">{event.description}</p>
-                </div>
-                <div class="flex gap-3 shrink-0">
-                  {event.ticketUrl && (
-                    <Button
-                      variant="primary"
-                      href={event.ticketUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-sm"
-                    >
-                      Tickets
-                    </Button>
-                  )}
-                  {event.mapUrl && (
-                    <Button
-                      variant="secondary"
-                      href={event.mapUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-sm"
-                    >
-                      Map
-                    </Button>
-                  )}
+                )}
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
+                  <div class="flex-grow min-w-0">
+                    <a href={`/en/shows/${event.slug}`} class="group">
+                      <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">{event.title}</h2>
+                    </a>
+                    <p class="text-text-secondary text-sm mb-1">
+                      <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
+                    </p>
+                    <p class="text-text-secondary text-sm mb-2">
+                      {event.venue} · {event.city}, {event.country}
+                    </p>
+                    {event.tags && event.tags.length > 0 && (
+                      <div class="flex gap-1.5 flex-wrap mb-2">
+                        {event.tags.map(tag => (
+                          <Badge>{tag}</Badge>
+                        ))}
+                      </div>
+                    )}
+                    <p class="text-text-primary text-sm line-clamp-2">{event.description}</p>
+                  </div>
+                  <div class="flex gap-2 shrink-0 flex-wrap">
+                    {event.ticketUrl && (
+                      <Button
+                        variant="primary"
+                        href={event.ticketUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm"
+                      >
+                        Tickets
+                      </Button>
+                    )}
+                    {event.mapUrl && (
+                      <Button
+                        variant="secondary"
+                        href={event.mapUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm"
+                      >
+                        Map
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
             </Card>
