@@ -332,24 +332,10 @@ const isActive = (href: string) => {
         }
       }
 
-      // Logo gradient colours as plain hex — bypasses CSS var() resolution
-      // inside SVG <defs> which is unreliable on iOS Safari
-      const logoColors = {
-        light: ['#8B1C3B', '#A03055', '#8B1C3B'],
-        dark:  ['#D4AF37', '#F5E6A0', '#D4AF37'],
-      };
-
-      function applyLogoGradient(theme: 'light' | 'dark') {
-        const stops = document.querySelectorAll<SVGStopElement>('#logo-gradient stop');
-        const colors = logoColors[theme];
-        stops.forEach((stop, i) => stop.setAttribute('stop-color', colors[i]));
-      }
-
       function applyTheme(theme: 'light' | 'dark') {
         // Set data-theme attribute on html element
         document.documentElement.setAttribute('data-theme', theme);
         updateThemeIcons(theme);
-        applyLogoGradient(theme);
       }
 
       function toggleTheme() {

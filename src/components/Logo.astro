@@ -2,8 +2,13 @@
 /**
  * Logo Component
  *
- * Displays "Ami Oprenova" as an SVG text element using the Dancing Script font.
- * The logo adapts to the current theme (light/dark) automatically.
+ * Displays "Ami Oprenova" as styled HTML text using the Dancing Script font
+ * with a CSS gradient applied via background-clip: text.
+ *
+ * Uses the same technique as h1 headings (--gradient-hero CSS variable),
+ * which is reliably supported across all browsers including iOS Safari.
+ * The previous SVG + linearGradient approach had iOS Safari compatibility
+ * issues with CSS custom properties inside SVG <defs>.
  *
  * Props:
  * - class: Optional additional CSS classes
@@ -16,51 +21,27 @@ export interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<svg
-  class={`logo ${className}`}
-  viewBox="0 0 300 60"
-  xmlns="http://www.w3.org/2000/svg"
-  aria-labelledby="logo-title"
-  role="img"
->
-  <defs>
-    <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" />
-      <stop offset="50%" />
-      <stop offset="100%" />
-    </linearGradient>
-  </defs>
-  <title id="logo-title">Ami Oprenova</title>
-  <text
-    x="4"
-    y="30"
-    text-anchor="start"
-    dominant-baseline="middle"
-    class="logo-text"
-  >
-    Ami Oprenova
-  </text>
-</svg>
+<span class={`logo-text ${className}`} aria-label="Ami Oprenova">Ami Oprenova</span>
 
 <style>
-  .logo {
-    width: auto;
-    height: 4rem;
-    display: block;
-  }
-
   .logo-text {
-    font-family: 'Dancing Script', 'Pacifico', cursive, serif;
-    font-size: 42px;
+    font-family: 'Dancing Script', 'Pacifico', cursive;
+    font-size: 2.75rem;
     font-weight: 400;
-    fill: url(#logo-gradient);
+    line-height: 1.2;
+    white-space: nowrap;
+    display: inline-block;
+    padding-bottom: 0.1em; /* prevent descender clipping from background-clip: text */
+    background: var(--gradient-hero);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
-/* Larger on desktop */
   @media (min-width: 768px) {
-    .logo {
-      height: 5rem;
+    .logo-text {
+      font-size: 3.5rem;
     }
   }
-
 </style>
