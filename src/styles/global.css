@@ -103,6 +103,7 @@ html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-gutter: stable; /* reserves scrollbar space on all pages, preventing nav shift between short and long pages */
 }
 
 body {
