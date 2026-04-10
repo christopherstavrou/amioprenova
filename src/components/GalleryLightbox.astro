@@ -4,7 +4,7 @@
  * Compact thumbnail grid + full-screen lightbox with carousel.
  * - Theme-aware overlay (light/dark via :root[data-theme])
  * - z-[60]: above sticky nav (z-50)
- * - Content-centred layout: thumbnails sit directly below media
+ * - True flex layout: media row fills remaining space, no vh arithmetic
  * - Keyboard: Escape, ArrowLeft, ArrowRight
  * - Accessible: aria-modal, aria-label, focus management
  */
@@ -78,76 +78,79 @@ const itemsJson = JSON.stringify(items.map(item => {
 
 <!-- ─── Lightbox ───────────────────────────────────────────────────── -->
 <!--
-  A gallery lightbox must NEVER scroll — content should always fit within
-  the viewport. Use flex centering directly on the fixed overlay.
-  No overflow-y-auto, no min-h-full pattern.
+  Layout strategy: true flex column — no viewport-unit arithmetic.
+  The overlay is a flex column that fills the screen exactly.
+  .gl-card fills the overlay height and distributes space with flex.
+  .gl-media-row is flex:1 min-h:0 so it takes all remaining height
+  after the fixed-height chrome (top bar, caption, strip).
+  Media inside uses max-height:100% / max-width:100% to fit the row.
 -->
 <div
   id="gallery-lightbox"
-  class="hidden fixed inset-0 z-[60] overflow-hidden flex items-center justify-center p-3 sm:p-4"
+  class="hidden fixed inset-0 z-[60] overflow-hidden flex flex-col items-center p-3 sm:p-4"
   role="dialog"
   aria-modal="true"
   aria-label="Gallery viewer"
 >
-    <!-- Content card — fills width, capped to viewport height -->
-    <div class="gl-card flex flex-col w-full max-w-5xl gap-1.5 sm:gap-2">
+  <!-- Content card: fills available height, capped to viewport -->
+  <div class="gl-card flex flex-col w-full max-w-5xl gap-1.5 sm:gap-2">
 
-      <!-- Top bar: counter + close -->
-      <div class="flex items-center justify-between">
-        <span id="gallery-counter" class="gl-meta text-sm tabular-nums select-none"></span>
-        <button id="gallery-close" class="gl-btn" aria-label="Close gallery">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+    <!-- Top bar: counter + close (fixed height) -->
+    <div class="flex items-center justify-between shrink-0">
+      <span id="gallery-counter" class="gl-meta text-sm tabular-nums select-none"></span>
+      <button id="gallery-close" class="gl-btn" aria-label="Close gallery">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Media row: grows to fill remaining space -->
+    <div class="gl-media-row flex items-center gap-1 sm:gap-2">
+      <button id="gallery-prev" class="gl-btn shrink-0" aria-label="Previous">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <div id="gallery-content" class="gl-content flex items-center justify-center overflow-hidden">
+        <!-- Injected: <img> or <div class="gl-video"><iframe></div> -->
       </div>
 
-      <!-- Media + prev/next -->
-      <div class="flex items-center gap-1 sm:gap-2">
-        <button id="gallery-prev" class="gl-btn shrink-0" aria-label="Previous">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
+      <button id="gallery-next" class="gl-btn shrink-0" aria-label="Next">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
 
-        <div id="gallery-content" class="flex-1 flex items-center justify-center min-w-0">
-          <!-- Injected: <img> or <div class="gl-video"><iframe></div> -->
-        </div>
+    <!-- Caption (fixed height) -->
+    <p id="gallery-caption" class="gl-meta text-center text-sm shrink-0 min-h-[1.25rem] px-8 select-none"></p>
 
-        <button id="gallery-next" class="gl-btn shrink-0" aria-label="Next">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
+    <!-- Thumbnail strip (fixed height) -->
+    <div class="overflow-x-auto shrink-0">
+      <div class="flex gap-1.5 w-max">
+        {items.map((item, i) => (
+          <button
+            class="gl-strip-thumb shrink-0 w-14 h-9 sm:w-16 sm:h-10 rounded overflow-hidden relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
+            data-strip-index={i}
+            aria-label={`Go to item ${i + 1}`}
+            tabindex="-1"
+          >
+            {(item.type === 'image' || item.type === 'youtube') && (
+              <img src={thumbSrc(item)} alt="" class="w-full h-full object-cover" loading="lazy" />
+            )}
+            {item.type === 'vimeo' && (
+              <div class="w-full h-full bg-surface-muted flex items-center justify-center">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            )}
+          </button>
+        ))}
       </div>
+    </div>
 
-      <!-- Caption -->
-      <p id="gallery-caption" class="gl-meta text-center text-sm min-h-[1.25rem] px-8 select-none"></p>
-
-      <!-- Thumbnail strip -->
-      <div class="overflow-x-auto">
-        <div class="flex gap-1.5 w-max">
-          {items.map((item, i) => (
-            <button
-              class="gl-strip-thumb shrink-0 w-14 h-9 sm:w-16 sm:h-10 rounded overflow-hidden relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
-              data-strip-index={i}
-              aria-label={`Go to item ${i + 1}`}
-              tabindex="-1"
-            >
-              {(item.type === 'image' || item.type === 'youtube') && (
-                <img src={thumbSrc(item)} alt="" class="w-full h-full object-cover" loading="lazy" />
-              )}
-              {item.type === 'vimeo' && (
-                <div class="w-full h-full bg-surface-muted flex items-center justify-center">
-                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-              )}
-            </button>
-          ))}
-        </div>
-      </div>
-
-    </div><!-- /gl-card -->
+  </div><!-- /gl-card -->
 </div><!-- /gallery-lightbox -->
 
 <!--
@@ -166,14 +169,69 @@ const itemsJson = JSON.stringify(items.map(item => {
   }
 
   /*
-   * ── Card height constraint ──
-   * All chrome (top bar + caption + strip + gaps + padding) is ~11rem.
-   * Cap the card so it never overflows the viewport.
-   * dvh is used where supported (avoids mobile browser chrome issues).
+   * ── Card: fills the full overlay height ──
+   * Using height (not max-height) so flex children can use height:100%
+   * to reference a definite size. The overlay has p-3/p-4 so subtract
+   * that to get the available height (1.5rem on mobile, 2rem on sm+).
+   * dvh accounts for mobile browser chrome (address bar, etc).
    */
   .gl-card {
-    max-height: calc(100vh - 1.5rem);
-    max-height: calc(100dvh - 1.5rem);
+    height: calc(100vh - 1.5rem);
+    height: calc(100dvh - 1.5rem);
+  }
+  @media (min-width: 640px) {
+    .gl-card {
+      height: calc(100vh - 2rem);
+      height: calc(100dvh - 2rem);
+    }
+  }
+
+  /* ── Media row: grows to fill all remaining card height ── */
+  .gl-media-row {
+    flex: 1;
+    min-height: 0; /* allow flex item to shrink below content size */
+  }
+
+  /*
+   * ── Content area: fills the media row height ──
+   * flex:1 min-width:0 for horizontal growth/shrink.
+   * height:100% gives children a definite reference for max-height:100%.
+   */
+  .gl-content {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+  }
+
+  /* ── Images: constrained to content area ── */
+  #gallery-content img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    display: block;
+  }
+
+  /*
+   * ── Videos: 16:9 ratio, constrained by both axes ──
+   * width:100% + aspect-ratio sets natural size.
+   * max-height:100% makes the browser reduce both dimensions
+   * proportionally when the natural height would overflow.
+   */
+  #gallery-content .gl-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 100%;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: #000;
+  }
+  #gallery-content .gl-video iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
   }
 
   /* ── Control buttons ── */
@@ -210,40 +268,6 @@ const itemsJson = JSON.stringify(items.map(item => {
     opacity: 1;
     outline: 2px solid var(--color-accent-primary);
     outline-offset: 2px;
-  }
-
-  /*
-   * ── Media sizing ──
-   * Non-media chrome totals ~11rem (top bar 2.75rem + caption 1.25rem +
-   * strip 2.5rem + gaps 2rem + padding 1.5rem + breathing room).
-   * Images and videos must never push the card past the viewport.
-   */
-  #gallery-content img {
-    max-height: calc(100vh - 11rem);
-    max-height: calc(100dvh - 11rem);
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-    border-radius: 0.5rem;
-    display: block;
-  }
-
-  /* Video: 16:9 aspect ratio, capped by both viewport height and width */
-  #gallery-content .gl-video {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    max-height: calc(100vh - 11rem);
-    max-height: calc(100dvh - 11rem);
-    max-width: calc((100vh - 11rem) * (16 / 9));
-    max-width: calc((100dvh - 11rem) * (16 / 9));
-    border-radius: 0.5rem;
-    overflow: hidden;
-    background: #000;
-  }
-  #gallery-content .gl-video iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
   }
 </style>
 
