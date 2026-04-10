@@ -4,7 +4,8 @@
  * Compact thumbnail grid + full-screen lightbox with carousel.
  * - Theme-aware overlay (light/dark via :root[data-theme])
  * - z-[60]: above sticky nav (z-50)
- * - True flex layout: media row fills remaining space, no vh arithmetic
+ * - True flex layout: no vh arithmetic, works in portrait and landscape
+ * - Safe-area-inset padding for iOS notch / home indicator
  * - Keyboard: Escape, ArrowLeft, ArrowRight
  * - Accessible: aria-modal, aria-label, focus management
  */
@@ -78,22 +79,22 @@ const itemsJson = JSON.stringify(items.map(item => {
 
 <!-- ─── Lightbox ───────────────────────────────────────────────────── -->
 <!--
-  Layout strategy: true flex column — no viewport-unit arithmetic.
-  The overlay is a flex column that fills the screen exactly.
-  .gl-card fills the overlay height and distributes space with flex.
-  .gl-media-row is flex:1 min-h:0 so it takes all remaining height
-  after the fixed-height chrome (top bar, caption, strip).
-  Media inside uses max-height:100% / max-width:100% to fit the row.
+  Layout: the overlay is a flex column that fills fixed inset-0.
+  Padding is set in CSS using max(base, env(safe-area-inset-*)) so the
+  close button and strip are always clear of the notch / home indicator.
+  The card uses flex-1 min-h-0 to fill available space after padding —
+  no explicit height calc needed.
+  The media row uses flex-1 min-h-0 for the remaining height after chrome.
 -->
 <div
   id="gallery-lightbox"
-  class="hidden fixed inset-0 z-[60] overflow-hidden flex flex-col items-center p-3 sm:p-4"
+  class="hidden fixed inset-0 z-[60] overflow-hidden flex flex-col items-center"
   role="dialog"
   aria-modal="true"
   aria-label="Gallery viewer"
 >
-  <!-- Content card: fills available height, capped to viewport -->
-  <div class="gl-card flex flex-col w-full max-w-5xl gap-1.5 sm:gap-2">
+  <!-- Content card -->
+  <div class="gl-card flex flex-col w-full max-w-5xl flex-1 min-h-0 gap-1.5 sm:gap-2">
 
     <!-- Top bar: counter + close (fixed height) -->
     <div class="flex items-center justify-between shrink-0">
@@ -127,8 +128,12 @@ const itemsJson = JSON.stringify(items.map(item => {
     <!-- Caption (fixed height) -->
     <p id="gallery-caption" class="gl-meta text-center text-sm shrink-0 min-h-[1.25rem] px-8 select-none"></p>
 
-    <!-- Thumbnail strip (fixed height) -->
-    <div class="overflow-x-auto shrink-0">
+    <!--
+      Thumbnail strip — hidden in phone landscape (orientation:landscape + short
+      viewport) where vertical space is too limited to use them comfortably.
+      The counter (e.g. "2 / 5") still communicates position.
+    -->
+    <div class="gl-strip-container overflow-x-auto shrink-0">
       <div class="flex gap-1.5 w-max">
         {items.map((item, i) => (
           <button
@@ -158,44 +163,54 @@ const itemsJson = JSON.stringify(items.map(item => {
   by Astro's scoped CSS attribute transformation.
 -->
 <style is:global>
-  /* ── Overlay background — theme-aware ── */
+  /*
+   * ── Overlay ──
+   * Padding uses max(base, env(safe-area-inset-*)) so the close button
+   * and strip are always outside the notch / home indicator safe zones.
+   * overscroll-behavior:none prevents iOS from scrolling the page when
+   * the overlay is touched (body.style.overflow:hidden is unreliable on iOS).
+   */
   #gallery-lightbox {
     background-color: rgba(248, 248, 248, 0.97);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    overscroll-behavior: none;
+    padding:
+      max(0.75rem, env(safe-area-inset-top))
+      max(0.75rem, env(safe-area-inset-right))
+      max(0.75rem, env(safe-area-inset-bottom))
+      max(0.75rem, env(safe-area-inset-left));
+  }
+  @media (min-width: 640px) {
+    #gallery-lightbox {
+      padding:
+        max(1rem, env(safe-area-inset-top))
+        max(1rem, env(safe-area-inset-right))
+        max(1rem, env(safe-area-inset-bottom))
+        max(1rem, env(safe-area-inset-left));
+    }
   }
   :root[data-theme="dark"] #gallery-lightbox {
     background-color: rgba(10, 10, 10, 0.97);
   }
 
   /*
-   * ── Card: fills the full overlay height ──
-   * Using height (not max-height) so flex children can use height:100%
-   * to reference a definite size. The overlay has p-3/p-4 so subtract
-   * that to get the available height (1.5rem on mobile, 2rem on sm+).
-   * dvh accounts for mobile browser chrome (address bar, etc).
+   * ── Card: fills available overlay height after padding ──
+   * flex-1 min-h-0 lets the card grow to fill exactly the space the
+   * overlay provides (inset-0 minus CSS padding). No explicit height
+   * calc needed — padding changes propagate automatically.
    */
-  .gl-card {
-    height: calc(100vh - 1.5rem);
-    height: calc(100dvh - 1.5rem);
-  }
-  @media (min-width: 640px) {
-    .gl-card {
-      height: calc(100vh - 2rem);
-      height: calc(100dvh - 2rem);
-    }
-  }
+  /* (flex-1 min-h-0 is in the HTML class list; no extra CSS needed) */
 
   /* ── Media row: grows to fill all remaining card height ── */
   .gl-media-row {
     flex: 1;
-    min-height: 0; /* allow flex item to shrink below content size */
+    min-height: 0;
   }
 
   /*
    * ── Content area: fills the media row height ──
-   * flex:1 min-width:0 for horizontal growth/shrink.
-   * height:100% gives children a definite reference for max-height:100%.
+   * flex:1 min-width:0 for horizontal, height:100% for vertical reference.
    */
   .gl-content {
     flex: 1;
@@ -203,7 +218,7 @@ const itemsJson = JSON.stringify(items.map(item => {
     height: 100%;
   }
 
-  /* ── Images: constrained to content area ── */
+  /* ── Images: fit within the content area ── */
   #gallery-content img {
     max-height: 100%;
     max-width: 100%;
@@ -215,10 +230,9 @@ const itemsJson = JSON.stringify(items.map(item => {
   }
 
   /*
-   * ── Videos: 16:9 ratio, constrained by both axes ──
-   * width:100% + aspect-ratio sets natural size.
-   * max-height:100% makes the browser reduce both dimensions
-   * proportionally when the natural height would overflow.
+   * ── Videos: 16:9, constrained by both axes ──
+   * width:100% sets natural size; max-height:100% causes the browser
+   * to reduce both dimensions proportionally when height would overflow.
    */
   #gallery-content .gl-video {
     width: 100%;
@@ -269,6 +283,16 @@ const itemsJson = JSON.stringify(items.map(item => {
     outline: 2px solid var(--color-accent-primary);
     outline-offset: 2px;
   }
+
+  /*
+   * ── Landscape phone: hide the strip ──
+   * On short landscape viewports (<= 500px tall) there is not enough
+   * vertical room for the strip to be comfortable. The counter ("2 / 5")
+   * still communicates position; arrows still navigate.
+   */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .gl-strip-container { display: none; }
+  }
 </style>
 
 <script>
@@ -299,8 +323,21 @@ const itemsJson = JSON.stringify(items.map(item => {
         btn.classList.toggle('is-active', i === index);
         btn.tabIndex = i === index ? 0 : -1;
       });
-      document.querySelector(`.gl-strip-thumb[data-strip-index="${index}"]`)
-        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+      /*
+       * Scroll the strip container manually instead of using scrollIntoView.
+       * scrollIntoView can trigger iOS Safari to scroll the *page*, which
+       * with the fixed-positioning bug causes the lightbox to drift and the
+       * close button to disappear under the sticky nav.
+       */
+      const activeThumb = document.querySelector(`.gl-strip-thumb[data-strip-index="${index}"]`);
+      const container   = activeThumb?.closest('.gl-strip-container');
+      if (activeThumb && container) {
+        const target = activeThumb.offsetLeft
+          - container.offsetWidth  / 2
+          + activeThumb.offsetWidth / 2;
+        container.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+      }
     }
 
     function renderContent(index) {
@@ -317,7 +354,7 @@ const itemsJson = JSON.stringify(items.map(item => {
       } else {
         const wrapper = document.createElement('div');
         wrapper.className = 'gl-video';
-        const iframe = document.createElement('iframe');
+        const iframe = document.createElement('iframe');;
         iframe.src = item.type === 'youtube'
           ? `https://www.youtube.com/embed/${item.id}?autoplay=1`
           : `https://player.vimeo.com/video/${item.id}?autoplay=1`;
