@@ -1,0 +1,280 @@
+---
+/**
+ * GalleryLightbox
+ * Renders a compact thumbnail grid. Clicking any item opens a full-screen
+ * lightbox with carousel navigation, thumbnail strip, and keyboard support.
+ * Supports images, YouTube, and Vimeo items.
+ */
+import type { GalleryItem } from '../lib/events';
+
+interface Props {
+  items: GalleryItem[];
+}
+
+const { items } = Astro.props;
+
+function thumbSrc(item: GalleryItem): string {
+  if (item.type === 'youtube') return `https://img.youtube.com/vi/${item.id}/mqdefault.jpg`;
+  if (item.type === 'image') return item.src;
+  return '';
+}
+
+function itemLabel(item: GalleryItem): string {
+  if (item.type === 'image') return item.alt;
+  return item.title;
+}
+
+// Serialise item data for the client script — only the fields needed at runtime
+const itemsJson = JSON.stringify(items.map(item => {
+  if (item.type === 'image') return { type: 'image', src: item.src, alt: item.alt, caption: item.caption ?? '' };
+  if (item.type === 'youtube') return { type: 'youtube', id: item.id, title: item.title };
+  return { type: 'vimeo', id: item.id, title: item.title };
+}));
+---
+
+<!-- Compact thumbnail grid — data-gallery-items carries item metadata for the lightbox script -->
+<div
+  class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 gallery-grid"
+  data-gallery-items={itemsJson}
+>
+  {items.map((item, i) => (
+    <button
+      class="gallery-thumb relative aspect-video rounded-md overflow-hidden bg-surface-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary group"
+      data-gallery-index={i}
+      aria-label={`View ${itemLabel(item)}`}
+    >
+      {(item.type === 'image' || item.type === 'youtube') && (
+        <img
+          src={thumbSrc(item)}
+          alt={itemLabel(item)}
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
+        />
+      )}
+      {item.type === 'vimeo' && (
+        <div class="w-full h-full flex items-center justify-center bg-surface-muted">
+          <span class="text-xs text-text-secondary px-2 text-center line-clamp-2">{item.title}</span>
+        </div>
+      )}
+      {(item.type === 'youtube' || item.type === 'vimeo') && (
+        <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-colors">
+          <svg class="w-8 h-8 text-white drop-shadow" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
+      )}
+      {item.type === 'image' && (
+        <div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors">
+          <svg class="w-7 h-7 text-white opacity-0 group-hover:opacity-100 drop-shadow transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 3h6m0 0v6m0-6L10 14M5 3H3a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-2" />
+          </svg>
+        </div>
+      )}
+    </button>
+  ))}
+</div>
+
+<!-- Lightbox overlay (one per page; shared by all .gallery-grid instances) -->
+<div
+  id="gallery-lightbox"
+  class="hidden fixed inset-0 z-50 bg-black/95 flex flex-col select-none"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Gallery viewer"
+>
+  <!-- Top bar -->
+  <div class="flex items-center justify-between px-4 pt-3 pb-2 shrink-0">
+    <span id="gallery-counter" class="text-white/50 text-sm tabular-nums"></span>
+    <button
+      id="gallery-close"
+      class="text-white/70 hover:text-white transition-colors p-2 rounded-md hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+      aria-label="Close gallery"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Main content area with side nav arrows -->
+  <div class="flex-1 flex items-center min-h-0 relative">
+    <button
+      id="gallery-prev"
+      class="absolute left-2 md:left-4 z-10 text-white/60 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+      aria-label="Previous"
+    >
+      <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <div id="gallery-content" class="flex-1 flex items-center justify-center px-14 md:px-20 h-full">
+      <!-- Injected by JS -->
+    </div>
+
+    <button
+      id="gallery-next"
+      class="absolute right-2 md:right-4 z-10 text-white/60 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+      aria-label="Next"
+    >
+      <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Caption -->
+  <p id="gallery-caption" class="text-center text-white/50 text-sm px-4 py-1 shrink-0 min-h-[1.75rem]"></p>
+
+  <!-- Thumbnail strip -->
+  <div class="shrink-0 overflow-x-auto py-3 px-4">
+    <div id="gallery-strip-inner" class="flex gap-2 w-max">
+      {items.map((item, i) => (
+        <button
+          class="gallery-strip-thumb shrink-0 w-16 h-10 rounded overflow-hidden bg-surface relative opacity-50 hover:opacity-80 transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+          data-strip-index={i}
+          aria-label={`Go to item ${i + 1}`}
+          tabindex="-1"
+        >
+          {(item.type === 'image' || item.type === 'youtube') && (
+            <img src={thumbSrc(item)} alt="" class="w-full h-full object-cover" loading="lazy" />
+          )}
+          {item.type === 'vimeo' && (
+            <div class="w-full h-full bg-surface-muted flex items-center justify-center">
+              <svg class="w-4 h-4 text-white/40" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          )}
+        </button>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  // @ts-nocheck
+  // GalleryLightbox — Astro deduplicates this script; one instance handles all galleries on the page.
+
+  const lightbox = document.getElementById('gallery-lightbox');
+  const contentEl = document.getElementById('gallery-content');
+  const captionEl = document.getElementById('gallery-caption');
+  const counterEl = document.getElementById('gallery-counter');
+  const closeBtn = document.getElementById('gallery-close');
+  const prevBtn = document.getElementById('gallery-prev');
+  const nextBtn = document.getElementById('gallery-next');
+
+  if (!lightbox || !contentEl) { /* not on a page with gallery */ }
+  else {
+    let items = [];
+    let activeIndex = 0;
+    let previouslyFocused = null;
+
+    function loadItems(grid) {
+      try { return JSON.parse(grid.dataset.galleryItems || '[]'); } catch { return []; }
+    }
+
+    function stopVideo() {
+      contentEl.innerHTML = '';
+    }
+
+    function renderContent(index) {
+      stopVideo();
+      const item = items[index];
+      if (!item) return;
+
+      if (item.type === 'image') {
+        const img = document.createElement('img');
+        img.src = item.src;
+        img.alt = item.alt || '';
+        img.className = 'max-w-full max-h-full object-contain rounded';
+        contentEl.appendChild(img);
+        captionEl.textContent = item.caption || '';
+      } else {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'w-full aspect-video rounded overflow-hidden bg-black max-w-5xl';
+        const iframe = document.createElement('iframe');
+        iframe.src = item.type === 'youtube'
+          ? `https://www.youtube.com/embed/${item.id}?autoplay=1`
+          : `https://player.vimeo.com/video/${item.id}?autoplay=1`;
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen';
+        iframe.allowFullscreen = true;
+        iframe.className = 'w-full h-full';
+        iframe.title = item.title || '';
+        wrapper.appendChild(iframe);
+        contentEl.appendChild(wrapper);
+        captionEl.textContent = item.title || '';
+      }
+
+      counterEl.textContent = `${index + 1} / ${items.length}`;
+
+      // Update strip highlight
+      document.querySelectorAll('.gallery-strip-thumb').forEach((btn, i) => {
+        const isActive = i === index;
+        btn.classList.toggle('opacity-100', isActive);
+        btn.classList.toggle('ring-2', isActive);
+        btn.classList.toggle('ring-white', isActive);
+        btn.classList.toggle('opacity-50', !isActive);
+      });
+
+      // Scroll active strip thumb into view
+      const activeThumb = document.querySelector(`.gallery-strip-thumb[data-strip-index="${index}"]`);
+      activeThumb?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+
+    function navigate(delta) {
+      activeIndex = ((activeIndex + delta) % items.length + items.length) % items.length;
+      renderContent(activeIndex);
+    }
+
+    function openLightbox(grid, index) {
+      items = loadItems(grid);
+      if (!items.length) return;
+      previouslyFocused = document.activeElement;
+      activeIndex = ((index % items.length) + items.length) % items.length;
+      renderContent(activeIndex);
+      lightbox.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function closeLightbox() {
+      stopVideo();
+      captionEl.textContent = '';
+      lightbox.classList.add('hidden');
+      document.body.style.overflow = '';
+      previouslyFocused?.focus();
+    }
+
+    // Wire up thumbnail grid clicks
+    document.querySelectorAll('.gallery-thumb').forEach(btn => {
+      const grid = btn.closest('.gallery-grid');
+      btn.addEventListener('click', () => openLightbox(grid, Number(btn.dataset.galleryIndex)));
+    });
+
+    // Strip clicks
+    document.querySelectorAll('.gallery-strip-thumb').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const targetIndex = Number(btn.dataset.stripIndex);
+        activeIndex = targetIndex;
+        renderContent(activeIndex);
+      });
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    prevBtn.addEventListener('click', () => navigate(-1));
+    nextBtn.addEventListener('click', () => navigate(1));
+
+    // Click backdrop to close
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target === contentEl.parentElement) closeLightbox();
+    });
+
+    // Keyboard
+    document.addEventListener('keydown', (e) => {
+      if (lightbox.classList.contains('hidden')) return;
+      if (e.key === 'Escape') { e.preventDefault(); closeLightbox(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); navigate(1); }
+    });
+  }
+</script>
