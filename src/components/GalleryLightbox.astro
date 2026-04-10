@@ -78,21 +78,19 @@ const itemsJson = JSON.stringify(items.map(item => {
 
 <!-- ─── Lightbox ───────────────────────────────────────────────────── -->
 <!--
-  Outer (#gallery-lightbox): full-screen scroll container + backdrop.
-  Inner (.gl-center): min-h-full flex centering — the correct pattern for
-  a scrollable modal that stays centred when content is short and scrolls
-  correctly when it overflows.
+  A gallery lightbox must NEVER scroll — content should always fit within
+  the viewport. Use flex centering directly on the fixed overlay.
+  No overflow-y-auto, no min-h-full pattern.
 -->
 <div
   id="gallery-lightbox"
-  class="hidden fixed inset-0 z-[60] overflow-y-auto"
+  class="hidden fixed inset-0 z-[60] overflow-hidden flex items-center justify-center p-3 sm:p-4"
   role="dialog"
   aria-modal="true"
   aria-label="Gallery viewer"
 >
-  <div class="gl-center flex min-h-full items-center justify-center p-4 sm:p-6">
-    <!-- Content card -->
-    <div class="gl-card flex flex-col w-full max-w-5xl gap-2 sm:gap-3">
+    <!-- Content card — fills width, capped to viewport height -->
+    <div class="gl-card flex flex-col w-full max-w-5xl gap-1.5 sm:gap-2">
 
       <!-- Top bar: counter + close -->
       <div class="flex items-center justify-between">
@@ -150,7 +148,6 @@ const itemsJson = JSON.stringify(items.map(item => {
       </div>
 
     </div><!-- /gl-card -->
-  </div><!-- /gl-center -->
 </div><!-- /gallery-lightbox -->
 
 <!--
@@ -166,6 +163,17 @@ const itemsJson = JSON.stringify(items.map(item => {
   }
   :root[data-theme="dark"] #gallery-lightbox {
     background-color: rgba(10, 10, 10, 0.97);
+  }
+
+  /*
+   * ── Card height constraint ──
+   * All chrome (top bar + caption + strip + gaps + padding) is ~11rem.
+   * Cap the card so it never overflows the viewport.
+   * dvh is used where supported (avoids mobile browser chrome issues).
+   */
+  .gl-card {
+    max-height: calc(100vh - 1.5rem);
+    max-height: calc(100dvh - 1.5rem);
   }
 
   /* ── Control buttons ── */
@@ -204,9 +212,15 @@ const itemsJson = JSON.stringify(items.map(item => {
     outline-offset: 2px;
   }
 
-  /* ── Media sizing ── */
+  /*
+   * ── Media sizing ──
+   * Non-media chrome totals ~11rem (top bar 2.75rem + caption 1.25rem +
+   * strip 2.5rem + gaps 2rem + padding 1.5rem + breathing room).
+   * Images and videos must never push the card past the viewport.
+   */
   #gallery-content img {
-    max-height: 65vh;
+    max-height: calc(100vh - 11rem);
+    max-height: calc(100dvh - 11rem);
     width: auto;
     max-width: 100%;
     object-fit: contain;
@@ -214,12 +228,14 @@ const itemsJson = JSON.stringify(items.map(item => {
     display: block;
   }
 
-  /* Video: maintain 16:9, fill available width, cap height */
+  /* Video: 16:9 aspect ratio, capped by both viewport height and width */
   #gallery-content .gl-video {
     width: 100%;
     aspect-ratio: 16 / 9;
-    max-height: 65vh;
-    max-width: calc(65vh * (16 / 9));
+    max-height: calc(100vh - 11rem);
+    max-height: calc(100dvh - 11rem);
+    max-width: calc((100vh - 11rem) * (16 / 9));
+    max-width: calc((100dvh - 11rem) * (16 / 9));
     border-radius: 0.5rem;
     overflow: hidden;
     background: #000;
@@ -228,16 +244,6 @@ const itemsJson = JSON.stringify(items.map(item => {
     width: 100%;
     height: 100%;
     border: 0;
-  }
-
-  @media (max-width: 639px) {
-    #gallery-content img,
-    #gallery-content .gl-video {
-      max-height: 55vh;
-    }
-    #gallery-content .gl-video {
-      max-width: calc(55vh * (16 / 9));
-    }
   }
 </style>
 
@@ -346,9 +352,9 @@ const itemsJson = JSON.stringify(items.map(item => {
     prevBtn?.addEventListener('click', () => navigate(-1));
     nextBtn?.addEventListener('click', () => navigate(1));
 
-    // Click backdrop (outer overlay or centering wrapper) to close
+    // Click the backdrop (lightbox background, not card contents) to close
     lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox || e.target.classList.contains('gl-center')) closeLightbox();
+      if (e.target === lightbox) closeLightbox();
     });
 
     // Keyboard
