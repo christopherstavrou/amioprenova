@@ -1,0 +1,311 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../../layouts/Layout.astro';
+import Button from '../../../components/Button.astro';
+import Card from '../../../components/Card.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import Badge from '../../../components/Badge.astro';
+import { getUpcomingEvents, getPastEvents, formatEventDate } from '../../../lib/events';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const upcomingEvents = getUpcomingEvents();
+  return paginate(upcomingEvents, { pageSize: 6 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const posts = page.data;
+const pastEvents = getPastEvents();
+---
+
+<Layout
+  title={page.currentPage === 1 ? "Shows - amioprenova" : `Shows - Page ${page.currentPage} - amioprenova`}
+  description="Find upcoming concerts and live performances by amioprenova. Get tickets and view show dates, venues, and locations."
+  lang="en"
+>
+  <PageHeader title="Upcoming Shows" class="nav:text-center" />
+
+  <div class="max-w-4xl mx-auto">
+    <div class="flex justify-end mb-8">
+      <div class="relative w-full md:w-64">
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search shows..."
+          class="w-full px-4 py-2 bg-surface border border-border rounded-lg focus:outline-none focus:border-accent-primary text-text-primary placeholder:text-text-secondary transition-colors"
+        />
+        <div id="search-results" class="hidden absolute top-full mt-2 w-full bg-surface-elevated border border-border rounded-lg shadow-lg max-h-96 overflow-y-auto z-10"></div>
+      </div>
+    </div>
+
+    {posts.length === 0 ? (
+      <p class="text-text-secondary text-lg">
+        No upcoming shows at the moment. Check back soon or follow on social media for announcements!
+      </p>
+    ) : (
+      <div class="space-y-6 mb-6">
+        {posts.map(event => (
+          <Card hover={true} padding="none">
+            {event.image && (
+              <a href={`/en/shows/${event.slug}`} class="block overflow-hidden rounded-t-lg">
+                <img
+                  src={event.image}
+                  alt={event.title}
+                  class="w-full aspect-video object-cover hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </a>
+            )}
+            <div class={`flex flex-col md:flex-row md:justify-between md:items-start gap-4 ${event.image ? 'p-5 pt-4' : 'p-5'}`}>
+              <div class="flex-grow">
+                <a href={`/en/shows/${event.slug}`} class="group">
+                  <h2 class="font-serif text-2xl font-bold mb-2 group-hover:text-accent-primary transition-colors">{event.title}</h2>
+                </a>
+                <p class="text-text-secondary mb-1">
+                  <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
+                </p>
+                <p class="text-text-secondary mb-2">
+                  {event.venue} · {event.city}, {event.country}
+                </p>
+                {event.tags && event.tags.length > 0 && (
+                  <div class="flex gap-2 flex-wrap mb-3">
+                    {event.tags.map(tag => (
+                      <Badge>{tag}</Badge>
+                    ))}
+                  </div>
+                )}
+                <p class="text-text-primary text-sm">{event.description}</p>
+              </div>
+              <div class="flex gap-3 shrink-0">
+                {event.ticketUrl && (
+                  <Button
+                    variant="primary"
+                    href={event.ticketUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-sm"
+                  >
+                    Tickets
+                  </Button>
+                )}
+                {event.mapUrl && (
+                  <Button
+                    variant="secondary"
+                    href={event.mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-sm"
+                  >
+                    Map
+                  </Button>
+                )}
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+    )}
+
+    {/* Pagination */}
+    {(page.lastPage > 1) && (
+      <nav class="flex justify-between items-center border-t border-border pt-8 mb-12">
+        <div>
+          {page.url.prev ? (
+            <a
+              href={page.url.prev}
+              class="inline-block px-4 py-2 border border-border rounded hover:border-accent-primary hover:text-accent-primary transition-colors"
+            >
+              ← Previous
+            </a>
+          ) : (
+            <span class="inline-block px-4 py-2 border border-border-light rounded text-text-secondary cursor-not-allowed opacity-50">
+              ← Previous
+            </span>
+          )}
+        </div>
+
+        <span class="text-sm text-text-secondary">
+          Page {page.currentPage} of {page.lastPage}
+        </span>
+
+        <div>
+          {page.url.next ? (
+            <a
+              href={page.url.next}
+              class="inline-block px-4 py-2 border border-border rounded hover:border-accent-primary hover:text-accent-primary transition-colors"
+            >
+              Next →
+            </a>
+          ) : (
+            <span class="inline-block px-4 py-2 border border-border-light rounded text-text-secondary cursor-not-allowed opacity-50">
+              Next →
+            </span>
+          )}
+        </div>
+      </nav>
+    )}
+
+    {/* Past shows */}
+    {pastEvents.length > 0 && (
+      <div class="border-t border-border pt-8">
+        <button
+          id="past-shows-toggle"
+          class="flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-accent-primary transition-colors mb-6"
+          aria-expanded="false"
+          aria-controls="past-shows-list"
+        >
+          <svg id="past-shows-chevron" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+          Show past shows ({pastEvents.length})
+        </button>
+
+        <div id="past-shows-list" class="hidden space-y-6">
+          {pastEvents.map(event => (
+            <Card hover={true} padding="none">
+              {event.image && (
+                <a href={`/en/shows/${event.slug}`} class="block overflow-hidden rounded-t-lg">
+                  <img
+                    src={event.image}
+                    alt={event.title}
+                    class="w-full aspect-video object-cover hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </a>
+              )}
+              <div class={`flex flex-col md:flex-row md:justify-between md:items-start gap-4 ${event.image ? 'p-5 pt-4' : 'p-5'}`}>
+                <div class="flex-grow">
+                  <a href={`/en/shows/${event.slug}`} class="group">
+                    <h2 class="font-serif text-2xl font-bold mb-2 group-hover:text-accent-primary transition-colors">{event.title}</h2>
+                  </a>
+                  <p class="text-text-secondary mb-1">
+                    <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
+                  </p>
+                  <p class="text-text-secondary mb-2">
+                    {event.venue} · {event.city}, {event.country}
+                  </p>
+                  {event.tags && event.tags.length > 0 && (
+                    <div class="flex gap-2 flex-wrap mb-3">
+                      {event.tags.map(tag => (
+                        <Badge>{tag}</Badge>
+                      ))}
+                    </div>
+                  )}
+                  <p class="text-text-primary text-sm">{event.description}</p>
+                </div>
+                <div class="flex gap-3 shrink-0">
+                  {event.ticketUrl && (
+                    <Button
+                      variant="primary"
+                      href={event.ticketUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-sm"
+                    >
+                      Tickets
+                    </Button>
+                  )}
+                  {event.mapUrl && (
+                    <Button
+                      variant="secondary"
+                      href={event.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-sm"
+                    >
+                      Map
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+
+  <script>
+    // @ts-nocheck
+    // Client-side search functionality (events only)
+    let searchIndex = [];
+
+    async function loadSearchIndex() {
+      try {
+        const response = await fetch('/search-index.json');
+        const allEntries = await response.json();
+        searchIndex = allEntries.filter(entry => entry.type === 'event' && entry.lang === 'en');
+      } catch (error) {
+        if (import.meta.env.DEV) console.error('Failed to load search index:', error);
+      }
+    }
+
+    function performSearch(query) {
+      if (!query || query.length < 2) return [];
+
+      const lowerQuery = query.toLowerCase();
+      return searchIndex
+        .filter(entry => {
+          const titleMatch = entry.title.toLowerCase().includes(lowerQuery);
+          const descMatch = entry.description.toLowerCase().includes(lowerQuery);
+          const tagsMatch = entry.tags.some(tag => tag.toLowerCase().includes(lowerQuery));
+          return titleMatch || descMatch || tagsMatch;
+        })
+        .slice(0, 10);
+    }
+
+    function displayResults(results) {
+      const resultsContainer = document.getElementById('search-results');
+      if (!resultsContainer) return;
+
+      if (results.length === 0) {
+        resultsContainer.classList.add('hidden');
+        return;
+      }
+
+      resultsContainer.innerHTML = results.map(entry => `
+        <a href="${entry.url}" class="block p-3 hover:bg-surface-muted border-b border-border last:border-b-0 transition-colors">
+          <div class="font-medium text-sm text-text-primary">${entry.title}</div>
+          <div class="text-xs text-text-secondary mt-1">${entry.date}</div>
+        </a>
+      `).join('');
+
+      resultsContainer.classList.remove('hidden');
+    }
+
+    // Past shows toggle
+    const toggleBtn = document.getElementById('past-shows-toggle');
+    const pastList = document.getElementById('past-shows-list');
+    const chevron = document.getElementById('past-shows-chevron');
+
+    if (toggleBtn && pastList && chevron) {
+      toggleBtn.addEventListener('click', () => {
+        const isHidden = pastList.classList.contains('hidden');
+        pastList.classList.toggle('hidden');
+        chevron.style.transform = isHidden ? 'rotate(90deg)' : '';
+        toggleBtn.setAttribute('aria-expanded', String(isHidden));
+      });
+    }
+
+    // Initialize search
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSearchIndex();
+
+      const searchInput = document.getElementById('search-input');
+      const resultsContainer = document.getElementById('search-results');
+
+      if (searchInput && resultsContainer) {
+        searchInput.addEventListener('input', (e) => {
+          const query = e.target.value;
+          const results = performSearch(query);
+          displayResults(results);
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
+            resultsContainer.classList.add('hidden');
+          }
+        });
+      }
+    });
+  </script>
+</Layout>

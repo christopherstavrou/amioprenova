@@ -1,0 +1,169 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../../layouts/Layout.astro';
+import Button from '../../../components/Button.astro';
+import Badge from '../../../components/Badge.astro';
+import { getAllEvents, formatEventDate } from '../../../lib/events';
+import type { GalleryImage, GalleryYouTube, GalleryVimeo } from '../../../lib/events';
+
+export const getStaticPaths = (() => {
+  const allEvents = getAllEvents();
+  return allEvents.map(event => ({
+    params: { slug: event.slug },
+    props: { event },
+  }));
+}) satisfies GetStaticPaths;
+
+const { event } = Astro.props;
+
+const formattedDate = formatEventDate(event.startDate, 'bg');
+
+const galleryVideos = (event.gallery ?? []).filter(
+  (item): item is GalleryYouTube | GalleryVimeo => item.type === 'youtube' || item.type === 'vimeo'
+);
+const galleryImages = (event.gallery ?? []).filter(
+  (item): item is GalleryImage => item.type === 'image'
+);
+const hasGallery = galleryVideos.length > 0 || galleryImages.length > 0;
+---
+
+<Layout
+  title={`${event.title} - amioprenova`}
+  description={event.description}
+  lang="bg"
+>
+  <article class="max-w-3xl mx-auto">
+    {event.image && (
+      <div class="mb-8 rounded-lg overflow-hidden">
+        <img
+          src={event.image}
+          alt={event.title}
+          class="w-full aspect-video object-cover"
+          loading="eager"
+        />
+      </div>
+    )}
+
+    <header class="mb-8">
+      <h1 class="font-serif text-4xl font-bold text-text-primary mb-4">{event.title}</h1>
+      <div class="flex flex-col gap-2 mb-4">
+        <p class="text-lg font-medium text-text-primary">{formattedDate}</p>
+        <p class="text-text-secondary">{event.venue} · {event.city}, {event.country}</p>
+      </div>
+      {event.tags && event.tags.length > 0 && (
+        <div class="flex gap-2 flex-wrap">
+          {event.tags.map(tag => (
+            <Badge>{tag}</Badge>
+          ))}
+        </div>
+      )}
+    </header>
+
+    {event.body && (
+      <div class="mb-8">
+        <p class="text-text-primary leading-relaxed">{event.body}</p>
+      </div>
+    )}
+
+    <div class="flex gap-3 mb-10">
+      {event.ticketUrl && (
+        <Button
+          variant="primary"
+          href={event.ticketUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Билети
+        </Button>
+      )}
+      {event.mapUrl && (
+        <Button
+          variant="secondary"
+          href={event.mapUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Карта
+        </Button>
+      )}
+    </div>
+
+    {hasGallery && (
+      <section class="mb-10">
+        <h2 class="font-serif text-2xl font-bold mb-6">Галерия</h2>
+
+        {galleryVideos.length > 0 && (
+          <div class="grid sm:grid-cols-2 gap-6 mb-8">
+            {galleryVideos.map(item => (
+              <div
+                class="video-card"
+                data-youtube-id={item.type === 'youtube' ? item.id : undefined}
+                data-vimeo-id={item.type === 'vimeo' ? item.id : undefined}
+              >
+                <button
+                  class="video-thumb w-full block"
+                  aria-label={`Пусни ${item.title}`}
+                >
+                  <div class="relative rounded-lg overflow-hidden">
+                    {item.type === 'youtube' ? (
+                      <img
+                        src={`https://img.youtube.com/vi/${item.id}/maxresdefault.jpg`}
+                        alt={item.title}
+                        class="w-full aspect-video object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div class="w-full aspect-video bg-surface-muted flex items-center justify-center">
+                        <span class="text-text-secondary text-sm">{item.title}</span>
+                      </div>
+                    )}
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors rounded-lg">
+                      <svg class="w-14 h-14 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                </button>
+                <div class="video-player hidden aspect-video rounded-lg overflow-hidden bg-black mt-0"></div>
+                <p class="text-sm text-text-secondary mt-2">{item.title}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {galleryImages.length > 0 && (
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {galleryImages.map(item => (
+              <figure>
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  class="w-full aspect-video object-cover rounded-lg"
+                  loading="lazy"
+                />
+                {item.caption && (
+                  <figcaption class="text-xs text-text-secondary mt-1 text-center">{item.caption}</figcaption>
+                )}
+              </figure>
+            ))}
+          </div>
+        )}
+      </section>
+    )}
+
+    <footer class="border-t border-border pt-8">
+      <a
+        href="/bg/shows"
+        class="inline-block text-sm text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors"
+      >
+        ← Обратно към всички концерти
+      </a>
+    </footer>
+  </article>
+</Layout>
+
+{hasGallery && galleryVideos.length > 0 && (
+  <script>
+    import '../../../scripts/inline-video';
+  </script>
+)}
