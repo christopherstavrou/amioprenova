@@ -45,13 +45,13 @@ const pastEvents = getPastEvents();
       <div class="space-y-3 mb-6">
         {posts.map(event => (
           <Card hover={true} padding="none" class="overflow-hidden">
-            <div class="flex flex-row">
+            <div class="flex flex-col sm:flex-row">
               {event.image && (
-                <a href={`/en/shows/${event.slug}`} class="shrink-0 w-28 sm:w-44">
+                <a href={`/en/shows/${event.slug}`} class="sm:shrink-0 sm:w-44">
                   <img
                     src={event.image}
                     alt={event.title}
-                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    class="w-full aspect-[3/1] sm:aspect-auto sm:h-full object-cover hover:scale-105 transition-transform duration-300"
                     loading="lazy"
                   />
                 </a>
@@ -164,13 +164,13 @@ const pastEvents = getPastEvents();
         <div id="past-shows-list" class="hidden space-y-3">
           {pastEvents.map(event => (
             <Card hover={true} padding="none" class="overflow-hidden">
-              <div class="flex flex-row">
+              <div class="flex flex-col sm:flex-row">
                 {event.image && (
-                  <a href={`/en/shows/${event.slug}`} class="shrink-0 w-28 sm:w-44">
+                  <a href={`/en/shows/${event.slug}`} class="sm:shrink-0 sm:w-44">
                     <img
                       src={event.image}
                       alt={event.title}
-                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      class="w-full aspect-[3/1] sm:aspect-auto sm:h-full object-cover hover:scale-105 transition-transform duration-300"
                       loading="lazy"
                     />
                   </a>
