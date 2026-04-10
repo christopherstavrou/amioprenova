@@ -1,0 +1,122 @@
+---
+/**
+ * SharePopover
+ * On mobile/supported browsers: triggers the native Web Share sheet.
+ * On desktop fallback: shows an inline popover with copy-link + social share.
+ */
+interface Props {
+  url: string;
+  title: string;
+  class?: string;
+}
+
+const { url, title, class: className = '' } = Astro.props;
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
+---
+
+<div class={`relative inline-block ${className}`}>
+  <button
+    class="share-trigger flex items-center gap-1.5 px-2.5 py-1.5 rounded border border-border text-sm text-text-secondary hover:text-accent-primary hover:border-accent-primary transition-colors"
+    aria-label="Share"
+    data-share-url={url}
+    data-share-title={title}
+  >
+    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+    </svg>
+    <span class="hidden sm:inline">Share</span>
+  </button>
+
+  <div class="share-panel hidden absolute bottom-full right-0 mb-2 w-52 bg-surface-elevated border border-border rounded-lg shadow-lg z-30 p-2">
+    <button
+      class="copy-link-btn w-full flex items-center gap-2 px-3 py-2 text-sm text-text-primary rounded hover:bg-surface-muted transition-colors text-left"
+      data-copy-url={url}
+    >
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+      </svg>
+      <span>Copy link</span>
+    </button>
+    <div class="border-t border-border my-1"></div>
+    <a
+      href={facebookUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-2 px-3 py-2 text-sm text-text-primary rounded hover:bg-surface-muted transition-colors"
+    >
+      <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
+      Facebook
+    </a>
+    <a
+      href={twitterUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-2 px-3 py-2 text-sm text-text-primary rounded hover:bg-surface-muted transition-colors"
+    >
+      <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+      Twitter / X
+    </a>
+  </div>
+</div>
+
+<script>
+  // @ts-nocheck
+  // Deduplicated by Astro — runs once per page even with multiple SharePopover instances.
+
+  function openPanel(trigger) {
+    const panel = trigger.parentElement.querySelector('.share-panel');
+    if (!panel) return;
+    const isHidden = panel.classList.contains('hidden');
+    closeAllPanels();
+    if (isHidden) panel.classList.remove('hidden');
+  }
+
+  function closeAllPanels() {
+    document.querySelectorAll('.share-panel').forEach(p => p.classList.add('hidden'));
+  }
+
+  document.addEventListener('click', async (e) => {
+    const trigger = e.target.closest('.share-trigger');
+    const copyBtn = e.target.closest('.copy-link-btn');
+
+    if (trigger) {
+      e.stopPropagation();
+      const url = trigger.dataset.shareUrl;
+      const shareTitle = trigger.dataset.shareTitle;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: shareTitle, url });
+        } catch (err) {
+          if (err.name !== 'AbortError') openPanel(trigger);
+        }
+        return;
+      }
+      openPanel(trigger);
+
+    } else if (copyBtn) {
+      e.stopPropagation();
+      const url = copyBtn.dataset.copyUrl;
+      const span = copyBtn.querySelector('span');
+      try {
+        await navigator.clipboard.writeText(url);
+        if (span) {
+          span.textContent = 'Copied!';
+          setTimeout(() => { span.textContent = 'Copy link'; }, 2000);
+        }
+      } catch {
+        // clipboard API unavailable
+      }
+
+    } else if (!e.target.closest('.share-panel')) {
+      closeAllPanels();
+    }
+  });
+</script>

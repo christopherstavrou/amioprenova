@@ -5,7 +5,9 @@ import Button from '../../../components/Button.astro';
 import Card from '../../../components/Card.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import Badge from '../../../components/Badge.astro';
+import SharePopover from '../../../components/SharePopover.astro';
 import { getUpcomingEvents, getPastEvents, formatEventDate } from '../../../lib/events';
+import { siteConfig } from '../../../config/site';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const upcomingEvents = getUpcomingEvents();
@@ -44,10 +46,10 @@ const pastEvents = getPastEvents();
     ) : (
       <div class="space-y-3 mb-6">
         {posts.map(event => (
-          <Card hover={true} padding="none" class="overflow-hidden">
+          <Card hover={true} padding="none">
             <div class="flex flex-col sm:flex-row">
               {event.image && (
-                <a href={`/bg/shows/${event.slug}`} class="sm:shrink-0 sm:w-44">
+                <a href={`/bg/shows/${event.slug}`} class="overflow-hidden rounded-t-md sm:rounded-t-none sm:rounded-l-md sm:shrink-0 sm:w-44">
                   <img
                     src={event.image}
                     alt={event.title}
@@ -76,7 +78,7 @@ const pastEvents = getPastEvents();
                   )}
                   <p class="text-text-primary text-sm line-clamp-2">{event.description}</p>
                 </div>
-                <div class="flex gap-2 shrink-0 flex-wrap">
+                <div class="flex gap-2 shrink-0 flex-wrap items-start">
                   {event.ticketUrl && (
                     <Button
                       variant="primary"
@@ -99,6 +101,10 @@ const pastEvents = getPastEvents();
                       Карта
                     </Button>
                   )}
+                  <SharePopover
+                    url={`${siteConfig.baseUrl}/bg/shows/${event.slug}`}
+                    title={event.title}
+                  />
                 </div>
               </div>
             </div>
@@ -163,10 +169,10 @@ const pastEvents = getPastEvents();
 
         <div id="past-shows-list" class="hidden space-y-3">
           {pastEvents.map(event => (
-            <Card hover={true} padding="none" class="overflow-hidden">
+            <Card hover={true} padding="none">
               <div class="flex flex-col sm:flex-row">
                 {event.image && (
-                  <a href={`/bg/shows/${event.slug}`} class="sm:shrink-0 sm:w-44">
+                  <a href={`/bg/shows/${event.slug}`} class="overflow-hidden rounded-t-md sm:rounded-t-none sm:rounded-l-md sm:shrink-0 sm:w-44">
                     <img
                       src={event.image}
                       alt={event.title}
@@ -195,7 +201,7 @@ const pastEvents = getPastEvents();
                     )}
                     <p class="text-text-primary text-sm line-clamp-2">{event.description}</p>
                   </div>
-                  <div class="flex gap-2 shrink-0 flex-wrap">
+                  <div class="flex gap-2 shrink-0 flex-wrap items-start">
                     {event.ticketUrl && (
                       <Button
                         variant="primary"
@@ -218,6 +224,10 @@ const pastEvents = getPastEvents();
                         Карта
                       </Button>
                     )}
+                    <SharePopover
+                      url={`${siteConfig.baseUrl}/bg/shows/${event.slug}`}
+                      title={event.title}
+                    />
                   </div>
                 </div>
               </div>
@@ -230,7 +240,6 @@ const pastEvents = getPastEvents();
 
   <script>
     // @ts-nocheck
-    // Client-side search functionality (events only)
     let searchIndex = [];
 
     async function loadSearchIndex() {
@@ -245,7 +254,6 @@ const pastEvents = getPastEvents();
 
     function performSearch(query) {
       if (!query || query.length < 2) return [];
-
       const lowerQuery = query.toLowerCase();
       return searchIndex
         .filter(entry => {
@@ -260,23 +268,19 @@ const pastEvents = getPastEvents();
     function displayResults(results) {
       const resultsContainer = document.getElementById('search-results');
       if (!resultsContainer) return;
-
       if (results.length === 0) {
         resultsContainer.classList.add('hidden');
         return;
       }
-
       resultsContainer.innerHTML = results.map(entry => `
         <a href="${entry.url}" class="block p-3 hover:bg-surface-muted border-b border-border last:border-b-0 transition-colors">
           <div class="font-medium text-sm text-text-primary">${entry.title}</div>
           <div class="text-xs text-text-secondary mt-1">${entry.date}</div>
         </a>
       `).join('');
-
       resultsContainer.classList.remove('hidden');
     }
 
-    // Past shows toggle
     const toggleBtn = document.getElementById('past-shows-toggle');
     const pastList = document.getElementById('past-shows-list');
     const chevron = document.getElementById('past-shows-chevron');
@@ -290,20 +294,14 @@ const pastEvents = getPastEvents();
       });
     }
 
-    // Initialize search
     document.addEventListener('DOMContentLoaded', () => {
       loadSearchIndex();
-
       const searchInput = document.getElementById('search-input');
       const resultsContainer = document.getElementById('search-results');
-
       if (searchInput && resultsContainer) {
         searchInput.addEventListener('input', (e) => {
-          const query = e.target.value;
-          const results = performSearch(query);
-          displayResults(results);
+          displayResults(performSearch(e.target.value));
         });
-
         document.addEventListener('click', (e) => {
           if (!searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
             resultsContainer.classList.add('hidden');
