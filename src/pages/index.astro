@@ -139,9 +139,9 @@ import { siteConfig } from '../config/site';
         inset: 0;
         background: linear-gradient(
           to bottom,
-          rgba(13, 12, 11, 0.55) 0%,
-          rgba(13, 12, 11, 0.75) 60%,
-          rgba(13, 12, 11, 0.92) 100%
+          var(--color-hero-scrim-start) 0%,
+          var(--color-hero-scrim-mid) 60%,
+          var(--color-hero-scrim-end) 100%
         );
       }
 
@@ -240,7 +240,7 @@ import { siteConfig } from '../config/site';
         font-size: 0.9375rem;
         font-weight: 500;
         text-decoration: none;
-        transition: opacity 0.15s ease, transform 0.15s ease;
+        transition: opacity var(--transition-fast), transform var(--transition-fast);
         border: 1px solid var(--color-border);
         color: var(--color-text-primary);
         background-color: var(--color-surface);

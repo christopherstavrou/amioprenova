@@ -55,6 +55,12 @@
   /* Transitions */
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
+  --transition-slow: 500ms ease;
+
+  /* Hero scrim gradient stops (root landing page) */
+  --color-hero-scrim-start: rgba(13, 12, 11, 0.55);
+  --color-hero-scrim-mid:   rgba(13, 12, 11, 0.75);
+  --color-hero-scrim-end:   rgba(13, 12, 11, 0.92);
 
   /* Overlay (lightbox scrim) */
   --color-overlay: rgba(240, 237, 232, 0.97);
