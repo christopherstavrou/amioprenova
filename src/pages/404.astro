@@ -33,8 +33,8 @@ import '../styles/global.css';
       }
 
       body {
-        background-color: #0D0C0B;
-        color: #F5F5F5;
+        background-color: var(--color-bg);
+        color: var(--color-text-primary);
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         min-height: 100vh;
         display: flex;
@@ -57,7 +57,7 @@ import '../styles/global.css';
 
       .ornament {
         font-size: 1.5rem;
-        color: #D4AF37;
+        color: var(--color-accent-primary);
         margin-bottom: 1.5rem;
         opacity: 0.6;
       }
@@ -66,13 +66,13 @@ import '../styles/global.css';
         font-family: 'Playfair Display', Georgia, serif;
         font-size: clamp(4rem, 15vw, 7rem);
         font-weight: 700;
-        color: #D4AF37;
+        color: var(--color-accent-primary);
         line-height: 1;
         margin-bottom: 1rem;
       }
 
       .message {
-        color: #B3B3B3;
+        color: var(--color-text-secondary);
         font-size: 1.125rem;
         margin-bottom: 2.5rem;
       }
@@ -80,13 +80,13 @@ import '../styles/global.css';
       .home-link {
         display: inline-block;
         padding: 0.75rem 1.5rem;
-        background-color: #8B1C3B;
-        color: #FFFFFF;
+        background-color: var(--color-accent-primary);
+        color: var(--color-text-inverse);
         text-decoration: none;
         border-radius: 6px;
         font-size: 0.9375rem;
         font-weight: 500;
-        transition: opacity 0.15s ease, transform 0.15s ease;
+        transition: opacity var(--transition-fast), transform var(--transition-fast);
       }
 
       .home-link:hover {
