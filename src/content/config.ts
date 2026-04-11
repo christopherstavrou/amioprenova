@@ -1,5 +1,5 @@
 import { defineCollection, z } from 'astro:content';
-import { galleryItemSchema } from '../lib/events';
+import { galleryItemSchema } from '../lib/gallery-schema';
 
 const blogCollection = defineCollection({
   type: 'content',

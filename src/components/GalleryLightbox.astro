@@ -488,7 +488,9 @@ const itemsJson = JSON.stringify(items.map(item => {
       lightbox.classList.add('hidden');
       unlockBody();
       restoreHeader();
-      previouslyFocused?.focus();
+      if (previouslyFocused && document.contains(previouslyFocused)) {
+        previouslyFocused.focus();
+      }
     }
 
     // Grid clicks
@@ -515,12 +517,27 @@ const itemsJson = JSON.stringify(items.map(item => {
       if (e.target === lightbox) closeLightbox();
     });
 
-    // Keyboard
+    // Keyboard: navigation + focus trap
     document.addEventListener('keydown', (e) => {
       if (lightbox.classList.contains('hidden')) return;
-      if (e.key === 'Escape')     { e.preventDefault(); closeLightbox(); }
-      if (e.key === 'ArrowLeft')  { e.preventDefault(); navigate(-1); }
-      if (e.key === 'ArrowRight') { e.preventDefault(); navigate(1); }
+      if (e.key === 'Escape')     { e.preventDefault(); closeLightbox(); return; }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); navigate(-1); return; }
+      if (e.key === 'ArrowRight') { e.preventDefault(); navigate(1); return; }
+
+      /* Focus trap: keep Tab/Shift+Tab within the lightbox */
+      if (e.key === 'Tab') {
+        const focusable = Array.from(
+          lightbox.querySelectorAll('button:not([tabindex="-1"])')
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+          if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+        }
+      }
     });
   });
 </script>

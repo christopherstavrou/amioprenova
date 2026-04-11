@@ -1,15 +1,7 @@
 import eventsData from '../data/events.json';
-import { z } from 'zod';
+import type { GalleryItem } from './gallery-schema';
 
-// Single source of truth for gallery item schema and type.
-// Imported by src/content/config.ts to avoid duplication.
-export const galleryItemSchema = z.discriminatedUnion('type', [
-  z.object({ type: z.literal('image'), src: z.string(), alt: z.string(), caption: z.string().optional() }),
-  z.object({ type: z.literal('youtube'), id: z.string(), title: z.string() }),
-  z.object({ type: z.literal('vimeo'), id: z.string(), title: z.string() }),
-]);
-
-export type GalleryItem = z.infer<typeof galleryItemSchema>;
+export type { GalleryItem };
 
 export interface Event {
   id: string;

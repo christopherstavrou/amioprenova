@@ -11,6 +11,9 @@ import { siteConfig } from '../../../config/site';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const upcomingEvents = getUpcomingEvents();
+  if (upcomingEvents.length === 0) {
+    return [{ params: { page: undefined }, props: { page: { data: [], currentPage: 1, lastPage: 1, url: { prev: null, next: null } } } }];
+  }
   return paginate(upcomingEvents, { pageSize: 6 });
 }) satisfies GetStaticPaths;
 
