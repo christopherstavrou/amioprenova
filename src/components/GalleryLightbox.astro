@@ -188,14 +188,11 @@ const itemsJson = JSON.stringify(items.map(item => {
    * on the thumbnail strip. Allow the strip to scroll horizontally.
    */
   .gallery-lightbox {
-    background: rgba(240, 237, 232, 0.97);
+    background: var(--color-overlay);
     overscroll-behavior: none;
   }
   .gl-strip-container {
     touch-action: pan-x;
-  }
-  :root[data-theme="dark"] .gallery-lightbox {
-    background: rgba(10, 10, 10, 0.97);
   }
 
   /*
@@ -269,7 +266,7 @@ const itemsJson = JSON.stringify(items.map(item => {
     max-height: 100%;
     border-radius: 0.5rem;
     overflow: hidden;
-    background: #000;
+    background: var(--color-surface-muted);
   }
   .gallery-content .gl-video iframe {
     width: 100%;

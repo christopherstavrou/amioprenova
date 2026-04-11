@@ -55,6 +55,9 @@
   /* Transitions */
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
+
+  /* Overlay (lightbox scrim) */
+  --color-overlay: rgba(240, 237, 232, 0.97);
 }
 
 /* Dark mode - applied via data-theme="dark" attribute */
@@ -95,6 +98,9 @@
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.6);
+
+  /* Overlay (lightbox scrim) */
+  --color-overlay: rgba(10, 10, 10, 0.97);
 }
 
 /* ===== Base Styles ===== */

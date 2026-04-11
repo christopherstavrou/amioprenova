@@ -88,10 +88,10 @@ export function initListSearch({
   }
 
   function setup(): void {
-    loadSearchIndex();
     const searchInput = document.getElementById(inputId) as HTMLInputElement | null;
     const resultsContainer = document.getElementById(resultsId);
     if (!searchInput || !resultsContainer) return;
+    loadSearchIndex();
 
     searchInput.addEventListener('input', () => {
       displayResults(performSearch(searchInput.value), resultsContainer);
