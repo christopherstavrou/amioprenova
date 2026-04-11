@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-03-26
+**Last updated**: 2026-04-11
 
 ---
 
@@ -59,6 +59,14 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Production domain confirmed: `https://amioprenova.com` (set in `src/config/site.ts` and `astro.config.mjs`)
 - Cloudflare Pages connected to repo with GitHub Actions
 - Hero/about images and About page biography completed
+
+### Shows + News enhancements (2026-04-11) — branch `ai/shows-enhanced`
+- `GalleryLightbox` component: compact thumbnail grid + full-screen lightbox with carousel (images, YouTube, Vimeo)
+- SharePopover: icon-only share button (Web Share API + fallback popover with copy-link, Facebook, Twitter/X)
+- Shows detail pages: cover image hero, gallery section, SharePopover in footer
+- Shows list pages: card layout with thumbnail, SharePopover per card
+- Gallery lightbox mobile fixes: dark scrim, JS `syncSize()` for explicit pixel dimensions, portal-to-body pattern, header suppression, overflow-only scroll lock
+- News parity: `image` + `gallery` fields added to blog schema; news list redesigned to card layout; news detail pages have cover image, gallery, and SharePopover matching shows
 
 ---
 
