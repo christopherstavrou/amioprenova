@@ -131,11 +131,45 @@ EOF
 
 ### 8. Handle review feedback
 
-If the reviewer requests changes:
-- Push additional commits to the **same branch** — do not open a new PR
-- Address each point of feedback directly
-- Add a comment on the PR explaining what was changed and why if not obvious
-- Re-verify: `npm run build` must still pass
+All review feedback on code written by an AI agent is the **agent's responsibility** to address. Do not ask the user to handle it.
+
+**Step-by-step process:**
+
+1. **Fetch inline comments** (filter to comments since the last round if needed):
+   ```bash
+   gh api repos/OWNER/REPO/pulls/PR/comments \
+     --jq '.[] | select(.created_at > "TIMESTAMP") | {id, path, line, body, created_at}'
+   ```
+
+2. **Read every affected file** before editing — never guess at current content.
+
+3. **Fix every comment.** Then **reply to each inline thread** individually:
+   ```bash
+   gh api repos/OWNER/REPO/pulls/PR/comments/COMMENT_ID/replies \
+     -X POST -f body="Fixed: [one sentence explaining what changed and why]"
+   ```
+   A general PR comment alone does not close individual threads — reviewers (including Copilot) expect inline replies per thread to mark them resolved.
+
+4. **Verify**: `npm run build` must pass (0 errors) before committing.
+
+5. **Commit** with a message naming the round:
+   ```bash
+   git commit -m "fix(review): address [N]th round of [reviewer] comments"
+   ```
+
+6. **Push** to the same feature branch.
+
+7. **Leave a summary comment** on the PR listing every item addressed:
+   ```bash
+   gh pr comment PR --body "## [N]th round addressed\n\n**1 — Issue title**\nWhat was done..."
+   ```
+
+8. **Re-request review**:
+   ```bash
+   # Copilot:
+   gh pr edit PR --add-reviewer copilot-pull-request-reviewer
+   # Human reviewer: use GitHub web UI or gh pr edit PR --add-reviewer USERNAME
+   ```
 
 ### 9. Update progress.md
 

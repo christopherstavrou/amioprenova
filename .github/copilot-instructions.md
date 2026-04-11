@@ -1,7 +1,9 @@
 # Copilot Instructions — amioprenova
 
 Astro 4 · TypeScript · Tailwind CSS v3 · Content Collections · i18n (EN + BG).
-Full docs: `AGENTS.md`, `docs/ai/standards.md`, `docs/ai/workflow.md`.
+
+**Docs:** `AGENTS.md` (hard rules) → `docs/ai/workflow.md` (PR process) → `docs/ai/standards.md` (patterns) → `docs/ai/github-integration.md` (Copilot setup).
+Deep per-file rules: `.github/instructions/astro.instructions.md` · `.github/instructions/typescript.instructions.md`.
 
 ---
 
@@ -26,7 +28,7 @@ Full docs: `AGENTS.md`, `docs/ai/standards.md`, `docs/ai/workflow.md`.
 
 - Every `<button>` that is not a form submit must have `type="button"`.
 - Disclosure widgets (dropdowns, popovers) must have `aria-expanded` on the trigger and `aria-controls` pointing to the panel ID. Keep `aria-expanded` in sync on open/close.
-- Modal dialogs must have `role="dialog"` + `aria-modal="true"`, a visible close button, a focus trap (Tab/Shift+Tab cycles within the dialog; Escape closes), and focus-restore to the previously focused element on close.
+- Modal dialogs: `role="dialog"` + `aria-modal="true"`, visible close button, Tab/Shift+Tab focus trap (Escape closes), focus-restore on close.
 - Icon-only buttons must have `aria-label`.
 
 ## Astro components
@@ -45,11 +47,11 @@ Full docs: `AGENTS.md`, `docs/ai/standards.md`, `docs/ai/workflow.md`.
 ## Schemas and types
 
 - Zod schemas are the single source of truth. Derive TypeScript types with `z.infer<typeof schema>` — do not write a separate TS interface that duplicates a Zod schema.
-- Keep Zod schemas in dedicated modules separate from runtime data-helper files, so the Zod runtime is not bundled into pages that only need the inferred type (use type-only imports: `import type { X } from './schema'`).
+- Keep Zod schemas in dedicated modules separate from runtime data-helper files to avoid bundling the Zod runtime into pages that only need the inferred type. Use `import type { X }` for type-only imports.
 
 ## Static generation
 
-- Every `getStaticPaths` that calls `paginate()` must include an empty-list fallback path so the route still builds when the data source returns zero items (mirrors the pattern in `src/pages/bg/news/[...page].astro`).
+- Every `getStaticPaths` that calls `paginate()` must include an empty-list fallback so the route still builds when the data source returns zero items.
 
 ## Code review focus
 
