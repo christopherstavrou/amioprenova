@@ -389,7 +389,7 @@ const isActive = (href: string) => {
 
       // Close mobile menu when clicking a nav link (event delegation)
       mobileMenu?.querySelector('nav')?.addEventListener('click', (e) => {
-        if ((e.target as Element).closest('a') && menuOpen) { // safe: event target is always an Element in DOM events
+        if (e.target instanceof Element && e.target.closest('a') && menuOpen) {
           toggleMobileMenu();
         }
       });
