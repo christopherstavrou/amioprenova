@@ -4,8 +4,9 @@
  * Compact thumbnail grid + full-screen lightbox with carousel.
  * - Theme-aware overlay (light/dark via :root[data-theme])
  * - z-[60]: above sticky nav (z-50)
- * - True flex layout: no vh arithmetic, works in portrait and landscape
- * - Safe-area-inset padding for iOS notch / home indicator
+ * - Media fills full width; prev/next arrows flank the thumbnail strip
+ * - Safe-area-inset padding for notch / home-indicator devices
+ * - Landscape phone: strip hidden, arrows centred below media
  * - Keyboard: Escape, ArrowLeft, ArrowRight
  * - Accessible: aria-modal, aria-label, focus management
  */
@@ -79,12 +80,24 @@ const itemsJson = JSON.stringify(items.map(item => {
 
 <!-- ─── Lightbox ───────────────────────────────────────────────────── -->
 <!--
-  Layout: the overlay is a flex column that fills fixed inset-0.
-  Padding is set in CSS using max(base, env(safe-area-inset-*)) so the
-  close button and strip are always clear of the notch / home indicator.
-  The card uses flex-1 min-h-0 to fill available space after padding —
-  no explicit height calc needed.
-  The media row uses flex-1 min-h-0 for the remaining height after chrome.
+  Layout (all screen sizes):
+
+    ┌─────────────────────────────┐
+    │ counter              close  │  ← top bar (shrink-0)
+    ├─────────────────────────────┤
+    │                             │
+    │       media  (flex-1)       │  ← full width, grows to fill
+    │                             │
+    ├─────────────────────────────┤
+    │         caption             │  ← shrink-0
+    ├─────────────────────────────┤
+    │ ←   [strip thumbnails]  →  │  ← shrink-0 nav row
+    └─────────────────────────────┘
+
+  On phone landscape (max-height ≤ 500px): strip hidden, arrows centred.
+
+  .gl-card uses height:100% + box-sizing:border-box + safe-area padding so
+  its content area reliably fills the viewport without any calc() guesswork.
 -->
 <div
   id="gallery-lightbox"
@@ -93,10 +106,9 @@ const itemsJson = JSON.stringify(items.map(item => {
   aria-modal="true"
   aria-label="Gallery viewer"
 >
-  <!-- Content card: mx-auto for horizontal centering; flex-1 min-h-0 fills overlay height -->
-  <div class="gl-card flex flex-col w-full max-w-5xl mx-auto flex-1 min-h-0 gap-1.5 sm:gap-2">
+  <div class="gl-card flex flex-col w-full max-w-5xl mx-auto gap-1.5 sm:gap-2">
 
-    <!-- Top bar: counter + close (fixed height) -->
+    <!-- Top bar: counter + close -->
     <div class="flex items-center justify-between shrink-0">
       <span id="gallery-counter" class="gl-meta text-sm tabular-nums select-none"></span>
       <button id="gallery-close" class="gl-btn" aria-label="Close gallery">
@@ -106,16 +118,42 @@ const itemsJson = JSON.stringify(items.map(item => {
       </button>
     </div>
 
-    <!-- Media row: grows to fill remaining space -->
-    <div class="gl-media-row flex items-center gap-1 sm:gap-2">
+    <!-- Media: full width, grows to fill remaining height -->
+    <div id="gallery-content" class="gl-content flex items-center justify-center overflow-hidden">
+      <!-- Injected by JS: <img> or <div class="gl-video"><iframe></div> -->
+    </div>
+
+    <!-- Caption -->
+    <p id="gallery-caption" class="gl-meta text-center text-sm shrink-0 min-h-[1.25rem] px-2 select-none"></p>
+
+    <!-- Nav row: prev arrow · thumbnail strip · next arrow -->
+    <div class="gl-nav-row flex items-center gap-1 sm:gap-2 shrink-0">
       <button id="gallery-prev" class="gl-btn shrink-0" aria-label="Previous">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
 
-      <div id="gallery-content" class="gl-content flex items-center justify-center overflow-hidden">
-        <!-- Injected: <img> or <div class="gl-video"><iframe></div> -->
+      <div class="gl-strip-container flex-1 overflow-x-auto">
+        <div class="flex gap-1.5 w-max mx-auto">
+          {items.map((item, i) => (
+            <button
+              class="gl-strip-thumb shrink-0 w-14 h-9 sm:w-16 sm:h-10 rounded overflow-hidden relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
+              data-strip-index={i}
+              aria-label={`Go to item ${i + 1}`}
+              tabindex="-1"
+            >
+              {(item.type === 'image' || item.type === 'youtube') && (
+                <img src={thumbSrc(item)} alt="" class="w-full h-full object-cover" loading="lazy" />
+              )}
+              {item.type === 'vimeo' && (
+                <div class="w-full h-full bg-surface-muted flex items-center justify-center">
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              )}
+            </button>
+          ))}
+        </div>
       </div>
 
       <button id="gallery-next" class="gl-btn shrink-0" aria-label="Next">
@@ -125,64 +163,36 @@ const itemsJson = JSON.stringify(items.map(item => {
       </button>
     </div>
 
-    <!-- Caption (fixed height) -->
-    <p id="gallery-caption" class="gl-meta text-center text-sm shrink-0 min-h-[1.25rem] px-8 select-none"></p>
-
-    <!--
-      Thumbnail strip — hidden in phone landscape (orientation:landscape + short
-      viewport) where vertical space is too limited to use them comfortably.
-      The counter (e.g. "2 / 5") still communicates position.
-    -->
-    <div class="gl-strip-container overflow-x-auto shrink-0">
-      <div class="flex gap-1.5 w-max">
-        {items.map((item, i) => (
-          <button
-            class="gl-strip-thumb shrink-0 w-14 h-9 sm:w-16 sm:h-10 rounded overflow-hidden relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
-            data-strip-index={i}
-            aria-label={`Go to item ${i + 1}`}
-            tabindex="-1"
-          >
-            {(item.type === 'image' || item.type === 'youtube') && (
-              <img src={thumbSrc(item)} alt="" class="w-full h-full object-cover" loading="lazy" />
-            )}
-            {item.type === 'vimeo' && (
-              <div class="w-full h-full bg-surface-muted flex items-center justify-center">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-              </div>
-            )}
-          </button>
-        ))}
-      </div>
-    </div>
-
   </div><!-- /gl-card -->
 </div><!-- /gallery-lightbox -->
 
-<!--
-  is:global so that :root[data-theme="dark"] selectors are not broken
-  by Astro's scoped CSS attribute transformation.
--->
 <style is:global>
-  /*
-   * ── Overlay ──
-   * Padding uses max(base, env(safe-area-inset-*)) so the close button
-   * and strip are always outside the notch / home indicator safe zones.
-   * overscroll-behavior:none prevents iOS from scrolling the page when
-   * the overlay is touched (body.style.overflow:hidden is unreliable on iOS).
-   */
+  /* ── Overlay: full-screen fixed backdrop ── */
   #gallery-lightbox {
     background-color: rgba(248, 248, 248, 0.97);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     overscroll-behavior: none;
     /*
-     * Explicit height so flex-1 on .gl-card has a definite parent size
-     * to grow into. position:fixed inset:0 already constrains to viewport,
-     * but some mobile Chrome builds don't treat that as a definite flex
-     * container height without an explicit value.
+     * Explicit height so the flex container has a definite size.
+     * Some Android Chrome builds don't treat fixed inset-0 alone as a
+     * definite flex container height for flex-grow calculations.
      */
-    height: 100vh;
-    height: 100dvh;
+    height: 100%;
+  }
+  :root[data-theme="dark"] #gallery-lightbox {
+    background-color: rgba(10, 10, 10, 0.97);
+  }
+
+  /*
+   * ── Card: fills viewport, padding respects device safe areas ──
+   * box-sizing:border-box means padding is inside the 100% height,
+   * so the card never overflows the overlay. max(base, env(...)) ensures
+   * we're always clear of notch / home-indicator zones.
+   */
+  .gl-card {
+    height: 100%;
+    box-sizing: border-box;
     padding:
       max(0.75rem, env(safe-area-inset-top))
       max(0.75rem, env(safe-area-inset-right))
@@ -190,7 +200,7 @@ const itemsJson = JSON.stringify(items.map(item => {
       max(0.75rem, env(safe-area-inset-left));
   }
   @media (min-width: 640px) {
-    #gallery-lightbox {
+    .gl-card {
       padding:
         max(1rem, env(safe-area-inset-top))
         max(1rem, env(safe-area-inset-right))
@@ -198,38 +208,18 @@ const itemsJson = JSON.stringify(items.map(item => {
         max(1rem, env(safe-area-inset-left));
     }
   }
-  :root[data-theme="dark"] #gallery-lightbox {
-    background-color: rgba(10, 10, 10, 0.97);
-  }
 
   /*
-   * ── Card: fills available overlay height after padding ──
-   * flex-1 min-h-0 lets the card grow to fill exactly the space the
-   * overlay provides (inset-0 minus CSS padding). No explicit height
-   * calc needed — padding changes propagate automatically.
+   * ── Media area: flex-1 min-h-0 fills all remaining card height ──
+   * Direct flex child of .gl-card (flex-col), so there's no intermediate
+   * wrapper whose align-items could interfere with percentage heights.
    */
-  /* (flex-1 min-h-0 is in the HTML class list; no extra CSS needed) */
-
-  /* ── Media row: grows to fill all remaining card height ── */
-  .gl-media-row {
+  .gl-content {
     flex: 1;
     min-height: 0;
   }
 
-  /*
-   * ── Content area: fills the media row height ──
-   * align-self:stretch overrides the parent's align-items:center so
-   * .gl-content gets the full row height (= definite size). This breaks
-   * the percentage-height resolution issue that height:100% has when the
-   * parent uses align-items:center instead of stretch.
-   */
-  .gl-content {
-    flex: 1;
-    min-width: 0;
-    align-self: stretch;
-  }
-
-  /* ── Images: fit within the content area ── */
+  /* ── Images: fit within the content area without cropping ── */
   #gallery-content img {
     max-height: 100%;
     max-width: 100%;
@@ -242,8 +232,9 @@ const itemsJson = JSON.stringify(items.map(item => {
 
   /*
    * ── Videos: 16:9, constrained by both axes ──
-   * width:100% sets natural size; max-height:100% causes the browser
-   * to reduce both dimensions proportionally when height would overflow.
+   * width:100% fills the content width. max-height:100% makes the browser
+   * shrink both dimensions proportionally when the natural height would exceed
+   * the available content area height.
    */
   #gallery-content .gl-video {
     width: 100%;
@@ -296,13 +287,13 @@ const itemsJson = JSON.stringify(items.map(item => {
   }
 
   /*
-   * ── Landscape phone: hide the strip ──
-   * On short landscape viewports (<= 500px tall) there is not enough
-   * vertical room for the strip to be comfortable. The counter ("2 / 5")
-   * still communicates position; arrows still navigate.
+   * ── Landscape phone: hide the strip, centre the arrows ──
+   * On short landscape viewports (≤ 500px) there isn't enough vertical room
+   * for thumbnails. The "2 / 5" counter still shows position.
    */
   @media (orientation: landscape) and (max-height: 500px) {
     .gl-strip-container { display: none; }
+    .gl-nav-row { justify-content: center; gap: 2rem; }
   }
 </style>
 
@@ -336,10 +327,9 @@ const itemsJson = JSON.stringify(items.map(item => {
       });
 
       /*
-       * Scroll the strip container manually instead of using scrollIntoView.
-       * scrollIntoView can trigger iOS Safari to scroll the *page*, which
-       * with the fixed-positioning bug causes the lightbox to drift and the
-       * close button to disappear under the sticky nav.
+       * Scroll the strip container manually — avoids scrollIntoView() which
+       * can trigger Android Chrome to toggle the address bar, changing the
+       * viewport height mid-navigation and causing layout drift.
        */
       const activeThumb = document.querySelector(`.gl-strip-thumb[data-strip-index="${index}"]`);
       const container   = activeThumb?.closest('.gl-strip-container');
@@ -365,7 +355,7 @@ const itemsJson = JSON.stringify(items.map(item => {
       } else {
         const wrapper = document.createElement('div');
         wrapper.className = 'gl-video';
-        const iframe = document.createElement('iframe');;
+        const iframe = document.createElement('iframe');
         iframe.src = item.type === 'youtube'
           ? `https://www.youtube.com/embed/${item.id}?autoplay=1`
           : `https://player.vimeo.com/video/${item.id}?autoplay=1`;
@@ -424,7 +414,7 @@ const itemsJson = JSON.stringify(items.map(item => {
     prevBtn?.addEventListener('click', () => navigate(-1));
     nextBtn?.addEventListener('click', () => navigate(1));
 
-    // Click the backdrop (lightbox background, not card contents) to close
+    // Click the backdrop (lightbox background, not card) to close
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox) closeLightbox();
     });
