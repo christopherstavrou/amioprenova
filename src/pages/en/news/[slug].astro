@@ -5,7 +5,6 @@ import Layout from '../../../layouts/Layout.astro';
 import Badge from '../../../components/Badge.astro';
 import SharePopover from '../../../components/SharePopover.astro';
 import GalleryLightbox from '../../../components/GalleryLightbox.astro';
-import type { GalleryItem } from '../../../lib/events';
 import { siteConfig } from '../../../config/site';
 
 export const getStaticPaths = (async () => {
@@ -26,7 +25,8 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
 });
 
 const canonicalURL = `${siteConfig.baseUrl}/en/news/${post.slug.replace('en/', '')}`;
-const hasGallery = (post.data.gallery ?? []).length > 0;
+const galleryItems = post.data.gallery ?? [];
+const hasGallery = galleryItems.length > 0;
 ---
 
 <Layout
@@ -67,7 +67,7 @@ const hasGallery = (post.data.gallery ?? []).length > 0;
     {hasGallery && (
       <section class="mb-10">
         <h2 class="font-serif text-2xl font-bold mb-4">Gallery</h2>
-        <GalleryLightbox items={post.data.gallery as GalleryItem[]} />
+        <GalleryLightbox items={galleryItems} />
       </section>
     )}
 

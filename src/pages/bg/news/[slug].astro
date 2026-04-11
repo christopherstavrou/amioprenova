@@ -5,7 +5,6 @@ import Layout from '../../../layouts/Layout.astro';
 import Badge from '../../../components/Badge.astro';
 import SharePopover from '../../../components/SharePopover.astro';
 import GalleryLightbox from '../../../components/GalleryLightbox.astro';
-import type { GalleryItem } from '../../../lib/events';
 import { siteConfig } from '../../../config/site';
 
 export const getStaticPaths = (async () => {
@@ -31,7 +30,8 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('bg-BG', {
 });
 
 const canonicalURL = `${siteConfig.baseUrl}/bg/news/${post.slug.replace('bg/', '')}`;
-const hasGallery = (post.data.gallery ?? []).length > 0;
+const galleryItems = post.data.gallery ?? [];
+const hasGallery = galleryItems.length > 0;
 ---
 
 <Layout
@@ -72,7 +72,7 @@ const hasGallery = (post.data.gallery ?? []).length > 0;
     {hasGallery && (
       <section class="mb-10">
         <h2 class="font-serif text-2xl font-bold mb-4">Галерия</h2>
-        <GalleryLightbox items={post.data.gallery as GalleryItem[]} />
+        <GalleryLightbox items={galleryItems} labels={{ dialog: 'Преглед на галерия', close: 'Затвори галерия', previous: 'Предишна', next: 'Следваща', viewPrefix: 'Виж ', goToPrefix: 'Към елемент ' }} />
       </section>
     )}
 
@@ -84,7 +84,7 @@ const hasGallery = (post.data.gallery ?? []).length > 0;
         >
           ← Назад към всички публикации
         </a>
-        <SharePopover url={canonicalURL} title={post.data.title} />
+        <SharePopover url={canonicalURL} title={post.data.title} labels={{ share: 'Сподели', copyLink: 'Копирай линк', copied: 'Копирано!' }} />
       </div>
     </footer>
   </article>

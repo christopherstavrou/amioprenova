@@ -14,6 +14,11 @@ export const getStaticPaths = (async ({ paginate }) => {
     new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
   );
 
+  // If no posts, create one empty page so /en/news always builds
+  if (sortedPosts.length === 0) {
+    return [{ params: { page: undefined }, props: { page: { data: [], currentPage: 1, lastPage: 1, url: { prev: null, next: null } } } }];
+  }
+
   return paginate(sortedPosts, { pageSize: 6 });
 }) satisfies GetStaticPaths;
 

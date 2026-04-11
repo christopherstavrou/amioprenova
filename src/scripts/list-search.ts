@@ -10,8 +10,8 @@
  */
 
 interface SearchEntry {
-  type: string;
-  lang: string;
+  type: 'post' | 'event';
+  lang: 'en' | 'bg';
   title: string;
   description: string;
   tags: string[];

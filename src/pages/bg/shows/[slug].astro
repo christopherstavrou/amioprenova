@@ -87,7 +87,7 @@ const hasGallery = (event.gallery ?? []).length > 0;
     {hasGallery && (
       <section class="mb-10">
         <h2 class="font-serif text-2xl font-bold mb-4">Галерия</h2>
-        <GalleryLightbox items={event.gallery ?? []} />
+        <GalleryLightbox items={event.gallery ?? []} labels={{ dialog: 'Преглед на галерия', close: 'Затвори галерия', previous: 'Предишна', next: 'Следваща', viewPrefix: 'Виж ', goToPrefix: 'Към елемент ' }} />
       </section>
     )}
 
@@ -99,7 +99,7 @@ const hasGallery = (event.gallery ?? []).length > 0;
         >
           ← Обратно към всички концерти
         </a>
-        <SharePopover url={canonicalURL} title={event.title} />
+        <SharePopover url={canonicalURL} title={event.title} labels={{ share: 'Сподели', copyLink: 'Копирай линк', copied: 'Копирано!' }} />
       </div>
     </footer>
   </article>
