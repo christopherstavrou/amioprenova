@@ -92,9 +92,9 @@ export function initListSearch({
   }
 
   function setup(): void {
-    const searchInput = document.getElementById(inputId) as HTMLInputElement | null; // safe: standard DOM API cast
+    const searchInput = document.getElementById(inputId);
     const resultsContainer = document.getElementById(resultsId);
-    if (!searchInput || !resultsContainer) return;
+    if (!(searchInput instanceof HTMLInputElement) || !resultsContainer) return;
     loadSearchIndex();
 
     searchInput.addEventListener('input', () => {
