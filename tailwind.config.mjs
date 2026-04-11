@@ -47,6 +47,8 @@ export default {
       },
       transitionDuration: {
         'fast': '150ms',
+        'base': '250ms',
+        'slow': '500ms',
       },
     },
   },
