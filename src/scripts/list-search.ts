@@ -92,7 +92,7 @@ export function initListSearch({
   }
 
   function setup(): void {
-    const searchInput = document.getElementById(inputId) as HTMLInputElement | null;
+    const searchInput = document.getElementById(inputId) as HTMLInputElement | null; // safe: standard DOM API cast
     const resultsContainer = document.getElementById(resultsId);
     if (!searchInput || !resultsContainer) return;
     loadSearchIndex();
@@ -102,7 +102,7 @@ export function initListSearch({
     });
     document.addEventListener('click', (e) => {
       if (
-        !searchInput.contains(e.target as Node) &&
+        !searchInput.contains(e.target as Node) && // safe: event target is always a Node in DOM events
         !resultsContainer.contains(e.target as Node)
       ) {
         resultsContainer.classList.add('hidden');

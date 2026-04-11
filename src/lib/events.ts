@@ -22,7 +22,7 @@ export interface Event {
 
 // Load all events
 export function getAllEvents(): Event[] {
-  return eventsData as Event[];
+  return eventsData as Event[]; // safe: JSON structure is maintained by hand to match the Event interface above
 }
 
 // Filter to upcoming events (future dates only), sorted ascending
