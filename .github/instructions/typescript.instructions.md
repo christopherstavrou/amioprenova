@@ -7,6 +7,7 @@ applyTo: "**/*.ts"
 ## Type safety
 
 - No `any`. Use `unknown` and narrow with type guards, or define a specific interface/type.
+- No `as X` type casts unless the cast is provably safe — add an inline comment explaining why when used. If you reach for a cast, the upstream type is probably wrong; fix the type instead.
 - Enable strict null checks — never assume a value is non-null without a guard or `!` assertion with a comment explaining why it is safe.
 - Use `import type { … }` for type-only imports — this keeps the imported module out of the compiled output entirely and prevents bundling Zod or other heavy libraries into pages that only need the type.
 

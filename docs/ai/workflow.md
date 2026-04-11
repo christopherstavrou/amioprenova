@@ -123,6 +123,11 @@ Check each changed file for:
 | **Fetch / async** | `response.ok` checked before `response.json()`; errors caught and DEV-only logged |
 | **Dark mode** | No `dark:` Tailwind variants — dark mode is `data-theme="dark"` on `<html>` |
 | **Scope** | `git diff --name-only` shows only task-relevant files; no adjacent clean-ups |
+| **Duplication** | No pattern written twice in this PR — if the same markup/logic appears in 2+ places in the current diff, extract it before raising the PR. Pre-existing duplication spotted during the work → note it in `docs/ai/progress.md` and handle in a dedicated cleanup PR, not here. |
+| **Cleanup** | In every file touched by this PR: remove stale/misplaced comments, replace any hardcoded values that belong as design tokens, delete dead code or unused variables/imports made redundant by these changes. Scope strictly to touched files. |
+| **TypeScript** | No `as X` type casts unless provably safe with an inline comment explaining why. No `any`. If you reach for a cast, the upstream type is probably wrong — fix that instead. |
+| **Component API** | When extending an existing component, follow the patterns already on it — don't introduce a second way to do the same thing (e.g. don't add a `text` prop alongside an existing `labels` prop). |
+| **Demo content** | Any example/demo content added for development (e.g. sample blog posts) must be clearly marked or removed before the PR is raised. |
 
 Fix any failures before opening the PR. Do not skip this step.
 

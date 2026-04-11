@@ -64,6 +64,8 @@ Rules:
 - Do not accept layout-level props (margin, padding) — let the caller handle spacing
 - **If a component renders user-visible text (button labels, aria-labels, status messages) and is used on both EN and BG pages, add a `labels` prop with English defaults.** BG caller pages must pass Bulgarian strings. If the component's JS updates text at runtime (e.g. `span.textContent = 'Copied!'`), carry the label as a `data-*` attribute on the relevant element so the JS can read the locale-appropriate string without hardcoding it.
 
+**Component API consistency:** When extending an existing component with new props or behaviour, follow the patterns already established on it. Don't introduce a parallel mechanism alongside an existing one (e.g. don't add a bare `text` prop next to an existing `labels` object; don't add a second JS-driven text update path alongside existing `data-*` attributes). One pattern per concern per component.
+
 **When to create a new component:**
 - The same HTML structure (more than ~3 lines) appears in 2 or more places → extract it
 - A named, self-contained section of a page grows past ~40 lines → candidate for extraction
@@ -241,7 +243,11 @@ Abstraction should be earned, not anticipated. Before creating any new abstracti
 - **Naming test**: Can you name it clearly without the words "helper", "util", "misc", or "common"? If not, the purpose isn't clear enough to justify extraction.
 - **Prop test**: If a component needs more than 5 props to cover its use cases, it may be trying to do too much.
 
-**AI-specific rule**: Do not create a new abstraction in the same PR as the task that prompted the refactor. If you notice duplication while working on a bug fix, note it in the PR description and treat it as a separate task.
+**Duplication introduced by the current PR:** If the same pattern appears in 2+ places within the current diff, extract it before raising the PR — this is expected and correct. Don't leave known duplication for a reviewer to catch.
+
+**Pre-existing duplication spotted while working:** Do not refactor it in the same PR (scope creep). Note it in `docs/ai/progress.md` under a "Tech debt" heading and handle it in a dedicated cleanup PR.
+
+**Scheduled cleanup PRs:** At the start of each new feature session, check `docs/ai/progress.md` for accumulated tech debt notes. If there are 3 or more items, raise a cleanup PR before starting the feature work.
 
 ---
 
@@ -314,6 +320,24 @@ Async / fetch
 
 Static generation
 - [ ] Every getStaticPaths that calls paginate() has an empty-list fallback
+
+TypeScript
+- [ ] No `as X` type casts (unless provably safe with inline comment explaining why)
+- [ ] No `any` types
+- [ ] No unused imports or variables made redundant by these changes
+
+Duplication & cleanup (scoped to files touched by this PR)
+- [ ] No pattern written twice in the current diff — extracted if found in 2+ places
+- [ ] Pre-existing duplication noted in progress.md if spotted (not fixed here)
+- [ ] Stale or misplaced comments removed
+- [ ] No hardcoded values that should be design tokens
+- [ ] Dead code removed
+
+Component API
+- [ ] Extensions to existing components follow the patterns already on them
+
+Demo content
+- [ ] No unmarked example/demo content left in src/content/
 ```
 
 If any item fails, fix it before creating the PR. See `docs/ai/workflow.md` Step 7 for the full pre-flight self-review process.
