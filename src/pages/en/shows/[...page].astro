@@ -1,0 +1,261 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../../layouts/Layout.astro';
+import Button from '../../../components/Button.astro';
+import Card from '../../../components/Card.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import Badge from '../../../components/Badge.astro';
+import SharePopover from '../../../components/SharePopover.astro';
+import { getUpcomingEvents, getPastEvents, formatEventDate } from '../../../lib/events';
+import { siteConfig } from '../../../config/site';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const upcomingEvents = getUpcomingEvents();
+  if (upcomingEvents.length === 0) {
+    return [{ params: { page: undefined }, props: { page: { data: [], currentPage: 1, lastPage: 1, url: { prev: null, next: null } } } }];
+  }
+  return paginate(upcomingEvents, { pageSize: 6 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const events = page.data;
+const pastEvents = getPastEvents();
+---
+
+<Layout
+  title={page.currentPage === 1 ? "Shows - amioprenova" : `Shows - Page ${page.currentPage} - amioprenova`}
+  description="Find upcoming concerts and live performances by amioprenova. Get tickets and view show dates, venues, and locations."
+  lang="en"
+>
+  <PageHeader title="Upcoming Shows" class="nav:text-center" />
+
+  <div class="max-w-4xl mx-auto">
+    <div class="flex justify-end mb-8">
+      <div class="relative w-full md:w-64">
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search shows..."
+          class="w-full px-4 py-2 bg-surface border border-border rounded-lg focus:outline-none focus:border-accent-primary text-text-primary placeholder:text-text-secondary transition-colors"
+        />
+        <div id="search-results" class="hidden absolute top-full mt-2 w-full bg-surface-elevated border border-border rounded-lg shadow-lg max-h-96 overflow-y-auto z-10"></div>
+      </div>
+    </div>
+
+    {events.length === 0 ? (
+      <p class="text-text-secondary text-lg">
+        No upcoming shows at the moment. Check back soon or follow on social media for announcements!
+      </p>
+    ) : (
+      <div class="space-y-3 mb-6">
+        {events.map(event => (
+          <Card hover={true} padding="none">
+            <div class="flex flex-col sm:flex-row">
+              {event.image && (
+                <a href={`/en/shows/${event.slug}`} class="overflow-hidden rounded-t-md sm:rounded-t-none sm:rounded-l-md sm:shrink-0 sm:w-44">
+                  <img
+                    src={event.image}
+                    alt={event.title}
+                    class="w-full aspect-[3/1] sm:aspect-auto sm:h-full object-cover hover:scale-105 transition-transform duration-fast"
+                    loading="lazy"
+                  />
+                </a>
+              )}
+              <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
+                <div class="flex-grow min-w-0">
+                  <a href={`/en/shows/${event.slug}`} class="group">
+                    <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">{event.title}</h2>
+                  </a>
+                  <p class="text-text-secondary text-sm mb-1">
+                    <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
+                  </p>
+                  <p class="text-text-secondary text-sm mb-2">
+                    {event.venue} · {event.city}, {event.country}
+                  </p>
+                  {event.tags && event.tags.length > 0 && (
+                    <div class="flex gap-1.5 flex-wrap mb-2">
+                      {event.tags.map(tag => (
+                        <Badge>{tag}</Badge>
+                      ))}
+                    </div>
+                  )}
+                  <p class="text-text-primary text-sm line-clamp-2">{event.description}</p>
+                </div>
+                <div class="flex gap-2 shrink-0 flex-wrap items-start">
+                  {event.ticketUrl && (
+                    <Button
+                      variant="primary"
+                      href={event.ticketUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-sm"
+                    >
+                      Tickets
+                    </Button>
+                  )}
+                  {event.mapUrl && (
+                    <Button
+                      variant="secondary"
+                      href={event.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-sm"
+                    >
+                      Map
+                    </Button>
+                  )}
+                  <SharePopover
+                    url={`${siteConfig.baseUrl}/en/shows/${event.slug}`}
+                    title={event.title}
+                  />
+                </div>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+    )}
+
+    {/* Pagination */}
+    {(page.lastPage > 1) && (
+      <nav class="flex justify-between items-center border-t border-border pt-8 mb-12">
+        <div>
+          {page.url.prev ? (
+            <a
+              href={page.url.prev}
+              class="inline-block px-4 py-2 border border-border rounded hover:border-accent-primary hover:text-accent-primary transition-colors"
+            >
+              ← Previous
+            </a>
+          ) : (
+            <span class="inline-block px-4 py-2 border border-border-light rounded text-text-secondary cursor-not-allowed opacity-50">
+              ← Previous
+            </span>
+          )}
+        </div>
+
+        <span class="text-sm text-text-secondary">
+          Page {page.currentPage} of {page.lastPage}
+        </span>
+
+        <div>
+          {page.url.next ? (
+            <a
+              href={page.url.next}
+              class="inline-block px-4 py-2 border border-border rounded hover:border-accent-primary hover:text-accent-primary transition-colors"
+            >
+              Next →
+            </a>
+          ) : (
+            <span class="inline-block px-4 py-2 border border-border-light rounded text-text-secondary cursor-not-allowed opacity-50">
+              Next →
+            </span>
+          )}
+        </div>
+      </nav>
+    )}
+
+    {/* Past shows */}
+    {pastEvents.length > 0 && (
+      <div class="border-t border-border pt-8">
+        <button
+          id="past-shows-toggle"
+          class="flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-accent-primary transition-colors mb-6"
+          aria-expanded="false"
+          aria-controls="past-shows-list"
+        >
+          <svg id="past-shows-chevron" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+          Show past shows ({pastEvents.length})
+        </button>
+
+        <div id="past-shows-list" class="hidden space-y-3">
+          {pastEvents.map(event => (
+            <Card hover={true} padding="none">
+              <div class="flex flex-col sm:flex-row">
+                {event.image && (
+                  <a href={`/en/shows/${event.slug}`} class="overflow-hidden rounded-t-md sm:rounded-t-none sm:rounded-l-md sm:shrink-0 sm:w-44">
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      class="w-full aspect-[3/1] sm:aspect-auto sm:h-full object-cover hover:scale-105 transition-transform duration-fast"
+                      loading="lazy"
+                    />
+                  </a>
+                )}
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
+                  <div class="flex-grow min-w-0">
+                    <a href={`/en/shows/${event.slug}`} class="group">
+                      <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">{event.title}</h2>
+                    </a>
+                    <p class="text-text-secondary text-sm mb-1">
+                      <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
+                    </p>
+                    <p class="text-text-secondary text-sm mb-2">
+                      {event.venue} · {event.city}, {event.country}
+                    </p>
+                    {event.tags && event.tags.length > 0 && (
+                      <div class="flex gap-1.5 flex-wrap mb-2">
+                        {event.tags.map(tag => (
+                          <Badge>{tag}</Badge>
+                        ))}
+                      </div>
+                    )}
+                    <p class="text-text-primary text-sm line-clamp-2">{event.description}</p>
+                  </div>
+                  <div class="flex gap-2 shrink-0 flex-wrap items-start">
+                    {event.ticketUrl && (
+                      <Button
+                        variant="primary"
+                        href={event.ticketUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm"
+                      >
+                        Tickets
+                      </Button>
+                    )}
+                    {event.mapUrl && (
+                      <Button
+                        variant="secondary"
+                        href={event.mapUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm"
+                      >
+                        Map
+                      </Button>
+                    )}
+                    <SharePopover
+                      url={`${siteConfig.baseUrl}/en/shows/${event.slug}`}
+                      title={event.title}
+                    />
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+
+  <script>
+    import { initListSearch } from '../../../scripts/list-search';
+    initListSearch({ type: 'event', lang: 'en' });
+
+    // Past shows toggle
+    const toggleBtn = document.getElementById('past-shows-toggle');
+    const pastList  = document.getElementById('past-shows-list');
+    const chevron   = document.getElementById('past-shows-chevron');
+    if (toggleBtn && pastList && chevron) {
+      toggleBtn.addEventListener('click', () => {
+        const isHidden = pastList.classList.contains('hidden');
+        pastList.classList.toggle('hidden');
+        (chevron as HTMLElement).style.transform = isHidden ? 'rotate(90deg)' : '';
+        toggleBtn.setAttribute('aria-expanded', String(isHidden));
+      });
+    }
+  </script>
+</Layout>

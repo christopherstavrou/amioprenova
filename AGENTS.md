@@ -47,12 +47,22 @@ Implementation conventions → `docs/ai/standards.md`
 | File | Read when |
 |------|-----------|
 | `docs/ai/progress.md` | Every session — current state, what's next |
-| `docs/ai/workflow.md` | Process questions — branching, commits, PR format |
+| `docs/ai/workflow.md` | Process questions — branching, commits, PR format, review response |
 | `docs/ai/standards.md` | Implementation questions — naming, structure, patterns |
 | `docs/ai/decisions.md` | Architecture questions — why things are built the way they are |
-| `docs/ai/github-integration.md` | GitHub Actions setup, secrets, triggering, troubleshooting |
+| `docs/ai/github-integration.md` | GitHub Actions / Copilot setup, triggering, troubleshooting |
 | `DESIGN.md` | Visual questions — colors, typography, component specs |
 | `README.md` | Content/data management, commands, deployment |
+
+## Copilot Instruction Files
+
+GitHub Copilot reads its own instruction files (see `docs/ai/github-integration.md` for full context). These mirror the rules in this file — keep them in sync when hard rules change:
+
+| File | Scope |
+|------|-------|
+| `.github/copilot-instructions.md` | Repo-wide rules read on every PR review (≤ 4,000 chars) |
+| `.github/instructions/astro.instructions.md` | Deep guidance for `*.astro` files |
+| `.github/instructions/typescript.instructions.md` | TypeScript rules for `*.ts` files |
 
 ---
 

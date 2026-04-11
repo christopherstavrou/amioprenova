@@ -1,0 +1,107 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../../layouts/Layout.astro';
+import Button from '../../../components/Button.astro';
+import Badge from '../../../components/Badge.astro';
+import SharePopover from '../../../components/SharePopover.astro';
+import GalleryLightbox from '../../../components/GalleryLightbox.astro';
+import { getAllEvents, formatEventDate } from '../../../lib/events';
+import { siteConfig } from '../../../config/site';
+
+export const getStaticPaths = (() => {
+  const allEvents = getAllEvents();
+  return allEvents.map(event => ({
+    params: { slug: event.slug },
+    props: { event },
+  }));
+}) satisfies GetStaticPaths;
+
+const { event } = Astro.props;
+
+const formattedDate = formatEventDate(event.startDate, 'bg');
+const canonicalURL = `${siteConfig.baseUrl}/bg/shows/${event.slug}`;
+const hasGallery = (event.gallery ?? []).length > 0;
+---
+
+<Layout
+  title={`${event.title} - amioprenova`}
+  description={event.description}
+  lang="bg"
+>
+  <article class="max-w-3xl mx-auto">
+    {event.image && (
+      <div class="mb-8 rounded-lg overflow-hidden">
+        <img
+          src={event.image}
+          alt={event.title}
+          class="w-full aspect-video object-cover"
+          loading="eager"
+        />
+      </div>
+    )}
+
+    <header class="mb-8">
+      <h1 class="font-serif text-4xl font-bold text-text-primary mb-4">{event.title}</h1>
+      <div class="flex flex-col gap-2 mb-4">
+        <p class="text-lg font-medium text-text-primary">{formattedDate}</p>
+        <p class="text-text-secondary">{event.venue} · {event.city}, {event.country}</p>
+      </div>
+      {event.tags && event.tags.length > 0 && (
+        <div class="flex gap-2 flex-wrap">
+          {event.tags.map(tag => (
+            <Badge>{tag}</Badge>
+          ))}
+        </div>
+      )}
+    </header>
+
+    {event.body && (
+      <div class="mb-8">
+        <p class="text-text-primary leading-relaxed">{event.body}</p>
+      </div>
+    )}
+
+    <div class="flex gap-3 mb-10">
+      {event.ticketUrl && (
+        <Button
+          variant="primary"
+          href={event.ticketUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Билети
+        </Button>
+      )}
+      {event.mapUrl && (
+        <Button
+          variant="secondary"
+          href={event.mapUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Карта
+        </Button>
+      )}
+    </div>
+
+    {hasGallery && (
+      <section class="mb-10">
+        <h2 class="font-serif text-2xl font-bold mb-4">Галерия</h2>
+        <GalleryLightbox items={event.gallery ?? []} labels={{ dialog: 'Преглед на галерия', close: 'Затвори галерия', previous: 'Предишна', next: 'Следваща', viewPrefix: 'Виж ', goToPrefix: 'Към елемент ' }} />
+      </section>
+    )}
+
+    <footer class="border-t border-border pt-8">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <a
+          href="/bg/shows"
+          class="inline-block text-sm text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors"
+        >
+          ← Обратно към всички концерти
+        </a>
+        <SharePopover url={canonicalURL} title={event.title} labels={{ share: 'Сподели', copyLink: 'Копирай линк', copied: 'Копирано!', facebook: 'Фейсбук', twitter: 'Twitter / X' }} />
+      </div>
+    </footer>
+  </article>
+</Layout>
+

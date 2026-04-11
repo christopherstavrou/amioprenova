@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content';
+import { galleryItemSchema } from '../lib/gallery-schema';
 
 const blogCollection = defineCollection({
   type: 'content',
@@ -7,6 +8,8 @@ const blogCollection = defineCollection({
     description: z.string(),
     pubDate: z.string(),
     tags: z.array(z.string()).optional(),
+    image: z.string().optional(),
+    gallery: z.array(galleryItemSchema).optional(),
   }),
 });
 

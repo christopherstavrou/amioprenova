@@ -1,7 +1,8 @@
-# Claude GitHub Integration
+# GitHub AI Integration
 
-This document covers how Claude Code is integrated into this repository via GitHub Actions,
-how to trigger it, how to troubleshoot it, and what manual setup is required.
+This document covers how AI agents (Claude Code and GitHub Copilot) are integrated into
+this repository — how to trigger them, how to configure custom instructions, and how to
+troubleshoot common issues.
 
 ---
 
@@ -166,9 +167,51 @@ running `npm run build` before committing, using Tailwind design tokens, etc.
 
 ---
 
-## Reference
+## GitHub Copilot
+
+### Entry point
+
+Copilot reads `.github/copilot-instructions.md` automatically on every PR review and cloud agent task. This is Copilot's equivalent of `CLAUDE.md`.
+
+### Custom instruction files
+
+Three instruction files teach Copilot the repo's conventions:
+
+| File | Scope | Limit |
+|------|-------|-------|
+| `.github/copilot-instructions.md` | Repo-wide — read on every review | First **4,000 chars** only for code review |
+| `.github/instructions/astro.instructions.md` | `*.astro` files — deep Astro patterns | No limit (read in full by cloud agent + chat) |
+| `.github/instructions/typescript.instructions.md` | `*.ts` files — Zod, types, patterns | No limit |
+
+When updating hard rules in `AGENTS.md`, update the matching Copilot file too.
+
+### Requesting a Copilot code review
+
+```bash
+gh pr edit {PR_NUMBER} --add-reviewer copilot-pull-request-reviewer
+```
+
+Or use the GitHub web UI: Reviewers → type "Copilot".
+
+### Responding to Copilot review feedback
+
+See `docs/ai/workflow.md` — the full review response process is documented there. In short:
+
+1. Fetch inline comments: `gh api repos/OWNER/REPO/pulls/PR/comments --jq '...'`
+2. Fix every comment — reply inline per thread with `gh api .../comments/ID/replies -X POST -f body="..."`
+3. Build, commit, push
+4. Post a summary PR comment, then re-request review: `gh pr edit PR --add-reviewer copilot-pull-request-reviewer`
+
+### Reference
+
+- Copilot instructions docs: https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions
+- Copilot agents docs: https://docs.github.com/en/copilot/how-tos/use-copilot-agents
+
+---
+
+## Claude Reference
 
 - Official action: https://github.com/anthropics/claude-code-action
 - Official docs: https://code.claude.com/docs/en/github-actions
 - Workflow file: `.github/workflows/claude.yml`
-- Project conventions: `CLAUDE.md`
+- Project conventions: `CLAUDE.md` → `AGENTS.md`

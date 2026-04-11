@@ -104,7 +104,29 @@ git push -u origin ai/your-feature-name
 
 **If you have unstaged changes when rebasing:** `git stash` before the rebase, `git stash pop` after, then push.
 
-### 7. Open pull request
+### 7. Pre-flight self-review
+
+**Run this before opening the PR.** The goal is to catch every issue that Copilot will catch, so the first review round is already clean. Work through the diff file by file against every rule in `.github/copilot-instructions.md` and `docs/ai/standards.md`.
+
+Check each changed file for:
+
+| Area | What to verify |
+|------|---------------|
+| **Colours** | No hardcoded hex/rgba — only Tailwind tokens or CSS custom properties |
+| **Transitions** | No `duration-300` or other hardcoded durations — use `duration-fast` / `duration-base` tokens |
+| **i18n parity** | If an EN page changed, confirm the BG sibling is structurally identical (same conditional guards, same props) |
+| **Labels prop** | Any component used on both EN + BG pages accepts a `labels` prop with English defaults; BG callers pass Bulgarian strings; runtime JS reads from `data-*` attributes |
+| **Accessibility** | Every `<button>` not a form submit has `type="button"`; disclosure widgets have `aria-expanded` + `aria-controls`; icon-only buttons have `aria-label` |
+| **Security** | No `innerHTML` with user-controlled data — use `createElement` + `textContent` |
+| **Multi-instance components** | All DOM queries scoped to instance root — no `document.getElementById` with hardcoded IDs |
+| **Static generation** | Every `getStaticPaths` that calls `paginate()` has an empty-list fallback |
+| **Fetch / async** | `response.ok` checked before `response.json()`; errors caught and DEV-only logged |
+| **Dark mode** | No `dark:` Tailwind variants — dark mode is `data-theme="dark"` on `<html>` |
+| **Scope** | `git diff --name-only` shows only task-relevant files; no adjacent clean-ups |
+
+Fix any failures before opening the PR. Do not skip this step.
+
+### 8. Open pull request
 
 ```bash
 gh pr create --base develop --head ai/your-feature-name \
@@ -129,15 +151,55 @@ EOF
 )"
 ```
 
-### 8. Handle review feedback
+### 9. Handle review feedback
 
-If the reviewer requests changes:
-- Push additional commits to the **same branch** — do not open a new PR
-- Address each point of feedback directly
-- Add a comment on the PR explaining what was changed and why if not obvious
-- Re-verify: `npm run build` must still pass
+**The AI agent owns the entire review loop.** The user does not need to manually action review feedback — the agent fetches comments, implements fixes, replies inline, and re-requests review autonomously until the PR is approved.
 
-### 9. Update progress.md
+After requesting a Copilot review, immediately post this comment on the PR to encourage exhaustive upfront feedback:
+
+```bash
+gh pr comment PR --body "Please give all feedback in this review pass — flag every issue you can see across all files, including style, i18n parity, accessibility, security, and best practices. Don't hold anything back for a follow-up round."
+```
+
+**Step-by-step process:**
+
+1. **Fetch inline comments** (filter to comments since the last round if needed):
+   ```bash
+   gh api repos/OWNER/REPO/pulls/PR/comments \
+     --jq '.[] | select(.created_at > "TIMESTAMP") | {id, path, line, body, created_at}'
+   ```
+
+2. **Read every affected file** before editing — never guess at current content.
+
+3. **Fix every comment.** Then **reply to each inline thread** individually:
+   ```bash
+   gh api repos/OWNER/REPO/pulls/PR/comments/COMMENT_ID/replies \
+     -X POST -f body="Fixed: [one sentence explaining what changed and why]"
+   ```
+   A general PR comment alone does not close individual threads — reviewers (including Copilot) expect inline replies per thread to mark them resolved.
+
+4. **Verify**: `npm run build` must pass (0 errors) before committing.
+
+5. **Commit** with a message naming the round:
+   ```bash
+   git commit -m "fix(review): address [N]th round of [reviewer] comments"
+   ```
+
+6. **Push** to the same feature branch.
+
+7. **Leave a summary comment** on the PR listing every item addressed:
+   ```bash
+   gh pr comment PR --body "## [N]th round addressed\n\n**1 — Issue title**\nWhat was done..."
+   ```
+
+8. **Re-request review**:
+   ```bash
+   # Copilot:
+   gh pr edit PR --add-reviewer copilot-pull-request-reviewer
+   # Human reviewer: use GitHub web UI or gh pr edit PR --add-reviewer USERNAME
+   ```
+
+### 10. Update progress.md
 
 After the PR is merged (or as a final commit before requesting review):
 
@@ -177,6 +239,8 @@ Before opening PR:
 - [ ] git diff --name-only shows only task-relevant files
 - [ ] Affected pages verified in browser (light + dark mode)
 - [ ] All commits have clear messages
+- [ ] Pre-flight self-review completed (Step 7 table — every rule checked against the diff)
+- [ ] Exhaustive-feedback comment posted after requesting Copilot review
 
 After PR:
 - [ ] docs/ai/progress.md updated
