@@ -1,4 +1,6 @@
 ---
+# DEMO CONTENT — uses placeholder images (picsum.photos) and a test YouTube ID.
+# Replace with real content or delete before go-live.
 title: "Fall Festival Highlights"
 description: "Recap of performances at autumn music festivals. Amazing crowds and unforgettable moments."
 pubDate: "2025-10-15"

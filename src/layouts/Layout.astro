@@ -389,14 +389,14 @@ const isActive = (href: string) => {
 
       // Close mobile menu when clicking a nav link (event delegation)
       mobileMenu?.querySelector('nav')?.addEventListener('click', (e) => {
-        if ((e.target as Element).closest('a') && menuOpen) {
+        if (e.target instanceof Element && e.target.closest('a') && menuOpen) {
           toggleMobileMenu();
         }
       });
 
       // ===== Language Switcher =====
-      const languageSwitcher = document.getElementById('language-switcher') as HTMLSelectElement;
-      const mobileLanguageSwitcher = document.getElementById('mobile-language-switcher') as HTMLSelectElement;
+      const languageSwitcher = document.getElementById('language-switcher') as HTMLSelectElement; // safe: element is defined in this template
+      const mobileLanguageSwitcher = document.getElementById('mobile-language-switcher') as HTMLSelectElement; // safe: element is defined in this template
 
       const currentPath = window.location.pathname;
       const currentLang = currentPath.startsWith('/bg') ? 'bg' : 'en';
@@ -430,7 +430,7 @@ const isActive = (href: string) => {
       if (languageSwitcher) {
         languageSwitcher.value = currentLang;
         languageSwitcher.addEventListener('change', (e) => {
-          const newLang = (e.target as HTMLSelectElement).value;
+          const newLang = (e.target as HTMLSelectElement).value; // safe: event fires on a <select> element
           handleLanguageChange(newLang);
         });
       }
@@ -438,7 +438,7 @@ const isActive = (href: string) => {
       if (mobileLanguageSwitcher) {
         mobileLanguageSwitcher.value = currentLang;
         mobileLanguageSwitcher.addEventListener('change', (e) => {
-          const newLang = (e.target as HTMLSelectElement).value;
+          const newLang = (e.target as HTMLSelectElement).value; // safe: event fires on a <select> element
           handleLanguageChange(newLang);
         });
       }

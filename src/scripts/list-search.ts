@@ -92,9 +92,9 @@ export function initListSearch({
   }
 
   function setup(): void {
-    const searchInput = document.getElementById(inputId) as HTMLInputElement | null;
+    const searchInput = document.getElementById(inputId);
     const resultsContainer = document.getElementById(resultsId);
-    if (!searchInput || !resultsContainer) return;
+    if (!(searchInput instanceof HTMLInputElement) || !resultsContainer) return;
     loadSearchIndex();
 
     searchInput.addEventListener('input', () => {
@@ -102,8 +102,9 @@ export function initListSearch({
     });
     document.addEventListener('click', (e) => {
       if (
-        !searchInput.contains(e.target as Node) &&
-        !resultsContainer.contains(e.target as Node)
+        e.target instanceof Node &&
+        !searchInput.contains(e.target) &&
+        !resultsContainer.contains(e.target)
       ) {
         resultsContainer.classList.add('hidden');
       }
