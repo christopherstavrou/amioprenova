@@ -96,17 +96,18 @@ const itemsJson = JSON.stringify(items.map(item => {
 
   On phone landscape (max-height ≤ 500px): strip hidden, arrows centred.
 
-  .gl-card uses height:100% + box-sizing:border-box + safe-area padding so
-  its content area reliably fills the viewport without any calc() guesswork.
+  .gl-card uses position:absolute inset:0 so its dimensions come directly
+  from the fixed overlay's concrete pixel size — no percentage chains, no
+  flex-1-needs-a-definite-parent issues, works on every mobile browser.
 -->
 <div
   id="gallery-lightbox"
-  class="hidden fixed inset-0 z-[60] overflow-hidden flex flex-col"
+  class="hidden fixed inset-0 z-[200] overflow-hidden"
   role="dialog"
   aria-modal="true"
   aria-label="Gallery viewer"
 >
-  <div class="gl-card flex flex-col w-full max-w-5xl mx-auto gap-1.5 sm:gap-2">
+  <div class="gl-card">
 
     <!-- Top bar: counter + close -->
     <div class="flex items-center justify-between shrink-0">
@@ -119,7 +120,7 @@ const itemsJson = JSON.stringify(items.map(item => {
     </div>
 
     <!-- Media: full width, grows to fill remaining height -->
-    <div id="gallery-content" class="gl-content flex items-center justify-center overflow-hidden">
+    <div id="gallery-content" class="gl-content">
       <!-- Injected by JS: <img> or <div class="gl-video"><iframe></div> -->
     </div>
 
@@ -173,34 +174,37 @@ const itemsJson = JSON.stringify(items.map(item => {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     overscroll-behavior: none;
-    /*
-     * Explicit height so the flex container has a definite size.
-     * Some Android Chrome builds don't treat fixed inset-0 alone as a
-     * definite flex container height for flex-grow calculations.
-     */
-    height: 100%;
   }
   :root[data-theme="dark"] #gallery-lightbox {
     background-color: rgba(10, 10, 10, 0.97);
   }
 
   /*
-   * ── Card: fills viewport, padding respects device safe areas ──
-   * box-sizing:border-box means padding is inside the 100% height,
-   * so the card never overflows the overlay. max(base, env(...)) ensures
-   * we're always clear of notch / home-indicator zones.
+   * ── Card: position:absolute inset:0 gives it concrete pixel dimensions ──
+   * This is the most reliable cross-browser approach. A child of a fixed
+   * element with position:absolute inset:0 always fills the parent exactly —
+   * no flex-1 percentage-resolution ambiguity, no dvh support needed.
+   * max-width + margin:auto centres it on wide screens.
+   * box-sizing:border-box keeps the safe-area padding inside the card.
    */
   .gl-card {
-    height: 100%;
+    position: absolute;
+    inset: 0;
+    max-width: 64rem; /* max-w-5xl */
+    margin: 0 auto;
     box-sizing: border-box;
     padding:
       max(0.75rem, env(safe-area-inset-top))
       max(0.75rem, env(safe-area-inset-right))
       max(0.75rem, env(safe-area-inset-bottom))
       max(0.75rem, env(safe-area-inset-left));
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem; /* gap-1.5 */
   }
   @media (min-width: 640px) {
     .gl-card {
+      gap: 0.5rem; /* gap-2 */
       padding:
         max(1rem, env(safe-area-inset-top))
         max(1rem, env(safe-area-inset-right))
@@ -210,13 +214,20 @@ const itemsJson = JSON.stringify(items.map(item => {
   }
 
   /*
-   * ── Media area: flex-1 min-h-0 fills all remaining card height ──
-   * Direct flex child of .gl-card (flex-col), so there's no intermediate
-   * wrapper whose align-items could interfere with percentage heights.
+   * ── Media area: grows to fill all remaining card height ──
+   * flex:1 min-height:0 works reliably here because .gl-card has a
+   * concrete pixel height (from position:absolute inset:0), so the
+   * flex algorithm has a definite size to distribute.
+   * All flex/alignment props are in CSS to prevent Tailwind class
+   * purging or ordering issues from breaking the layout.
    */
   .gl-content {
     flex: 1;
     min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
   }
 
   /* ── Images: fit within the content area without cropping ── */
