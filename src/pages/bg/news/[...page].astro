@@ -75,7 +75,7 @@ const posts = page.data;
                       <img
                         src={post.data.image}
                         alt={post.data.title}
-                        class="w-full aspect-[3/1] sm:aspect-auto sm:h-full object-cover hover:scale-105 transition-transform duration-300"
+                        class="w-full aspect-[3/1] sm:aspect-auto sm:h-full object-cover hover:scale-105 transition-transform duration-fast"
                         loading="lazy"
                       />
                     </a>
@@ -99,7 +99,7 @@ const posts = page.data;
                       </a>
                     </div>
                     <div class="flex gap-2 shrink-0 flex-wrap items-start">
-                      <SharePopover url={shareUrl} title={post.data.title} labels={{ share: 'Сподели', copyLink: 'Копирай линк', copied: 'Копирано!' }} />
+                      <SharePopover url={shareUrl} title={post.data.title} labels={{ share: 'Сподели', copyLink: 'Копирай линк', copied: 'Копирано!', facebook: 'Фейсбук', twitter: 'Twitter / X' }} />
                     </div>
                   </div>
                 </div>

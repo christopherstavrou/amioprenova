@@ -41,6 +41,10 @@ export function initListSearch({
   async function loadSearchIndex(): Promise<void> {
     try {
       const response = await fetch('/search-index.json');
+      if (!response.ok) {
+        if (import.meta.env.DEV) console.error('Search index fetch failed:', response.status);
+        return;
+      }
       const allEntries: SearchEntry[] = await response.json();
       searchIndex = allEntries.filter(
         entry => entry.type === type && entry.lang === lang,
