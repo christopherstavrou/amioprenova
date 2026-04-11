@@ -4,6 +4,7 @@ import { getEntry } from 'astro:content';
 import PageHeader from '../../components/PageHeader.astro';
 
 const about = await getEntry('pages', 'en/about');
+if (!about) throw new Error('Missing content: pages/en/about');
 const { Content } = await about.render();
 ---
 
