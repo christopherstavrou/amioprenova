@@ -2,13 +2,15 @@
 /**
  * GalleryLightbox
  * Compact thumbnail grid + full-screen lightbox with carousel.
- * - Always-dark overlay (unambiguous on all themes/devices)
+ * - Theme-aware overlay (warm off-white in light mode, near-black in dark mode)
  * - JS-driven explicit pixel dimensions — bypasses CSS height chain bugs on Android Chrome
- * - Robust body scroll lock (position:fixed technique for iOS Safari)
+ * - Body scroll lock via overflow:hidden on html+body (avoids position:fixed on body
+ *   which causes Android Chrome to position fixed children relative to the offset body)
  * - Safe-area-inset padding for notch / home-indicator devices
  * - Landscape phone: strip hidden, arrows centred below media
  * - Keyboard: Escape, ArrowLeft, ArrowRight
  * - Accessible: aria-modal, aria-label, focus management
+ * - Scoped to instance root — safe to use multiple times on the same page
  */
 import type { GalleryItem } from '../lib/events';
 
@@ -36,135 +38,141 @@ const itemsJson = JSON.stringify(items.map(item => {
 }));
 ---
 
-<!-- ─── Thumbnail grid ─────────────────────────────────────────────── -->
-<div
-  class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 gallery-grid"
-  data-gallery-items={itemsJson}
->
-  {items.map((item, i) => (
-    <button
-      class="gallery-thumb relative aspect-video rounded-md overflow-hidden bg-surface-muted group focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
-      data-gallery-index={i}
-      aria-label={`View ${itemLabel(item)}`}
-    >
-      {(item.type === 'image' || item.type === 'youtube') && (
-        <img
-          src={thumbSrc(item)}
-          alt={itemLabel(item)}
-          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          loading="lazy"
-        />
-      )}
-      {item.type === 'vimeo' && (
-        <div class="w-full h-full flex items-center justify-center bg-surface-muted">
-          <span class="text-xs text-text-secondary px-2 text-center line-clamp-2">{item.title}</span>
-        </div>
-      )}
-      {(item.type === 'youtube' || item.type === 'vimeo') && (
-        <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-colors">
-          <svg class="w-8 h-8 text-white drop-shadow" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8 5v14l11-7z" />
-          </svg>
-        </div>
-      )}
-      {item.type === 'image' && (
-        <div class="absolute inset-0 flex items-center justify-center bg-transparent group-hover:bg-black/20 transition-colors">
-          <svg class="w-6 h-6 text-white opacity-0 group-hover:opacity-100 drop-shadow transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-          </svg>
-        </div>
-      )}
-    </button>
-  ))}
-</div>
+<!-- ─── Instance root ───────────────────────────────────────────────── -->
+<div class="gallery-instance">
 
-<!-- ─── Lightbox ───────────────────────────────────────────────────── -->
-<!--
-  Layout (all screen sizes):
-
-    ┌─────────────────────────────┐
-    │ counter              close  │  ← top bar (shrink-0)
-    ├─────────────────────────────┤
-    │                             │
-    │       media  (flex-1)       │  ← full width, grows to fill
-    │                             │
-    ├─────────────────────────────┤
-    │         caption             │  ← shrink-0
-    ├─────────────────────────────┤
-    │ ←   [strip thumbnails]  →  │  ← shrink-0 nav row
-    └─────────────────────────────┘
-
-  On phone landscape (max-height ≤ 500px): strip hidden, arrows centred.
-
-  Card dimensions are set explicitly by JS on open (window.innerWidth/Height)
-  to bypass Android Chrome's broken CSS percentage-height resolution chain.
--->
-<div
-  id="gallery-lightbox"
-  class="hidden fixed inset-0 z-[200] overflow-hidden"
-  role="dialog"
-  aria-modal="true"
-  aria-label="Gallery viewer"
->
-  <div class="gl-card">
-
-    <!-- Top bar: counter + close -->
-    <div class="flex items-center justify-between shrink-0">
-      <span id="gallery-counter" class="gl-meta text-sm tabular-nums select-none"></span>
-      <button id="gallery-close" class="gl-btn" aria-label="Close gallery">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
+  <!-- ─── Thumbnail grid ─────────────────────────────────────────────── -->
+  <div
+    class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 gallery-grid"
+    data-gallery-items={itemsJson}
+  >
+    {items.map((item, i) => (
+      <button
+        type="button"
+        class="gallery-thumb relative aspect-video rounded-md overflow-hidden bg-surface-muted group focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
+        data-gallery-index={i}
+        aria-label={`View ${itemLabel(item)}`}
+      >
+        {(item.type === 'image' || item.type === 'youtube') && (
+          <img
+            src={thumbSrc(item)}
+            alt={itemLabel(item)}
+            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          />
+        )}
+        {item.type === 'vimeo' && (
+          <div class="w-full h-full flex items-center justify-center bg-surface-muted">
+            <span class="text-xs text-text-secondary px-2 text-center line-clamp-2">{item.title}</span>
+          </div>
+        )}
+        {(item.type === 'youtube' || item.type === 'vimeo') && (
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-colors">
+            <svg class="w-8 h-8 text-white drop-shadow" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        )}
+        {item.type === 'image' && (
+          <div class="absolute inset-0 flex items-center justify-center bg-transparent group-hover:bg-black/20 transition-colors">
+            <svg class="w-6 h-6 text-white opacity-0 group-hover:opacity-100 drop-shadow transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+            </svg>
+          </div>
+        )}
       </button>
-    </div>
+    ))}
+  </div>
 
-    <!-- Media: full width, grows to fill remaining height -->
-    <div id="gallery-content" class="gl-content">
-      <!-- Injected by JS: <img> or <div class="gl-video"><iframe></div> -->
-    </div>
+  <!-- ─── Lightbox ───────────────────────────────────────────────────── -->
+  <!--
+    Layout (all screen sizes):
 
-    <!-- Caption -->
-    <p id="gallery-caption" class="gl-meta text-center text-sm shrink-0 min-h-[1.25rem] px-2 select-none"></p>
+      ┌─────────────────────────────┐
+      │ counter              close  │  ← top bar (shrink-0)
+      ├─────────────────────────────┤
+      │                             │
+      │       media  (flex-1)       │  ← full width, grows to fill
+      │                             │
+      ├─────────────────────────────┤
+      │         caption             │  ← shrink-0
+      ├─────────────────────────────┤
+      │ ←   [strip thumbnails]  →  │  ← shrink-0 nav row
+      └─────────────────────────────┘
 
-    <!-- Nav row: prev arrow · thumbnail strip · next arrow -->
-    <div class="gl-nav-row flex items-center gap-1 sm:gap-2 shrink-0">
-      <button id="gallery-prev" class="gl-btn shrink-0" aria-label="Previous">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
+    On phone landscape (max-height ≤ 500px): strip hidden, arrows centred.
 
-      <div class="gl-strip-container flex-1 overflow-x-auto">
-        <div class="flex gap-1.5 w-max mx-auto">
-          {items.map((item, i) => (
-            <button
-              class="gl-strip-thumb shrink-0 w-14 h-9 sm:w-16 sm:h-10 rounded overflow-hidden relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
-              data-strip-index={i}
-              aria-label={`Go to item ${i + 1}`}
-              tabindex="-1"
-            >
-              {(item.type === 'image' || item.type === 'youtube') && (
-                <img src={thumbSrc(item)} alt="" class="w-full h-full object-cover" loading="lazy" />
-              )}
-              {item.type === 'vimeo' && (
-                <div class="w-full h-full bg-surface-muted flex items-center justify-center">
-                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-              )}
-            </button>
-          ))}
-        </div>
+    Card dimensions are set explicitly by JS on open (window.innerWidth/Height)
+    to bypass Android Chrome's broken CSS percentage-height resolution chain.
+  -->
+  <div
+    class="gallery-lightbox hidden fixed inset-0 z-[200] overflow-hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Gallery viewer"
+  >
+    <div class="gl-card">
+
+      <!-- Top bar: counter + close -->
+      <div class="flex items-center justify-between shrink-0">
+        <span class="gallery-counter gl-meta text-sm tabular-nums select-none"></span>
+        <button type="button" class="gallery-close gl-btn" aria-label="Close gallery">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
 
-      <button id="gallery-next" class="gl-btn shrink-0" aria-label="Next">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-    </div>
+      <!-- Media: full width, grows to fill remaining height -->
+      <div class="gallery-content gl-content">
+        <!-- Injected by JS: <img> or <div class="gl-video"><iframe></div> -->
+      </div>
 
-  </div><!-- /gl-card -->
-</div><!-- /gallery-lightbox -->
+      <!-- Caption -->
+      <p class="gallery-caption gl-meta text-center text-sm shrink-0 min-h-[1.25rem] px-2 select-none"></p>
+
+      <!-- Nav row: prev arrow · thumbnail strip · next arrow -->
+      <div class="gl-nav-row flex items-center gap-1 sm:gap-2 shrink-0">
+        <button type="button" class="gallery-prev gl-btn shrink-0" aria-label="Previous">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <div class="gl-strip-container flex-1 overflow-x-auto">
+          <div class="flex gap-1.5 w-max mx-auto">
+            {items.map((item, i) => (
+              <button
+                type="button"
+                class="gl-strip-thumb shrink-0 w-14 h-9 sm:w-16 sm:h-10 rounded overflow-hidden relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
+                data-strip-index={i}
+                aria-label={`Go to item ${i + 1}`}
+                tabindex="-1"
+              >
+                {(item.type === 'image' || item.type === 'youtube') && (
+                  <img src={thumbSrc(item)} alt="" class="w-full h-full object-cover" loading="lazy" />
+                )}
+                {item.type === 'vimeo' && (
+                  <div class="w-full h-full bg-surface-muted flex items-center justify-center">
+                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button type="button" class="gallery-next gl-btn shrink-0" aria-label="Next">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+    </div><!-- /gl-card -->
+  </div><!-- /gallery-lightbox -->
+
+</div><!-- /gallery-instance -->
 
 <style is:global>
   /*
@@ -174,12 +182,12 @@ const itemsJson = JSON.stringify(items.map(item => {
    * No backdrop-filter — unnecessary on a near-opaque surface
    * and creates a stacking context that can interfere with z-index.
    */
-  #gallery-lightbox {
+  .gallery-lightbox {
     background: rgba(240, 237, 232, 0.97);
     overscroll-behavior: none;
     touch-action: none;
   }
-  :root[data-theme="dark"] #gallery-lightbox {
+  :root[data-theme="dark"] .gallery-lightbox {
     background: rgba(10, 10, 10, 0.97);
   }
 
@@ -235,7 +243,7 @@ const itemsJson = JSON.stringify(items.map(item => {
    * renders the image at its natural aspect ratio within that space so
    * no empty dark gap appears above/below the image.
    */
-  #gallery-content img {
+  .gallery-content img {
     display: block;
     width: 100%;
     height: 100%;
@@ -248,7 +256,7 @@ const itemsJson = JSON.stringify(items.map(item => {
    * width:100% fills the content width. max-height:100% shrinks
    * proportionally when the natural 16:9 height would overflow.
    */
-  #gallery-content .gl-video {
+  .gallery-content .gl-video {
     width: 100%;
     aspect-ratio: 16 / 9;
     max-height: 100%;
@@ -256,7 +264,7 @@ const itemsJson = JSON.stringify(items.map(item => {
     overflow: hidden;
     background: #000;
   }
-  #gallery-content .gl-video iframe {
+  .gallery-content .gl-video iframe {
     width: 100%;
     height: 100%;
     border: 0;
@@ -311,16 +319,22 @@ const itemsJson = JSON.stringify(items.map(item => {
 
 <script>
   // @ts-nocheck
-  const lightbox  = document.getElementById('gallery-lightbox');
-  const contentEl = document.getElementById('gallery-content');
-  const captionEl = document.getElementById('gallery-caption');
-  const counterEl = document.getElementById('gallery-counter');
-  const closeBtn  = document.getElementById('gallery-close');
-  const prevBtn   = document.getElementById('gallery-prev');
-  const nextBtn   = document.getElementById('gallery-next');
-  const card      = lightbox?.querySelector('.gl-card');
+  // Astro deduplicates this script — it runs once per page.
+  // Each .gallery-instance gets its own closure so multiple galleries on the
+  // same page are fully independent (no shared global IDs).
 
-  if (lightbox && contentEl && card) {
+  document.querySelectorAll('.gallery-instance').forEach(instance => {
+    const lightbox  = instance.querySelector('.gallery-lightbox');
+    const contentEl = instance.querySelector('.gallery-content');
+    const captionEl = instance.querySelector('.gallery-caption');
+    const counterEl = instance.querySelector('.gallery-counter');
+    const closeBtn  = instance.querySelector('.gallery-close');
+    const prevBtn   = instance.querySelector('.gallery-prev');
+    const nextBtn   = instance.querySelector('.gallery-next');
+    const card      = lightbox?.querySelector('.gl-card');
+
+    if (!lightbox || !contentEl || !card) return;
+
     let items = [];
     let activeIndex = 0;
     let previouslyFocused = null;
@@ -383,7 +397,7 @@ const itemsJson = JSON.stringify(items.map(item => {
     }
 
     function updateStrip(index) {
-      document.querySelectorAll('.gl-strip-thumb').forEach((btn, i) => {
+      lightbox.querySelectorAll('.gl-strip-thumb').forEach((btn, i) => {
         btn.classList.toggle('is-active', i === index);
         btn.tabIndex = i === index ? 0 : -1;
       });
@@ -393,7 +407,7 @@ const itemsJson = JSON.stringify(items.map(item => {
        * can trigger Android Chrome to toggle the address bar, changing the
        * viewport height mid-navigation and causing layout drift.
        */
-      const activeThumb = document.querySelector(`.gl-strip-thumb[data-strip-index="${index}"]`);
+      const activeThumb = lightbox.querySelector(`.gl-strip-thumb[data-strip-index="${index}"]`);
       const container   = activeThumb?.closest('.gl-strip-container');
       if (activeThumb && container) {
         const target = activeThumb.offsetLeft
@@ -478,13 +492,13 @@ const itemsJson = JSON.stringify(items.map(item => {
     }
 
     // Grid clicks
-    document.querySelectorAll('.gallery-thumb').forEach(btn => {
+    instance.querySelectorAll('.gallery-thumb').forEach(btn => {
       const grid = btn.closest('.gallery-grid');
       btn.addEventListener('click', () => openLightbox(grid, Number(btn.dataset.galleryIndex)));
     });
 
-    // Strip clicks
-    document.querySelectorAll('.gl-strip-thumb').forEach(btn => {
+    // Strip clicks (query from lightbox so they work after portal-to-body)
+    lightbox.querySelectorAll('.gl-strip-thumb').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         activeIndex = Number(btn.dataset.stripIndex);
@@ -508,5 +522,5 @@ const itemsJson = JSON.stringify(items.map(item => {
       if (e.key === 'ArrowLeft')  { e.preventDefault(); navigate(-1); }
       if (e.key === 'ArrowRight') { e.preventDefault(); navigate(1); }
     });
-  }
+  });
 </script>

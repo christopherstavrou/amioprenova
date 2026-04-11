@@ -185,12 +185,21 @@ const posts = page.data;
           resultsContainer.classList.add('hidden');
           return;
         }
-        resultsContainer.innerHTML = results.map(entry => `
-          <a href="${entry.url}" class="block p-3 hover:bg-surface-muted border-b border-border last:border-b-0 transition-colors">
-            <div class="font-medium text-sm text-text-primary">${entry.title}</div>
-            <div class="text-xs text-text-secondary mt-1">${entry.date}</div>
-          </a>
-        `).join('');
+        resultsContainer.innerHTML = '';
+        results.forEach(entry => {
+          const a = document.createElement('a');
+          a.href = entry.url;
+          a.className = 'block p-3 hover:bg-surface-muted border-b border-border last:border-b-0 transition-colors';
+          const title = document.createElement('div');
+          title.className = 'font-medium text-sm text-text-primary';
+          title.textContent = entry.title;
+          const date = document.createElement('div');
+          date.className = 'text-xs text-text-secondary mt-1';
+          date.textContent = entry.date;
+          a.appendChild(title);
+          a.appendChild(date);
+          resultsContainer.appendChild(a);
+        });
         resultsContainer.classList.remove('hidden');
       }
 
