@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Layout from '../../../layouts/Layout.astro';
 import Badge from '../../../components/Badge.astro';
@@ -15,13 +15,13 @@ export const getStaticPaths = (async () => {
   }
 
   return allPosts.map(post => ({
-    params: { slug: post.slug.replace('bg/', '') },
+    params: { slug: post.id.replace('bg/', '') },
     props: { post },
   }));
 }) satisfies GetStaticPaths;
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 
 const formattedDate = new Date(post.data.pubDate).toLocaleDateString('bg-BG', {
   year: 'numeric',
@@ -29,7 +29,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('bg-BG', {
   day: 'numeric'
 });
 
-const canonicalURL = `${siteConfig.baseUrl}/bg/news/${post.slug.replace('bg/', '')}`;
+const canonicalURL = `${siteConfig.baseUrl}/bg/news/${post.id.replace('bg/', '')}`;
 const galleryItems = post.data.gallery ?? [];
 const hasGallery = galleryItems.length > 0;
 ---

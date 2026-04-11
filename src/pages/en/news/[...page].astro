@@ -46,7 +46,7 @@ const posts = page.data;
     ) : (
       <div class="space-y-3 mb-6">
         {posts.map(post => {
-          const postSlug = post.slug.replace('en/', '');
+          const postSlug = post.id.replace('en/', '');
           const postUrl = `/en/news/${postSlug}`;
           const shareUrl = `${siteConfig.baseUrl}${postUrl}`;
           const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {

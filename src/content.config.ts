@@ -1,8 +1,9 @@
 import { defineCollection, z } from 'astro:content';
-import { galleryItemSchema } from '../lib/gallery-schema';
+import { glob } from 'astro/loaders';
+import { galleryItemSchema } from './lib/gallery-schema';
 
 const blogCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -14,7 +15,7 @@ const blogCollection = defineCollection({
 });
 
 const pagesCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
