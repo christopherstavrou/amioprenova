@@ -24,6 +24,8 @@ applyTo: "**/*.astro"
 - Pages under `src/pages/en/` and `src/pages/bg/` are sibling files that must stay structurally in sync.
 - Never branch on language inside a single page file (`lang === 'en' ? … : …`). If content differs by language, it lives in the relevant Content Collection entry or in each language's page file.
 - When creating or editing a page, the matching locale page must also be updated in the same commit/PR.
+- **Structural parity extends to conditional UI blocks.** If a feature (e.g. search input) is guarded by `data.length > 0` in one locale, the sibling locale must use the same guard. Different conditionals around the same feature count as a structural divergence.
+- **Components that render user-visible text and appear on both EN and BG pages must accept a `labels` prop** with English defaults baked into the component. BG caller pages must pass Bulgarian strings. This applies to `aria-label`, button text, status messages, and any string the component renders or updates at runtime (e.g. via `span.textContent`). Pass labels via `data-*` attributes when the component's JS needs to update text after render.
 
 ## Component safety — multi-instance scoping
 

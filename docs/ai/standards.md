@@ -62,6 +62,7 @@ Rules:
 - Always accept and forward a `class?: string` prop to support per-use customization
 - Compute class strings in the frontmatter using lookup objects, not inline ternaries in the template
 - Do not accept layout-level props (margin, padding) — let the caller handle spacing
+- **If a component renders user-visible text (button labels, aria-labels, status messages) and is used on both EN and BG pages, add a `labels` prop with English defaults.** BG caller pages must pass Bulgarian strings. If the component's JS updates text at runtime (e.g. `span.textContent = 'Copied!'`), carry the label as a `data-*` attribute on the relevant element so the JS can read the locale-appropriate string without hardcoding it.
 
 **When to create a new component:**
 - The same HTML structure (more than ~3 lines) appears in 2 or more places → extract it
@@ -82,6 +83,7 @@ Rules:
 - Description: 150–160 characters
 - Content is in the target language — no language conditionals in page files
 - Data loading (JSON imports, utility calls) belongs in the frontmatter, not the template
+- **EN and BG pages are structurally identical** — the same conditional guards, the same sections, the same component props. If you change the structure of an EN page (add/remove a conditional block), update the BG sibling in the same commit.
 
 **Layouts** (`src/layouts/`):
 - Handle SEO, document structure, global navigation, and footer

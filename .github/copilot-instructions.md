@@ -15,8 +15,9 @@ Deep per-file rules: `.github/instructions/astro.instructions.md` · `.github/in
 
 ## i18n
 
-- Never use `lang === 'en' ? … : …` ternaries (or equivalent) inside page files. Each language has its own page at `src/pages/en/` and `src/pages/bg/`.
-- EN and BG locale pages must be structurally identical. When reviewing a changed `en/` page, flag any divergence in the matching `bg/` page even if it is not in the diff.
+- Never use `lang === 'en' ? … : …` ternaries inside page files. Each language has its own page at `src/pages/en/` and `src/pages/bg/`.
+- EN and BG pages must be structurally identical — including conditional guards (e.g. search hidden when list is empty). Flag divergence in the `bg/` sibling when reviewing an `en/` page.
+- Components on both EN + BG pages need a `labels` prop (English defaults). BG callers pass Bulgarian strings; JS-updated text reads from `data-*` attributes.
 - Content lives in `src/content/blog/en/` and `src/content/blog/bg/`.
 
 ## Security
@@ -27,27 +28,27 @@ Deep per-file rules: `.github/instructions/astro.instructions.md` · `.github/in
 ## Accessibility
 
 - Every `<button>` that is not a form submit must have `type="button"`.
-- Disclosure widgets (dropdowns, popovers) must have `aria-expanded` on the trigger and `aria-controls` pointing to the panel ID. Keep `aria-expanded` in sync on open/close.
-- Modal dialogs: `role="dialog"` + `aria-modal="true"`, visible close button, Tab/Shift+Tab focus trap (Escape closes), focus-restore on close.
+- Disclosure widgets must have `aria-expanded` on the trigger and `aria-controls` pointing to the panel ID. Keep `aria-expanded` in sync on open/close.
+- Modal dialogs: `role="dialog"` + `aria-modal="true"`, visible close button, Tab/Shift+Tab focus trap, Escape closes, focus-restore on close.
 - Icon-only buttons must have `aria-label`.
 
 ## Astro components
 
 - Use `<style is:global>` for rules with compound selectors (e.g. `:root[data-theme="dark"] .class`) or that target children rendered outside the component's own shadow.
-- Components that can appear multiple times on a page must scope all DOM queries to an instance root element — never `document.getElementById` with hardcoded IDs. Prefer class-based selectors inside a wrapper element.
-- Keyboard event listeners must be registered on open and unregistered on close. Do not attach permanent `document`-level listeners inside per-instance setup loops.
+- Multi-instance components must scope all DOM queries to an instance root — never `document.getElementById` with hardcoded IDs. Use class-based selectors inside a wrapper.
+- Keyboard listeners must be registered on open and removed on close. Never attach permanent `document`-level listeners in per-instance loops.
 - Horizontally scrollable containers inside a fixed overlay need `touch-action: pan-x`, not `touch-action: none`.
 
 ## Fixed overlays / lightboxes
 
-- Move the overlay element to `document.body` on open (portal) to avoid ancestor stacking-context interference.
-- Set overlay card dimensions from `window.innerWidth / window.innerHeight` in JS — CSS percentage-height chains are unreliable on Android Chrome.
-- Scroll lock: set `overflow: hidden` on both `<html>` and `<body>`. Never set `position: fixed` on `<body>` — it repositions fixed children relative to the offset body on Android Chrome.
+- Portal the overlay to `document.body` on open to avoid ancestor stacking-context interference.
+- Set card dimensions in JS from `window.innerWidth/innerHeight` — CSS percentage-height chains break on Android Chrome.
+- Scroll lock: `overflow:hidden` on `<html>` + `<body>`. Never `position:fixed` on `<body>` — shifts fixed children on Android Chrome.
 
 ## Schemas and types
 
-- Zod schemas are the single source of truth. Derive TypeScript types with `z.infer<typeof schema>` — do not write a separate TS interface that duplicates a Zod schema.
-- Keep Zod schemas in dedicated modules separate from runtime data-helper files to avoid bundling the Zod runtime into pages that only need the inferred type. Use `import type { X }` for type-only imports.
+- Zod schemas are the single source of truth. Derive types with `z.infer<typeof schema>` — never duplicate a Zod schema as a separate TS interface.
+- Keep Zod schemas in dedicated modules (not runtime helpers) to avoid bundling Zod into pages that only need the inferred type. Use `import type { X }` for type-only imports.
 
 ## Static generation
 
