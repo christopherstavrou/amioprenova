@@ -280,7 +280,7 @@ const itemsJson = JSON.stringify(items.map(item => {
     flex-shrink: 0;
     cursor: pointer;
     color: var(--color-text-secondary);
-    transition: color 0.15s, background-color 0.15s;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
   }
   .gl-btn:hover {
     color: var(--color-text-primary);
@@ -297,7 +297,7 @@ const itemsJson = JSON.stringify(items.map(item => {
   /* ── Strip thumbs ── */
   .gl-strip-thumb {
     opacity: 0.45;
-    transition: opacity 0.15s;
+    transition: opacity var(--transition-fast);
   }
   .gl-strip-thumb:hover { opacity: 0.75; }
   .gl-strip-thumb.is-active {

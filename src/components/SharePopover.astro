@@ -17,11 +17,12 @@ const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`
 const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
 ---
 
-<div class={`relative inline-block ${className}`}>
+<div class={`share-popover relative inline-block ${className}`}>
   <button
     type="button"
     class="share-trigger inline-flex items-center justify-center gap-1.5 px-6 py-3 rounded-md font-medium text-sm border-2 border-accent-primary text-accent-primary bg-transparent hover:bg-accent-primary hover:text-text-inverse transition-all duration-fast focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
     aria-label="Share"
+    aria-expanded="false"
     data-share-url={url}
     data-share-title={title}
   >
@@ -71,16 +72,30 @@ const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${
   // @ts-nocheck
   // Deduplicated by Astro — runs once per page even with multiple SharePopover instances.
 
+  // Assign unique IDs to each panel and wire aria-controls on the trigger.
+  document.querySelectorAll('.share-popover').forEach((root, i) => {
+    const trigger = root.querySelector('.share-trigger');
+    const panel   = root.querySelector('.share-panel');
+    if (!trigger || !panel) return;
+    const panelId = `share-panel-${i}`;
+    panel.id = panelId;
+    trigger.setAttribute('aria-controls', panelId);
+  });
+
   function openPanel(trigger) {
     const panel = trigger.parentElement.querySelector('.share-panel');
     if (!panel) return;
     const isHidden = panel.classList.contains('hidden');
     closeAllPanels();
-    if (isHidden) panel.classList.remove('hidden');
+    if (isHidden) {
+      panel.classList.remove('hidden');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
   }
 
   function closeAllPanels() {
     document.querySelectorAll('.share-panel').forEach(p => p.classList.add('hidden'));
+    document.querySelectorAll('.share-trigger').forEach(t => t.setAttribute('aria-expanded', 'false'));
   }
 
   document.addEventListener('click', async (e) => {

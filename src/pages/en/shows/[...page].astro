@@ -15,7 +15,7 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
-const posts = page.data;
+const events = page.data;
 const pastEvents = getPastEvents();
 ---
 
@@ -39,13 +39,13 @@ const pastEvents = getPastEvents();
       </div>
     </div>
 
-    {posts.length === 0 ? (
+    {events.length === 0 ? (
       <p class="text-text-secondary text-lg">
         No upcoming shows at the moment. Check back soon or follow on social media for announcements!
       </p>
     ) : (
       <div class="space-y-3 mb-6">
-        {posts.map(event => (
+        {events.map(event => (
           <Card hover={true} padding="none">
             <div class="flex flex-col sm:flex-row">
               {event.image && (

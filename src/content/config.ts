@@ -1,10 +1,5 @@
 import { defineCollection, z } from 'astro:content';
-
-const galleryItemSchema = z.discriminatedUnion('type', [
-  z.object({ type: z.literal('image'), src: z.string(), alt: z.string(), caption: z.string().optional() }),
-  z.object({ type: z.literal('youtube'), id: z.string(), title: z.string() }),
-  z.object({ type: z.literal('vimeo'), id: z.string(), title: z.string() }),
-]);
+import { galleryItemSchema } from '../lib/events';
 
 const blogCollection = defineCollection({
   type: 'content',
