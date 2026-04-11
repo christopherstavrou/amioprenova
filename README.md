@@ -8,7 +8,7 @@ Official website for jazz vocalist **Ami Oprenova** — a static site built with
 
 ### Prerequisites
 
-- Node.js v18 or later
+- Node.js v20.19.0 or later (or v22+)
 - npm
 
 ### Commands
@@ -187,6 +187,7 @@ All external URLs and metadata are in `src/config/site.ts`. Update placeholder v
 
 ```
 src/
+├── content.config.ts        # Content collection definitions (glob loaders)
 ├── content/blog/en/         # Blog posts (Markdown) — EN only; BG not yet implemented
 ├── content/pages/{en,bg}/   # Page content, e.g. About (Markdown)
 ├── pages/{en,bg}/           # Page templates (Astro)
