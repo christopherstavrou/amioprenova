@@ -3,7 +3,10 @@ import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Layout from '../../../layouts/Layout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
+import Card from '../../../components/Card.astro';
 import Badge from '../../../components/Badge.astro';
+import SharePopover from '../../../components/SharePopover.astro';
+import { siteConfig } from '../../../config/site';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const allPosts = await getCollection('blog', ({ id }) => id.startsWith('en/'));
@@ -38,42 +41,62 @@ const posts = page.data;
       </div>
     </div>
 
-    <div class="space-y-8 mb-6">
-      {posts.map(post => (
-        <article class="border-b border-border pb-8">
-          <a href={`/en/news/${post.slug.replace('en/', '')}`} class="group">
-            <h2 class="font-serif text-2xl font-bold text-text-primary mb-2 group-hover:text-accent-primary transition-colors">
-              {post.data.title}
-            </h2>
-          </a>
-          <p class="text-sm text-text-secondary mb-3">
-            {new Date(post.data.pubDate).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
-          </p>
-          <p class="text-text-primary mb-3">{post.data.description}</p>
-          {post.data.tags && post.data.tags.length > 0 && (
-            <div class="flex gap-2 flex-wrap mb-3">
-              {post.data.tags.map(tag => (
-                <Badge>{tag}</Badge>
-              ))}
-            </div>
-          )}
-          <a
-            href={`/en/news/${post.slug.replace('en/', '')}`}
-            class="text-sm font-medium text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors"
-          >
-            Read more →
-          </a>
-        </article>
-      ))}
-    </div>
+    {posts.length === 0 ? (
+      <p class="text-text-secondary text-lg">No news posts yet. Check back soon!</p>
+    ) : (
+      <div class="space-y-3 mb-6">
+        {posts.map(post => {
+          const postSlug = post.slug.replace('en/', '');
+          const postUrl = `/en/news/${postSlug}`;
+          const shareUrl = `${siteConfig.baseUrl}${postUrl}`;
+          const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
+            year: 'numeric', month: 'long', day: 'numeric'
+          });
+          return (
+            <Card hover={true} padding="none">
+              <div class="flex flex-col sm:flex-row">
+                {post.data.image && (
+                  <a href={postUrl} class="overflow-hidden rounded-t-md sm:rounded-t-none sm:rounded-l-md sm:shrink-0 sm:w-44">
+                    <img
+                      src={post.data.image}
+                      alt={post.data.title}
+                      class="w-full aspect-[3/1] sm:aspect-auto sm:h-full object-cover hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </a>
+                )}
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
+                  <div class="flex-grow min-w-0">
+                    <a href={postUrl} class="group">
+                      <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">{post.data.title}</h2>
+                    </a>
+                    <p class="text-text-secondary text-sm mb-2">{formattedDate}</p>
+                    {post.data.tags && post.data.tags.length > 0 && (
+                      <div class="flex gap-1.5 flex-wrap mb-2">
+                        {post.data.tags.map(tag => (
+                          <Badge>{tag}</Badge>
+                        ))}
+                      </div>
+                    )}
+                    <p class="text-text-primary text-sm line-clamp-2">{post.data.description}</p>
+                    <a href={postUrl} class="text-sm font-medium text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors mt-2 inline-block">
+                      Read more →
+                    </a>
+                  </div>
+                  <div class="flex gap-2 shrink-0 flex-wrap items-start">
+                    <SharePopover url={shareUrl} title={post.data.title} />
+                  </div>
+                </div>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+    )}
 
     {/* Pagination */}
     {(page.lastPage > 1) && (
-      <nav class="flex justify-between items-center border-t border-border pt-8">
+      <nav class="flex justify-between items-center border-t border-border pt-8 mb-12">
         <div>
           {page.url.prev ? (
             <a
@@ -113,13 +136,13 @@ const posts = page.data;
 
   <script>
     // @ts-nocheck
-    // Client-side search functionality
     let searchIndex = [];
 
     async function loadSearchIndex() {
       try {
         const response = await fetch('/search-index.json');
-        searchIndex = await response.json();
+        const allEntries = await response.json();
+        searchIndex = allEntries.filter(entry => entry.type === 'post' && entry.lang === 'en');
       } catch (error) {
         if (import.meta.env.DEV) console.error('Failed to load search index:', error);
       }
@@ -127,13 +150,12 @@ const posts = page.data;
 
     function performSearch(query) {
       if (!query || query.length < 2) return [];
-
       const lowerQuery = query.toLowerCase();
       return searchIndex
-        .filter(post => {
-          const titleMatch = post.title.toLowerCase().includes(lowerQuery);
-          const descMatch = post.description.toLowerCase().includes(lowerQuery);
-          const tagsMatch = post.tags.some(tag => tag.toLowerCase().includes(lowerQuery));
+        .filter(entry => {
+          const titleMatch = entry.title.toLowerCase().includes(lowerQuery);
+          const descMatch = entry.description.toLowerCase().includes(lowerQuery);
+          const tagsMatch = entry.tags.some(tag => tag.toLowerCase().includes(lowerQuery));
           return titleMatch || descMatch || tagsMatch;
         })
         .slice(0, 10);
@@ -142,37 +164,27 @@ const posts = page.data;
     function displayResults(results) {
       const resultsContainer = document.getElementById('search-results');
       if (!resultsContainer) return;
-
       if (results.length === 0) {
         resultsContainer.classList.add('hidden');
         return;
       }
-
-      resultsContainer.innerHTML = results.map(post => `
-        <a href="${post.url}" class="block p-3 hover:bg-surface-muted border-b border-border last:border-b-0 transition-colors">
-          <div class="font-medium text-sm text-text-primary">${post.title}</div>
-          <div class="text-xs text-text-secondary mt-1">${post.date}</div>
+      resultsContainer.innerHTML = results.map(entry => `
+        <a href="${entry.url}" class="block p-3 hover:bg-surface-muted border-b border-border last:border-b-0 transition-colors">
+          <div class="font-medium text-sm text-text-primary">${entry.title}</div>
+          <div class="text-xs text-text-secondary mt-1">${entry.date}</div>
         </a>
       `).join('');
-
       resultsContainer.classList.remove('hidden');
     }
 
-    // Initialize search
     document.addEventListener('DOMContentLoaded', () => {
       loadSearchIndex();
-
       const searchInput = document.getElementById('search-input');
       const resultsContainer = document.getElementById('search-results');
-
       if (searchInput && resultsContainer) {
         searchInput.addEventListener('input', (e) => {
-          const query = e.target.value;
-          const results = performSearch(query);
-          displayResults(results);
+          displayResults(performSearch(e.target.value));
         });
-
-        // Close results when clicking outside
         document.addEventListener('click', (e) => {
           if (!searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
             resultsContainer.classList.add('hidden');

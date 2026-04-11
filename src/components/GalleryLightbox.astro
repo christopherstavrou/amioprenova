@@ -2,9 +2,9 @@
 /**
  * GalleryLightbox
  * Compact thumbnail grid + full-screen lightbox with carousel.
- * - Theme-aware overlay (light/dark via :root[data-theme])
- * - z-[60]: above sticky nav (z-50)
- * - Media fills full width; prev/next arrows flank the thumbnail strip
+ * - Always-dark overlay (unambiguous on all themes/devices)
+ * - JS-driven explicit pixel dimensions — bypasses CSS height chain bugs on Android Chrome
+ * - Robust body scroll lock (position:fixed technique for iOS Safari)
  * - Safe-area-inset padding for notch / home-indicator devices
  * - Landscape phone: strip hidden, arrows centred below media
  * - Keyboard: Escape, ArrowLeft, ArrowRight
@@ -96,9 +96,8 @@ const itemsJson = JSON.stringify(items.map(item => {
 
   On phone landscape (max-height ≤ 500px): strip hidden, arrows centred.
 
-  .gl-card uses position:absolute inset:0 so its dimensions come directly
-  from the fixed overlay's concrete pixel size — no percentage chains, no
-  flex-1-needs-a-definite-parent issues, works on every mobile browser.
+  Card dimensions are set explicitly by JS on open (window.innerWidth/Height)
+  to bypass Android Chrome's broken CSS percentage-height resolution chain.
 -->
 <div
   id="gallery-lightbox"
@@ -168,30 +167,31 @@ const itemsJson = JSON.stringify(items.map(item => {
 </div><!-- /gallery-lightbox -->
 
 <style is:global>
-  /* ── Overlay: full-screen fixed backdrop ── */
+  /*
+   * ── Overlay: theme-aware full-screen scrim ──
+   * Light mode: warm off-white (distinct from page #FAFAF8).
+   * Dark mode: near-black.
+   * No backdrop-filter — unnecessary on a near-opaque surface
+   * and creates a stacking context that can interfere with z-index.
+   */
   #gallery-lightbox {
-    background-color: rgba(248, 248, 248, 0.97);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(240, 237, 232, 0.97);
     overscroll-behavior: none;
+    touch-action: none;
   }
   :root[data-theme="dark"] #gallery-lightbox {
-    background-color: rgba(10, 10, 10, 0.97);
+    background: rgba(10, 10, 10, 0.97);
   }
 
   /*
-   * ── Card: position:absolute inset:0 gives it concrete pixel dimensions ──
-   * This is the most reliable cross-browser approach. A child of a fixed
-   * element with position:absolute inset:0 always fills the parent exactly —
-   * no flex-1 percentage-resolution ambiguity, no dvh support needed.
-   * max-width + margin:auto centres it on wide screens.
-   * box-sizing:border-box keeps the safe-area padding inside the card.
+   * ── Card: position:absolute inset:0 gives CSS fallback dimensions ──
+   * JS also sets explicit pixel width/height on open (syncSize) to
+   * bypass Android Chrome's broken percentage-height resolution chain.
+   * max-width / margin are controlled by JS (desktop: centred, mobile: full).
    */
   .gl-card {
     position: absolute;
     inset: 0;
-    max-width: 64rem; /* max-w-5xl */
-    margin: 0 auto;
     box-sizing: border-box;
     padding:
       max(0.75rem, env(safe-area-inset-top))
@@ -201,6 +201,8 @@ const itemsJson = JSON.stringify(items.map(item => {
     display: flex;
     flex-direction: column;
     gap: 0.375rem; /* gap-1.5 */
+    /* Extra bottom padding keeps the thumbnail strip clear of the gesture nav bar */
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
   }
   @media (min-width: 640px) {
     .gl-card {
@@ -208,18 +210,15 @@ const itemsJson = JSON.stringify(items.map(item => {
       padding:
         max(1rem, env(safe-area-inset-top))
         max(1rem, env(safe-area-inset-right))
-        max(1rem, env(safe-area-inset-bottom))
+        max(1.5rem, env(safe-area-inset-bottom))
         max(1rem, env(safe-area-inset-left));
     }
   }
 
   /*
    * ── Media area: grows to fill all remaining card height ──
-   * flex:1 min-height:0 works reliably here because .gl-card has a
-   * concrete pixel height (from position:absolute inset:0), so the
-   * flex algorithm has a definite size to distribute.
-   * All flex/alignment props are in CSS to prevent Tailwind class
-   * purging or ordering issues from breaking the layout.
+   * flex:1 min-height:0 works because .gl-card has concrete pixel
+   * dimensions set by JS. overflow:hidden clips oversized images.
    */
   .gl-content {
     flex: 1;
@@ -230,22 +229,24 @@ const itemsJson = JSON.stringify(items.map(item => {
     overflow: hidden;
   }
 
-  /* ── Images: fit within the content area without cropping ── */
+  /*
+   * ── Images: fill the content area (letterboxed, not cropped) ──
+   * width/height 100% fill the gl-content flex cell; object-fit:contain
+   * renders the image at its natural aspect ratio within that space so
+   * no empty dark gap appears above/below the image.
+   */
   #gallery-content img {
-    max-height: 100%;
-    max-width: 100%;
-    width: auto;
-    height: auto;
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     border-radius: 0.5rem;
-    display: block;
   }
 
   /*
    * ── Videos: 16:9, constrained by both axes ──
-   * width:100% fills the content width. max-height:100% makes the browser
-   * shrink both dimensions proportionally when the natural height would exceed
-   * the available content area height.
+   * width:100% fills the content width. max-height:100% shrinks
+   * proportionally when the natural 16:9 height would overflow.
    */
   #gallery-content .gl-video {
     width: 100%;
@@ -300,7 +301,7 @@ const itemsJson = JSON.stringify(items.map(item => {
   /*
    * ── Landscape phone: hide the strip, centre the arrows ──
    * On short landscape viewports (≤ 500px) there isn't enough vertical room
-   * for thumbnails. The "2 / 5" counter still shows position.
+   * for thumbnails. The counter still shows position.
    */
   @media (orientation: landscape) and (max-height: 500px) {
     .gl-strip-container { display: none; }
@@ -317,11 +318,61 @@ const itemsJson = JSON.stringify(items.map(item => {
   const closeBtn  = document.getElementById('gallery-close');
   const prevBtn   = document.getElementById('gallery-prev');
   const nextBtn   = document.getElementById('gallery-next');
+  const card      = lightbox?.querySelector('.gl-card');
 
-  if (lightbox && contentEl) {
+  if (lightbox && contentEl && card) {
     let items = [];
     let activeIndex = 0;
     let previouslyFocused = null;
+
+    /* ── Body scroll lock ──
+     * Only overflow:hidden on <html> and <body>. Do NOT use position:fixed on
+     * body — on Android Chrome it causes position:fixed children (the lightbox)
+     * to be positioned relative to the offset body instead of the viewport.
+     */
+    function lockBody() {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }
+    function unlockBody() {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    }
+
+    /* ── Header suppression ──
+     * The sticky header (z-50) can paint over the lightbox (z-[200]) on some
+     * Android Chrome builds due to backdrop-filter stacking context quirks.
+     * Suppressing it while the lightbox is open is the simplest guaranteed fix.
+     */
+    const headerEl = document.querySelector('header');
+    function suppressHeader() {
+      if (headerEl) headerEl.style.visibility = 'hidden';
+    }
+    function restoreHeader() {
+      if (headerEl) headerEl.style.visibility = '';
+    }
+
+    /*
+     * ── Explicit pixel dimensions ──
+     * Sets card width/height directly from window dimensions.
+     * Bypasses CSS percentage-height chain bugs on Android Chrome.
+     * On wide screens (≥ 1024px) centres card at max-width 64rem.
+     */
+    function syncSize() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      card.style.width  = w + 'px';
+      card.style.height = h + 'px';
+      if (w >= 1024) {
+        card.style.maxWidth   = '64rem';
+        card.style.marginLeft  = 'auto';
+        card.style.marginRight = 'auto';
+      } else {
+        card.style.maxWidth   = 'none';
+        card.style.marginLeft  = '0';
+        card.style.marginRight = '0';
+      }
+    }
 
     function loadItems(grid) {
       try { return JSON.parse(grid?.dataset?.galleryItems || '[]'); } catch { return []; }
@@ -392,17 +443,37 @@ const itemsJson = JSON.stringify(items.map(item => {
       if (!items.length) return;
       previouslyFocused = document.activeElement;
       activeIndex = ((index % items.length) + items.length) % items.length;
+
+      /*
+       * Portal: move lightbox to a direct child of <body> on first use.
+       * This guarantees z-index is compared in the root stacking context
+       * against the header (z-50), so z-[200] definitively wins.
+       */
+      if (lightbox.parentElement !== document.body) {
+        document.body.appendChild(lightbox);
+      }
+
+      /* Set explicit pixel dimensions before showing */
+      syncSize();
+      window.addEventListener('resize', syncSize);
+      lightbox._cleanupResize = () => window.removeEventListener('resize', syncSize);
+
       renderContent(activeIndex);
       lightbox.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
+      lockBody();
+      suppressHeader();
       closeBtn?.focus();
     }
 
     function closeLightbox() {
+      lightbox._cleanupResize?.();
+      delete lightbox._cleanupResize;
+
       stopMedia();
       captionEl.textContent = '';
       lightbox.classList.add('hidden');
-      document.body.style.overflow = '';
+      unlockBody();
+      restoreHeader();
       previouslyFocused?.focus();
     }
 

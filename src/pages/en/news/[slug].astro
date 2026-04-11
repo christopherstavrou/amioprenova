@@ -3,7 +3,9 @@ import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Layout from '../../../layouts/Layout.astro';
 import Badge from '../../../components/Badge.astro';
-import Button from '../../../components/Button.astro';
+import SharePopover from '../../../components/SharePopover.astro';
+import GalleryLightbox from '../../../components/GalleryLightbox.astro';
+import type { GalleryItem } from '../../../lib/events';
 import { siteConfig } from '../../../config/site';
 
 export const getStaticPaths = (async () => {
@@ -23,13 +25,8 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
   day: 'numeric'
 });
 
-const canonicalURL = new URL(Astro.url.pathname, siteConfig.baseUrl).href;
-const shareTitle = encodeURIComponent(post.data.title);
-const shareURL = encodeURIComponent(canonicalURL);
-
-// Social share URLs
-const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${shareURL}`;
-const twitterShareURL = `https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareURL}`;
+const canonicalURL = `${siteConfig.baseUrl}/en/news/${post.slug.replace('en/', '')}`;
+const hasGallery = (post.data.gallery ?? []).length > 0;
 ---
 
 <Layout
@@ -38,12 +35,23 @@ const twitterShareURL = `https://twitter.com/intent/tweet?text=${shareTitle}&url
   lang="en"
 >
   <article class="max-w-3xl mx-auto">
+    {post.data.image && (
+      <div class="mb-8 rounded-lg overflow-hidden">
+        <img
+          src={post.data.image}
+          alt={post.data.title}
+          class="w-full aspect-video object-cover"
+          loading="eager"
+        />
+      </div>
+    )}
+
     <header class="mb-8">
       <h1 class="font-serif text-4xl font-bold text-text-primary mb-4">{post.data.title}</h1>
       <div class="flex items-center gap-4 text-sm text-text-secondary">
         <time datetime={post.data.pubDate}>{formattedDate}</time>
         {post.data.tags && post.data.tags.length > 0 && (
-          <div class="flex gap-2">
+          <div class="flex gap-2 flex-wrap">
             {post.data.tags.map(tag => (
               <Badge>{tag}</Badge>
             ))}
@@ -52,41 +60,26 @@ const twitterShareURL = `https://twitter.com/intent/tweet?text=${shareTitle}&url
       </div>
     </header>
 
-    <div class="prose prose-lg max-w-none mb-6">
+    <div class="prose prose-lg max-w-none mb-8">
       <Content />
     </div>
 
-    {/* Social Share */}
-    <footer class="border-t border-border pt-8">
-      <div class="flex items-center gap-4 flex-wrap">
-        <span class="text-sm font-medium text-text-primary">Share:</span>
-        <Button
-          variant="secondary"
-          href={facebookShareURL}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sm"
-        >
-          Facebook
-        </Button>
-        <Button
-          variant="secondary"
-          href={twitterShareURL}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sm"
-        >
-          Twitter / X
-        </Button>
-      </div>
+    {hasGallery && (
+      <section class="mb-10">
+        <h2 class="font-serif text-2xl font-bold mb-4">Gallery</h2>
+        <GalleryLightbox items={post.data.gallery as GalleryItem[]} />
+      </section>
+    )}
 
-      <div class="mt-8">
+    <footer class="border-t border-border pt-8">
+      <div class="flex items-center justify-between flex-wrap gap-4">
         <a
           href="/en/news"
           class="inline-block text-sm text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors"
         >
           ← Back to all posts
         </a>
+        <SharePopover url={canonicalURL} title={post.data.title} />
       </div>
     </footer>
   </article>
