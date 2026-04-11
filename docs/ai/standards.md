@@ -275,16 +275,45 @@ Do not add comments to code you did not touch. Do not add docstrings to function
 Before pushing and opening a PR, complete this checklist:
 
 ```
+Build & scope
 - [ ] npm run build passes with 0 errors
 - [ ] npm run dev starts without errors
+- [ ] git diff --name-only shows only files relevant to the task
+- [ ] No debug code or commented-out blocks remain
+- [ ] docs/ai/progress.md updated if task is complete
+
+Visual
 - [ ] Affected pages load correctly (light mode)
 - [ ] Affected pages look correct in dark mode (DevTools > Rendering > prefers-color-scheme: dark)
 - [ ] Mobile layout verified (DevTools device toolbar, 375px width)
-- [ ] git diff --name-only shows only files relevant to the task
-- [ ] No hardcoded hex colors in changed files
-- [ ] No inline translation logic in page files
-- [ ] No debug code or commented-out blocks remain
-- [ ] docs/ai/progress.md updated if task is complete
+
+Design system
+- [ ] No hardcoded hex/rgba color values in changed files
+- [ ] No hardcoded transition durations (duration-300 etc.) — use duration-fast / duration-base
+- [ ] Dark mode handled via data-theme on <html>, not dark: Tailwind variants
+
+i18n
+- [ ] No inline translation logic in page files (no lang === 'en' ? ... : ...)
+- [ ] Every changed EN page has a matching BG sibling with identical structure
+- [ ] Conditional blocks (search guard, empty state) match between EN and BG
+- [ ] Components used on both EN + BG pages have a labels prop with English defaults
+- [ ] BG caller pages pass Bulgarian strings for all label keys
+- [ ] Runtime-updated text reads from data-* attributes, not hardcoded strings in JS
+
+Accessibility
+- [ ] Every <button> not a form submit has type="button"
+- [ ] Disclosure widgets have aria-expanded on trigger + aria-controls pointing to panel ID
+- [ ] Icon-only buttons have aria-label
+
+Security
+- [ ] No innerHTML with user-controlled data — use createElement + textContent
+
+Async / fetch
+- [ ] response.ok checked before response.json()
+- [ ] Errors caught and logged with DEV guard only
+
+Static generation
+- [ ] Every getStaticPaths that calls paginate() has an empty-list fallback
 ```
 
-If any item fails, fix it before creating the PR.
+If any item fails, fix it before creating the PR. See `docs/ai/workflow.md` Step 7 for the full pre-flight self-review process.
