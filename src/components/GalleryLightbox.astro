@@ -182,10 +182,17 @@ const itemsJson = JSON.stringify(items.map(item => {
    * No backdrop-filter — unnecessary on a near-opaque surface
    * and creates a stacking context that can interfere with z-index.
    */
+  /*
+   * Page scroll is locked via overflow:hidden on html+body, so
+   * touch-action:none is unnecessary here and would prevent pan-x
+   * on the thumbnail strip. Allow the strip to scroll horizontally.
+   */
   .gallery-lightbox {
     background: rgba(240, 237, 232, 0.97);
     overscroll-behavior: none;
-    touch-action: none;
+  }
+  .gl-strip-container {
+    touch-action: pan-x;
   }
   :root[data-theme="dark"] .gallery-lightbox {
     background: rgba(10, 10, 10, 0.97);
@@ -476,6 +483,7 @@ const itemsJson = JSON.stringify(items.map(item => {
       lightbox.classList.remove('hidden');
       lockBody();
       suppressHeader();
+      document.addEventListener('keydown', handleKeyDown);
       closeBtn?.focus();
     }
 
@@ -483,6 +491,7 @@ const itemsJson = JSON.stringify(items.map(item => {
       lightbox._cleanupResize?.();
       delete lightbox._cleanupResize;
 
+      document.removeEventListener('keydown', handleKeyDown);
       stopMedia();
       captionEl.textContent = '';
       lightbox.classList.add('hidden');
@@ -517,9 +526,12 @@ const itemsJson = JSON.stringify(items.map(item => {
       if (e.target === lightbox) closeLightbox();
     });
 
-    // Keyboard: navigation + focus trap
-    document.addEventListener('keydown', (e) => {
-      if (lightbox.classList.contains('hidden')) return;
+    /*
+     * Keyboard handler: registered on open, unregistered on close.
+     * Defined once per instance (not shared across instances) but never
+     * accumulates — at most one listener per instance is active at a time.
+     */
+    function handleKeyDown(e) {
       if (e.key === 'Escape')     { e.preventDefault(); closeLightbox(); return; }
       if (e.key === 'ArrowLeft')  { e.preventDefault(); navigate(-1); return; }
       if (e.key === 'ArrowRight') { e.preventDefault(); navigate(1); return; }
@@ -538,6 +550,6 @@ const itemsJson = JSON.stringify(items.map(item => {
           if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
         }
       }
-    });
+    }
   });
 </script>
