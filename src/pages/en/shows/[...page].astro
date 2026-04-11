@@ -246,7 +246,7 @@ const pastEvents = getPastEvents();
       toggleBtn.addEventListener('click', () => {
         const isHidden = pastList.classList.contains('hidden');
         pastList.classList.toggle('hidden');
-        (chevron as HTMLElement).style.transform = isHidden ? 'rotate(90deg)' : ''; // safe: chevron is queried by ID from this template
+        chevron.style.transform = isHidden ? 'rotate(90deg)' : '';
         toggleBtn.setAttribute('aria-expanded', String(isHidden));
       });
     }

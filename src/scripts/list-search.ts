@@ -102,8 +102,9 @@ export function initListSearch({
     });
     document.addEventListener('click', (e) => {
       if (
-        !searchInput.contains(e.target as Node) && // safe: event target is always a Node in DOM events
-        !resultsContainer.contains(e.target as Node)
+        e.target instanceof Node &&
+        !searchInput.contains(e.target) &&
+        !resultsContainer.contains(e.target)
       ) {
         resultsContainer.classList.add('hidden');
       }
