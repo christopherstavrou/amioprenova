@@ -19,6 +19,9 @@ export const ui = {
       toggleMenu: 'Toggle menu',
       language: 'Language',
     },
+    home: {
+      playVideo: 'Play',
+    },
     footer: {
       copyright: 'All rights reserved.',
     },
@@ -42,6 +45,9 @@ export const ui = {
       toggleTheme: 'Смяна на тема',
       toggleMenu: 'Меню',
       language: 'Език',
+    },
+    home: {
+      playVideo: 'Пусни',
     },
     footer: {
       copyright: 'Всички права запазени.',
