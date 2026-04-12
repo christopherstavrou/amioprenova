@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-04-12
+**Last updated**: 2026-04-12 (evening)
 
 ---
 
@@ -69,6 +69,11 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - News parity: `image` + `gallery` fields added to blog schema; news list redesigned to card layout; news detail pages have cover image, gallery, and SharePopover matching shows
 - Upgraded Astro 4→6, @astrojs/tailwind 5→6 (#31)
 - Replaced hardcoded durations and colours with design tokens; extracted `SearchInput` component; documented TypeScript cast rules (#29, #30)
+
+### Image optimisation + accessibility (2026-04-12) — PRs #34–#36
+- Moved play-video `aria-label` prefix (`Play` / `Пусни`) into i18n dictionary (`home.playVideo`) — both homepages (#34)
+- Moved 6 static images from `public/images/` to `src/assets/images/`; replaced all `<img>` tags with Astro `<Image>` component — total image weight 11.8 MB → 487 KB (−96%) (#35)
+- Keyboard navigation audit — mobile menu: added focus trap (Tab/Shift+Tab cycle), focus-on-open (first nav link), Escape-to-close, focus restoration to hamburger; scroll lock now covers both `<html>` and `<body>` (#36)
 
 ### Nav localisation + home card content (2026-04-12) — PRs #32–#33
 - Localised mobile nav controls: "Toggle Theme" and "Language" labels now use the i18n dictionary in both EN and BG (#32)
