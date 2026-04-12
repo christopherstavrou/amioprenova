@@ -54,10 +54,12 @@ export function getEventBySlug(slug: string): Event | undefined {
 // Parse the wall-clock date/time from an ISO string, ignoring the timezone offset.
 // Storing as UTC and formatting with timeZone: 'UTC' ensures output is stable
 // regardless of the build machine's local timezone (e.g. CI/Cloudflare runs in UTC).
-// Handles both HH:MM and HH:MM:SS variants with or without an offset suffix.
+// A timezone suffix (Z or ±HH:MM) is required so this parser and the Date-based
+// comparisons in getUpcomingEvents/getPastEvents always agree on event identity.
+// Handles both HH:MM and HH:MM:SS time variants.
 function parseWallClockDate(dateString: string): Date {
   const match = dateString.match(
-    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::\d{2})?(?:Z|[+-]\d{2}:\d{2})?$/
+    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::\d{2})?(?:Z|[+-]\d{2}:\d{2})$/
   );
 
   if (!match) {
@@ -70,7 +72,33 @@ function parseWallClockDate(dateString: string): Date {
   const day = Number(dayString);
   const hour = Number(hourString);
   const minute = Number(minuteString);
-  return new Date(Date.UTC(year, month - 1, day, hour, minute));
+
+  if (month < 1 || month > 12) {
+    throw new Error(`Invalid event date month in "${dateString}": ${monthString}`);
+  }
+  if (day < 1 || day > 31) {
+    throw new Error(`Invalid event date day in "${dateString}": ${dayString}`);
+  }
+  if (hour < 0 || hour > 23) {
+    throw new Error(`Invalid event date hour in "${dateString}": ${hourString}`);
+  }
+  if (minute < 0 || minute > 59) {
+    throw new Error(`Invalid event date minute in "${dateString}": ${minuteString}`);
+  }
+
+  const date = new Date(Date.UTC(year, month - 1, day, hour, minute));
+
+  if (
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day ||
+    date.getUTCHours() !== hour ||
+    date.getUTCMinutes() !== minute
+  ) {
+    throw new Error(`Invalid event date: ${dateString}`);
+  }
+
+  return date;
 }
 
 // Format date for display — full format with weekday and time
