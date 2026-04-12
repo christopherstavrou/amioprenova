@@ -16,6 +16,7 @@ export const ui = {
       contact: 'Contact',
       links: 'Links',
       toggleTheme: 'Toggle Theme',
+      toggleMenu: 'Toggle menu',
       language: 'Language',
     },
     footer: {
@@ -39,6 +40,7 @@ export const ui = {
       contact: 'Контакт',
       links: 'Връзки',
       toggleTheme: 'Смяна на тема',
+      toggleMenu: 'Меню',
       language: 'Език',
     },
     footer: {
