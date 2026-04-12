@@ -201,6 +201,10 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
+a:focus-visible {
+  border-radius: var(--radius-sm);
+}
+
 /* ===== Content Width Constraints ===== */
 
 .container {
