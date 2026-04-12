@@ -367,6 +367,33 @@ const isActive = (href: string) => {
 
       let menuOpen = false;
 
+      const FOCUSABLE = 'a[href], button:not([disabled]), select, input, [tabindex]:not([tabindex="-1"])';
+
+      function trapFocus(e: KeyboardEvent) {
+        if (!mobileMenu) return;
+
+        if (e.key === 'Escape') {
+          toggleMobileMenu();
+          return;
+        }
+
+        if (e.key !== 'Tab') return;
+
+        const focusable = Array.from(mobileMenu.querySelectorAll<HTMLElement>(FOCUSABLE));
+        if (focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+
       function toggleMobileMenu() {
         menuOpen = !menuOpen;
 
@@ -376,12 +403,17 @@ const isActive = (href: string) => {
           closeIcon?.classList.remove('hidden');
           mobileMenuToggle?.setAttribute('aria-expanded', 'true');
           document.body.style.overflow = 'hidden';
+          mobileMenu?.addEventListener('keydown', trapFocus);
+          const firstFocusable = mobileMenu?.querySelector<HTMLElement>(FOCUSABLE);
+          firstFocusable?.focus();
         } else {
           mobileMenu?.classList.remove('open');
           hamburgerIcon?.classList.remove('hidden');
           closeIcon?.classList.add('hidden');
           mobileMenuToggle?.setAttribute('aria-expanded', 'false');
           document.body.style.overflow = '';
+          mobileMenu?.removeEventListener('keydown', trapFocus);
+          mobileMenuToggle?.focus();
         }
       }
 
