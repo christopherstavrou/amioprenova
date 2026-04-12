@@ -62,7 +62,7 @@ export function formatEventDate(dateString: string, locale: string = 'en'): stri
     hour: '2-digit',
     minute: '2-digit',
   };
-  return date.toLocaleDateString(locale, options);
+  return date.toLocaleString(locale, options);
 }
 
 // Format date for compact display — day, short month, year only
