@@ -3,9 +3,12 @@ import Layout from '../../layouts/Layout.astro';
 import Button from '../../components/Button.astro';
 import Card from '../../components/Card.astro';
 import { siteConfig } from '../../config/site';
+import { ui } from '../../i18n/ui';
 import releases from '../../data/releases.json';
 import videos from '../../data/videos.json';
 import { getNextEvents, formatShortDate } from '../../lib/events';
+
+const t = ui['en'];
 
 const featuredRelease = releases.find(r => r.featured) || releases[0];
 const featuredVideo = videos.find(v => v.featured) || videos[0];
@@ -100,7 +103,7 @@ const upcomingShows = getNextEvents(3).map(event => ({
           <div class="video-card" data-youtube-id={featuredVideo.youtubeId}>
             <button
               class="video-thumb w-full block relative group aspect-video"
-              aria-label={`Play ${featuredVideo.title}`}
+              aria-label={`${t.home.playVideo} ${featuredVideo.title}`}
             >
               <img
                 src={featuredVideo.thumbnail}
