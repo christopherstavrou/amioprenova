@@ -23,6 +23,30 @@ import { fileURLToPath } from 'url';
 import https from 'https';
 import http from 'http';
 
+const COOKIES_FILE = resolve(dirname(fileURLToPath(import.meta.url)), 'facebook-cookies.json');
+
+// Load and convert Cookie-Editor JSON export → Playwright cookie format
+function loadCookies() {
+  if (!existsSync(COOKIES_FILE)) return null;
+  try {
+    const raw = JSON.parse(readFileSync(COOKIES_FILE, 'utf8'));
+    const sameSiteMap = { lax: 'Lax', strict: 'Strict', no_restriction: 'None' };
+    return raw.map((c) => ({
+      name: c.name,
+      value: c.value,
+      domain: c.domain,
+      path: c.path ?? '/',
+      secure: c.secure ?? false,
+      httpOnly: c.httpOnly ?? false,
+      sameSite: sameSiteMap[c.sameSite] ?? 'Lax',
+      expires: c.expirationDate ? Math.floor(c.expirationDate) : undefined,
+    }));
+  } catch (err) {
+    console.warn(`  [warn] Failed to load cookies file: ${err.message}`);
+    return null;
+  }
+}
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const EVENTS_JSON = resolve(ROOT, 'src/data/events.json');
@@ -69,11 +93,24 @@ async function collectAllEventUrlsViaBrowser(pageUrl, type) {
     return null;
   }
 
+  const cookies = loadCookies();
+  if (cookies) {
+    console.log(`  Loaded ${cookies.length} cookies — browsing as authenticated user`);
+  } else {
+    console.log('  No cookies file found — browsing as guest (older events may be hidden)');
+  }
+
   const context = await browser.newContext({
     userAgent:
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
       '(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+    viewport: { width: 1280, height: 900 },
   });
+
+  if (cookies) {
+    await context.addCookies(cookies);
+  }
+
   const page = await context.newPage();
 
   // Block images, fonts, and stylesheets — we only need JS/HTML/XHR
@@ -81,8 +118,8 @@ async function collectAllEventUrlsViaBrowser(pageUrl, type) {
   await page.route('**/*.css', (r) => r.abort());
 
   try {
-    await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
-    await sleep(3000); // let initial JS render
+    await page.goto(targetUrl, { waitUntil: 'load', timeout: 60000 });
+    await sleep(4000); // let React hydrate and initial events render
   } catch (err) {
     console.warn(`  [warn] browser navigation failed: ${err.message}`);
     await context.close().catch(() => {});
@@ -90,20 +127,58 @@ async function collectAllEventUrlsViaBrowser(pageUrl, type) {
     return null;
   }
 
-  // Scroll to bottom repeatedly until height stops growing
-  let prevHeight = 0;
+  // Count events before we start so we can track progress
+  const countLinks = () => page.evaluate(() =>
+    new Set(
+      Array.from(document.querySelectorAll('a[href*="/events/"]'))
+        .map((a) => a.href.match(/(https:\/\/www\.facebook\.com\/events\/\d+)/)?.[1])
+        .filter(Boolean)
+    ).size
+  );
+
+  // Alternate between:
+  //   1. Clicking any visible "See more" / "Load more" style button
+  //   2. Scrolling to the bottom to trigger infinite-scroll
+  // Stop when neither action produces new event links for 3 consecutive rounds.
+  let prevCount = 0;
   let stableRounds = 0;
-  const MAX_STABLE = 3; // stop after 3 rounds with no new content
+  const MAX_STABLE = 4;
+
+  // Text patterns Facebook uses for the load-more button (various locales)
+  const LOAD_MORE_RE = /see more|load more|show more|виж още|покажи още/i;
+
   while (stableRounds < MAX_STABLE) {
-    const currentHeight = await page.evaluate(() => document.body.scrollHeight);
-    if (currentHeight === prevHeight) {
-      stableRounds++;
-    } else {
-      stableRounds = 0;
-      prevHeight = currentHeight;
-    }
+    // Try clicking a load-more button
+    let clicked = false;
+    try {
+      // Find all role=button elements whose text matches our patterns
+      const buttons = await page.$$('[role="button"]');
+      for (const btn of buttons) {
+        const text = await btn.innerText().catch(() => '');
+        if (LOAD_MORE_RE.test(text)) {
+          await btn.scrollIntoViewIfNeeded();
+          await btn.click();
+          await sleep(2500);
+          clicked = true;
+          break;
+        }
+      }
+    } catch { /* ignore */ }
+
+    // Also scroll to bottom to trigger infinite-scroll
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-    await sleep(2000);
+    await sleep(2500);
+
+    const currentCount = await countLinks();
+    console.log(`    … ${currentCount} event links found so far`);
+
+    if (currentCount > prevCount) {
+      stableRounds = 0;
+      prevCount = currentCount;
+    } else if (!clicked) {
+      stableRounds++;
+    }
+    // If we clicked but count didn't grow, give it one more round before giving up
   }
 
   // Extract all event URLs
@@ -113,7 +188,6 @@ async function collectAllEventUrlsViaBrowser(pageUrl, type) {
       .map((a) => a.href)
       .filter((h) => /facebook\.com\/events\/\d+/.test(h))
       .map((h) => {
-        // Normalise: strip query params and trailing slash variants
         const match = h.match(/(https:\/\/www\.facebook\.com\/events\/\d+)/);
         return match ? match[1] + '/' : null;
       })
