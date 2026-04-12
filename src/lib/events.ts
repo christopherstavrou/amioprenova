@@ -59,14 +59,14 @@ export function getEventBySlug(slug: string): Event | undefined {
 // Handles both HH:MM and HH:MM:SS time variants.
 function parseWallClockDate(dateString: string): Date {
   const match = dateString.match(
-    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::\d{2})?(?:Z|[+-]\d{2}:\d{2})$/
+    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::\d{2})?(?:Z|[+-](\d{2}):(\d{2}))$/
   );
 
   if (!match) {
     throw new Error(`Invalid event date: ${dateString}`);
   }
 
-  const [, yearString, monthString, dayString, hourString, minuteString] = match;
+  const [, yearString, monthString, dayString, hourString, minuteString, offsetHourString, offsetMinuteString] = match;
   const year = Number(yearString);
   const month = Number(monthString);
   const day = Number(dayString);
@@ -84,6 +84,12 @@ function parseWallClockDate(dateString: string): Date {
   }
   if (minute < 0 || minute > 59) {
     throw new Error(`Invalid event date minute in "${dateString}": ${minuteString}`);
+  }
+  if (offsetHourString !== undefined && Number(offsetHourString) > 23) {
+    throw new Error(`Invalid event date offset hours in "${dateString}": ${offsetHourString}`);
+  }
+  if (offsetMinuteString !== undefined && Number(offsetMinuteString) > 59) {
+    throw new Error(`Invalid event date offset minutes in "${dateString}": ${offsetMinuteString}`);
   }
 
   const date = new Date(Date.UTC(year, month - 1, day, hour, minute));
