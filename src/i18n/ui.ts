@@ -15,6 +15,8 @@ export const ui = {
       press: 'Press',
       contact: 'Contact',
       links: 'Links',
+      toggleTheme: 'Toggle Theme',
+      language: 'Language',
     },
     footer: {
       copyright: 'All rights reserved.',
@@ -36,6 +38,8 @@ export const ui = {
       press: 'Преса',
       contact: 'Контакт',
       links: 'Връзки',
+      toggleTheme: 'Смяна на тема',
+      language: 'Език',
     },
     footer: {
       copyright: 'Всички права запазени.',
