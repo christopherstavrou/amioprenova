@@ -6,7 +6,7 @@ import Badge from '../../../components/Badge.astro';
 import SharePopover from '../../../components/SharePopover.astro';
 import GalleryLightbox from '../../../components/GalleryLightbox.astro';
 import { getAllEvents, formatEventDate } from '../../../lib/events';
-import { siteConfig } from '../../../config/site';
+import { siteConfig, eventFeatures } from '../../../config/site';
 
 export const getStaticPaths = (() => {
   const allEvents = getAllEvents();
@@ -19,6 +19,7 @@ export const getStaticPaths = (() => {
 const { event } = Astro.props;
 
 const formattedDate = formatEventDate(event.startDate, 'bg');
+const formattedEndDate = event.endDate ? formatEventDate(event.endDate, 'bg') : null;
 const canonicalURL = `${siteConfig.baseUrl}/bg/shows/${event.slug}`;
 const hasGallery = (event.gallery ?? []).length > 0;
 ---
@@ -41,10 +42,26 @@ const hasGallery = (event.gallery ?? []).length > 0;
     )}
 
     <header class="mb-8">
-      <h1 class="font-serif text-4xl font-bold text-text-primary mb-4">{event.title}</h1>
-      <div class="flex flex-col gap-2 mb-4">
+      <div class="flex items-start gap-3 mb-4">
+        <h1 class="font-serif text-4xl font-bold text-text-primary">{event.title}</h1>
+        {eventFeatures.showCanceledBadge && event.isCanceled && (
+          <span class="mt-2 shrink-0 inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400">
+            Отменено
+          </span>
+        )}
+      </div>
+      <div class="flex flex-col gap-1.5 mb-4">
         <p class="text-lg font-medium text-text-primary">{formattedDate}</p>
+        {eventFeatures.showEndTime && formattedEndDate && (
+          <p class="text-sm text-text-secondary">Край: {formattedEndDate}</p>
+        )}
         <p class="text-text-secondary">{event.venue} · {event.city}, {event.country}</p>
+        {eventFeatures.showHosts && event.hosts && event.hosts.length > 0 && (
+          <p class="text-sm text-text-secondary">С {event.hosts.join(', ')}</p>
+        )}
+        {eventFeatures.showUsersResponded && event.usersResponded && (
+          <p class="text-sm text-text-secondary">{event.usersResponded.toLocaleString('bg')} души са отговорили</p>
+        )}
       </div>
       {event.tags && event.tags.length > 0 && (
         <div class="flex gap-2 flex-wrap">
@@ -114,4 +131,3 @@ const hasGallery = (event.gallery ?? []).length > 0;
     </footer>
   </article>
 </Layout>
-

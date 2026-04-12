@@ -11,15 +11,19 @@ export interface Event {
   description: string;
   body?: string;
   startDate: string;
+  endDate?: string;
   venue: string;
   city: string;
   country: string;
+  hosts?: string[];
   tags?: string[];
   image?: string;
   gallery?: GalleryItem[];
   ticketUrl: string;
   mapUrl: string;
   sourceUrl?: string;
+  usersResponded?: number;
+  isCanceled?: boolean;
 }
 
 // Load all events

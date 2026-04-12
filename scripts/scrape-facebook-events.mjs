@@ -2,16 +2,18 @@
  * Facebook Events Scraper
  *
  * Pulls all upcoming and past events from the public Facebook page,
- * maps them to the site's Event schema, downloads cover images, and
- * writes src/data/events.json.
+ * maps them to the site's Event schema, downloads cover images and
+ * gallery photos, and writes src/data/events.json.
  *
  * Usage:
  *   node scripts/scrape-facebook-events.mjs
  *
  * Options:
- *   --dry-run   Print mapped events to stdout without writing any files
- *   --upcoming  Scrape upcoming events only
- *   --past      Scrape past events only
+ *   --dry-run    Print mapped events to stdout without writing any files
+ *   --upcoming   Scrape upcoming events only
+ *   --past       Scrape past events only
+ *   --no-browser Skip Playwright enumeration; use facebook-event-scraper list only
+ *                (faster but may miss older paginated events)
  */
 
 import { scrapeFbEvent, scrapeFbEventList, EventType } from 'facebook-event-scraper';
@@ -31,11 +33,100 @@ const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
 const UPCOMING_ONLY = args.includes('--upcoming');
 const PAST_ONLY = args.includes('--past');
+const NO_BROWSER = args.includes('--no-browser');
 
 // Delay between individual event fetches to avoid rate limiting
 const FETCH_DELAY_MS = 1500;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// ---------------------------------------------------------------------------
+// Playwright — enumerate ALL event URLs from the page by scrolling to load
+// everything Facebook defers behind "See more / Load more" clicks.
+// Falls back gracefully if the browser is unavailable.
+// ---------------------------------------------------------------------------
+async function collectAllEventUrlsViaBrowser(pageUrl, type) {
+  let chromium;
+  try {
+    ({ chromium } = await import('playwright'));
+  } catch {
+    console.warn('  [warn] playwright not available — skipping browser enumeration');
+    return null;
+  }
+
+  const targetUrl = type === EventType.Past
+    ? `${pageUrl}?type=past`
+    : pageUrl;
+
+  console.log(`  Launching browser → ${targetUrl}`);
+
+  let browser;
+  try {
+    browser = await chromium.launch({ headless: true });
+  } catch (err) {
+    console.warn(`  [warn] browser failed to launch: ${err.message}`);
+    console.warn('  [hint] On WSL/Ubuntu run: sudo apt-get install -y libnspr4 libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2');
+    return null;
+  }
+
+  const context = await browser.newContext({
+    userAgent:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
+      '(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  });
+  const page = await context.newPage();
+
+  // Block images, fonts, and stylesheets — we only need JS/HTML/XHR
+  await page.route('**/*.{png,jpg,jpeg,gif,svg,webp,woff,woff2,ttf}', (r) => r.abort());
+  await page.route('**/*.css', (r) => r.abort());
+
+  try {
+    await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await sleep(3000); // let initial JS render
+  } catch (err) {
+    console.warn(`  [warn] browser navigation failed: ${err.message}`);
+    await context.close().catch(() => {});
+    await browser.close().catch(() => {});
+    return null;
+  }
+
+  // Scroll to bottom repeatedly until height stops growing
+  let prevHeight = 0;
+  let stableRounds = 0;
+  const MAX_STABLE = 3; // stop after 3 rounds with no new content
+  while (stableRounds < MAX_STABLE) {
+    const currentHeight = await page.evaluate(() => document.body.scrollHeight);
+    if (currentHeight === prevHeight) {
+      stableRounds++;
+    } else {
+      stableRounds = 0;
+      prevHeight = currentHeight;
+    }
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await sleep(2000);
+  }
+
+  // Extract all event URLs
+  const urls = await page.evaluate(() => {
+    const anchors = Array.from(document.querySelectorAll('a[href*="/events/"]'));
+    return anchors
+      .map((a) => a.href)
+      .filter((h) => /facebook\.com\/events\/\d+/.test(h))
+      .map((h) => {
+        // Normalise: strip query params and trailing slash variants
+        const match = h.match(/(https:\/\/www\.facebook\.com\/events\/\d+)/);
+        return match ? match[1] + '/' : null;
+      })
+      .filter(Boolean);
+  });
+
+  await context.close().catch(() => {});
+  await browser.close().catch(() => {});
+
+  const unique = [...new Set(urls)];
+  console.log(`  Browser found ${unique.length} event URLs on page`);
+  return unique;
+}
 
 // ---------------------------------------------------------------------------
 // Date formatting — preserves wall-clock time in the event's local timezone
@@ -121,7 +212,6 @@ function makeSlug(name, startTimestamp) {
 function downloadImage(url, destPath) {
   return new Promise((resolve, reject) => {
     if (existsSync(destPath)) {
-      console.log(`  [skip] image already exists: ${destPath}`);
       return resolve(destPath);
     }
     const protocol = url.startsWith('https') ? https : http;
@@ -151,9 +241,10 @@ function downloadImage(url, destPath) {
 function mapEvent(fbEvent, existingEvent) {
   const slug = existingEvent?.slug ?? makeSlug(fbEvent.name, fbEvent.startTimestamp);
 
-  // Build ISO date string preserving wall-clock time in the event's local timezone
-  // so parseWallClockDate() in events.ts displays the correct local time on the site.
   const startDate = toWallClockISO(fbEvent.startTimestamp, fbEvent.timezone);
+  const endDate = fbEvent.endTimestamp
+    ? toWallClockISO(fbEvent.endTimestamp, fbEvent.timezone)
+    : undefined;
 
   // Location fields
   const venue = fbEvent.location?.name ?? '';
@@ -169,16 +260,44 @@ function mapEvent(fbEvent, existingEvent) {
     mapUrl = `https://maps.google.com/?q=${encodeURIComponent(`${venue}, ${city}`)}`;
   }
 
-  // Image path — will be filled in after download
-  const imageFilename = `fb-${fbEvent.id}.jpg`;
-  const imagePath = `/images/events/${imageFilename}`;
-  const imageUrl = fbEvent.photo?.imageUri ?? fbEvent.photo?.url ?? null;
+  // Cover image — fbEvent.photo is the primary cover photo
+  const coverImageFilename = `fb-${fbEvent.id}.jpg`;
+  const coverImagePath = `/images/events/${coverImageFilename}`;
+  const coverImageUrl = fbEvent.photo?.imageUri ?? fbEvent.photo?.url ?? null;
 
-  // Split description into short (first paragraph) and full body
+  // Additional gallery photos — fbEvent.photos contains extra cover photo variants;
+  // skip the first one if it duplicates the cover (same id as fbEvent.photo)
+  const extraPhotos = (fbEvent.photos ?? []).filter(
+    (p) => p.id !== fbEvent.photo?.id
+  );
+  const galleryImageEntries = extraPhotos.map((p) => ({
+    filename: `fb-${fbEvent.id}-photo-${p.id}.jpg`,
+    url: p.imageUri ?? p.url ?? null,
+  })).filter((e) => e.url);
+
+  // Build gallery — preserve manual entries, then append any new FB photos
+  const existingGallery = existingEvent?.gallery ?? [];
+  const existingGalleryFilenames = new Set(
+    existingGallery.map((g) => g.src?.split('/').pop())
+  );
+  const newGalleryEntries = galleryImageEntries
+    .filter((e) => !existingGalleryFilenames.has(e.filename))
+    .map((e) => ({ type: 'image', src: `/images/events/${e.filename}`, alt: fbEvent.name }));
+  const gallery = [...existingGallery, ...newGalleryEntries];
+
+  // Description
   const fullDescription = fbEvent.description ?? '';
   const firstParagraph = fullDescription.split('\n').find((l) => l.trim().length > 0) ?? fullDescription;
   const description = existingEvent?.description ?? firstParagraph.slice(0, 200).trim();
   const body = existingEvent?.body ?? fullDescription.trim();
+
+  // Hosts — names only (URLs available in fbEvent.hosts[].url if needed later)
+  const hosts = fbEvent.hosts?.map((h) => h.name).filter(Boolean) ?? [];
+
+  // Categories → tags (only use FB categories if no manual tags set)
+  const tags = (existingEvent?.tags && existingEvent.tags.length > 0)
+    ? existingEvent.tags
+    : (fbEvent.categories?.map((c) => c.label) ?? []);
 
   return {
     mapped: {
@@ -189,18 +308,23 @@ function mapEvent(fbEvent, existingEvent) {
       description,
       body: body || undefined,
       startDate,
+      endDate,
       venue,
       city,
       country,
-      tags: existingEvent?.tags ?? [],
-      image: imageUrl ? imagePath : (existingEvent?.image ?? ''),
-      gallery: existingEvent?.gallery ?? [],
+      hosts: hosts.length > 0 ? hosts : undefined,
+      tags,
+      image: coverImageUrl ? coverImagePath : (existingEvent?.image ?? ''),
+      gallery,
       ticketUrl: fbEvent.ticketUrl ?? existingEvent?.ticketUrl ?? '',
       mapUrl,
       sourceUrl: fbEvent.url,
+      usersResponded: fbEvent.usersResponded > 0 ? fbEvent.usersResponded : undefined,
+      isCanceled: fbEvent.isCanceled || undefined,
     },
-    imageUrl,
-    imageFilename,
+    coverImageUrl,
+    coverImageFilename,
+    galleryImageEntries,
   };
 }
 
@@ -227,72 +351,131 @@ async function main() {
     console.log(`Preserving ${manualEvents.length} manually entered events (no facebookId)`);
   }
 
-  // Fetch event list(s)
-  const eventLists = [];
+  // ---------------------------------------------------------------------------
+  // Collect event URLs
+  // ---------------------------------------------------------------------------
+  const seenIds = new Set();
+  const allShortEvents = [];
+
+  // Phase 1: lightweight list scrape (fast, gets recent events)
   if (!PAST_ONLY) {
     console.log('\nFetching upcoming events list...');
     try {
       const upcoming = await scrapeFbEventList(PAGE_URL, EventType.Upcoming);
       console.log(`  Found ${upcoming.length} upcoming events`);
-      eventLists.push(...upcoming);
+      for (const e of upcoming) {
+        if (!seenIds.has(e.id)) { seenIds.add(e.id); allShortEvents.push(e); }
+      }
     } catch (err) {
       console.error('  Failed to fetch upcoming events:', err.message);
     }
   }
   if (!UPCOMING_ONLY) {
-    console.log('Fetching past events list...');
+    console.log('Fetching past events list (fast path)...');
     try {
       const past = await scrapeFbEventList(PAGE_URL, EventType.Past);
       console.log(`  Found ${past.length} past events`);
-      eventLists.push(...past);
+      for (const e of past) {
+        if (!seenIds.has(e.id)) { seenIds.add(e.id); allShortEvents.push(e); }
+      }
     } catch (err) {
-      console.error('  Failed to fetch past events:', err.message);
+      console.error('  Failed to fetch past events list:', err.message);
     }
   }
 
-  if (eventLists.length === 0) {
+  // Phase 2: browser-based full enumeration for past events (finds paginated events)
+  if (!UPCOMING_ONLY && !NO_BROWSER) {
+    console.log('\nFetching ALL past event URLs via browser (slow but complete)...');
+    const browserUrls = await collectAllEventUrlsViaBrowser(PAGE_URL, EventType.Past);
+    if (browserUrls && browserUrls.length > 0) {
+      // Convert browser URLs into minimal short-event objects for events we haven't seen yet
+      let newCount = 0;
+      for (const url of browserUrls) {
+        const idMatch = url.match(/\/events\/(\d+)/);
+        if (!idMatch) continue;
+        const id = idMatch[1];
+        if (!seenIds.has(id)) {
+          seenIds.add(id);
+          allShortEvents.push({ id, name: `Event ${id}`, url, date: '', isCanceled: false, isPast: true });
+          newCount++;
+        }
+      }
+      if (newCount > 0) {
+        console.log(`  Found ${newCount} additional events via browser enumeration`);
+      } else {
+        console.log('  No new events found beyond the fast-path list');
+      }
+    }
+  }
+
+  if (allShortEvents.length === 0) {
     console.error('\nNo events found — check the page URL and try again.');
     process.exit(1);
   }
 
-  // Deduplicate by id
-  const uniqueEvents = [...new Map(eventLists.map((e) => [e.id, e])).values()];
-  console.log(`\nTotal unique events: ${uniqueEvents.length}`);
+  console.log(`\nTotal unique events to scrape: ${allShortEvents.length}`);
 
+  // ---------------------------------------------------------------------------
   // Fetch full details for each event
+  // ---------------------------------------------------------------------------
   if (!DRY_RUN) {
     mkdirSync(IMAGES_DIR, { recursive: true });
   }
 
   const scrapedEvents = [];
-  for (let i = 0; i < uniqueEvents.length; i++) {
-    const short = uniqueEvents[i];
-    console.log(`\n[${i + 1}/${uniqueEvents.length}] ${short.name}`);
+  for (let i = 0; i < allShortEvents.length; i++) {
+    const short = allShortEvents[i];
+    console.log(`\n[${i + 1}/${allShortEvents.length}] ${short.name}`);
     console.log(`  URL: ${short.url}`);
 
     try {
       const full = await scrapeFbEvent(short.url);
       const existing = existingByFbId[full.id];
-      const { mapped, imageUrl, imageFilename } = mapEvent(full, existing);
+      const { mapped, coverImageUrl, coverImageFilename, galleryImageEntries } = mapEvent(full, existing);
 
-      console.log(`  Date: ${mapped.startDate}`);
+      console.log(`  Date: ${mapped.startDate}${mapped.endDate ? ' → ' + mapped.endDate : ''}`);
       console.log(`  Venue: ${mapped.venue}, ${mapped.city}`);
+      if (mapped.hosts?.length) console.log(`  Hosts: ${mapped.hosts.join(', ')}`);
+      if (mapped.tags?.length) console.log(`  Tags: ${mapped.tags.join(', ')}`);
 
-      if (imageUrl && !DRY_RUN) {
-        const destPath = resolve(IMAGES_DIR, imageFilename);
-        try {
-          await downloadImage(imageUrl, destPath);
-          console.log(`  Image: downloaded → /images/events/${imageFilename}`);
-        } catch (imgErr) {
-          console.warn(`  Image: failed to download (${imgErr.message}) — skipping`);
-          mapped.image = existing?.image ?? '';
+      if (!DRY_RUN) {
+        // Download cover image
+        if (coverImageUrl) {
+          const destPath = resolve(IMAGES_DIR, coverImageFilename);
+          try {
+            const wasNew = !existsSync(destPath);
+            await downloadImage(coverImageUrl, destPath);
+            console.log(`  Cover: ${wasNew ? 'downloaded' : 'exists'} → /images/events/${coverImageFilename}`);
+          } catch (imgErr) {
+            console.warn(`  Cover: failed to download (${imgErr.message}) — skipping`);
+            mapped.image = existing?.image ?? '';
+          }
+        }
+
+        // Download gallery images
+        if (galleryImageEntries.length > 0) {
+          console.log(`  Gallery: ${galleryImageEntries.length} additional photo(s)`);
+          for (const entry of galleryImageEntries) {
+            const destPath = resolve(IMAGES_DIR, entry.filename);
+            try {
+              const wasNew = !existsSync(destPath);
+              await downloadImage(entry.url, destPath);
+              if (wasNew) console.log(`    + ${entry.filename}`);
+            } catch (imgErr) {
+              console.warn(`    ! failed to download ${entry.filename}: ${imgErr.message}`);
+              // Remove failed gallery entry from mapped.gallery
+              mapped.gallery = mapped.gallery.filter(
+                (g) => !g.src?.endsWith(entry.filename)
+              );
+            }
+          }
         }
       }
 
       scrapedEvents.push(mapped);
     } catch (err) {
       console.error(`  Failed to scrape full event: ${err.message}`);
-      // Keep the short data at minimum
+      // Keep minimal stub so we don't lose the event entirely
       scrapedEvents.push({
         id: short.id,
         facebookId: short.id,
@@ -312,7 +495,7 @@ async function main() {
       });
     }
 
-    if (i < uniqueEvents.length - 1) {
+    if (i < allShortEvents.length - 1) {
       await sleep(FETCH_DELAY_MS);
     }
   }
