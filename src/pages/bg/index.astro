@@ -102,6 +102,7 @@ const upcomingShows = getNextEvents(3).map(event => ({
         <Card padding="none" hover={false} class="flex flex-col overflow-hidden">
           <div class="video-card" data-youtube-id={featuredVideo.youtubeId}>
             <button
+              type="button"
               class="video-thumb w-full block relative group aspect-video"
               aria-label={`${t.home.playVideo} ${featuredVideo.title}`}
             >
