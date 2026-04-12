@@ -51,22 +51,32 @@ export function getEventBySlug(slug: string): Event | undefined {
   return getAllEvents().find(event => event.slug === slug);
 }
 
+// Parse the wall-clock date/time from an ISO string, ignoring the timezone offset.
+// Storing as UTC and formatting with timeZone: 'UTC' ensures output is stable
+// regardless of the build machine's local timezone (e.g. CI/Cloudflare runs in UTC).
+function parseWallClockDate(dateString: string): Date {
+  const [datePart, timePart] = dateString.split('T');
+  const [year, month, day] = datePart.split('-').map(Number);
+  const [hour, minute] = timePart.split(':').map(Number);
+  return new Date(Date.UTC(year, month - 1, day, hour, minute));
+}
+
 // Format date for display — full format with weekday and time
 export function formatEventDate(dateString: string, locale: string = 'en'): string {
-  const date = new Date(dateString);
-  const options: Intl.DateTimeFormatOptions = {
+  const date = parseWallClockDate(dateString);
+  return date.toLocaleString(locale, {
+    timeZone: 'UTC',
     weekday: 'short',
     year: 'numeric',
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
-  };
-  return date.toLocaleString(locale, options);
+  });
 }
 
 // Format date for compact display — day, short month, year only
 export function formatShortDate(dateString: string, locale: string = 'en-US'): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
+  const date = parseWallClockDate(dateString);
+  return date.toLocaleDateString(locale, { timeZone: 'UTC', day: 'numeric', month: 'short', year: 'numeric' });
 }
