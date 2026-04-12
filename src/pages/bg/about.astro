@@ -2,6 +2,12 @@
 import Layout from '../../layouts/Layout.astro';
 import { getEntry, render } from 'astro:content';
 import PageHeader from '../../components/PageHeader.astro';
+import { Image } from 'astro:assets';
+import portraitImage from '../../assets/images/hero-performance-2.jpg';
+import spiceImage from '../../assets/images/performance-spice.jpg';
+import bandImage from '../../assets/images/band-ensemble.jpg';
+import duetImage from '../../assets/images/duet.jpg';
+import ronniesImage from '../../assets/images/performance-ronnies-2.jpg';
 
 const about = await getEntry('pages', 'bg/about');
 if (!about) throw new Error('Missing content: pages/bg/about');
@@ -18,11 +24,13 @@ const { Content } = await render(about);
     <div class="grid md:grid-cols-5 gap-8 mb-6 items-start">
       <!-- Portrait -->
       <div class="md:col-span-2">
-        <img
-          src="/images/hero-performance-2.jpg"
+        <Image
+          src={portraitImage}
           alt="Ами Опренова на сцена"
           class="w-full rounded-lg shadow-xl object-cover"
           style="aspect-ratio: 3/4; object-position: center top;"
+          width={800}
+          loading="eager"
         />
       </div>
 
@@ -39,24 +47,27 @@ const { Content } = await render(about);
     <section class="mb-8 -mx-4">
       <div class="grid grid-cols-3 gap-1">
         <div class="overflow-hidden">
-          <img
-            src="/images/performance-spice.jpg"
+          <Image
+            src={spiceImage}
             alt="Ами Опренова в Spice of Life"
             class="w-full h-64 object-cover hover:scale-105 transition-transform duration-slow"
+            width={640}
           />
         </div>
         <div class="overflow-hidden">
-          <img
-            src="/images/band-ensemble.jpg"
+          <Image
+            src={bandImage}
             alt="Ами Опренова с оркестъра"
             class="w-full h-64 object-cover hover:scale-105 transition-transform duration-slow"
+            width={640}
           />
         </div>
         <div class="overflow-hidden">
-          <img
-            src="/images/duet.jpg"
+          <Image
+            src={duetImage}
             alt="Ами Опренова дует"
             class="w-full h-64 object-cover hover:scale-105 transition-transform duration-slow"
+            width={640}
           />
         </div>
       </div>
@@ -64,10 +75,11 @@ const { Content } = await render(about);
 
     <!-- Отвъд сцената -->
     <section class="mb-8 -mx-4 relative">
-      <img
-        src="/images/performance-ronnies-2.jpg"
+      <Image
+        src={ronniesImage}
         alt="Ами Опренова на сцена"
         class="w-full h-[420px] object-cover object-center"
+        width={1920}
       />
       <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex items-end">
         <div class="p-8 md:p-12 max-w-2xl">
