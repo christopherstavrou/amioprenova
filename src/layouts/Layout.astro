@@ -146,7 +146,8 @@ const isActive = (href: string) => {
             <!-- Language Switcher -->
             <select
               id="language-switcher"
-              class="appearance-none border border-border rounded-md px-3 py-2 text-sm bg-surface text-text-primary cursor-pointer hover:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors"
+              aria-label={t.nav.language}
+              class="appearance-none border border-border rounded-md px-3 py-2 text-sm bg-surface text-text-primary cursor-pointer hover:border-accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:border-transparent transition-colors"
             >
               <option value="en" selected={lang === 'en'}>EN</option>
               <option value="bg" selected={lang === 'bg'}>BG</option>
@@ -200,6 +201,7 @@ const isActive = (href: string) => {
           <button
             id="mobile-theme-toggle"
             type="button"
+            aria-label={t.nav.toggleTheme}
             class="flex items-center text-left w-full py-4 text-lg font-medium border-b border-border pl-4 pr-2 text-text-primary hover:text-accent-primary hover:bg-surface-muted transition-colors"
           >
             <span id="theme-label" class="flex-1">{t.nav.toggleTheme}</span>
