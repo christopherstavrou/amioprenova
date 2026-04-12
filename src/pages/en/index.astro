@@ -9,7 +9,10 @@ import { getNextEvents } from '../../lib/events';
 
 const featuredRelease = releases.find(r => r.featured) || releases[0];
 const featuredVideo = videos.find(v => v.featured) || videos[0];
-const upcomingShows = getNextEvents(3);
+const upcomingShows = getNextEvents(3).map(event => ({
+  ...event,
+  formattedDate: new Date(event.startDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }),
+}));
 ---
 
 <Layout
@@ -137,9 +140,7 @@ const upcomingShows = getNextEvents(3);
                 {upcomingShows.map(event => (
                   <li class="py-3">
                     <a href={`/en/shows/${event.slug}`} class="block group">
-                      <p class="text-xs text-text-secondary mb-0.5">
-                        {new Date(event.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                      </p>
+                      <p class="text-xs text-text-secondary mb-0.5">{event.formattedDate}</p>
                       <p class="text-sm font-medium group-hover:text-accent-primary transition-colors">{event.title}</p>
                       <p class="text-xs text-text-secondary">{event.venue}, {event.city}</p>
                     </a>
