@@ -402,6 +402,7 @@ const isActive = (href: string) => {
           hamburgerIcon?.classList.add('hidden');
           closeIcon?.classList.remove('hidden');
           mobileMenuToggle?.setAttribute('aria-expanded', 'true');
+          document.documentElement.style.overflow = 'hidden';
           document.body.style.overflow = 'hidden';
           mobileMenu?.addEventListener('keydown', trapFocus);
           const firstFocusable = mobileMenu?.querySelector<HTMLElement>(FOCUSABLE);
@@ -411,6 +412,7 @@ const isActive = (href: string) => {
           hamburgerIcon?.classList.remove('hidden');
           closeIcon?.classList.add('hidden');
           mobileMenuToggle?.setAttribute('aria-expanded', 'false');
+          document.documentElement.style.overflow = '';
           document.body.style.overflow = '';
           mobileMenu?.removeEventListener('keydown', trapFocus);
           mobileMenuToggle?.focus();
