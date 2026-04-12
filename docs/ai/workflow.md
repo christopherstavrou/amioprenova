@@ -114,9 +114,9 @@ Check each changed file for:
 |------|---------------|
 | **Colours** | No hardcoded hex/rgba — only Tailwind tokens or CSS custom properties |
 | **Transitions** | No `duration-300` or other hardcoded durations — use `duration-fast` / `duration-base` tokens |
-| **i18n parity** | If an EN page changed, confirm the BG sibling is structurally identical (same conditional guards, same props) |
+| **i18n parity** | If an EN page changed, confirm the BG sibling is structurally identical (same conditional guards, same props). If a new UI string was added anywhere, add it to both `en` and `bg` in `src/i18n/ui.ts` immediately. |
 | **Labels prop** | Any component used on both EN + BG pages accepts a `labels` prop with English defaults; BG callers pass Bulgarian strings; runtime JS reads from `data-*` attributes |
-| **Accessibility** | Every `<button>` not a form submit has `type="button"`; disclosure widgets have `aria-expanded` + `aria-controls`; icon-only buttons have `aria-label` |
+| **Accessibility** | Every `<button>` not a form submit has `type="button"`; disclosure widgets have `aria-expanded` + `aria-controls`; icon-only buttons have `aria-label`; all `aria-label` strings come from the i18n dictionary, never hardcoded English |
 | **Security** | No `innerHTML` with user-controlled data — use `createElement` + `textContent` |
 | **Multi-instance components** | All DOM queries scoped to instance root — no `document.getElementById` with hardcoded IDs |
 | **Static generation** | Every `getStaticPaths` that calls `paginate()` has an empty-list fallback |
@@ -128,8 +128,11 @@ Check each changed file for:
 | **TypeScript** | No `as X` type casts unless provably safe with an inline comment explaining why. No `any`. If you reach for a cast, the upstream type is probably wrong — fix that instead. |
 | **Component API** | When extending an existing component, follow the patterns already on it — don't introduce a second way to do the same thing (e.g. don't add a `text` prop alongside an existing `labels` prop). |
 | **Demo content** | Any example/demo content added for development (e.g. sample blog posts) must be clearly marked or removed before the PR is raised. |
+| **Date / locale** | Any date formatting: use `toLocaleString` (not `toLocaleDateString`) when time is needed; check the locale string against existing usage in the codebase (`en-US` not `en-GB`); ensure formatting is timezone-stable for SSG (build runs in UTC on CI). |
+| **Computed values** | Anything derived from props/data (formatted dates, filtered arrays, computed strings) belongs in Astro frontmatter, not inline in JSX expressions. |
+| **Copilot disagreements** | If Copilot flags a deliberate design or UX decision, reply explaining the intent rather than automatically reverting. Copilot is a code quality reviewer — the user's explicit decisions take precedence over reviewer opinions on aesthetics. |
 
-Fix any failures before opening the PR. Do not skip this step.
+Fix any failures before opening the PR. Do not skip this step. **The goal is zero Copilot comments on the first review pass.** Every round of review after the first represents a failure of pre-flight.
 
 ### 8. Open pull request
 
