@@ -5,8 +5,8 @@ export async function GET() {
   const allPosts = await getCollection('blog');
 
   const postEntries = allPosts.map(post => {
-    const lang = post.slug.startsWith('en/') ? 'en' : 'bg';
-    const slug = post.slug.replace(/^(en|bg)\//, '');
+    const lang = post.id.startsWith('en/') ? 'en' : 'bg';
+    const slug = post.id.replace(/^(en|bg)\//, '');
     const url = `/${lang}/news/${slug}`;
 
     return {
