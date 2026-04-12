@@ -5,9 +5,11 @@ import Card from '../../components/Card.astro';
 import { siteConfig } from '../../config/site';
 import releases from '../../data/releases.json';
 import videos from '../../data/videos.json';
+import { getNextEvents } from '../../lib/events';
 
 const featuredRelease = releases.find(r => r.featured) || releases[0];
 const featuredVideo = videos.find(v => v.featured) || videos[0];
+const upcomingShows = getNextEvents(3);
 ---
 
 <Layout
@@ -113,7 +115,10 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
           </div>
           <div class="p-6 flex flex-col flex-1">
             <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Препоръчано Видео</p>
-            <h2 class="font-serif text-lg font-bold mb-6 line-clamp-2">{featuredVideo.title}</h2>
+            <h2 class="font-serif text-lg font-bold mb-3 line-clamp-2">{featuredVideo.title}</h2>
+            {featuredVideo.description && (
+              <p class="text-text-secondary text-sm mb-4 line-clamp-3 flex-1">{featuredVideo.description}</p>
+            )}
             <div class="mt-auto">
               <Button variant="primary" href="/bg/video">
                 Още Видеа
@@ -127,9 +132,25 @@ const featuredVideo = videos.find(v => v.featured) || videos[0];
           <div class="p-6 flex flex-col flex-1">
             <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Предстоящи Концерти</p>
             <h2 class="font-serif text-xl font-bold mb-4">Живи Изпълнения</h2>
-            <p class="text-text-secondary text-sm mb-6 flex-1">
-              Гледайте Ами Опренова на живо — джаз концерти, интимни сесии и фестивални сцени из цяла Европа.
-            </p>
+            {upcomingShows.length > 0 ? (
+              <ul class="flex-1 divide-y divide-border mb-6">
+                {upcomingShows.map(event => (
+                  <li class="py-3">
+                    <a href={`/bg/shows/${event.slug}`} class="block group">
+                      <p class="text-xs text-text-secondary mb-0.5">
+                        {new Date(event.startDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </p>
+                      <p class="text-sm font-medium group-hover:text-accent-primary transition-colors">{event.title}</p>
+                      <p class="text-xs text-text-secondary">{event.venue}, {event.city}</p>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p class="text-text-secondary text-sm mb-6 flex-1">
+                Гледайте Ами Опренова на живо — джаз концерти, интимни сесии и фестивални сцени из цяла Европа.
+              </p>
+            )}
             <div class="mt-auto">
               <Button variant="primary" href="/bg/shows">
                 Виж Концертите
