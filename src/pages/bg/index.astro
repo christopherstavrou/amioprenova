@@ -2,11 +2,13 @@
 import Layout from '../../layouts/Layout.astro';
 import Button from '../../components/Button.astro';
 import Card from '../../components/Card.astro';
+import { Image } from 'astro:assets';
 import { siteConfig } from '../../config/site';
 import { ui } from '../../i18n/ui';
 import releases from '../../data/releases.json';
 import videos from '../../data/videos.json';
 import { getNextEvents, formatShortDate } from '../../lib/events';
+import heroImage from '../../assets/images/hero-performance.jpg';
 
 const t = ui['bg'];
 
@@ -27,10 +29,12 @@ const upcomingShows = getNextEvents(3).map(event => ({
   <section class="hero-split relative -mx-4 -mt-6 md:-mt-8 nav:-mt-10 mb-6 pb-0 flex flex-col md:flex-row min-h-[600px]">
     <!-- Photo column -->
     <div class="md:w-[45%] h-[50vh] md:h-auto relative flex-shrink-0">
-      <img
-        src="/images/hero-performance.jpg"
+      <Image
+        src={heroImage}
         alt="Ами Опренова на живо"
         class="absolute inset-0 w-full h-full object-cover object-center"
+        width={1920}
+        loading="eager"
       />
       <div class="absolute inset-0 bg-gradient-to-r from-transparent to-bg/20 hidden md:block" aria-hidden="true"></div>
     </div>
