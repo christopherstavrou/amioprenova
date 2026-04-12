@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
-    "astro": "^6.1.5"
+    "astro": "^6.1.5",
+    "facebook-event-scraper": "^0.2.6"
   },
   "engines": {
     "node": ">=20.19.0 <21 || >=22.0.0"

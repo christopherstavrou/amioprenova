@@ -82,6 +82,16 @@ const hasGallery = (event.gallery ?? []).length > 0;
           View on Map
         </Button>
       )}
+      {event.sourceUrl && (
+        <Button
+          variant="secondary"
+          href={event.sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View on Facebook
+        </Button>
+      )}
     </div>
 
     {hasGallery && (

@@ -82,6 +82,16 @@ const hasGallery = (event.gallery ?? []).length > 0;
           Карта
         </Button>
       )}
+      {event.sourceUrl && (
+        <Button
+          variant="secondary"
+          href={event.sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Виж във Facebook
+        </Button>
+      )}
     </div>
 
     {hasGallery && (

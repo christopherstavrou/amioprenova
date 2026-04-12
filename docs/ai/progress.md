@@ -75,6 +75,17 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Moved 6 static images from `public/images/` to `src/assets/images/`; replaced all `<img>` tags with Astro `<Image>` component — total image weight 11.8 MB → 487 KB (−96%) (#35)
 - Keyboard navigation audit — mobile menu: added focus trap (Tab/Shift+Tab cycle), focus-on-open (first nav link), Escape-to-close, focus restoration to hamburger; scroll lock now covers both `<html>` and `<body>` (#36)
 
+### Facebook Events scraper (2026-04-12) — PR pending
+- New script `scripts/scrape-facebook-events.mjs` — scrapes all public events from Facebook page using `facebook-event-scraper` npm package
+- Downloads cover images to `public/images/events/fb-{id}.jpg`; skips existing files
+- Maps Facebook `EventData` → site `Event` schema with wall-clock ISO dates, slugs, venue/city/country, ticket URL, map URL
+- Handles Facebook's non-IANA timezone format (`UTC+03`) via manual offset arithmetic in `toWallClockISO()`
+- Merges with existing `events.json`: Facebook events matched by `facebookId`, manual events (no `facebookId`) preserved unchanged
+- CLI flags: `--dry-run`, `--upcoming`, `--past`; 1500ms delay between fetches to avoid rate limiting
+- Added `facebookId` and `sourceUrl` fields to `Event` interface in `src/lib/events.ts`
+- Shows detail pages (EN + BG): added "View on Facebook" / "Виж във Facebook" button using `sourceUrl`
+- `events.json` populated with 8 real past events from Facebook (was previously all placeholders)
+
 ### Nav localisation + home card content (2026-04-12) — PRs #32–#33
 - Localised mobile nav controls: "Toggle Theme" and "Language" labels now use the i18n dictionary in both EN and BG (#32)
 - Fixed mobile theme toggle active state — removed left-border selection style that incorrectly treated it as a nav item (#32)

@@ -6,6 +6,7 @@ export type { GalleryItem };
 export interface Event {
   id: string;
   slug: string;
+  facebookId?: string;
   title: string;
   description: string;
   body?: string;
@@ -18,6 +19,7 @@ export interface Event {
   gallery?: GalleryItem[];
   ticketUrl: string;
   mapUrl: string;
+  sourceUrl?: string;
 }
 
 // Load all events
