@@ -373,6 +373,12 @@ const isActive = (href: string) => {
         if (!mobileMenu) return;
 
         if (e.key === 'Escape') {
+          // Let native form controls consume Escape first (e.g. closing a <select> dropdown)
+          if (
+            e.target instanceof HTMLSelectElement ||
+            e.target instanceof HTMLInputElement ||
+            e.target instanceof HTMLTextAreaElement
+          ) return;
           toggleMobileMenu();
           return;
         }
