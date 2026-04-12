@@ -51,7 +51,7 @@ export function getEventBySlug(slug: string): Event | undefined {
   return getAllEvents().find(event => event.slug === slug);
 }
 
-// Format date for display
+// Format date for display — full format with weekday and time
 export function formatEventDate(dateString: string, locale: string = 'en'): string {
   const date = new Date(dateString);
   const options: Intl.DateTimeFormatOptions = {
@@ -63,4 +63,10 @@ export function formatEventDate(dateString: string, locale: string = 'en'): stri
     minute: '2-digit',
   };
   return date.toLocaleDateString(locale, options);
+}
+
+// Format date for compact display — day, short month, year only
+export function formatShortDate(dateString: string, locale: string = 'en-US'): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
 }

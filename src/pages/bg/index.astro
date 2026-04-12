@@ -5,13 +5,13 @@ import Card from '../../components/Card.astro';
 import { siteConfig } from '../../config/site';
 import releases from '../../data/releases.json';
 import videos from '../../data/videos.json';
-import { getNextEvents } from '../../lib/events';
+import { getNextEvents, formatShortDate } from '../../lib/events';
 
 const featuredRelease = releases.find(r => r.featured) || releases[0];
 const featuredVideo = videos.find(v => v.featured) || videos[0];
 const upcomingShows = getNextEvents(3).map(event => ({
   ...event,
-  formattedDate: new Date(event.startDate).toLocaleDateString('bg-BG', { day: 'numeric', month: 'short', year: 'numeric' }),
+  formattedDate: formatShortDate(event.startDate, 'bg-BG'),
 }));
 ---
 
