@@ -54,10 +54,22 @@ export function getEventBySlug(slug: string): Event | undefined {
 // Parse the wall-clock date/time from an ISO string, ignoring the timezone offset.
 // Storing as UTC and formatting with timeZone: 'UTC' ensures output is stable
 // regardless of the build machine's local timezone (e.g. CI/Cloudflare runs in UTC).
+// Handles both HH:MM and HH:MM:SS variants with or without an offset suffix.
 function parseWallClockDate(dateString: string): Date {
-  const [datePart, timePart] = dateString.split('T');
-  const [year, month, day] = datePart.split('-').map(Number);
-  const [hour, minute] = timePart.split(':').map(Number);
+  const match = dateString.match(
+    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::\d{2})?(?:Z|[+-]\d{2}:\d{2})?$/
+  );
+
+  if (!match) {
+    throw new Error(`Invalid event date: ${dateString}`);
+  }
+
+  const [, yearString, monthString, dayString, hourString, minuteString] = match;
+  const year = Number(yearString);
+  const month = Number(monthString);
+  const day = Number(dayString);
+  const hour = Number(hourString);
+  const minute = Number(minuteString);
   return new Date(Date.UTC(year, month - 1, day, hour, minute));
 }
 
