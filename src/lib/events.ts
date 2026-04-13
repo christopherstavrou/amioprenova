@@ -3,6 +3,17 @@ import type { GalleryItem } from './gallery-schema';
 
 export type { GalleryItem };
 
+export type AdmissionType = 'free' | 'free-booking' | 'paid' | 'donation';
+export type EventType = 'concert' | 'jam' | 'collaboration' | 'charity' | 'album-launch' | 'workshop' | 'birthday';
+export type OverridePolicy = 'locked' | 'fallback';
+
+export interface AdmissionInfo {
+  type: AdmissionType;
+  price?: string;         // e.g. "15 лв." — shown as-is
+  concessions?: string;   // e.g. "12 лв. студенти / ученици"
+  note?: string;          // anything else (booking info, exceptions)
+}
+
 export interface Event {
   id: string;
   slug: string;
@@ -24,6 +35,9 @@ export interface Event {
   sourceUrl?: string;
   usersResponded?: number;
   isCanceled?: boolean;
+  admission?: AdmissionInfo;
+  eventType?: EventType;
+  _overrides?: Partial<Record<keyof Omit<Event, '_overrides'>, OverridePolicy>>;
 }
 
 // Load all events

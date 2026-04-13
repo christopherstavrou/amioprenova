@@ -18,7 +18,8 @@
     "image": "https://picsum.photos/seed/winter-ndk/1280/720",
     "gallery": [],
     "ticketUrl": "",
-    "mapUrl": "https://maps.google.com/?q=Sofia+NDK"
+    "mapUrl": "https://maps.google.com/?q=Sofia+NDK",
+    "eventType": "concert"
   },
   {
     "id": "3",
@@ -38,7 +39,11 @@
     "image": "https://picsum.photos/seed/acoustic-varna/1280/720",
     "gallery": [],
     "ticketUrl": "",
-    "mapUrl": ""
+    "mapUrl": "",
+    "eventType": "concert",
+    "admission": {
+      "type": "free"
+    }
   },
   {
     "id": "2",
@@ -58,7 +63,12 @@
     "image": "https://picsum.photos/seed/jazz-night-plovdiv/1280/720",
     "gallery": [],
     "ticketUrl": "",
-    "mapUrl": "https://maps.google.com/?q=Plovdiv+Blue+Note+Club"
+    "mapUrl": "https://maps.google.com/?q=Plovdiv+Blue+Note+Club",
+    "eventType": "concert",
+    "admission": {
+      "type": "free-booking",
+      "note": "Limited seating — book early"
+    }
   },
   {
     "id": "1",
@@ -97,7 +107,8 @@
       }
     ],
     "ticketUrl": "",
-    "mapUrl": "https://maps.google.com/?q=Sofia+Open+Air+Stage"
+    "mapUrl": "https://maps.google.com/?q=Sofia+Open+Air+Stage",
+    "eventType": "concert"
   },
   {
     "id": "568641786277874",
@@ -109,7 +120,7 @@
     "startDate": "2025-05-11T18:30:00+03:00",
     "venue": "HOM'S",
     "city": "Sofia",
-    "country": "",
+    "country": "Bulgaria",
     "hosts": [
       "Ami Oprenova Music",
       "HOM'S"
@@ -120,7 +131,20 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.688577955059,23.336336",
     "sourceUrl": "https://www.facebook.com/events/568641786277874/",
-    "usersResponded": 59
+    "usersResponded": 59,
+    "eventType": "jam",
+    "admission": {
+      "type": "paid",
+      "price": "15 лв.",
+      "concessions": "12 лв. студенти / ученици",
+      "note": "Вход свободен за под 18 г. и изпълнители в джема"
+    },
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "5",
@@ -157,7 +181,8 @@
       }
     ],
     "ticketUrl": "",
-    "mapUrl": ""
+    "mapUrl": "",
+    "eventType": "concert"
   },
   {
     "id": "648662804554712",
@@ -168,8 +193,8 @@
     "body": "🤣 Април може да е месецът на шегата, но не се шегуваме, когато ви кажем, че магическите звуци на джаза ще се леят в София точно този месец! 😅 \n\n👋 Заповядайте на Вокален джем с виртуозната скат вокалистка Ами Опренова и нейното джаз трио! 🎶 Концертът ще се състои в Ресторант HOM’s до езерото Ариана! 🌊 \n\n🎙️ Групата ще представи емблематични винтидж песни, част от оригинална вечер за вокалисти и музиканти. Музикалната програма ще включва мелодии и импровизации в стил джаз, блус и боса нова. \n\n🍲 А пък HOM’s ще предизвика истински кулинарни вълнения с неустоимо вкусни ястия, коктейли и дори безалкохолен джин! \n\n🎼 Изпълнители: \nАми Опренова - вокал 🎙️\nБорис Петков - пиано 🎹\nХристо Минчев - бас 🎸\nАндрей Велков - барабани 🥁\n\n💃🏻 Ами живее във Великобритания в продължение на повече от 10 години, докато работи като инструменталист, преподавател, композитор и джаз вокалист. Завършва своята магистърска степен в Лондон🇬🇧 , след което събира екип от музиканти, с които 3 години обикаля и концертира из Европа. След пандемията се премества със семейството си в София 🇧🇬,  като продължава да организира концерти за млади артисти.\n\n🗓️ Дата: 6 април , неделя\n⏱️ Час: 19 ч.\n📍 Място: Ресторант HOM’s, Езеро Ариана, Борисова градина, бул. „Евлоги и Христо Георгиеви“ 3, София 1164\n\n🎫 Билети: 15 лв. / 12 лв. за ученици и студенти\nВход свободен за всички под 18 години и за изпълнители, включени в джема! \n\n📞 Запазете своята маса днес, тъй като местата са ограничени:  +359 88 451 4501\n\n🤗 Очакваме ви там! \n\n💁‍♀️ „Никога не знаеш какво да очакваш, когато Ами води джаз вечер! Винаги има изненади и забавление, поднесени със стил и изящност от нея и нейните талантливи музиканти! Всеки път си тръгвам, заредена с радост и топлина в душата!“ - коментар от публика на предишен концерт в HOM’s! \n\n\n🎶 😎 Какво е Джем сесия / Jam Session:  \n\nПоредицата Vocal Jam се организира в София за трета поредна година от Ами и нейните колеги. Това е широко разпространен формат на музикални вечери с идея да се даде възможност на изпълнители и млади артисти заедно да споделят своята любов към джаза и импровизацията. Ако сте изпълнител или вокалист и искате да сте част от вечерта, заповядайте с готова песен и тоналност! За въпроси можете да пишете директно на Ами тук: https://www.facebook.com/amioprenovamusic/",
     "startDate": "2025-04-06T19:00:00+03:00",
     "venue": "HOM'S",
-    "city": "",
-    "country": "",
+    "city": "Sofia",
+    "country": "Bulgaria",
     "hosts": [
       "Ami Oprenova Music",
       "HOM'S"
@@ -180,7 +205,20 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.688577955059,23.336336",
     "sourceUrl": "https://www.facebook.com/events/648662804554712/",
-    "usersResponded": 62
+    "usersResponded": 62,
+    "eventType": "jam",
+    "admission": {
+      "type": "paid",
+      "price": "15 лв.",
+      "concessions": "12 лв. студенти / ученици",
+      "note": "Вход свободен за под 18 г. и изпълнители в джема"
+    },
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "6",
@@ -217,7 +255,8 @@
       }
     ],
     "ticketUrl": "",
-    "mapUrl": ""
+    "mapUrl": "",
+    "eventType": "concert"
   },
   {
     "id": "478312354857525",
@@ -229,8 +268,8 @@
     "startDate": "2024-06-04T19:00:00+03:00",
     "endDate": "2024-06-04T22:00:00+03:00",
     "venue": "HOM'S",
-    "city": "",
-    "country": "",
+    "city": "Sofia",
+    "country": "Bulgaria",
     "hosts": [
       "Ami Oprenova Music",
       "HOM'S",
@@ -242,7 +281,20 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.688577955059,23.336336",
     "sourceUrl": "https://www.facebook.com/events/478312354857525/",
-    "usersResponded": 107
+    "usersResponded": 107,
+    "eventType": "birthday",
+    "admission": {
+      "type": "paid",
+      "price": "15 лв.",
+      "concessions": "12 лв. студенти",
+      "note": "Вход свободен за под 18 г."
+    },
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "3672507336406154",
@@ -254,8 +306,8 @@
     "startDate": "2023-12-16T14:00:00+02:00",
     "endDate": "2023-12-16T15:00:00+02:00",
     "venue": "Mall of Sofia",
-    "city": "",
-    "country": "",
+    "city": "Sofia",
+    "country": "Bulgaria",
     "hosts": [
       "Първа баптистка църква - София",
       "Mall of Sofia",
@@ -267,7 +319,17 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.698385866359,23.308831793378",
     "sourceUrl": "https://www.facebook.com/events/3672507336406154/",
-    "usersResponded": 49
+    "usersResponded": 49,
+    "eventType": "concert",
+    "admission": {
+      "type": "free"
+    },
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "1039668510692959",
@@ -279,8 +341,8 @@
     "startDate": "2023-12-10T19:00:00+02:00",
     "endDate": "2023-12-10T20:30:00+02:00",
     "venue": "Първа баптистка църква (София)",
-    "city": "",
-    "country": "",
+    "city": "Sofia",
+    "country": "Bulgaria",
     "hosts": [
       "Първа баптистка църква - София",
       "Ami Oprenova Music"
@@ -291,7 +353,18 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.7048607,23.3095894",
     "sourceUrl": "https://www.facebook.com/events/1039668510692959/",
-    "usersResponded": 73
+    "usersResponded": 73,
+    "eventType": "charity",
+    "admission": {
+      "type": "donation",
+      "note": "Ще имате възможност да направите дарение на концерта"
+    },
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "369360818874808",
@@ -302,8 +375,8 @@
     "body": "Тази година искате да чуете нещо различно от обичайните рождествени концерти? Какво ще кажете за камбанен звън на живо!!!\n\nЗа втора поредна година Камбанен хор София взема участие в програмата на Немски Коледен Базар София. Заповядайте да се насладите на неповторимия звук на медните камбани!\n\nХорът се състои от 32 камбани и 12 брилянтни изпълнители. На сцената заедно с тях ще излязат гости – певци и инструменталисти – за да създадат една незабравима музикална вечер! Коледно настроение и радостни звуци ще се носят навред, а пък вие ще останете насърчени и готови за Рождествения сезон! \n\nКонцертната програма е сбор от добре познати рождествени песни, химни и мелодии, както и кратък поздрав към публиката.\n\nНе пропускайте тази вълнуваща вечер и заповядайте със своите семейства и приятели на откритата сцена на Базара! \n\nЕлате рано, за да сте най-близо до сцената! \n📅 събота, 02.12 от 19:00 ч.\n🏠София, Градската градина, пл. Александър Батенберг",
     "startDate": "2023-12-02T19:00:00+02:00",
     "venue": "Немски Коледен Базар",
-    "city": "",
-    "country": "",
+    "city": "Sofia",
+    "country": "Bulgaria",
     "hosts": [
       "Първа баптистка църква - София",
       "Ami Oprenova Music"
@@ -314,7 +387,17 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.695483389502,23.325798758353",
     "sourceUrl": "https://www.facebook.com/events/369360818874808/",
-    "usersResponded": 71
+    "usersResponded": 71,
+    "eventType": "concert",
+    "admission": {
+      "type": "free"
+    },
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "879907536380496",
@@ -341,7 +424,11 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.685696590734,23.318974971771",
     "sourceUrl": "https://www.facebook.com/events/879907536380496/",
-    "usersResponded": 143
+    "usersResponded": 143,
+    "eventType": "collaboration",
+    "_overrides": {
+      "eventType": "locked"
+    }
   },
   {
     "id": "720421972821827",
@@ -352,8 +439,8 @@
     "body": "Светлите празници наближат, и все повече ни завладява коледният дух. \nГреяно вино с канела, топъл шоколад,красива украса  и хубава музика са само част от празничната атмосфера, която ни заобикаля.\n\nПредставяме на вниманието ви, специалнотo издание на традиционния \n и така любим на всички ни Jazz Jam, представен от Ами Опренова & Trio. Те отново са ни приготвили много и хубава музика, но този път е специално подбрана и носеща в себе си магията на предстоящите Коледни празници.\n\nИ когато работим с професионалисти, и екипът е единен в идеите си :-)  - нашите бармани са подготвили коктейли,  които да допринесат за празничното настроение и допълнят усещането за наближаващата Коледа, създадено от музиката на Ами & Trio.\n\nbar National - Author's cocktails and live music \n\nОчакваме ви!",
     "startDate": "2022-12-16T21:00:00+02:00",
     "venue": "Bar National",
-    "city": "",
-    "country": "",
+    "city": "Sofia",
+    "country": "Bulgaria",
     "hosts": [
       "Bar National",
       "Ami Oprenova Music"
@@ -364,7 +451,13 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.68409992916,23.320312857759",
     "sourceUrl": "https://www.facebook.com/events/720421972821827/",
-    "usersResponded": 32
+    "usersResponded": 32,
+    "eventType": "jam",
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "1112676456279718",
@@ -375,8 +468,8 @@
     "body": "Щастливи сме да съобщим, че  продължаваме серията от джемове за джаз певци в центъра на София, където можете да се насладите  на изискан джаз и превъзходни коктейли!\n\nВечерта предоставя възможност за млади артисти да се изявят, като изпълнят мелодични джаз стандарти заедно с трио и публика на живо!\n\n\nБлагодарение на невероятните:\n\nАми Опренова - вокал\nДжак Хюз - пиано\nВлади Михайлов - бас\nАндрей Велков - барабани\n\nпетъчната вечер ще се превърне в неповторимо музикално изживяване, което не пропускайте да споделите с любим човек и/или добри приятели.\n\nРомантичното място на което се намира бар Национал се отразва не само в обстановката на бара, но и в тематичните напитки и коктейли, които  нашите бармани са подготвили да бъдат и в безкомпромисен унисон със стилният джаз предложен ни за пореден път от Ами Опренова & Trio.\n\nАми Опренова е джаз музикант, живеещ и практикуващ във Великобритания и Европа през последните 10 години. Има 3 издадени албума, като последният от тях е включен в статии на престижните списания “Women in Jazz Media”, “Jazz in Europe” и ‘Italia in Jazz”. През годините е работила като певица, аранжор и композитор за съставите Coco ‘n’ the Fellas (UK) и Swing it’ Dixieland Band (Norway), а през 2022 г. печели Първа награда в Младежкия джаз фестивал в София.\n\nЗаповядайте в  Bar National на площада до НДК, до Моста на влюбените за да станете част от едно наистина  незабравимо музикално (и коктейлно) преживяване!\n\n\n\nЗа резервация, обадете се на телефон: 0882 012 039 \nили пишете на лично съобщение!\n\nОчакваме ви!",
     "startDate": "2022-11-25T20:00:00+02:00",
     "venue": "Bar National",
-    "city": "",
-    "country": "",
+    "city": "Sofia",
+    "country": "Bulgaria",
     "hosts": [
       "Bar National",
       "Ami Oprenova Music"
@@ -387,7 +480,13 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.68409992916,23.320312857759",
     "sourceUrl": "https://www.facebook.com/events/1112676456279718/",
-    "usersResponded": 39
+    "usersResponded": 39,
+    "eventType": "jam",
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "803168254110650",
@@ -398,8 +497,8 @@
     "body": "Джазът отново се завръща в любимото ни заведение Бар Национал! След две успешни събития ние сме развълнувани да продължим серията от джемове за джаз певци в центъра на София, където можем да се насладим на изискан джаз и превъзходни коктейли! Вечерта предоставя възможност за млади артисти да се изявят, като изпълнят мелодични джаз стандарти заедно с трио и публика на живо!\n\n\n\nЩе бъде вълнуваща вечер, в която певицата Ами Опренова ще ни забавлява с музика от златната джаз ера. Тя се завръща на българската сцена с участието си в Гласът на България тази година!  По-късно през вечерта ще се присъединят млади певци, колеги и гости. \n\n\n\nИма и още! Нашите майстори на бара ще създадат тематични коктейли ексклузивно за това мероприятие, подходящи за изисканата музика, на която ще се насладим!  \nОчакваме ви на:\n28ми октомври \nот 20:00 ч, \nа JAZZ JАМ с Ами и трио ще започне в 21:00 ч. \nЗа да резервирате маса, обадете се на телефон: 0882 012 039 или ни пишете на лично съобщение! \n\n\nСърдечно ви каним да преживеете магията на музиката в невероятната обстановка на Bar National на площада до НДК, до Моста на влюбените! \nОбещаваме незабравимо музикално преживяване! \n\n\n\nАми Опренова - вокал \n\nДжак  Хюз - пиано\n\nВлади Михайлов - бас \n\nАндрей Велков - барабани \n\n\n\nАми Опренова е джаз музикант, живеещ и практикуващ във Великобритания и Европа през последните 10 години. Има 3 издадени албума, като последният от тях е включен в статии на престижните списания “Women in Jazz Media”, “Jazz in Europe” и ‘Italia in Jazz”. През годините е работила като певица, аранжор и композитор за съставите Coco ‘n’ the Fellas (UK) и Swing it’ Dixieland Band (Norway), а през 2022 г. печели Първа награда в Младежкия джаз фестивал в София",
     "startDate": "2022-10-28T20:00:00+03:00",
     "venue": "Bar National",
-    "city": "",
-    "country": "",
+    "city": "Sofia",
+    "country": "Bulgaria",
     "hosts": [
       "Bar National",
       "Ami Oprenova Music"
@@ -412,7 +511,13 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.68409992916,23.320312857759",
     "sourceUrl": "https://www.facebook.com/events/803168254110650/",
-    "usersResponded": 50
+    "usersResponded": 50,
+    "eventType": "jam",
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "7489104454494146",
@@ -423,7 +528,7 @@
     "body": "Очакваме ви в 20:00 на 24 юни! Настанете се удобно, поръчайте си просеко, бутилка розе или някой от специалните ни коктейли за вечерта. JAZZ JАМ с Ами и трио ще започне в 21:00ч. \nЗа да резервирате маса, обадете се на телефон: 088 201 2039 или ни пишете на лично съобщение! \n\nПевицата Ами Опренова се завръща от Великобритания, за да създаде една музикална вечер за всички любители на джаза! Заедно с фантастично трио от млади музиканти: Александър Куманов - китара, Димитър Сираков - бас, \nАндрей Велков - барабани на сцената ще бъдат поканени приятели, колеги и гости, за да ви потопят в мелодични фрази и енергични импровизации. Не пропускайте възможността да се развихрите в танц и да се насладите на изисканите коктейли! \n\nСърдечно ви каним да преживеете магията на музиката в невероятната обстановка на Bar National на площада до НДК! Обещаваме незабравимо музикално преживяване!\n\nВ първия сет групата ще представи някои от любимите на публиката песни от West End репертоара, а във втория сет ще поканим гостуващи музиканти да се включат в своеобразна игра на ноти и мелодии. Очаквайте уникална комбинация от гласовете на млади музиканти!\n\nАми Опренова е джаз музикант, живеещ и практикуваш във Великобритания и Европа през последните 10 години. Тя има 3 издадени албума, като последният от тях е включен в статии на престижните списания “Women in Jazz Media”, “Jazz in Europe” и ‘Italia in Jazz”. През годините е работила като певица, аранжор и композитор за съставите Coco ‘n’ the Fellas (UK) и Swing it’ Dixieland Band (Norway).",
     "startDate": "2022-06-24T20:00:00+03:00",
     "venue": "Bar National",
-    "city": "",
+    "city": "Sofia",
     "country": "Bulgaria",
     "hosts": [
       "Bar National",
@@ -437,7 +542,17 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.68409992916,23.320312857759",
     "sourceUrl": "https://www.facebook.com/events/7489104454494146/",
-    "usersResponded": 157
+    "usersResponded": 157,
+    "eventType": "jam",
+    "admission": {
+      "type": "free-booking",
+      "note": "Резервации на маса: +359 88 201 2039"
+    },
+    "_overrides": {
+      "city": "locked",
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "578015313426382",
@@ -448,7 +563,7 @@
     "body": "Сърдечно ви каним да преживеете магията на джаз музиката в невероятната обстановка на Bar National на 19 май от 19:00ч. Обещаваме незабравимо музикално преживяване!\n\nПевицата Велека Цанкова ще създаде една музикална вечер за всички любители на джаза! \nС нея ще свирят младите звезди в джаза: \nИлия Лазаров - пиано\nКалина Андреева - бас\nАлександър Иванов - барабани\nЗаедно с Велека и фантастичното трио на сцената ще бъдат поканени приятели, колеги и гости, за да ви потопят в мелодични фрази и енергични импровизации. Не пропускайте възможността да се развихрите в танц и да се насладите на изисканите коктейли! \n\n\nЗа да резервирате маса, обадете се на телефона в страницата ни или ни пишете на лично съобщение!",
     "startDate": "2022-05-19T19:00:00+03:00",
     "venue": "Bar National",
-    "city": "",
+    "city": "Sofia",
     "country": "Bulgaria",
     "hosts": [
       "Bar National",
@@ -462,7 +577,12 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.68409992916,23.320312857759",
     "sourceUrl": "https://www.facebook.com/events/578015313426382/",
-    "usersResponded": 91
+    "usersResponded": 91,
+    "eventType": "jam",
+    "_overrides": {
+      "city": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "970495036946741",
@@ -489,7 +609,16 @@
     "ticketUrl": "",
     "mapUrl": "",
     "sourceUrl": "https://www.facebook.com/events/970495036946741/",
-    "usersResponded": 52
+    "usersResponded": 52,
+    "eventType": "concert",
+    "admission": {
+      "type": "free",
+      "note": "Online livestream"
+    },
+    "_overrides": {
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "378001064166889",
@@ -501,7 +630,7 @@
     "startDate": "2022-04-10T16:00:00+03:00",
     "venue": "Конферентен център \"Възраждане\"",
     "city": "Sofia",
-    "country": "",
+    "country": "Bulgaria",
     "hosts": [
       "Конферентен център \"Възраждане\"",
       "Hot Club de Plovdiv",
@@ -516,7 +645,18 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.704940842439,23.309705257416",
     "sourceUrl": "https://www.facebook.com/events/378001064166889/",
-    "usersResponded": 78
+    "usersResponded": 78,
+    "eventType": "concert",
+    "admission": {
+      "type": "paid",
+      "price": "20 лв.",
+      "note": "С предварителна резервация"
+    },
+    "_overrides": {
+      "country": "locked",
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "254111169960726",
@@ -528,8 +668,8 @@
     "startDate": "2021-10-16T16:00:00+01:00",
     "endDate": "2021-10-16T17:30:00+01:00",
     "venue": "",
-    "city": "",
-    "country": "",
+    "city": "London",
+    "country": "UK",
     "hosts": [
       "Ami Oprenova Music"
     ],
@@ -541,7 +681,18 @@
     "ticketUrl": "",
     "mapUrl": "",
     "sourceUrl": "https://www.facebook.com/events/254111169960726/",
-    "usersResponded": 26
+    "usersResponded": 26,
+    "eventType": "album-launch",
+    "admission": {
+      "type": "free-booking",
+      "note": "Reserve a free space at ticketsource.co.uk"
+    },
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "1223769811401753",
@@ -553,8 +704,8 @@
     "startDate": "2021-09-26T19:30:00+01:00",
     "endDate": "2021-09-26T22:00:00+01:00",
     "venue": "Toulouse Lautrec Jazz Club",
-    "city": "",
-    "country": "",
+    "city": "London",
+    "country": "UK",
     "hosts": [
       "Toulouse Lautrec Restaurant & Jazz Club",
       "Ami Oprenova Music"
@@ -567,7 +718,13 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.491122490747,-0.10337802555676",
     "sourceUrl": "https://www.facebook.com/events/1223769811401753/",
-    "usersResponded": 19
+    "usersResponded": 19,
+    "eventType": "concert",
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "4273648786063112",
@@ -580,7 +737,7 @@
     "endDate": "2021-09-09T22:00:00+03:00",
     "venue": "Art Club Sofia",
     "city": "Sofia",
-    "country": "",
+    "country": "Bulgaria",
     "hosts": [
       "Art Club Sofia",
       "Ami Oprenova Music",
@@ -595,7 +752,12 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.6903397532,23.3394168096",
     "sourceUrl": "https://www.facebook.com/events/4273648786063112/",
-    "usersResponded": 61
+    "usersResponded": 61,
+    "eventType": "collaboration",
+    "_overrides": {
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "169045785242767",
@@ -606,8 +768,8 @@
     "body": "https://fb.watch/v/3numumJeb/",
     "startDate": "2021-07-08T19:30:00+03:00",
     "venue": "Улица Алабин 22, 1000 София, България",
-    "city": "",
-    "country": "",
+    "city": "Sofia",
+    "country": "Bulgaria",
     "hosts": [
       "DaOrganic - art space & natural food restaurant",
       "Ami Oprenova Music",
@@ -621,7 +783,13 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.69474,23.31734",
     "sourceUrl": "https://www.facebook.com/events/169045785242767/",
-    "usersResponded": 248
+    "usersResponded": 248,
+    "eventType": "concert",
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "329899995364675",
@@ -632,8 +800,8 @@
     "body": "Joy has come once again and the good news is here!\nAs concerts are slowly starting up around the world, Ami Oprenova & Hot Club de Plovdiv are teaming up to create an unforgettable evening. Jazz in the City Sessions are proud to present two of the most prestigious Balkan-born artists on the Gypsy Swing Scene. This marvelous evening Ami and the String Ensemble will be taking you on a musical journey playing Manouche classics, jazz standards and original material. It will be a night to remember and the best part is yet to come!!!\nYou can enjoy this show in the comfort of your living room, bedroom or even in the bath…yes! You heard right! This event will be streamed live on Facebook and Instagram @amioprenovamusic ! Moreover, it will be mainly performed in English! You can watch for free and will have the opportunity to donate to the musicians if you wish to. Grab a drink and a snack at home and join the feet tapping, dance wiggling fun! We will even have comments read out at the gig and a short “meet and greet” chat in the end of the evening! How exciting!\nHowever, if you wish to be there live, feeling the rhythm under your feet and meeting the musicians in person, you CAN attend the performance in Sofia and cheer loudly for everyone else! Just make sure and grab one of the EXTREMELY limited number of tickets for the live show! To do so, email info@amioprenova.com and say how many people you wish to buy for; you will then receive instructions on how to book and what types of tickets are available. \nAddress: Renewal Conference Centre, 86 \"Osogovo\" St., 1303 Sofia\nDoors open at 19:00 Local Time (Sofia/BG)\nStart of Stream by 20:00 Local Time (Sofia/BG)\nThe incredible musicians that will take the stage are:\nAmi Oprenova – vocals\nHot Club de Plovdiv\nLyubomir Tolumbadjiev – Violin\nPetar Koychev – Lead Guitar\nMomchil Angelov – Rhythm Guitar\nChristo Minchev - Double Bass\nWe are looking forward to seeing you there!\nIn partnership with 'Cake & Jazz' and 'Zhar Art'\n\nС огромна радост и вълнение ви съобщаваме супер новина!\nКонцертите бавно се завръщат по целия свят, а Ami Oprenova и Hot Club de Plovdiv си подават ръка, за да сътворят една незабравима вечер.\n‘Jazz in the City’ Sessions с гордост представя двама от най-престижните, родени на Балканите творци на Gypsy Swing сцената. На това невероятно събитие Ами и струнният ансамбъл ще ви отведат на музикално пътешествие, свирейки типични Manouche парчета, Джаз стандарти и оригинални композиции. Ще бъде запомняща се вечер, а най-доброто тепърва предстои!\nМожете да се насладите на това шоу в уюта на вашата всекидневна, спалня или дори във ваната... Да! Правилно разбрахте! Това събитие ще бъде излъчено на живо във Facebook и Instagram free @amioprenovamusic ! Шоуто ще бъде предимно на английски, с някои, всъщност достатъчно, включвания на български. Ще имате възможност да подкрепите музикантите и финансово, ако желаете. Вземете си питие и нещо за похапване у дома и се присъединете с потропване в ритъм, а защо не и с танцуване! Ще прочетем в ефир някои от коментарите ви по време на концерта и ще предложим кратък „meet and greet!“ разговор с музикантите в края на шоуто! Ще бъде страхотно!\n\nАко обаче сте като нас и искате да присъствате на събитието на живо, усещайки пулса на музиката под краката си, и да се срещнете лично с музикантите, МОЖЕТЕ да бъдете на представлението на живо в София, за да аплодирате от името на всички останали! Само побързайте да си набавите един от ИЗКЛЮЧИТЕЛНО ограниченитe на брой билети за шоуто на живо! Пишете директно съобщение на страницата @amioprenovamusic / или имейл info@amioprenova.com посочете за колко души искате да закупите билети, след което ще получите инструкции как да резервирате и какви видове билети са на разположение. Ако имате някакви въпроси или желаете друг начин на закупуване, пишете ни. \nАдрес: Конферентен център \"Възраждане\", ул. Осогово 86, 1303 Лъвов Мост, София\nВратите се отварят в 19:00 ч.\nШоуто започва в 20:00 ч.\nНевероятните музиканти, които ще заемат сцената са:\nАми Опренова (вокал)\nЛюбомир Толумбаджиев (цигулка)\nПетър Койчев (китара)\nМомчил Ангелов (китара)\nХристо Минчев (контрабас)\nОчакваме ви с нетърпение!\nВ партньорство с \"Кейк и Джаз\" и \"Жар Арт\"\n\nМоля, имайте предвид, че в сградата, където ще се проведе концерта не е разрешено пушенето, продажбата на алкохол, внасянето на храни, напитки и алкохол отвън, освен това, което сте закупили с билета си.\n \nОчакваме с нетърпение да ви видим в ексклузивния списък от участници в това представление! Насладата е гарантирана!\n\nОпренова и екипа",
     "startDate": "2021-06-27T20:00:00+03:00",
     "venue": "",
-    "city": "",
-    "country": "",
+    "city": "Plovdiv",
+    "country": "Bulgaria",
     "hosts": [
       "Конферентен център \"Възраждане\"",
       "Hot Club de Plovdiv",
@@ -648,7 +816,13 @@
     "ticketUrl": "",
     "mapUrl": "",
     "sourceUrl": "https://www.facebook.com/events/329899995364675/",
-    "usersResponded": 145
+    "usersResponded": 145,
+    "eventType": "collaboration",
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "1872480156164323",
@@ -661,7 +835,7 @@
     "endDate": "2018-09-14T01:00:00+02:00",
     "venue": "Al Vapore Bar e Musica",
     "city": "Marghera",
-    "country": "",
+    "country": "Italy",
     "hosts": [
       "Al Vapore Bar e Musica",
       "Ami Oprenova Music"
@@ -674,7 +848,12 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=45.47977,12.23365",
     "sourceUrl": "https://www.facebook.com/events/1872480156164323/",
-    "usersResponded": 30
+    "usersResponded": 30,
+    "eventType": "concert",
+    "_overrides": {
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "534198026991900",
@@ -705,7 +884,16 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.4911278,-0.1033709",
     "sourceUrl": "https://www.facebook.com/events/534198026991900/",
-    "usersResponded": 29
+    "usersResponded": 29,
+    "eventType": "album-launch",
+    "admission": {
+      "type": "paid",
+      "price": "£10 early bird / £15 on door"
+    },
+    "_overrides": {
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "462104500936676",
@@ -732,7 +920,11 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.4911278,-0.1033709",
     "sourceUrl": "https://www.facebook.com/events/462104500936676/",
-    "usersResponded": 12
+    "usersResponded": 12,
+    "eventType": "concert",
+    "_overrides": {
+      "eventType": "locked"
+    }
   },
   {
     "id": "194743861245327",
@@ -758,7 +950,16 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.5464154,-0.15138619999993",
     "sourceUrl": "https://www.facebook.com/events/194743861245327/",
-    "usersResponded": 112
+    "usersResponded": 112,
+    "eventType": "concert",
+    "admission": {
+      "type": "paid",
+      "price": "£7 at door / £5.50 online"
+    },
+    "_overrides": {
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "531316607253086",
@@ -784,7 +985,11 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.4911278,-0.1033709",
     "sourceUrl": "https://www.facebook.com/events/531316607253086/",
-    "usersResponded": 31
+    "usersResponded": 31,
+    "eventType": "concert",
+    "_overrides": {
+      "eventType": "locked"
+    }
   },
   {
     "id": "176973139722550",
@@ -796,8 +1001,8 @@
     "startDate": "2018-01-22T18:30:00+00:00",
     "endDate": "2018-01-22T21:30:00+00:00",
     "venue": "",
-    "city": "",
-    "country": "",
+    "city": "London",
+    "country": "UK",
     "hosts": [
       "Ami Oprenova Music",
       "Håvard Mathisen Tanner"
@@ -810,7 +1015,13 @@
     "ticketUrl": "",
     "mapUrl": "",
     "sourceUrl": "https://www.facebook.com/events/176973139722550/",
-    "usersResponded": 35
+    "usersResponded": 35,
+    "eventType": "concert",
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "353539571777839",
@@ -822,8 +1033,8 @@
     "startDate": "2017-12-19T19:00:00+00:00",
     "endDate": "2017-12-19T23:00:00+00:00",
     "venue": "Jamboree",
-    "city": "",
-    "country": "",
+    "city": "London",
+    "country": "UK",
     "hosts": [
       "Ami Oprenova Music",
       "Håvard Mathisen Tanner",
@@ -835,7 +1046,13 @@
     "ticketUrl": "",
     "mapUrl": "",
     "sourceUrl": "https://www.facebook.com/events/353539571777839/",
-    "usersResponded": 49
+    "usersResponded": 49,
+    "eventType": "concert",
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "302398736921796",
@@ -859,7 +1076,11 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.50091,-0.11668",
     "sourceUrl": "https://www.facebook.com/events/302398736921796/",
-    "usersResponded": 17
+    "usersResponded": 17,
+    "eventType": "concert",
+    "_overrides": {
+      "eventType": "locked"
+    }
   },
   {
     "id": "511902469162068",
@@ -883,7 +1104,11 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.50091,-0.11668",
     "sourceUrl": "https://www.facebook.com/events/511902469162068/",
-    "usersResponded": 9
+    "usersResponded": 9,
+    "eventType": "concert",
+    "_overrides": {
+      "eventType": "locked"
+    }
   },
   {
     "id": "150069422249155",
@@ -909,7 +1134,11 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.513474945148,-0.13161063194275",
     "sourceUrl": "https://www.facebook.com/events/150069422249155/",
-    "usersResponded": 116
+    "usersResponded": 116,
+    "eventType": "concert",
+    "_overrides": {
+      "eventType": "locked"
+    }
   },
   {
     "id": "1852650015050778",
@@ -938,7 +1167,11 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.4911278,-0.1033709",
     "sourceUrl": "https://www.facebook.com/events/1852650015050778/",
-    "usersResponded": 26
+    "usersResponded": 26,
+    "eventType": "concert",
+    "_overrides": {
+      "eventType": "locked"
+    }
   },
   {
     "id": "1969483909952015",
@@ -961,7 +1194,15 @@
     "ticketUrl": "",
     "mapUrl": "",
     "sourceUrl": "https://www.facebook.com/events/1969483909952015/",
-    "usersResponded": 22
+    "usersResponded": 22,
+    "eventType": "concert",
+    "admission": {
+      "type": "free"
+    },
+    "_overrides": {
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "1714248861936330",
@@ -974,7 +1215,7 @@
     "endDate": "2017-07-19T23:00:00+02:00",
     "venue": "Italy",
     "city": "",
-    "country": "",
+    "country": "Italy",
     "hosts": [
       "Ami Oprenova Music"
     ],
@@ -984,7 +1225,12 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=43,12",
     "sourceUrl": "https://www.facebook.com/events/1714248861936330/",
-    "usersResponded": 10
+    "usersResponded": 10,
+    "eventType": "concert",
+    "_overrides": {
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "206652029852103",
@@ -996,8 +1242,8 @@
     "startDate": "2017-07-02T13:00:00+03:00",
     "endDate": "2017-07-02T22:00:00+03:00",
     "venue": "",
-    "city": "",
-    "country": "",
+    "city": "Sofia",
+    "country": "Bulgaria",
     "hosts": [
       "Ami Oprenova Music"
     ],
@@ -1007,7 +1253,13 @@
     "ticketUrl": "",
     "mapUrl": "",
     "sourceUrl": "https://www.facebook.com/events/206652029852103/",
-    "usersResponded": 39
+    "usersResponded": 39,
+    "eventType": "workshop",
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "1128201793989817",
@@ -1020,7 +1272,7 @@
     "endDate": "2017-07-01T01:00:00+03:00",
     "venue": "Menthol",
     "city": "Varna",
-    "country": "",
+    "country": "Bulgaria",
     "hosts": [
       "Menthol",
       "Ami Oprenova Music"
@@ -1031,7 +1283,12 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=43.2021166,27.9237367",
     "sourceUrl": "https://www.facebook.com/events/1128201793989817/",
-    "usersResponded": 156
+    "usersResponded": 156,
+    "eventType": "concert",
+    "_overrides": {
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "806479649514738",
@@ -1044,7 +1301,7 @@
     "endDate": "2017-06-29T23:00:00+03:00",
     "venue": "Bee Bop Café",
     "city": "Plovdiv",
-    "country": "",
+    "country": "Bulgaria",
     "hosts": [
       "Bee Bop Café",
       "Ami Oprenova Music",
@@ -1056,7 +1313,12 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.145968983617,24.744300842285",
     "sourceUrl": "https://www.facebook.com/events/806479649514738/",
-    "usersResponded": 60
+    "usersResponded": 60,
+    "eventType": "concert",
+    "_overrides": {
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "681087745433439",
@@ -1067,8 +1329,8 @@
     "body": "Джаз вечер с Coco ‘n’ the Fellas. \nПодгряваша група Streed.\n\nЗаповядайте на уникална вечер с много китари и гласни струни! \n\nЛондонската група е на турне в четири държави това лято и първата им спирка е България. С подкрепата на страхотното дуо Streed, Коко ще ви представи парчета и аранжименти от Франция, Англия, Италия, Америка и Испания. \n\nВечер изпълнена с възпоменание на стария джаз стил, както и почит към църковната и съвременна музика. \n\nКъде: В новата сграда на Конферентин център \"Възраждане\", на ул. \"Осогово\" 86, София.\n\nКога: 27 юни 2017 г. \n\nЧас: Вратите ще са отворени за освежителни, летни напитки от 18:00 ч. Музиката започва в 18:30ч.\n\nВход: 7лв (Билети се закупуват на място или чрез ticketscoco@gmail.com) \n50% от стойността на билетите, ще бъдат дарени в подкрепа на семейства, част от Семейния лагер - Лято 2017. \n\nОчаква ви незабравима вечер!",
     "startDate": "2017-06-27T18:00:00+01:00",
     "venue": "Улица Осогово 86, 1303 София, България",
-    "city": "",
-    "country": "",
+    "city": "Sofia",
+    "country": "Bulgaria",
     "hosts": [
       "Ami Oprenova Music",
       "Dimitrina Oprenova"
@@ -1081,7 +1343,13 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=42.7048599,23.30959",
     "sourceUrl": "https://www.facebook.com/events/681087745433439/",
-    "usersResponded": 139
+    "usersResponded": 139,
+    "eventType": "concert",
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "631764520351355",
@@ -1093,8 +1361,8 @@
     "startDate": "2017-05-27T13:00:00+01:00",
     "endDate": "2017-05-27T16:30:00+01:00",
     "venue": "",
-    "city": "",
-    "country": "",
+    "city": "Aberdeen",
+    "country": "UK",
     "hosts": [
       "Ami Oprenova Music"
     ],
@@ -1104,7 +1372,18 @@
     "ticketUrl": "",
     "mapUrl": "",
     "sourceUrl": "https://www.facebook.com/events/631764520351355/",
-    "usersResponded": 26
+    "usersResponded": 26,
+    "eventType": "workshop",
+    "admission": {
+      "type": "paid",
+      "price": "£50 participants / £20 observers"
+    },
+    "_overrides": {
+      "city": "locked",
+      "country": "locked",
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "2253928848166668",
@@ -1129,7 +1408,16 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.5133451,-0.1298453",
     "sourceUrl": "https://www.facebook.com/events/2253928848166668/",
-    "usersResponded": 109
+    "usersResponded": 109,
+    "eventType": "collaboration",
+    "admission": {
+      "type": "paid",
+      "price": "£10 on door / £8.80 advance"
+    },
+    "_overrides": {
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "173037666545823",
@@ -1156,7 +1444,16 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.5133451,-0.1298453",
     "sourceUrl": "https://www.facebook.com/events/173037666545823/",
-    "usersResponded": 101
+    "usersResponded": 101,
+    "eventType": "collaboration",
+    "admission": {
+      "type": "paid",
+      "price": "£8 advance / £10 on door"
+    },
+    "_overrides": {
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "1783212228562291",
@@ -1167,9 +1464,9 @@
     "body": "What better than a Friday night at the Spotted Dog! We love having a reason to party and for our first apearance in Birmingham we are arriving with a new live album!\n\nCome and enjoy some swinging music with Coco 'n' the Fellas for FREE!!! \n\nThe lovely girls behind the bar will be serving cheap drinks all night!  A raffle to top up the night and your chance to be one of the first owners of new album. \n\nMusic will start at 8pm sharp and will carry on till late! Don't forget it is FREE! A great night promised! \n\nAbout the band: www.coconthefellas.com\nwww.facebook.com/coconthefellas \n\nAfter a sucessful tour in Italy they return to London to record a live album at Le QuecumBar. Following the London Launch of the album at the original venue they travell to suprise the jazz fans around the Midlands. \n\n\"They revisit and respect memorable milestones in the immense jazz tradition and are pioneers in their field.\" (Jazz Italia)",
     "startDate": "2016-12-16T19:00:00+00:00",
     "endDate": "2016-12-16T23:00:00+00:00",
-    "venue": "",
-    "city": "",
-    "country": "",
+    "venue": "The Spotted Dog",
+    "city": "Birmingham",
+    "country": "UK",
     "hosts": [
       "Ami Oprenova Music",
       "Daniele Ciuffreda",
@@ -1181,7 +1478,18 @@
     "ticketUrl": "",
     "mapUrl": "",
     "sourceUrl": "https://www.facebook.com/events/1783212228562291/",
-    "usersResponded": 18
+    "usersResponded": 18,
+    "eventType": "album-launch",
+    "admission": {
+      "type": "free"
+    },
+    "_overrides": {
+      "venue": "locked",
+      "city": "locked",
+      "country": "locked",
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "580908515426982",
@@ -1204,7 +1512,11 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.5145142,-0.1309827",
     "sourceUrl": "https://www.facebook.com/events/580908515426982/",
-    "usersResponded": 25
+    "usersResponded": 25,
+    "eventType": "concert",
+    "_overrides": {
+      "eventType": "locked"
+    }
   },
   {
     "id": "1208174302598273",
@@ -1227,7 +1539,16 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.47403,-0.17388",
     "sourceUrl": "https://www.facebook.com/events/1208174302598273/",
-    "usersResponded": 15
+    "usersResponded": 15,
+    "eventType": "album-launch",
+    "admission": {
+      "type": "paid",
+      "note": "Book tickets at quecumbar.co.uk"
+    },
+    "_overrides": {
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "688522221311962",
@@ -1250,7 +1571,15 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.47623,-0.00991",
     "sourceUrl": "https://www.facebook.com/events/688522221311962/",
-    "usersResponded": 29
+    "usersResponded": 29,
+    "eventType": "concert",
+    "admission": {
+      "type": "free"
+    },
+    "_overrides": {
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "924046074405883",
@@ -1275,7 +1604,16 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.47403,-0.17388",
     "sourceUrl": "https://www.facebook.com/events/924046074405883/",
-    "usersResponded": 13
+    "usersResponded": 13,
+    "eventType": "album-launch",
+    "admission": {
+      "type": "paid",
+      "note": "Book tickets at quecumbar.co.uk"
+    },
+    "_overrides": {
+      "admission": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "1159699304119095",
@@ -1288,7 +1626,7 @@
     "endDate": "2016-10-22T21:30:00+02:00",
     "venue": "Cantina Scoffone",
     "city": "Milan",
-    "country": "",
+    "country": "Italy",
     "hosts": [
       "Ami Oprenova Music"
     ],
@@ -1298,7 +1636,12 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=45.451532904407,9.1820237483204",
     "sourceUrl": "https://www.facebook.com/events/1159699304119095/",
-    "usersResponded": 53
+    "usersResponded": 53,
+    "eventType": "concert",
+    "_overrides": {
+      "country": "locked",
+      "eventType": "locked"
+    }
   },
   {
     "id": "1754072164851128",
@@ -1322,7 +1665,11 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.50091,-0.11668",
     "sourceUrl": "https://www.facebook.com/events/1754072164851128/",
-    "usersResponded": 13
+    "usersResponded": 13,
+    "eventType": "concert",
+    "_overrides": {
+      "eventType": "locked"
+    }
   },
   {
     "id": "270536413305253",
@@ -1348,6 +1695,15 @@
     "ticketUrl": "",
     "mapUrl": "https://maps.google.com/?q=51.47403,-0.17388",
     "sourceUrl": "https://www.facebook.com/events/270536413305253/",
-    "usersResponded": 27
+    "usersResponded": 27,
+    "eventType": "concert",
+    "admission": {
+      "type": "paid",
+      "note": "Book tickets in advance"
+    },
+    "_overrides": {
+      "admission": "locked",
+      "eventType": "locked"
+    }
   }
 ]

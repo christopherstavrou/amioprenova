@@ -65,6 +65,21 @@ const FETCH_DELAY_MS = 1500;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // ---------------------------------------------------------------------------
+// Field-level override resolution
+// ---------------------------------------------------------------------------
+// Checks event._overrides[fieldName] before deciding whether to use the
+// scraped value or keep the existing one.
+//   'locked'   — human-verified, never overwrite
+//   'fallback' — human-set best-effort; prefer scraped if non-empty
+//   (absent)   — scraper owns this field, always use latest scraped value
+function resolveField(fieldName, existingEvent, scrapedValue) {
+  const policy = existingEvent?._overrides?.[fieldName];
+  if (policy === 'locked')   return existingEvent[fieldName];
+  if (policy === 'fallback') return scrapedValue || existingEvent[fieldName];
+  return scrapedValue;
+}
+
+// ---------------------------------------------------------------------------
 // Playwright — enumerate ALL event URLs from the page by scrolling to load
 // everything Facebook defers behind "See more / Load more" clicks.
 // Falls back gracefully if the browser is unavailable.
@@ -380,12 +395,12 @@ function mapEvent(fbEvent, existingEvent) {
     : undefined;
 
   // Location fields — cleaned
-  const venue = fbEvent.location?.name ?? '';
-  const city = extractCity(fbEvent.location);
-  const country = extractCountry(fbEvent.location);
+  const venue = resolveField('venue', existingEvent, fbEvent.location?.name ?? '');
+  const city = resolveField('city', existingEvent, extractCity(fbEvent.location));
+  const country = resolveField('country', existingEvent, extractCountry(fbEvent.location));
 
   // Map URL for venue coordinates if available
-  let mapUrl = existingEvent?.mapUrl ?? '';
+  let mapUrl = resolveField('mapUrl', existingEvent, '');
   if (!mapUrl && fbEvent.location?.coordinates) {
     const { latitude, longitude } = fbEvent.location.coordinates;
     mapUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
@@ -421,16 +436,14 @@ function mapEvent(fbEvent, existingEvent) {
   // Description
   const fullDescription = fbEvent.description ?? '';
   const firstParagraph = fullDescription.split('\n').find((l) => l.trim().length > 0) ?? fullDescription;
-  const description = existingEvent?.description ?? firstParagraph.slice(0, 200).trim();
-  const body = existingEvent?.body ?? fullDescription.trim();
+  const description = resolveField('description', existingEvent, firstParagraph.slice(0, 200).trim());
+  const body = resolveField('body', existingEvent, fullDescription.trim());
 
   // Hosts — names only (URLs available in fbEvent.hosts[].url if needed later)
   const hosts = fbEvent.hosts?.map((h) => h.name).filter(Boolean) ?? [];
 
-  // Categories → tags (only use FB categories if no manual tags set; filter blocklist)
-  const tags = (existingEvent?.tags && existingEvent.tags.length > 0)
-    ? existingEvent.tags
-    : (fbEvent.categories?.map((c) => c.label).filter((t) => !TAG_BLOCKLIST.has(t)) ?? []);
+  // Categories → tags
+  const tags = resolveField('tags', existingEvent, fbEvent.categories?.map((c) => c.label).filter((t) => !TAG_BLOCKLIST.has(t)) ?? []);
 
   return {
     mapped: {
@@ -454,6 +467,9 @@ function mapEvent(fbEvent, existingEvent) {
       sourceUrl: fbEvent.url,
       usersResponded: fbEvent.usersResponded > 0 ? fbEvent.usersResponded : undefined,
       isCanceled: fbEvent.isCanceled || undefined,
+      admission: existingEvent?.admission || undefined,
+      eventType: existingEvent?.eventType || undefined,
+      _overrides: existingEvent?._overrides || undefined,
     },
     coverImageUrl,
     coverImageFilename,
