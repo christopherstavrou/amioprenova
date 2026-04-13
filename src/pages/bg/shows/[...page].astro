@@ -66,14 +66,14 @@ const locationLine = (event: { venue: string; city: string; country: string }) =
                     <span class="font-medium">{formatEventDate(event.startDate, 'bg')}</span>
                   </p>
                   {locationLine(event) && <p class="text-text-secondary text-sm mb-2">{locationLine(event)}</p>}
-                  {event.tags && event.tags.length > 0 && (
+                  {(event.tagsBg ?? event.tags ?? []).length > 0 && (
                     <div class="flex gap-1.5 flex-wrap mb-2">
-                      {event.tags.map(tag => (
+                      {(event.tagsBg ?? event.tags ?? []).map(tag => (
                         <Badge>{tag}</Badge>
                       ))}
                     </div>
                   )}
-                  <p class="text-text-primary text-sm line-clamp-2">{event.description}</p>
+                  <p class="text-text-primary text-sm line-clamp-2">{event.descriptionBg ?? event.description}</p>
                 </div>
                 <div class="flex gap-2 shrink-0 flex-wrap items-start">
                   {event.ticketUrl && (
@@ -113,7 +113,7 @@ const locationLine = (event: { venue: string; city: string; country: string }) =
                   )}
                   <SharePopover
                     url={`${siteConfig.baseUrl}/bg/shows/${event.slug}`}
-                    title={event.title}
+                    title={event.titleBg ?? event.title}
                     labels={{ share: 'Сподели', copyLink: 'Копирай линк', copied: 'Копирано!', facebook: 'Фейсбук', twitter: 'Twitter / X' }}
                   />
                 </div>
@@ -203,14 +203,14 @@ const locationLine = (event: { venue: string; city: string; country: string }) =
                     <p class="text-text-secondary text-sm mb-2">
                       {event.venue} · {event.city}, {event.country}
                     </p>
-                    {event.tags && event.tags.length > 0 && (
+                    {(event.tagsBg ?? event.tags ?? []).length > 0 && (
                       <div class="flex gap-1.5 flex-wrap mb-2">
-                        {event.tags.map(tag => (
+                        {(event.tagsBg ?? event.tags ?? []).map(tag => (
                           <Badge>{tag}</Badge>
                         ))}
                       </div>
                     )}
-                    <p class="text-text-primary text-sm line-clamp-2">{event.description}</p>
+                    <p class="text-text-primary text-sm line-clamp-2">{event.descriptionBg ?? event.description}</p>
                   </div>
                   <div class="flex gap-2 shrink-0 flex-wrap items-start">
                     {event.ticketUrl && (
@@ -237,7 +237,7 @@ const locationLine = (event: { venue: string; city: string; country: string }) =
                     )}
                     <SharePopover
                       url={`${siteConfig.baseUrl}/bg/shows/${event.slug}`}
-                      title={event.title}
+                      title={event.titleBg ?? event.title}
                       labels={{ share: 'Сподели', copyLink: 'Копирай линк', copied: 'Копирано!', facebook: 'Фейсбук', twitter: 'Twitter / X' }}
                     />
                   </div>

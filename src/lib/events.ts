@@ -11,7 +11,8 @@ export interface AdmissionInfo {
   type: AdmissionType;
   price?: string;         // e.g. "15 лв." — shown as-is
   concessions?: string;   // e.g. "12 лв. студенти / ученици"
-  note?: string;          // anything else (booking info, exceptions)
+  note?: string;          // EN note (booking info, exceptions)
+  noteBg?: string;        // BG translation of note
 }
 
 export interface Event {
@@ -19,8 +20,14 @@ export interface Event {
   slug: string;
   facebookId?: string;
   title: string;
+  titleEn?: string;       // EN translation; falls back to title
+  titleBg?: string;       // BG translation; falls back to title
   description: string;
+  descriptionEn?: string; // EN short description; falls back to description
+  descriptionBg?: string; // BG short description; falls back to description
   body?: string;
+  bodyEn?: string;        // EN body text; falls back to body
+  bodyBg?: string;        // BG body text; falls back to body
   startDate: string;
   endDate?: string;
   venue: string;
@@ -28,6 +35,7 @@ export interface Event {
   country: string;
   hosts?: string[];
   tags?: string[];
+  tagsBg?: string[];      // BG tags; falls back to tags
   image?: string;
   gallery?: GalleryItem[];
   ticketUrl: string;
@@ -165,4 +173,16 @@ export function formatEventDate(dateString: string, locale: string = 'en'): stri
 export function formatShortDate(dateString: string, locale: string = 'en-US'): string {
   const date = parseWallClockDate(dateString);
   return date.toLocaleDateString(locale, { timeZone: 'UTC', day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+// Extract UTC offset from ISO date string and format as "GMT+3", "GMT+5:30", or "UTC"
+export function formatTimezoneLabel(dateString: string): string {
+  const match = dateString.match(/([+-])(\d{2}):(\d{2})$/);
+  if (!match) return 'UTC';
+  const [, sign, hourStr, minStr] = match;
+  const hours = Number(hourStr);
+  const minutes = Number(minStr);
+  if (hours === 0 && minutes === 0) return 'UTC';
+  const minPart = minutes > 0 ? `:${String(minutes).padStart(2, '0')}` : '';
+  return `GMT${sign}${hours}${minPart}`;
 }

@@ -5,7 +5,7 @@ import Button from '../../../components/Button.astro';
 import Badge from '../../../components/Badge.astro';
 import SharePopover from '../../../components/SharePopover.astro';
 import GalleryLightbox from '../../../components/GalleryLightbox.astro';
-import { getAllEvents, formatEventDatePart, formatEventTime } from '../../../lib/events';
+import { getAllEvents, formatEventDatePart, formatEventTime, formatTimezoneLabel } from '../../../lib/events';
 import { siteConfig, eventFeatures } from '../../../config/site';
 
 export const getStaticPaths = (() => {
@@ -18,17 +18,22 @@ export const getStaticPaths = (() => {
 
 const { event } = Astro.props;
 
+const title = event.titleBg ?? event.title;
+const description = event.descriptionBg ?? event.description;
+const tags = event.tagsBg ?? event.tags ?? [];
+
 const datePart = formatEventDatePart(event.startDate, 'bg');
 const startTime = formatEventTime(event.startDate);
 const endTime = event.endDate ? formatEventTime(event.endDate) : null;
-const timeRange = eventFeatures.showEndTime && endTime ? `${startTime} – ${endTime}` : startTime;
+const timezoneLabel = formatTimezoneLabel(event.startDate);
+const timeRange = eventFeatures.showEndTime && endTime ? `${startTime} – ${endTime} · ${timezoneLabel}` : `${startTime} · ${timezoneLabel}`;
 const canonicalURL = `${siteConfig.baseUrl}/bg/shows/${event.slug}`;
 const hasGallery = (event.gallery ?? []).length > 0;
 
 const cityCountryLine = [event.city, event.country].filter(Boolean).join(', ');
 const hasLocation = !!(event.venue || cityCountryLine);
 
-const bodyParagraphs = (event.body ?? '').split(/\n\n+/).map(p => p.trim()).filter(Boolean);
+const bodyParagraphs = (event.bodyBg ?? event.body ?? '').split(/\n\n+/).map(p => p.trim()).filter(Boolean);
 
 // Strip the FB page owner and any host name that duplicates the venue
 const HOST_BLOCKLIST = new Set(['Ami Oprenova Music']);
@@ -40,8 +45,8 @@ const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
 ---
 
 <Layout
-  title={`${event.title} - amioprenova`}
-  description={event.description}
+  title={`${title} - amioprenova`}
+  description={description}
   lang="bg"
 >
   <article class="max-w-3xl mx-auto">
@@ -58,7 +63,7 @@ const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
 
     <header class="mb-6">
       <div class="flex items-start gap-3">
-        <h1 class="font-serif text-4xl font-bold">{event.title}</h1>
+        <h1 class="font-serif text-4xl font-bold">{title}</h1>
         {eventFeatures.showCanceledBadge && event.isCanceled && (
           <span class="mt-2 shrink-0 inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400">
             Отменено
@@ -154,7 +159,7 @@ const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
               )}
               {event.admission.type === 'donation' && <p class="text-text-primary">Дарение по желание</p>}
               {event.admission.concessions && <p class="text-text-secondary text-sm">{event.admission.concessions}</p>}
-              {event.admission.note && <p class="text-text-secondary text-sm">{event.admission.note}</p>}
+              {(event.admission.noteBg ?? event.admission.note) && <p class="text-text-secondary text-sm">{event.admission.noteBg ?? event.admission.note}</p>}
             </dd>
           </div>
         )}
@@ -219,9 +224,9 @@ const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
     </div>
 
     {/* Tags */}
-    {event.tags && event.tags.length > 0 && (
+    {tags.length > 0 && (
       <div class="flex gap-2 flex-wrap mb-8">
-        {event.tags.map(tag => (
+        {tags.map(tag => (
           <Badge>{tag}</Badge>
         ))}
       </div>

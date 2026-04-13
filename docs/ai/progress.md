@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-04-12 (evening)
+**Last updated**: 2026-04-13
 
 ---
 
@@ -75,6 +75,15 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Moved 6 static images from `public/images/` to `src/assets/images/`; replaced all `<img>` tags with Astro `<Image>` component — total image weight 11.8 MB → 487 KB (−96%) (#35)
 - Keyboard navigation audit — mobile menu: added focus trap (Tab/Shift+Tab cycle), focus-on-open (first nav link), Escape-to-close, focus restoration to hamburger; scroll lock now covers both `<html>` and `<body>` (#36)
 
+### Event localisation + enrichment infrastructure (2026-04-13) — PR pending
+- Added localised content fields to `Event` interface: `titleEn/Bg`, `descriptionEn/Bg`, `bodyEn/Bg`, `tagsBg`, `admission.noteBg`
+- Added `formatTimezoneLabel()` helper — extracts "GMT+3" / "UTC" from ISO date offset
+- EN/BG detail pages resolve locale-specific fields with fallback chain; time row shows timezone (e.g. "19:00 · GMT+3")
+- BG list and detail pages use `tagsBg ?? tags`, `descriptionBg`, `titleBg` with fallbacks
+- Search index uses locale-specific title, description, and tags for each locale
+- `docs/ai/event-enrichment.md` — comprehensive guide for enriching, translating, and creating events (generic, not Facebook-specific)
+- **Data quality status**: 53 events have `eventType` + `admission` + `city`/`country` from prior session; all 53 still need `tagsBg`, `descriptionBg`, `bodyBg` — run enrichment pass next
+
 ### Facebook Events scraper (2026-04-13) — PR pending
 - New script `scripts/scrape-facebook-events.mjs` — scrapes all public events from Facebook page using `facebook-event-scraper` npm package
 - Playwright-based full URL enumeration scrolls past "Load More"; falls back gracefully if browser deps missing
@@ -136,7 +145,7 @@ Awaiting answers from the artist/owner before these can progress:
 ## 🔢 Build Status
 
 ```bash
-npm run build   # Expected: 56 pages, 0 errors
+npm run build   # Expected: 142 pages, 0 errors
 npm run dev     # Expected: http://localhost:4321
 ```
 
