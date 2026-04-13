@@ -21,6 +21,9 @@ export const getStaticPaths = (async ({ paginate }) => {
 const { page } = Astro.props;
 const events = page.data;
 const pastEvents = getPastEvents();
+
+const locationLine = (event: { venue: string; city: string; country: string }) =>
+  [event.venue, [event.city, event.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
 ---
 
 <Layout
@@ -62,9 +65,7 @@ const pastEvents = getPastEvents();
                   <p class="text-text-secondary text-sm mb-1">
                     <span class="font-medium">{formatEventDate(event.startDate, 'bg')}</span>
                   </p>
-                  <p class="text-text-secondary text-sm mb-2">
-                    {event.venue} · {event.city}, {event.country}
-                  </p>
+                  {locationLine(event) && <p class="text-text-secondary text-sm mb-2">{locationLine(event)}</p>}
                   {event.tags && event.tags.length > 0 && (
                     <div class="flex gap-1.5 flex-wrap mb-2">
                       {event.tags.map(tag => (

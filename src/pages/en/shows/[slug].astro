@@ -22,6 +22,13 @@ const formattedDate = formatEventDate(event.startDate, 'en');
 const formattedEndDate = event.endDate ? formatEventDate(event.endDate, 'en') : null;
 const canonicalURL = `${siteConfig.baseUrl}/en/shows/${event.slug}`;
 const hasGallery = (event.gallery ?? []).length > 0;
+
+// Build location string without spurious "· ," when parts are missing
+const locationParts = [event.venue, [event.city, event.country].filter(Boolean).join(', ')].filter(Boolean);
+const locationLine = locationParts.join(' · ');
+
+// Split body into paragraphs (double newline = new paragraph)
+const bodyParagraphs = (event.body ?? '').split(/\n\n+/).map(p => p.trim()).filter(Boolean);
 ---
 
 <Layout
@@ -55,7 +62,7 @@ const hasGallery = (event.gallery ?? []).length > 0;
         {eventFeatures.showEndTime && formattedEndDate && (
           <p class="text-sm text-text-secondary">Ends: {formattedEndDate}</p>
         )}
-        <p class="text-text-secondary">{event.venue} · {event.city}, {event.country}</p>
+        {locationLine && <p class="text-text-secondary">{locationLine}</p>}
         {eventFeatures.showHosts && event.hosts && event.hosts.length > 0 && (
           <p class="text-sm text-text-secondary">With {event.hosts.join(', ')}</p>
         )}
@@ -72,9 +79,11 @@ const hasGallery = (event.gallery ?? []).length > 0;
       )}
     </header>
 
-    {event.body && (
-      <div class="mb-8">
-        <p class="text-text-primary leading-relaxed">{event.body}</p>
+    {bodyParagraphs.length > 0 && (
+      <div class="mb-8 space-y-4">
+        {bodyParagraphs.map(para => (
+          <p class="text-text-primary leading-relaxed whitespace-pre-line">{para}</p>
+        ))}
       </div>
     )}
 
