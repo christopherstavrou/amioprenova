@@ -5,7 +5,7 @@ import Button from '../../../components/Button.astro';
 import Badge from '../../../components/Badge.astro';
 import SharePopover from '../../../components/SharePopover.astro';
 import GalleryLightbox from '../../../components/GalleryLightbox.astro';
-import { getAllEvents, formatEventDate } from '../../../lib/events';
+import { getAllEvents, formatEventDatePart, formatEventTime } from '../../../lib/events';
 import { siteConfig, eventFeatures } from '../../../config/site';
 
 export const getStaticPaths = (() => {
@@ -18,8 +18,10 @@ export const getStaticPaths = (() => {
 
 const { event } = Astro.props;
 
-const formattedDate = formatEventDate(event.startDate, 'en');
-const formattedEndDate = event.endDate ? formatEventDate(event.endDate, 'en') : null;
+const datePart = formatEventDatePart(event.startDate, 'en');
+const startTime = formatEventTime(event.startDate);
+const endTime = event.endDate ? formatEventTime(event.endDate) : null;
+const timeRange = eventFeatures.showEndTime && endTime ? `${startTime} – ${endTime}` : startTime;
 const canonicalURL = `${siteConfig.baseUrl}/en/shows/${event.slug}`;
 const hasGallery = (event.gallery ?? []).length > 0;
 
@@ -58,10 +60,8 @@ const bodyParagraphs = (event.body ?? '').split(/\n\n+/).map(p => p.trim()).filt
         )}
       </div>
       <div class="flex flex-col gap-1.5 mb-4">
-        <p class="text-lg font-medium text-text-primary">{formattedDate}</p>
-        {eventFeatures.showEndTime && formattedEndDate && (
-          <p class="text-sm text-text-secondary">Ends: {formattedEndDate}</p>
-        )}
+        <p class="text-lg font-medium text-text-primary">{datePart}</p>
+        <p class="text-text-secondary">{timeRange}</p>
         {locationLine && <p class="text-text-secondary">{locationLine}</p>}
         {eventFeatures.showHosts && event.hosts && event.hosts.length > 0 && (
           <p class="text-sm text-text-secondary">With {event.hosts.join(', ')}</p>

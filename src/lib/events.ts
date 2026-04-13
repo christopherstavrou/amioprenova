@@ -113,18 +113,38 @@ function parseWallClockDate(dateString: string): Date {
   return date;
 }
 
-// Format date for display — full format with weekday and time
-export function formatEventDate(dateString: string, locale: string = 'en'): string {
+// Date part only — "Sun 4 Jun 2024" / "нд 4 юни 2024 г."
+// Uses formatToParts so we control the order and strip commas ourselves.
+export function formatEventDatePart(dateString: string, locale: string = 'en'): string {
   const date = parseWallClockDate(dateString);
-  return date.toLocaleString(locale, {
+  const parts = new Intl.DateTimeFormat(locale, {
     timeZone: 'UTC',
     weekday: 'short',
-    year: 'numeric',
-    month: 'short',
     day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+    month: 'short',
+    year: 'numeric',
+  }).formatToParts(date);
+  const get = (type: string) => parts.find(p => p.type === type)?.value ?? '';
+  // Explicit order: weekday day month year — works for both EN and BG
+  return `${get('weekday')} ${get('day')} ${get('month')} ${get('year')}`.replace(/\s+/g, ' ').trim();
+}
+
+// Time only — always 24h, not locale-dependent: "19:00"
+export function formatEventTime(dateString: string): string {
+  const date = parseWallClockDate(dateString);
+  const h = String(date.getUTCHours()).padStart(2, '0');
+  const m = String(date.getUTCMinutes()).padStart(2, '0');
+  return `${h}:${m}`;
+}
+
+// Combined date + time for list views: "Sun 4 Jun 2024 · 19:00"
+export function formatEventDateTime(dateString: string, locale: string = 'en'): string {
+  return `${formatEventDatePart(dateString, locale)} · ${formatEventTime(dateString)}`;
+}
+
+// Format date for display — kept for search index and other consumers
+export function formatEventDate(dateString: string, locale: string = 'en'): string {
+  return formatEventDateTime(dateString, locale);
 }
 
 // Format date for compact display — day, short month, year only
