@@ -310,6 +310,65 @@ function downloadImage(url, destPath) {
 }
 
 // ---------------------------------------------------------------------------
+// Location helpers
+// ---------------------------------------------------------------------------
+
+// Map ISO country codes and common suffixes → short display names
+const COUNTRY_DISPLAY = {
+  GB: 'UK', UK: 'UK',
+  BG: 'Bulgaria',
+  IT: 'Italy',
+  US: 'USA', FR: 'France', DE: 'Germany',
+  NL: 'Netherlands', ES: 'Spain', PT: 'Portugal',
+  AT: 'Austria', CH: 'Switzerland', BE: 'Belgium',
+  SE: 'Sweden', NO: 'Norway', DK: 'Denmark', FI: 'Finland',
+  PL: 'Poland', RO: 'Romania', HU: 'Hungary', GR: 'Greece',
+  RS: 'Serbia', HR: 'Croatia',
+};
+
+// Suffix patterns in city.name that indicate the country
+const COUNTRY_FROM_SUFFIX = [
+  [/United Kingdom/i,   'UK'],
+  [/United States/i,    'USA'],
+  [/Italy|Italia/i,     'Italy'],
+  [/Bulgaria|България/i,'Bulgaria'],
+  [/France|Francia/i,   'France'],
+  [/Germany|Deutschland/i,'Germany'],
+];
+
+function extractCity(location) {
+  if (!location) return '';
+  const raw = location.city?.name ?? '';
+  // Skip: very long strings are country/region Wikipedia descriptions
+  if (raw.length > 60) return '';
+  // Skip: looks like a street address (contains digits + street keywords)
+  if (/\d/.test(raw) && /улица|street|str\.|ave|blvd|road|rd\.|sq\./i.test(raw)) return '';
+  // "London, United Kingdom" → "London"
+  return raw.includes(', ') ? raw.split(', ')[0].trim() : raw.trim();
+}
+
+function extractCountry(location) {
+  if (!location) return '';
+  // Use API code if provided
+  const code = location.countryCode;
+  if (code) return COUNTRY_DISPLAY[code.toUpperCase()] ?? code;
+  // Infer from the raw city.name suffix before we stripped the country part
+  const raw = location.city?.name ?? '';
+  for (const [pattern, display] of COUNTRY_FROM_SUFFIX) {
+    if (pattern.test(raw)) return display;
+  }
+  // Infer from address field
+  const addr = location.address ?? '';
+  for (const [pattern, display] of COUNTRY_FROM_SUFFIX) {
+    if (pattern.test(addr)) return display;
+  }
+  return '';
+}
+
+// Tags to filter out — Facebook sometimes assigns these to music events
+const TAG_BLOCKLIST = new Set(['Shopping']);
+
+// ---------------------------------------------------------------------------
 // Map Facebook EventData → site Event schema
 // ---------------------------------------------------------------------------
 function mapEvent(fbEvent, existingEvent) {
@@ -320,10 +379,10 @@ function mapEvent(fbEvent, existingEvent) {
     ? toWallClockISO(fbEvent.endTimestamp, fbEvent.timezone)
     : undefined;
 
-  // Location fields
+  // Location fields — cleaned
   const venue = fbEvent.location?.name ?? '';
-  const city = fbEvent.location?.city?.name ?? fbEvent.location?.description ?? '';
-  const country = fbEvent.location?.countryCode ?? '';
+  const city = extractCity(fbEvent.location);
+  const country = extractCountry(fbEvent.location);
 
   // Map URL for venue coordinates if available
   let mapUrl = existingEvent?.mapUrl ?? '';
@@ -368,17 +427,17 @@ function mapEvent(fbEvent, existingEvent) {
   // Hosts — names only (URLs available in fbEvent.hosts[].url if needed later)
   const hosts = fbEvent.hosts?.map((h) => h.name).filter(Boolean) ?? [];
 
-  // Categories → tags (only use FB categories if no manual tags set)
+  // Categories → tags (only use FB categories if no manual tags set; filter blocklist)
   const tags = (existingEvent?.tags && existingEvent.tags.length > 0)
     ? existingEvent.tags
-    : (fbEvent.categories?.map((c) => c.label) ?? []);
+    : (fbEvent.categories?.map((c) => c.label).filter((t) => !TAG_BLOCKLIST.has(t)) ?? []);
 
   return {
     mapped: {
       id: existingEvent?.id ?? fbEvent.id,
       slug,
       facebookId: fbEvent.id,
-      title: fbEvent.name,
+      title: fbEvent.name.trim(),
       description,
       body: body || undefined,
       startDate,
@@ -574,9 +633,19 @@ async function main() {
     }
   }
 
-  // Merge: scraped events + manual events, sorted by startDate descending
+  // Preserve existing FB events that weren't re-scraped this run (e.g. --no-browser partial run)
+  const scrapedFbIds = new Set(scrapedEvents.map((e) => e.facebookId).filter(Boolean));
+  const carryOverEvents = existingEvents.filter(
+    (e) => e.facebookId && !scrapedFbIds.has(e.facebookId)
+  );
+  if (carryOverEvents.length > 0) {
+    console.log(`Carrying over ${carryOverEvents.length} previously scraped events (not re-fetched this run)`);
+  }
+
+  // Merge: scraped events + carry-overs + manual events, sorted by startDate descending
   const merged = [
     ...scrapedEvents,
+    ...carryOverEvents,
     ...manualEvents,
   ].sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
 
