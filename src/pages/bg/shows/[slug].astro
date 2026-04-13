@@ -25,10 +25,18 @@ const timeRange = eventFeatures.showEndTime && endTime ? `${startTime} – ${end
 const canonicalURL = `${siteConfig.baseUrl}/bg/shows/${event.slug}`;
 const hasGallery = (event.gallery ?? []).length > 0;
 
-const locationParts = [event.venue, [event.city, event.country].filter(Boolean).join(', ')].filter(Boolean);
-const locationLine = locationParts.join(' · ');
+const cityCountryLine = [event.city, event.country].filter(Boolean).join(', ');
+const hasLocation = !!(event.venue || cityCountryLine);
 
 const bodyParagraphs = (event.body ?? '').split(/\n\n+/).map(p => p.trim()).filter(Boolean);
+
+// Strip the FB page owner and any host name that duplicates the venue
+const HOST_BLOCKLIST = new Set(['Ami Oprenova Music']);
+const filteredHosts = (event.hosts ?? []).filter(
+  h => !HOST_BLOCKLIST.has(h) && h.toLowerCase() !== event.venue.toLowerCase()
+);
+
+const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
 ---
 
 <Layout
@@ -48,35 +56,133 @@ const bodyParagraphs = (event.body ?? '').split(/\n\n+/).map(p => p.trim()).filt
       </div>
     )}
 
-    <header class="mb-8">
-      <div class="flex items-start gap-3 mb-4">
-        <h1 class="font-serif text-4xl font-bold text-text-primary">{event.title}</h1>
+    <header class="mb-6">
+      <div class="flex items-start gap-3">
+        <h1 class="font-serif text-4xl font-bold">{event.title}</h1>
         {eventFeatures.showCanceledBadge && event.isCanceled && (
           <span class="mt-2 shrink-0 inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400">
             Отменено
           </span>
         )}
       </div>
-      <div class="flex flex-col gap-1.5 mb-4">
-        <p class="text-lg font-medium text-text-primary">{datePart}</p>
-        <p class="text-text-secondary">{timeRange}</p>
-        {locationLine && <p class="text-text-secondary">{locationLine}</p>}
-        {eventFeatures.showHosts && event.hosts && event.hosts.length > 0 && (
-          <p class="text-sm text-text-secondary">С {event.hosts.join(', ')}</p>
-        )}
-        {eventFeatures.showUsersResponded && event.usersResponded && (
-          <p class="text-sm text-text-secondary">{event.usersResponded.toLocaleString('bg')} души са отговорили</p>
-        )}
-      </div>
-      {event.tags && event.tags.length > 0 && (
-        <div class="flex gap-2 flex-wrap">
-          {event.tags.map(tag => (
-            <Badge>{tag}</Badge>
-          ))}
-        </div>
-      )}
     </header>
 
+    {/* Event details card */}
+    <div class="bg-surface-muted rounded-lg border border-border mb-8">
+      <dl>
+        {/* Date */}
+        <div class="flex items-center gap-4 px-5 py-3.5">
+          <dt class="flex items-center gap-2 text-sm font-medium text-text-secondary w-20 shrink-0">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Дата
+          </dt>
+          <dd class="text-text-primary">{datePart}</dd>
+        </div>
+
+        {/* Time */}
+        <div class="flex items-center gap-4 px-5 py-3.5 border-t border-border">
+          <dt class="flex items-center gap-2 text-sm font-medium text-text-secondary w-20 shrink-0">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Час
+          </dt>
+          <dd class="text-text-primary">{timeRange}</dd>
+        </div>
+
+        {/* Venue / Location */}
+        {hasLocation && (
+          <div class="flex items-start gap-4 px-5 py-3.5 border-t border-border">
+            <dt class="flex items-center gap-2 text-sm font-medium text-text-secondary w-20 shrink-0 pt-0.5">
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Място
+            </dt>
+            <dd>
+              {event.venue && <p class="text-text-primary">{event.venue}</p>}
+              {cityCountryLine && <p class="text-text-secondary text-sm">{cityCountryLine}</p>}
+            </dd>
+          </div>
+        )}
+
+        {/* Hosts */}
+        {eventFeatures.showHosts && filteredHosts.length > 0 && (
+          <div class="flex items-center gap-4 px-5 py-3.5 border-t border-border">
+            <dt class="flex items-center gap-2 text-sm font-medium text-text-secondary w-20 shrink-0">
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              С
+            </dt>
+            <dd class="text-text-primary">{filteredHosts.join(', ')}</dd>
+          </div>
+        )}
+
+        {/* Attending */}
+        {eventFeatures.showUsersResponded && event.usersResponded && (
+          <div class="flex items-center gap-4 px-5 py-3.5 border-t border-border">
+            <dt class="flex items-center gap-2 text-sm font-medium text-text-secondary w-20 shrink-0">
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+              Посещения
+            </dt>
+            <dd class="text-text-primary">{event.usersResponded.toLocaleString('bg')} отговорили</dd>
+          </div>
+        )}
+      </dl>
+
+      {/* Action buttons */}
+      {hasActions && (
+        <div class="flex gap-3 flex-wrap px-5 py-4 border-t border-border">
+          {event.ticketUrl && (
+            <Button
+              variant="primary"
+              href={event.ticketUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Билети
+            </Button>
+          )}
+          {event.mapUrl && (
+            <Button
+              variant="secondary"
+              href={event.mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Карта
+            </Button>
+          )}
+          {event.sourceUrl && (
+            <Button
+              variant="secondary"
+              href={event.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Виж във Facebook
+            </Button>
+          )}
+        </div>
+      )}
+    </div>
+
+    {/* Tags */}
+    {event.tags && event.tags.length > 0 && (
+      <div class="flex gap-2 flex-wrap mb-8">
+        {event.tags.map(tag => (
+          <Badge>{tag}</Badge>
+        ))}
+      </div>
+    )}
+
+    {/* Body */}
     {bodyParagraphs.length > 0 && (
       <div class="mb-8 space-y-4">
         {bodyParagraphs.map(para => (
@@ -84,39 +190,6 @@ const bodyParagraphs = (event.body ?? '').split(/\n\n+/).map(p => p.trim()).filt
         ))}
       </div>
     )}
-
-    <div class="flex gap-3 mb-10">
-      {event.ticketUrl && (
-        <Button
-          variant="primary"
-          href={event.ticketUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Билети
-        </Button>
-      )}
-      {event.mapUrl && (
-        <Button
-          variant="secondary"
-          href={event.mapUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Карта
-        </Button>
-      )}
-      {event.sourceUrl && (
-        <Button
-          variant="secondary"
-          href={event.sourceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Виж във Facebook
-        </Button>
-      )}
-    </div>
 
     {hasGallery && (
       <section class="mb-10">
