@@ -38,7 +38,7 @@ const showsCollection = defineCollection({
     tags: z.array(z.string()).optional(),
     tagsBg: z.array(z.string()).optional(),
     image: z.string().optional(),
-    // gallery: z.array(galleryItemSchema).optional(),
+    gallery: z.array(galleryItemSchema).optional(),
     ticketUrl: z.string().optional(),
     mapUrl: z.string().optional(),
     sourceUrl: z.string().optional(),
@@ -46,7 +46,7 @@ const showsCollection = defineCollection({
     isCanceled: z.boolean().optional(),
     admission: admissionSchema.optional(),
     eventType: eventTypeEnum.optional(),
-    // _overrides: z.record(overridePolicyEnum).optional(),
+    _overrides: z.record(z.string(), overridePolicyEnum).optional(),
   }),
 });
 

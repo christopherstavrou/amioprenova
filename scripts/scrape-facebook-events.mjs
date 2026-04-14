@@ -17,7 +17,7 @@
  */
 
 import { scrapeFbEvent, scrapeFbEventList, EventType } from 'facebook-event-scraper';
-import { createWriteStream, existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { createWriteStream, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import https from 'https';
@@ -67,8 +67,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // Load all existing events from the collection to preserve manually entered data
 function loadExistingEvents() {
   if (!existsSync(SHOWS_DIR)) return [];
-  const files = fs.readdirSync(SHOWS_DIR).filter(f => f.endsWith('.json'));
-  return files.map(f => JSON.parse(fs.readFileSync(resolve(SHOWS_DIR, f), 'utf8')));
+  const files = readdirSync(SHOWS_DIR).filter((f) => f.endsWith('.json'));
+  return files.map((f) => JSON.parse(readFileSync(resolve(SHOWS_DIR, f), 'utf8')));
 }
 
 // ---------------------------------------------------------------------------
@@ -299,7 +299,8 @@ function slugify(str) {
 
 function makeSlug(name, startTimestamp) {
   const year = new Date(startTimestamp * 1000).getFullYear();
-  return `${slugify(name)}-${year}`;
+  const base = slugify(name) || 'facebook-event';
+  return `${base}-${year}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -551,7 +552,7 @@ async function main() {
         const id = idMatch[1];
         if (!seenIds.has(id)) {
           seenIds.add(id);
-          allShortEvents.push({ id, name: `Event ${id}`, url, date: '', isCanceled: false, isPast: true });
+          allShortEvents.push({ id, name: `Event ${id}`, url, isCanceled: false, isPast: true });
           newCount++;
         }
       }
@@ -630,24 +631,7 @@ async function main() {
       scrapedEvents.push(mapped);
     } catch (err) {
       console.error(`  Failed to scrape full event: ${err.message}`);
-      // Keep minimal stub so we don't lose the event entirely
-      scrapedEvents.push({
-        id: short.id,
-        facebookId: short.id,
-        slug: makeSlug(short.name, Date.now() / 1000),
-        title: short.name,
-        description: '',
-        startDate: short.date,
-        venue: '',
-        city: '',
-        country: '',
-        tags: [],
-        image: '',
-        gallery: [],
-        ticketUrl: '',
-        mapUrl: '',
-        sourceUrl: short.url,
-      });
+      console.warn('  Skipping event because full details could not be scraped safely');
     }
 
     if (i < allShortEvents.length - 1) {

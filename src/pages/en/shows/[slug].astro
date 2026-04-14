@@ -22,6 +22,7 @@ const title = event.titleEn || (event.titleBg ? '' : event.title) || event.title
 const description = event.descriptionEn || (event.descriptionBg ? '' : event.description) || event.description;
 const bodyText = event.bodyEn || (event.bodyBg ? '' : event.body) || '';
 const bodyParagraphs = bodyText.split(/\n\n+/).map(p => p.trim()).filter(Boolean);
+const tags = event.tags ?? [];
 
 const datePart = formatEventDatePart(event.startDate, 'en');
 const startTime = formatEventTime(event.startDate);
@@ -41,6 +42,16 @@ const filteredHosts = (event.hosts ?? []).filter(
 );
 
 const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
+const canceledBadgeClass = 'mt-2 shrink-0 inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-accent-primary text-accent-primary bg-surface-muted';
+const eventTypeLabels = {
+  concert: 'Concert',
+  jam: 'Jam Session',
+  collaboration: 'Collaboration',
+  charity: 'Charity Event',
+  'album-launch': 'Album Launch',
+  workshop: 'Workshop',
+  birthday: 'Birthday Show',
+} satisfies Record<NonNullable<typeof event.eventType>, string>;
 ---
 
 <Layout
@@ -64,7 +75,7 @@ const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
       <div class="flex items-start gap-3">
         <h1 class="font-serif text-4xl font-bold">{title}</h1>
         {eventFeatures.showCanceledBadge && event.isCanceled && (
-          <span class="mt-2 shrink-0 inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400">
+          <span class={canceledBadgeClass}>
             Canceled
           </span>
         )}
@@ -172,15 +183,7 @@ const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
               </svg>
               Type
             </dt>
-            <dd class="text-text-primary">
-              {event.eventType === 'concert' && 'Concert'}
-              {event.eventType === 'jam' && 'Jam Session'}
-              {event.eventType === 'collaboration' && 'Collaboration'}
-              {event.eventType === 'charity' && 'Charity Event'}
-              {event.eventType === 'album-launch' && 'Album Launch'}
-              {event.eventType === 'workshop' && 'Workshop'}
-              {event.eventType === 'birthday' && 'Birthday Show'}
-            </dd>
+            <dd class="text-text-primary">{eventTypeLabels[event.eventType]}</dd>
           </div>
         )}
       </dl>
@@ -223,9 +226,9 @@ const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
     </div>
 
     {/* Tags */}
-    {event.tags && event.tags.length > 0 && (
+    {tags.length > 0 && (
       <div class="flex gap-2 flex-wrap mb-8">
-        {event.tags.map(tag => (
+        {tags.map(tag => (
           <Badge>{tag}</Badge>
         ))}
       </div>
@@ -255,7 +258,7 @@ const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
         >
           ← Back to all shows
         </a>
-        <SharePopover url={canonicalURL} title={event.title} />
+        <SharePopover url={canonicalURL} title={title} />
       </div>
     </footer>
   </article>

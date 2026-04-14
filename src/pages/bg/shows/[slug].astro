@@ -42,6 +42,16 @@ const filteredHosts = (event.hosts ?? []).filter(
 );
 
 const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
+const canceledBadgeClass = 'mt-2 shrink-0 inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-accent-primary text-accent-primary bg-surface-muted';
+const eventTypeLabels = {
+  concert: 'Концерт',
+  jam: 'Джем сесия',
+  collaboration: 'Колаборация',
+  charity: 'Благотворителен концерт',
+  'album-launch': 'Представяне на албум',
+  workshop: 'Майсторски клас',
+  birthday: 'Рождено тържество',
+} satisfies Record<NonNullable<typeof event.eventType>, string>;
 ---
 
 <Layout
@@ -65,7 +75,7 @@ const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
       <div class="flex items-start gap-3">
         <h1 class="font-serif text-4xl font-bold">{title}</h1>
         {eventFeatures.showCanceledBadge && event.isCanceled && (
-          <span class="mt-2 shrink-0 inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400">
+          <span class={canceledBadgeClass}>
             Отменено
           </span>
         )}
@@ -173,15 +183,7 @@ const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
               </svg>
               Тип
             </dt>
-            <dd class="text-text-primary">
-              {event.eventType === 'concert' && 'Концерт'}
-              {event.eventType === 'jam' && 'Джем сесия'}
-              {event.eventType === 'collaboration' && 'Колаборация'}
-              {event.eventType === 'charity' && 'Благотворителен концерт'}
-              {event.eventType === 'album-launch' && 'Представяне на албум'}
-              {event.eventType === 'workshop' && 'Майсторски клас'}
-              {event.eventType === 'birthday' && 'Рождено тържество'}
-            </dd>
+            <dd class="text-text-primary">{eventTypeLabels[event.eventType]}</dd>
           </div>
         )}
       </dl>
@@ -256,7 +258,7 @@ const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
         >
           ← Обратно към всички концерти
         </a>
-        <SharePopover url={canonicalURL} title={event.title} labels={{ share: 'Сподели', copyLink: 'Копирай линк', copied: 'Копирано!', facebook: 'Фейсбук', twitter: 'Twitter / X' }} />
+        <SharePopover url={canonicalURL} title={title} labels={{ share: 'Сподели', copyLink: 'Копирай линк', copied: 'Копирано!', facebook: 'Фейсбук', twitter: 'Twitter / X' }} />
       </div>
     </footer>
   </article>

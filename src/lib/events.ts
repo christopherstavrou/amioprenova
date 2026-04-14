@@ -1,57 +1,14 @@
 import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 import type { GalleryItem } from './gallery-schema';
 
 export type { GalleryItem };
-
-export type AdmissionType = 'free' | 'free-booking' | 'paid' | 'donation';
-export type EventType = 'concert' | 'jam' | 'collaboration' | 'charity' | 'album-launch' | 'workshop' | 'birthday';
-export type OverridePolicy = 'locked' | 'fallback';
-
-export interface AdmissionInfo {
-  type: AdmissionType;
-  price?: string;         // e.g. "15 лв." — shown as-is
-  concessions?: string;   // e.g. "12 лв. студенти / ученици"
-  note?: string;          // EN note (booking info, exceptions)
-  noteBg?: string;        // BG translation of note
-}
-
-export interface Event {
-  id: string;
-  slug: string;
-  facebookId?: string;
-  title: string;
-  titleEn?: string;       // EN translation; falls back to title
-  titleBg?: string;       // BG translation; falls back to title
-  description: string;
-  descriptionEn?: string; // EN short description; falls back to description
-  descriptionBg?: string; // BG short description; falls back to description
-  body?: string;
-  bodyEn?: string;        // EN body text; falls back to body
-  bodyBg?: string;        // BG body text; falls back to body
-  startDate: string;
-  endDate?: string;
-  venue: string;
-  city: string;
-  country: string;
-  hosts?: string[];
-  tags?: string[];
-  tagsBg?: string[];      // BG tags; falls back to tags
-  image?: string;
-  gallery?: GalleryItem[];
-  ticketUrl: string;
-  mapUrl: string;
-  sourceUrl?: string;
-  usersResponded?: number;
-  isCanceled?: boolean;
-  admission?: AdmissionInfo;
-  eventType?: EventType;
-  _overrides?: Partial<Record<keyof Omit<Event, '_overrides'>, OverridePolicy>>;
-}
+export type Event = CollectionEntry<'shows'>['data'];
 
 // Load all events from Content Collection
 export async function getAllEvents(): Promise<Event[]> {
   const collection = await getCollection('shows');
-  return collection.map(entry => entry.data as Event);
+  return collection.map(entry => entry.data);
 }
 
 // Filter to upcoming events (future dates only), sorted ascending
