@@ -36,7 +36,7 @@ const L = {
 <div class={`show-actions-menu relative inline-block ${className}`}>
   <button
     type="button"
-    class="show-actions-trigger inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-surface text-accent-primary shadow-sm hover:border-accent-primary hover:bg-surface-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+    class="show-actions-trigger inline-flex h-10 w-10 items-center justify-center rounded-md border border-border/60 bg-[rgba(247,244,240,0.82)] text-accent-primary shadow-sm backdrop-blur-md hover:border-accent-primary hover:bg-[rgba(247,244,240,0.92)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary dark:bg-[rgba(13,12,11,0.82)] dark:hover:bg-[rgba(13,12,11,0.92)]"
     aria-label={L.menu}
     aria-expanded="false"
   >
@@ -65,7 +65,9 @@ const L = {
           </svg>
         )}
         {item.icon === 'facebook' && (
-          <span class="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-accent-primary text-accent-primary font-serif text-[0.65rem] font-bold leading-none">f</span>
+          <svg class="w-4 h-4 shrink-0 text-accent-primary" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.135 22v-8.03h2.695l.404-3.13h-3.1V8.84c0-.906.252-1.523 1.551-1.523H16.25V4.52a21.2 21.2 0 00-2.283-.117c-2.258 0-3.804 1.379-3.804 3.91v2.527H7.61v3.13h2.553V22h2.972z" />
+          </svg>
         )}
         <span>{item.label}</span>
       </a>
