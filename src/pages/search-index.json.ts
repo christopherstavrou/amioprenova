@@ -24,7 +24,7 @@ export async function GET() {
     };
   });
 
-  const allEvents = getAllEvents();
+  const allEvents = await getAllEvents();
   const langs = ['en', 'bg'] as const;
 
   const eventEntries = langs.flatMap(lang =>

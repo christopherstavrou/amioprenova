@@ -8,8 +8,8 @@ import GalleryLightbox from '../../../components/GalleryLightbox.astro';
 import { getAllEvents, formatEventDatePart, formatEventTime, formatTimezoneLabel } from '../../../lib/events';
 import { siteConfig, eventFeatures } from '../../../config/site';
 
-export const getStaticPaths = (() => {
-  const allEvents = getAllEvents();
+export const getStaticPaths = (async () => {
+  const allEvents = await getAllEvents();
   return allEvents.map(event => ({
     params: { slug: event.slug },
     props: { event },
@@ -18,8 +18,10 @@ export const getStaticPaths = (() => {
 
 const { event } = Astro.props;
 
-const title = event.titleEn ?? event.title;
-const description = event.descriptionEn ?? event.description;
+const title = event.titleEn || (event.titleBg ? '' : event.title) || event.title;
+const description = event.descriptionEn || (event.descriptionBg ? '' : event.description) || event.description;
+const bodyText = event.bodyEn || (event.bodyBg ? '' : event.body) || '';
+const bodyParagraphs = bodyText.split(/\n\n+/).map(p => p.trim()).filter(Boolean);
 
 const datePart = formatEventDatePart(event.startDate, 'en');
 const startTime = formatEventTime(event.startDate);
@@ -31,8 +33,6 @@ const hasGallery = (event.gallery ?? []).length > 0;
 
 const cityCountryLine = [event.city, event.country].filter(Boolean).join(', ');
 const hasLocation = !!(event.venue || cityCountryLine);
-
-const bodyParagraphs = (event.bodyEn ?? event.body ?? '').split(/\n\n+/).map(p => p.trim()).filter(Boolean);
 
 // Strip the FB page owner and any host name that duplicates the venue
 const HOST_BLOCKLIST = new Set(['Ami Oprenova Music']);

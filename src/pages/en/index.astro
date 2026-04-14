@@ -14,7 +14,7 @@ const t = ui['en'];
 
 const featuredRelease = releases.find(r => r.featured) || releases[0];
 const featuredVideo = videos.find(v => v.featured) || videos[0];
-const upcomingShows = getNextEvents(3).map(event => ({
+const upcomingShows = (await getNextEvents(3)).map(event => ({
   ...event,
   formattedDate: formatShortDate(event.startDate, 'en-US'),
 }));
