@@ -50,12 +50,12 @@ const eventTags = (event: typeof events[number]) => event.tagsBg ?? event.tags ?
           <Card hover={true} padding="none">
             <div class="flex flex-col sm:flex-row">
               {event.image && (
-                <div class="relative sm:shrink-0 sm:w-44">
-                  <a href={`/bg/shows/${event.slug}`} class="block overflow-hidden rounded-t-md sm:rounded-t-none sm:rounded-l-md">
+                <div class="relative sm:w-44 sm:self-stretch sm:shrink-0">
+                  <a href={`/bg/shows/${event.slug}`} class="block overflow-hidden rounded-t-md sm:h-full sm:rounded-t-none sm:rounded-l-md">
                     <img
                       src={event.image}
                       alt={event.title}
-                      class="w-full aspect-[3/1] sm:aspect-auto sm:h-full object-cover hover:scale-105 transition-transform duration-fast"
+                      class="w-full aspect-[3/1] object-cover hover:scale-105 transition-transform duration-fast sm:h-full"
                       loading="lazy"
                     />
                   </a>
@@ -173,12 +173,12 @@ const eventTags = (event: typeof events[number]) => event.tagsBg ?? event.tags ?
             <Card hover={true} padding="none">
               <div class="flex flex-col sm:flex-row">
                 {event.image && (
-                  <div class="relative sm:shrink-0 sm:w-44">
-                    <a href={`/bg/shows/${event.slug}`} class="block overflow-hidden rounded-t-md sm:rounded-t-none sm:rounded-l-md">
+                  <div class="relative sm:w-44 sm:self-stretch sm:shrink-0">
+                    <a href={`/bg/shows/${event.slug}`} class="block overflow-hidden rounded-t-md sm:h-full sm:rounded-t-none sm:rounded-l-md">
                       <img
                         src={event.image}
                         alt={event.title}
-                        class="w-full aspect-[3/1] sm:aspect-auto sm:h-full object-cover hover:scale-105 transition-transform duration-fast"
+                        class="w-full aspect-[3/1] object-cover hover:scale-105 transition-transform duration-fast sm:h-full"
                         loading="lazy"
                       />
                     </a>

@@ -309,6 +309,19 @@ textarea::placeholder {
   pointer-events: auto;
 }
 
+.show-actions-trigger {
+  background-color: color-mix(in srgb, var(--color-surface) 78%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.show-actions-trigger:hover {
+  background-color: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  border-color: var(--color-accent-primary);
+  box-shadow: var(--shadow-md);
+}
+
 /* ===== Landscape Mobile Overrides ===== */
 /* Targets phones in landscape (height ≤ 500px) but not tablets (height > 500px) */
 
