@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-04-13
+**Last updated**: 2026-04-14
 
 ---
 
@@ -13,6 +13,7 @@ Session-to-session anchor for AI agents. Read this at the start of every session
 - Central config (`src/config/site.ts`) for all external URLs
 - i18n system (EN + BG) with Content Collections
 - Design system: CSS variables, dark mode via `data-theme`, cookie persistence
+- **Events Content Collection**: Migrated from a single JSON file to individual JSON files in `src/content/shows/` for scalability and type safety. (2026-04-14)
 
 ### Components
 - `Button.astro` (primary, secondary, ghost variants)
@@ -29,10 +30,12 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - SEO: OpenGraph, Twitter Card, canonical URLs, robots.txt
 - Sitemap configured (⏸️ disabled pending production domain)
 - Landing page: removed direct language links (Soft Launch ready)
+- **Strict Localization**: Refactored show detail and list pages to prevent "bilingual bleeding" by prioritizing locale-specific fields (`titleEn/Bg`, `bodyEn/Bg`) and intelligently falling back to base fields only when safe. (2026-04-14)
 
 ### Documentation (2026-03-10)
 - Refactored docs: added `standards.md`, rewrote `workflow.md` and `AI.md` (generalized for all AI agents)
 - Deleted redundant `commands.md` and `project-summary.md`
+- **Updated Event Enrichment Guide**: Reflected the move to Content Collections and new localization logic. (2026-04-14)
 
 ### Frontend Redesign (2026-03-25)
 - Full visual overhaul: real photos, content, video lightbox
@@ -44,6 +47,7 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - `design/` untracked from git (files remain on disk at `design/`) — ~1.3GB removed from future commits
 - `.gitignore` updated: `design/`, `.claude/`, `*Zone.Identifier`, build artifacts
 - WSL Zone.Identifier metadata files deleted
+- **Legacy Cleanup**: Deleted `src/data/events.json` and temporary migration scripts. (2026-04-14)
 
 ### Agent-Agnostic Docs (2026-03-25)
 - `AI.md` renamed to `AGENTS.md` (open standard, read natively by all major agents)
@@ -82,26 +86,27 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - BG list and detail pages use `tagsBg ?? tags`, `descriptionBg`, `titleBg` with fallbacks
 - Search index uses locale-specific title, description, and tags for each locale
 - `docs/ai/event-enrichment.md` — comprehensive guide for enriching, translating, and creating events (generic, not Facebook-specific)
-- **Data quality status**: 53 events have `eventType` + `admission` + `city`/`country` from prior session; all 53 still need `tagsBg`, `descriptionBg`, `bodyBg` — run enrichment pass next
+- **Full Data Enrichment**: All 53 events in the collection have been fully enriched with bilingual content (EN + BG), localized tags, and validated metadata. Placeholder dummy content has been replaced with realistic/historical data. (2026-04-14)
 
 ### Facebook Events scraper (2026-04-13) — PR pending
 - New script `scripts/scrape-facebook-events.mjs` — scrapes all public events from Facebook page using `facebook-event-scraper` npm package
+- **Individual File Output**: Refactored scraper to write each event as a separate JSON file in the Content Collection directory. (2026-04-14)
 - Playwright-based full URL enumeration scrolls past "Load More"; falls back gracefully if browser deps missing
 - Downloads cover images to `public/images/events/fb-{id}.jpg`; extra photos → gallery
 - Maps Facebook `EventData` → site `Event` schema: wall-clock ISO dates, slugs, venue/city/country, hosts, endDate, categories→tags, usersResponded, isCanceled
 - Handles Facebook's non-IANA timezone format (`UTC+03`) via manual offset arithmetic in `toWallClockISO()`
-- Merges with existing `events.json`: Facebook events matched by `facebookId`, manual events (no `facebookId`) preserved unchanged
+- Merges with existing events in the collection: Facebook events matched by `facebookId`, manual events (no `facebookId`) preserved unchanged
 - CLI flags: `--dry-run`, `--upcoming`, `--past`, `--no-browser`; 1500ms delay between fetches
 - Added `facebookId`, `sourceUrl`, `endDate`, `hosts`, `usersResponded`, `isCanceled` to `Event` interface
 - `eventFeatures` config in `src/config/site.ts`: globally toggle `showEndTime`, `showHosts`, `showUsersResponded`, `showCanceledBadge`
 - Shows detail pages (EN + BG): end time, hosts, attendance count, canceled badge — all gated by feature flags
-- `events.json` populated with 8 real past events from Facebook (confirmed: 8 is complete — Playwright scroll found no more)
+- Events collection populated with 8 real past events from Facebook (confirmed: 8 is complete — Playwright scroll found no more)
 
 ### Nav localisation + home card content (2026-04-12) — PRs #32–#33
 - Localised mobile nav controls: "Toggle Theme" and "Language" labels now use the i18n dictionary in both EN and BG (#32)
 - Fixed mobile theme toggle active state — removed left-border selection style that incorrectly treated it as a nav item (#32)
 - Improved focus-visible ring: `focus-visible` (keyboard only) instead of `focus`, combined selector in `global.css` with border-radius preserved for links (#32)
-- Homepage shows card: populated with next 3 upcoming events from `events.json` (date, title linked to detail page, venue/city); empty-state fallback retained (#33)
+- Homepage shows card: populated with next 3 upcoming events (date, title linked to detail page, venue/city); empty-state fallback retained (#33)
 - Homepage video card: added `description` field below title to fill dead whitespace (#33)
 - Added `parseWallClockDate()` to `src/lib/events.ts` — robust ISO parser (regex + range validation + post-construction UTC check) ensuring timezone-stable output on CI/Cloudflare (#33)
 - Fixed `formatEventDate`: `toLocaleDateString` → `toLocaleString` so time fields are not silently dropped (#33)
@@ -113,7 +118,7 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 
 ### Content
 - Write Privacy Policy content when data collection begins
-- Add BG blog posts (`src/content/blog/bg/` — directory not yet created; EN posts exist)
+- **Add BG blog posts** (`src/content/blog/bg/` — directory not yet created; EN posts exist)
 - Add press assets to `public/press/` (photos, logo, tech rider)
 
 ### Full Launch

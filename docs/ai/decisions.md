@@ -168,20 +168,24 @@ This document records key decisions made during the project's development.
 
 ## Data Management
 
-### Events as Static Data
+### Events as Content Collection
 
-**Decision**: Events/shows are stored in `src/data/events.json`. Editing requires rebuilding the site.
+**Decision**: Events/shows are stored as individual JSON files in `src/content/shows/` using Astro's Content Collections.
 
 **Rationale**:
-- V1 simplicity: No API calls, no external dependencies
-- Low frequency: Shows are not updated daily
-- Git history: Track changes to event data over time
+- Scalability: Splitting data into individual files prevents a single "mega-file" from growing too large and slowing down the build.
+- Type safety: Astro validates each event against a Zod schema at build time.
+- Better DX: Individual files are easier to manage and edit.
+- Git history: Track changes to each event independently.
 
-**Future upgrade path**:
-- Pull events from Google Calendar API at build time
-- Integrate with ticketing platform APIs
+**How it works**:
+- Scraper writes individual JSON files.
+- `src/lib/events.ts` uses `getCollection('shows')`.
+- Explicit locale fields (`bodyEn`, `bodyBg`) prevent bilingual text bleeding.
 
-**Status**: ✅ Implemented (static data)
+**Status**: ✅ Implemented (Content Collections)
+
+**Date**: 2026-04-14
 
 ---
 
@@ -294,7 +298,7 @@ These are hard limits that MUST NOT be violated in V1:
 
 ### Event Data: `_overrides` Field for Human-Curated Fields
 
-**Decision**: Add an optional `_overrides` object to event entries in `src/data/events.json`. The scraper checks this map before deciding whether to update a field.
+**Decision**: Add an optional `_overrides` object to event entries in `src/content/shows/*.json`. The scraper checks this map before deciding whether to update a field.
 
 **States**:
 - `"locked"` — Human-verified. The scraper never overwrites this field.
