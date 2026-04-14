@@ -10,7 +10,7 @@
   "body": "Join us for a magical evening under the stars at Sofia's premier open-air stage. Expect a mix of jazz standards, original compositions, and special guest appearances. Doors open at 19:00.",
   "bodyEn": "Experience a magical evening under the stars at Sofia's premier open-air stage in South Park. The festival features a curated mix of jazz standards, original compositions, and special guest appearances by leading musicians.\n\nEnjoy the warm summer night with world-class live music in a beautiful park setting. Bring a blanket and your love for jazz!",
   "bodyBg": "Преживейте магическа вечер под звездите на най-добрата сцена на открито в Южния парк в София. Фестивалът представя подбрана смес от джаз стандарти, авторски композиции и специални гостувания на водещи музиканти.\n\nНасладете се на топлата лятна нощ с музика на живо на световно ниво в красива паркова среда. Вземете одеяло и любовта си към джаза!",
-  "startDate": "2026-07-15T17:00:00Z",
+  "startDate": "2026-07-15T19:00:00+03:00",
   "venue": "South Park Open Air Stage",
   "city": "Sofia",
   "country": "Bulgaria",
@@ -39,7 +39,6 @@
       "caption": "Festival stage under the stars"
     }
   ],
-  "ticketUrl": "",
   "mapUrl": "https://maps.google.com/?q=South+Park+Sofia",
   "eventType": "concert",
   "admission": {
