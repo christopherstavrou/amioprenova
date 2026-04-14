@@ -87,42 +87,40 @@ const L = {
 </div>
 
 <script>
-  // @ts-nocheck
-  document.querySelectorAll('.show-actions-menu').forEach((root, i) => {
-    const trigger = root.querySelector('.show-actions-trigger');
-    const panel = root.querySelector('.show-actions-panel');
-    if (!trigger || !panel) return;
-    const panelId = `show-actions-panel-${i}`;
-    panel.id = panelId;
-    trigger.setAttribute('aria-controls', panelId);
-  });
+  function handleDocClick(e: MouseEvent) {
+    if (!(e.target instanceof Element)) return;
+    if (!e.target.closest('.show-actions-menu')) closeAllMenus();
+  }
+
+  function handleDocKeyDown(e: KeyboardEvent) {
+    if (e.key === 'Escape') closeAllMenus();
+  }
 
   function closeAllMenus() {
     document.querySelectorAll('.show-actions-panel').forEach((panel) => panel.classList.add('hidden'));
     document.querySelectorAll('.show-actions-trigger').forEach((trigger) => trigger.setAttribute('aria-expanded', 'false'));
+    document.removeEventListener('click', handleDocClick);
+    document.removeEventListener('keydown', handleDocKeyDown);
   }
 
-  document.addEventListener('click', (event) => {
-    const trigger = event.target.closest('.show-actions-trigger');
-    const menuRoot = event.target.closest('.show-actions-menu');
+  document.querySelectorAll('.show-actions-menu').forEach((root, i) => {
+    const trigger = root.querySelector('.show-actions-trigger') as HTMLButtonElement | null;
+    const panel = root.querySelector('.show-actions-panel') as HTMLElement | null;
+    if (!trigger || !panel) return;
+    const panelId = `show-actions-panel-${i}`;
+    panel.id = panelId;
+    trigger.setAttribute('aria-controls', panelId);
 
-    if (trigger) {
-      event.stopPropagation();
-      const panel = trigger.parentElement.querySelector('.show-actions-panel');
-      if (!panel) return;
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
       const isHidden = panel.classList.contains('hidden');
       closeAllMenus();
       if (isHidden) {
         panel.classList.remove('hidden');
         trigger.setAttribute('aria-expanded', 'true');
+        document.addEventListener('click', handleDocClick);
+        document.addEventListener('keydown', handleDocKeyDown);
       }
-      return;
-    }
-
-    if (!menuRoot) closeAllMenus();
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeAllMenus();
+    });
   });
 </script>
