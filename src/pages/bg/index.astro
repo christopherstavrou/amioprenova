@@ -149,7 +149,7 @@ const upcomingShows = (await getNextEvents(3)).map(event => ({
                   <li class="py-3">
                     <a href={`/bg/shows/${event.slug}`} class="block group">
                       <p class="text-xs text-text-secondary mb-0.5">{event.formattedDate}</p>
-                      <p class="text-sm font-medium group-hover:text-accent-primary transition-colors">{event.title}</p>
+                      <p class="text-sm font-medium group-hover:text-accent-primary transition-colors">{event.titleBg ?? event.title}</p>
                       <p class="text-xs text-text-secondary">{event.venue}, {event.city}</p>
                     </a>
                   </li>

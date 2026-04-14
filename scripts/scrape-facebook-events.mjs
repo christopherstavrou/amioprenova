@@ -306,18 +306,28 @@ function makeSlug(name, startTimestamp) {
 // ---------------------------------------------------------------------------
 // Image download
 // ---------------------------------------------------------------------------
-function downloadImage(url, destPath) {
+function downloadImage(url, destPath, depth = 0) {
   return new Promise((resolve, reject) => {
     if (existsSync(destPath)) {
       return resolve(destPath);
+    }
+    if (depth > 3) {
+      return reject(new Error(`Too many redirects downloading ${url}`));
+    }
+    if (!/^https?:\/\//i.test(url)) {
+      return reject(new Error(`Unsafe redirect URL: ${url}`));
     }
     const protocol = url.startsWith('https') ? https : http;
     const file = createWriteStream(destPath);
     protocol.get(url, (response) => {
       // Follow redirects
-      if (response.statusCode === 301 || response.statusCode === 302) {
+      if (response.statusCode === 301 || response.statusCode === 302 || response.statusCode === 307 || response.statusCode === 308) {
         file.close();
-        return downloadImage(response.headers.location, destPath).then(resolve).catch(reject);
+        const location = response.headers.location;
+        if (!location) {
+          return reject(new Error(`Redirect from ${url} missing Location header`));
+        }
+        return downloadImage(location, destPath, depth + 1).then(resolve).catch(reject);
       }
       if (response.statusCode !== 200) {
         file.close();
@@ -468,10 +478,10 @@ function mapEvent(fbEvent, existingEvent) {
       country,
       hosts: hosts.length > 0 ? hosts : undefined,
       tags,
-      image: coverImageUrl ? coverImagePath : (existingEvent?.image ?? ''),
-      gallery,
-      ticketUrl: fbEvent.ticketUrl ?? existingEvent?.ticketUrl ?? '',
-      mapUrl,
+      image: coverImageUrl ? coverImagePath : (existingEvent?.image || undefined),
+      gallery: gallery.length > 0 ? gallery : undefined,
+      ticketUrl: fbEvent.ticketUrl || existingEvent?.ticketUrl || undefined,
+      mapUrl: mapUrl || undefined,
       sourceUrl: fbEvent.url,
       usersResponded: fbEvent.usersResponded > 0 ? fbEvent.usersResponded : undefined,
       isCanceled: fbEvent.isCanceled || undefined,

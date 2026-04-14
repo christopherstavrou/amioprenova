@@ -157,6 +157,7 @@ const eventTags = (event: typeof events[number]) => event.tagsBg ?? event.tags ?
     {pastEvents.length > 0 && (
       <div class="border-t border-border pt-8">
         <button
+          type="button"
           id="past-shows-toggle"
           class="flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-accent-primary transition-colors mb-6"
           aria-expanded="false"

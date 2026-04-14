@@ -29,8 +29,14 @@ const showsCollection = defineCollection({
     body: z.string().optional(),
     bodyEn: z.string().optional(),
     bodyBg: z.string().optional(),
-    startDate: z.string(),
-    endDate: z.string().optional(),
+    startDate: z.string().regex(
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?(?:Z|[+-]\d{2}:\d{2})$/,
+      'startDate must be ISO 8601 with timezone: YYYY-MM-DDTHH:MM[:SS](Z|±HH:MM)'
+    ),
+    endDate: z.string().regex(
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?(?:Z|[+-]\d{2}:\d{2})$/,
+      'endDate must be ISO 8601 with timezone: YYYY-MM-DDTHH:MM[:SS](Z|±HH:MM)'
+    ).optional(),
     venue: z.string(),
     city: z.string(),
     country: z.string(),

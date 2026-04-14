@@ -235,7 +235,12 @@ const eventTypeLabels = {
             <span>Facebook</span>
           </Button>
         )}
-        <SharePopover url={canonicalURL} title={title} variant="button" />
+        <SharePopover
+          url={canonicalURL}
+          title={title}
+          variant="button"
+          labels={{ share: 'Share', copyLink: 'Copy link', copied: 'Copied!', facebook: 'Facebook', twitter: 'Twitter / X' }}
+        />
       </div>
     )}
 
@@ -260,7 +265,7 @@ const eventTypeLabels = {
     {hasGallery && (
       <section class="mb-10">
         <h2 class="font-serif text-2xl font-bold mb-4">Gallery</h2>
-        <GalleryLightbox items={event.gallery ?? []} />
+        <GalleryLightbox items={event.gallery ?? []} labels={{ dialog: 'Gallery viewer', close: 'Close gallery', previous: 'Previous', next: 'Next', viewPrefix: 'View ', goToPrefix: 'Go to item ' }} />
       </section>
     )}
 
