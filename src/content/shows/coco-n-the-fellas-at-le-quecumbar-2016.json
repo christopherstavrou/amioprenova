@@ -1,0 +1,66 @@
+{
+  "id": "270536413305253",
+  "slug": "coco-n-the-fellas-at-le-quecumbar-2016",
+  "facebookId": "270536413305253",
+  "title": "Coco 'n' the Fellas @ Le QuecumBar",
+  "titleEn": "Coco 'n' the Fellas @ Le QuecumBar",
+  "titleBg": "Coco 'n' the Fellas в Le QuecumBar",
+  "description": "Our first ever gig at the world's premier Django Reinhardt Gypsy Swing venue in London.",
+  "descriptionEn": "Our first ever gig at the world's premier Django Reinhardt Gypsy Swing venue in London.",
+  "descriptionBg": "Първият ни концерт в най-добрия клуб за джипси суинг в света — Le QuecumBar в Лондон.",
+  "body": "Come and support us at our first ever gig at the world's premier Django Rainhardt Gypsy Swing venue in London, Le QuecumBar. \n\nCoco 'n' the Fellas have prepared an estonishing programe and will take you through an experience you have never had before. The Swing will be on! \n\nBuy your tickets in advance to get discount:\nhttp://quecumbar.co.uk/listings/events/4-jul-16-coco-n-the-fellas-le-quecumbar/\n\nHope to see you all there!!!",
+  "bodyEn": "Come and support us at our first ever gig at the world's premier Django Reinhardt Gypsy Swing venue in London, Le QuecumBar.\n\nCoco 'n' the Fellas have prepared an astonishing program and will take you through an experience you have never had before. The Swing will be on!\n\nBuy your tickets in advance to get a discount via the venue website.",
+  "bodyBg": "Елате и ни подкрепете в първия ни концерт в най-престижния клуб за джипси суинг в света — Le QuecumBar в Лондон.\n\nCoco 'n' the Fellas са подготвили изумителна програма и ще ви отведат в едно неповторимо преживяване. Време е за суинг!\n\nКупете билетите си предварително за отстъпка през сайта на клуба.",
+  "startDate": "2016-07-04T19:30:00Z",
+  "endDate": "2016-07-04T21:30:00Z",
+  "venue": "Le QuecumBar",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Ami Oprenova Music",
+    "Daniele Ciuffreda",
+    "Håvard Mathisen Tanner"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "gypsy-swing",
+    "london",
+    "uk",
+    "le-quecumbar"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "циганско суинг",
+    "Лондон",
+    "Великобритания",
+    "le-quecumbar"
+  ],
+  "image": "/images/events/fb-270536413305253.jpg",
+  "gallery": [],
+  "ticketUrl": "http://quecumbar.co.uk",
+  "mapUrl": "https://maps.google.com/?q=Le+QuecumBar+London",
+  "sourceUrl": "https://www.facebook.com/events/270536413305253/",
+  "usersResponded": 27,
+  "eventType": "concert",
+  "admission": {
+    "type": "paid",
+    "note": "Advance booking recommended",
+    "noteBg": "Препоръчваме предварителна резервация"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

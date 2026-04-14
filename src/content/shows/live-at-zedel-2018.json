@@ -1,0 +1,67 @@
+{
+  "id": "176973139722550",
+  "slug": "live-at-zedel-2018",
+  "facebookId": "176973139722550",
+  "title": "Coco 'n' the Fellas @ Live at Zédel",
+  "titleEn": "Coco 'n' the Fellas @ Live at Zédel",
+  "titleBg": "Coco 'n' the Fellas в Live at Zédel",
+  "description": "The quartet brings their fresh take on gypsy swing and contemporary jazz to one of London's most beautiful venues, Crazy Coqs.",
+  "descriptionEn": "The quartet brings their fresh take on gypsy swing and contemporary jazz to one of London's most beautiful venues, Crazy Coqs.",
+  "descriptionBg": "Квартетът представя своя модерен прочит на джипси суинг и съвременен джаз в една от най-красивите зали в Лондон — Crazy Coqs.",
+  "body": "Coco 'n' the Fellas are about to take over the stage of one of the most beautiful venues in London. In the heart of Piccadilly Circus Live at Zedel presents many well known musicians of the jazz scene! For this special evenings the rising band will be sharing their new ideas and music in the freshness of January! \nJoin them for their first gig of the year! \n\nTickets: £15 \nhttps://www.brasseriezedel.com/live-at-zedel/coco-n-the-fellas?date=122849740\nDoors 6:30pm / Music 7pm\n\nABOUT COCO N THE FELLAS: \n\nWith their unusual instrumentation, Coco 'n' the Fellas have developed a new take on swing jazz/ Jazz Manouche, combined with the contemporary sound of fusion and modern jazz. They make their Crazy Coqs debut in January for an evening not to be missed.\n\nThe ensemble has toured over six counties in Europe over the past year and are in the process of releasing a 3rd album of originals. All members are committed composers and bring together their international influence of Bulgaria, Norway, Italy and the UK. With breathtaking arrangements, varied repertoire, highly regarded musicianship together with \"Oprenova's rousing scat singing…\", Coco will take you on a swingin' celebration!\n\n\"They revisit and respect memorable milestones in the immense jazz tradition and are pioneers in their field\" - Italia in Jazz\n\n\"Some lovely versatile and agile vocals… I think they have a very fresh take on gypsy swing\" - BBC Radio Scotland",
+  "bodyEn": "Coco 'n' the Fellas take over the stage of Crazy Coqs, one of London's most beautiful venues in the heart of Piccadilly Circus. The band shares their fresh ideas and music for their first gig of the year!\n\nWith their unusual instrumentation, Coco 'n' the Fellas have developed a new take on Gypsy Swing combined with fusion and modern jazz. Breathtaking arrangements and Ami Oprenova's rousing scat singing ensure a swinging celebration!\n\nTickets: £15",
+  "bodyBg": "Coco 'n' the Fellas превземат сцената на Crazy Coqs — една от най-красивите зали в Лондон, в сърцето на Пикадили Съркъс. Групата представя нови идеи и музика за първия си концерт за годината!\n\nСъс своя необичаен инструментариум, Coco 'n' the Fellas са разработили нов прочит на джипси суинга, комбиниран с фюжън и модерен джаз. Спиращи дъха аранжименти и виртуозното скат пеене на Ами Опренова гарантират истински суинг празник!\n\nБилети: £15",
+  "startDate": "2018-01-22T18:30:00Z",
+  "endDate": "2018-01-22T21:30:00Z",
+  "venue": "Crazy Coqs (Live at Zédel)",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Ami Oprenova Music",
+    "Håvard Mathisen Tanner"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "gypsy-swing",
+    "london",
+    "uk",
+    "piccadilly",
+    "live-at-zedel"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "циганско суинг",
+    "Лондон",
+    "Великобритания",
+    "пикадили",
+    "live-at-zedel"
+  ],
+  "image": "/images/events/fb-176973139722550.jpg",
+  "gallery": [],
+  "ticketUrl": "https://www.brasseriezedel.com/live-at-zedel/coco-n-the-fellas",
+  "mapUrl": "https://maps.google.com/?q=Brasserie+Zedel+London",
+  "sourceUrl": "https://www.facebook.com/events/176973139722550/",
+  "usersResponded": 35,
+  "eventType": "concert",
+  "admission": {
+    "type": "paid",
+    "price": "£15"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked",
+    "venue": "locked"
+  }
+}

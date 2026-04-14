@@ -1,0 +1,66 @@
+{
+  "id": "462104500936676",
+  "slug": "ami-yur-2018",
+  "facebookId": "462104500936676",
+  "title": "Ami & Yur @ Toulouse Lautrec",
+  "titleEn": "Ami & Yur @ Toulouse Lautrec",
+  "titleBg": "Ами и Юр в Toulouse Lautrec",
+  "description": "The jazz duo returns to London for an evening of American songbook standards and improvisations.",
+  "descriptionEn": "The jazz duo returns to London for an evening of American songbook standards and improvisations.",
+  "descriptionBg": "Джаз дуото се завръща в Лондон за вечер с американски джаз стандарти и импровизации.",
+  "body": "The Duo returns to Toulouse Lautrec this Friday night! Come and enjoy an evening of marvellous jazz music and great food and drink. \n\nThe Duo has been working in collaboration over the past two years creating arrangements and improvisations around the well known American songbook standards. \n\n''...Oprenova’s rousing scat singing is full of excellent technical mastery with incredible falsetto...''\n \n Italia in Jazz \n\nFREE ENTRY but this is a popular evening so please book your table online! \n\nFull dining options available during the performance.\nPlease call 020 7582 6800 or Book Online for a table.\n\nExcited to see you there!!!",
+  "bodyEn": "The Duo returns to Toulouse Lautrec this Friday night! Come and enjoy an evening of marvellous jazz music and great food and drink.\n\nThe Duo has been working in collaboration over the past two years creating arrangements and improvisations around the well known American songbook standards.\n\n''...Oprenova’s rousing scat singing is full of excellent technical mastery with incredible falsetto...'' — Italia in Jazz\n\nFREE ENTRY but this is a popular evening so please book your table online!\n\nFull dining options available during the performance.\nPlease call 020 7582 6800 or Book Online for a table.",
+  "bodyBg": "Дуото се завръща в Toulouse Lautrec този петък вечер! Заповядайте на вечер с прекрасна джаз музика и отлична храна и напитки.\n\nДуото работи в сътрудничество през последните две години, създавайки аранжименти и импровизации върху добре познатите американски джаз стандарти.\n\n„...вълнуващото скат пеене на Опренова е изпълнено с отлично техническо майсторство и невероятно фалсето...“ — Italia in Jazz\n\nВХОД СВОБОДЕН, но вечерта е популярна, затова моля резервирайте маса онлайн!\n\nПредлага се пълно меню за вечеря по време на изпълнението.\nМоля, обадете се на 020 7582 6800 или резервирайте онлайн.",
+  "startDate": "2018-08-24T18:30:00Z",
+  "endDate": "2018-08-24T22:30:00Z",
+  "venue": "Toulouse Lautrec Jazz Club",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Toulouse Lautrec Restaurant & Jazz Club",
+    "Ami Oprenova Music",
+    "Yûr Yesli"
+  ],
+  "tags": [
+    "jazz",
+    "duo",
+    "vocal-jazz",
+    "london",
+    "uk",
+    "toulouse-lautrec"
+  ],
+  "tagsBg": [
+    "джаз",
+    "дует",
+    "вокален джаз",
+    "Лондон",
+    "Великобритания",
+    "toulouse-lautrec"
+  ],
+  "image": "/images/events/fb-462104500936676.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Toulouse+Lautrec+London",
+  "sourceUrl": "https://www.facebook.com/events/462104500936676/",
+  "usersResponded": 12,
+  "eventType": "concert",
+  "admission": {
+    "type": "free",
+    "note": "Free entry, table booking recommended",
+    "noteBg": "Вход свободен, препоръчваме резервация"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

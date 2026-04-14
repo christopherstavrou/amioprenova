@@ -1,0 +1,63 @@
+{
+  "id": "970495036946741",
+  "slug": "livestream-concert-cakejazz-2022",
+  "facebookId": "970495036946741",
+  "title": "Cake & Jazz: Livestream Concert",
+  "titleEn": "Cake & Jazz: Livestream Concert",
+  "titleBg": "Кейк и Джаз: Онлайн концерт",
+  "description": "A magical evening of jazz and cake chat streamed straight to your home, featuring Lyubomir Tolumbadjiev and Petar Koychev.",
+  "descriptionEn": "A magical evening of jazz and cake chat streamed straight to your home, featuring Lyubomir Tolumbadjiev and Petar Koychev.",
+  "descriptionBg": "Магическа вечер с джаз и разговори за торти, излъчвана директно до вашия дом, с участието на Любомир Толумбаджиев и Петър Койчев.",
+  "body": "Ami Oprenova's 'Cake&Jazz' Livestream Series has been entertaining viewers with a baking and performing combo from home. \n\nThis weeks Episode will be a Livestream Concert and Cake Chat straight to your phone! Join us for a magical and fun Sunday evening! Ami will be accompanied by the bulgarian Gypsy Swing experts, the amazing Lyubomir Tolumbadjiev on violin & Petar Koychev on guitar! \nIf you would like to donate to the musicians or help towards the idea of Cake&Jazz you can do so here: \nhttps://www.paypal.me/jazzinthecity\n\nWe look forward to seeing you online this weekend! Ami & Team",
+  "bodyEn": "Ami Oprenova's \"Cake & Jazz\" livestream series brings together baking and performing from the comfort of home. Join us for a magical Sunday evening featuring a livestream concert and \"cake chat\"! Ami will be accompanied by Bulgarian gypsy swing experts Lyubomir Tolumbadjiev (violin) and Petar Koychev (guitar).",
+  "bodyBg": "Онлайн поредицата на Ами Опренова „Кейк и Джаз“ съчетава сладкарството и музиката от уюта на дома. Присъединете се към нас за една магическа неделя с концерт на живо и разговори за торти! С Ами ще бъдат българските експерти по джипси суинг Любомир Толумбаджиев (цигулка) и Петър Койчев (китара).",
+  "startDate": "2022-04-10T17:00:00Z",
+  "venue": "Online / Livestream",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "hosts": [
+    "Hot Club de Plovdiv",
+    "Ami Oprenova Music",
+    "Lyubomir Tolumbadjiev",
+    "Ami Oprenova-Stavrou"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "gypsy-swing",
+    "livestream",
+    "cake-and-jazz"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "циганско суинг",
+    "онлайн излъчване",
+    "кейк-и-джаз"
+  ],
+  "image": "/images/events/fb-970495036946741.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "",
+  "sourceUrl": "https://www.facebook.com/events/970495036946741/",
+  "usersResponded": 52,
+  "eventType": "concert",
+  "admission": {
+    "type": "free",
+    "note": "Online livestream"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

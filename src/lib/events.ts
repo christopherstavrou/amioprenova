@@ -1,4 +1,4 @@
-import eventsData from '../data/events.json';
+import { getCollection } from 'astro:content';
 import type { GalleryItem } from './gallery-schema';
 
 export type { GalleryItem };
@@ -48,35 +48,40 @@ export interface Event {
   _overrides?: Partial<Record<keyof Omit<Event, '_overrides'>, OverridePolicy>>;
 }
 
-// Load all events
-export function getAllEvents(): Event[] {
-  return eventsData as Event[]; // safe: JSON structure is maintained by hand to match the Event interface above
+// Load all events from Content Collection
+export async function getAllEvents(): Promise<Event[]> {
+  const collection = await getCollection('shows');
+  return collection.map(entry => entry.data as Event);
 }
 
 // Filter to upcoming events (future dates only), sorted ascending
-export function getUpcomingEvents(): Event[] {
+export async function getUpcomingEvents(): Promise<Event[]> {
   const now = new Date();
-  return getAllEvents()
+  const allEvents = await getAllEvents();
+  return allEvents
     .filter(event => new Date(event.startDate) >= now)
     .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
 }
 
 // Filter to past events (past dates only), sorted newest first
-export function getPastEvents(): Event[] {
+export async function getPastEvents(): Promise<Event[]> {
   const now = new Date();
-  return getAllEvents()
+  const allEvents = await getAllEvents();
+  return allEvents
     .filter(event => new Date(event.startDate) < now)
     .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 }
 
 // Get next N upcoming events
-export function getNextEvents(count: number): Event[] {
-  return getUpcomingEvents().slice(0, count);
+export async function getNextEvents(count: number): Promise<Event[]> {
+  const upcoming = await getUpcomingEvents();
+  return upcoming.slice(0, count);
 }
 
 // Get event by slug
-export function getEventBySlug(slug: string): Event | undefined {
-  return getAllEvents().find(event => event.slug === slug);
+export async function getEventBySlug(slug: string): Promise<Event | undefined> {
+  const allEvents = await getAllEvents();
+  return allEvents.find(event => event.slug === slug);
 }
 
 // Parse the wall-clock date/time from an ISO string, ignoring the timezone offset.

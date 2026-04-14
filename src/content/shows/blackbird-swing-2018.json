@@ -1,0 +1,66 @@
+{
+  "id": "194743861245327",
+  "slug": "blackbird-swing-2018",
+  "facebookId": "194743861245327",
+  "title": "Blackbird Swing @ Camden",
+  "titleEn": "Blackbird Swing @ Camden",
+  "titleBg": "Blackbird Swing в Камдън",
+  "description": "A brand new swing event in Camden featuring a live band and professional dance teachers.",
+  "descriptionEn": "A brand new swing event in Camden featuring a live band and professional dance teachers.",
+  "descriptionBg": "Ново суинг събитие в Камдън с група на живо и професионални учители по танци.",
+  "body": "Blackbird Swing\n\nBlackbird Swing is a brand new event launching this July! A Live swing band, popular dance teacher & refreshing drink, what more do you need on a sunny Saturday afternoon! Get your Jazz look on and join our party! \n\n21st of July \nEntry on door £7 (£5,50 online) \n1pm – doors open \n2pm – 4pm – live music, let’s swing it! \nVenue: \nThe Fiddler's Elbow , Camden",
+  "bodyEn": "Blackbird Swing is a brand new event launching this July! A live swing band, popular dance teacher & refreshing drinks — what more do you need on a sunny Saturday afternoon! Get your jazz look on and join our party!\n\nJuly 21st\n1 PM – Doors open\n2 PM – 4 PM – Live music, let’s swing it!\n\nEntry on door £7 (£5.50 online)",
+  "bodyBg": "Blackbird Swing е чисто ново събитие, което стартира този юли! Суинг група на живо, популярни учители по танци и освежаващи напитки — какво повече ви трябва за един слънчев съботен следобед! Подгответе джаз визията си и се присъединете към нашето парти!\n\n21 юли\n13:00 – Отваряне на вратите\n14:00 – 16:00 – Музика на живо, време за суинг!\n\nВход на място £7 (£5.50 онлайн)",
+  "startDate": "2018-07-21T12:00:00Z",
+  "endDate": "2018-07-21T16:00:00Z",
+  "venue": "The Fiddler's Elbow",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Ami Oprenova Music",
+    "Nikki Santilli"
+  ],
+  "tags": [
+    "swing",
+    "dance",
+    "jazz",
+    "london",
+    "uk",
+    "camden",
+    "fiddlers-elbow"
+  ],
+  "tagsBg": [
+    "суинг",
+    "танци",
+    "джаз",
+    "Лондон",
+    "Великобритания",
+    "камдън",
+    "fiddlers-elbow"
+  ],
+  "image": "/images/events/fb-194743861245327.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=The+Fiddlers+Elbow+Camden",
+  "sourceUrl": "https://www.facebook.com/events/194743861245327/",
+  "usersResponded": 112,
+  "eventType": "concert",
+  "admission": {
+    "type": "paid",
+    "price": "£7 / £5.50"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

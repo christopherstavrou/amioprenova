@@ -3,7 +3,7 @@
  *
  * Pulls all upcoming and past events from the public Facebook page,
  * maps them to the site's Event schema, downloads cover images and
- * gallery photos, and writes src/data/events.json.
+ * gallery photos, and writes individual JSON files to src/content/shows/.
  *
  * Usage:
  *   node scripts/scrape-facebook-events.mjs
@@ -49,7 +49,7 @@ function loadCookies() {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
-const EVENTS_JSON = resolve(ROOT, 'src/data/events.json');
+const SHOWS_DIR = resolve(ROOT, 'src/content/shows');
 const IMAGES_DIR = resolve(ROOT, 'public/images/events');
 const PAGE_URL = 'https://www.facebook.com/amioprenovamusic/events';
 
@@ -63,6 +63,13 @@ const NO_BROWSER = args.includes('--no-browser');
 const FETCH_DELAY_MS = 1500;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Load all existing events from the collection to preserve manually entered data
+function loadExistingEvents() {
+  if (!existsSync(SHOWS_DIR)) return [];
+  const files = fs.readdirSync(SHOWS_DIR).filter(f => f.endsWith('.json'));
+  return files.map(f => JSON.parse(fs.readFileSync(resolve(SHOWS_DIR, f), 'utf8')));
+}
 
 // ---------------------------------------------------------------------------
 // Field-level override resolution
@@ -485,11 +492,10 @@ async function main() {
   console.log(`Page: ${PAGE_URL}`);
   if (DRY_RUN) console.log('Mode: DRY RUN — no files will be written\n');
 
-  // Load existing events to preserve manually entered data
-  let existingEvents = [];
-  if (existsSync(EVENTS_JSON)) {
-    existingEvents = JSON.parse(readFileSync(EVENTS_JSON, 'utf8'));
-    console.log(`Loaded ${existingEvents.length} existing events from events.json`);
+  // Load existing events from the collection directory
+  const existingEvents = loadExistingEvents();
+  if (existingEvents.length > 0) {
+    console.log(`Loaded ${existingEvents.length} existing events from ${SHOWS_DIR}`);
   }
 
   const existingByFbId = Object.fromEntries(
@@ -658,12 +664,12 @@ async function main() {
     console.log(`Carrying over ${carryOverEvents.length} previously scraped events (not re-fetched this run)`);
   }
 
-  // Merge: scraped events + carry-overs + manual events, sorted by startDate descending
+  // Merge: scraped events + carry-overs + manual events
   const merged = [
     ...scrapedEvents,
     ...carryOverEvents,
     ...manualEvents,
-  ].sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+  ];
 
   if (DRY_RUN) {
     console.log('\n--- DRY RUN OUTPUT ---');
@@ -671,8 +677,18 @@ async function main() {
     return;
   }
 
-  writeFileSync(EVENTS_JSON, JSON.stringify(merged, null, 2) + '\n');
-  console.log(`\n✓ Written ${merged.length} events to ${EVENTS_JSON}`);
+  // Ensure output directory exists
+  if (!existsSync(SHOWS_DIR)) {
+    mkdirSync(SHOWS_DIR, { recursive: true });
+  }
+
+  // Write each event to its own file
+  for (const event of merged) {
+    const filePath = resolve(SHOWS_DIR, `${event.slug}.json`);
+    writeFileSync(filePath, JSON.stringify(event, null, 2) + '\n');
+  }
+
+  console.log(`\n✓ Written ${merged.length} events to ${SHOWS_DIR}`);
   console.log(`  (${scrapedEvents.length} from Facebook, ${manualEvents.length} manual)`);
 }
 

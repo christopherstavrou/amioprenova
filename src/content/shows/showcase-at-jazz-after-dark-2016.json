@@ -1,0 +1,66 @@
+{
+  "id": "580908515426982",
+  "slug": "showcase-at-jazz-after-dark-2016",
+  "facebookId": "580908515426982",
+  "title": "Showcase @ Jazz After Dark",
+  "titleEn": "Showcase @ Jazz After Dark",
+  "titleBg": "Шоукейс в Jazz After Dark",
+  "description": "An exclusive showcase of new original material and live album tracks at the legendary Soho venue in memory of Amy Winehouse.",
+  "descriptionEn": "An exclusive showcase of new original material and live album tracks at the legendary Soho venue in memory of Amy Winehouse.",
+  "descriptionBg": "Ексклузивно представяне на нов авторски материал и песни от албума на живо в легендарния клуб в Сохо, посветен на Ейми Уайнхаус.",
+  "body": "We are delighted to be doing a showcase at the legendary Jazz After Dark. The bar in memory of Amy Winehouse is famous for showcasing rising stars within the London jazz scene. \n\nWith a brand new live album Launched the day before and some pipping hot original material we are ready to take you on a short musical journey!\n\nAnd the best part is... it is FREE ENTRY! Make sure you arrive before 20:00 to book your table and not miss our slot! \n\nHope to see many of you there!\nCoco\n\nAbout the band: www.coconthefellas.com\nwww.facebook.com/coconthefellas\n\n\"They revisit and respect memorable milestones in the immense jazz tradition and are pioneers in their field.\" (Jazz Italia)",
+  "bodyEn": "We are delighted to showcase our music at the legendary Jazz After Dark in Soho. This venue, known for its tribute to Amy Winehouse, is famous for presenting rising stars of the London jazz scene.\n\nFresh from our live album launch, we'll perform a selection of new original material and tracks from the record. Join us for this short but energetic musical journey!",
+  "bodyBg": "За нас е удоволствие да представим музиката си в легендарния Jazz After Dark в Сохо. Клубът, известен със своята почит към Ейми Уайнхаус, е прочут с представянето на изгряващи звезди от лондонската джаз сцена.\n\nВеднага след промоцията на нашия албум на живо, ще изпълним селекция от нов авторски материал и песни от записа. Присъединете се към нас за това кратко, но енергично музикално пътешествие!",
+  "startDate": "2016-12-13T19:30:00Z",
+  "endDate": "2016-12-13T20:45:00Z",
+  "venue": "Jazz After Dark",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "jazz",
+    "showcase",
+    "vocal-jazz",
+    "london",
+    "uk",
+    "soho",
+    "jazz-after-dark"
+  ],
+  "tagsBg": [
+    "джаз",
+    "шоукейс",
+    "вокален джаз",
+    "Лондон",
+    "Великобритания",
+    "сохо",
+    "jazz-after-dark"
+  ],
+  "image": "/images/events/fb-580908515426982.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Jazz+After+Dark+Soho+London",
+  "sourceUrl": "https://www.facebook.com/events/580908515426982/",
+  "usersResponded": 25,
+  "eventType": "concert",
+  "admission": {
+    "type": "free",
+    "note": "Free entry, table booking recommended",
+    "noteBg": "Вход свободен, препоръчваме резервация"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

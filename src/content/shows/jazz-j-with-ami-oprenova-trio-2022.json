@@ -1,0 +1,64 @@
+{
+  "id": "803168254110650",
+  "slug": "jazz-j-with-ami-oprenova-trio-2022",
+  "facebookId": "803168254110650",
+  "title": "Jazz Jam with Ami Oprenova & Trio",
+  "titleEn": "Jazz Jam with Ami Oprenova & Trio",
+  "titleBg": "Джаз джем с Ами Опренова и трио",
+  "description": "An elegant evening of jazz and cocktails at Bar National, featuring young guest vocalists and classic standards.",
+  "descriptionEn": "An elegant evening of jazz and cocktails at Bar National, featuring young guest vocalists and classic standards.",
+  "descriptionBg": "Изискана вечер с джаз и коктейли в Bar National, с участието на млади гост вокалисти и класически стандарти.",
+  "body": "Джазът отново се завръща в любимото ни заведение Бар Национал! След две успешни събития ние сме развълнувани да продължим серията от джемове за джаз певци в центъра на София, където можем да се насладим на изискан джаз и превъзходни коктейли! Вечерта предоставя възможност за млади артисти да се изявят, като изпълнят мелодични джаз стандарти заедно с трио и публика на живо!\n\n\n\nЩе бъде вълнуваща вечер, в която певицата Ами Опренова ще ни забавлява с музика от златната джаз ера. Тя се завръща на българската сцена с участието си в Гласът на България тази година!  По-късно през вечерта ще се присъединят млади певци, колеги и гости. \n\n\n\nИма и още! Нашите майстори на бара ще създадат тематични коктейли ексклузивно за това мероприятие, подходящи за изисканата музика, на която ще се насладим!  \nОчакваме ви на:\n28ми октомври \nот 20:00 ч, \nа JAZZ JАМ с Ами и трио ще започне в 21:00 ч. \nЗа да резервирате маса, обадете се на телефон: 0882 012 039 или ни пишете на лично съобщение! \n\n\nСърдечно ви каним да преживеете магията на музиката в невероятната обстановка на Bar National на площада до НДК, до Моста на влюбените! \nОбещаваме незабравимо музикално преживяване! \n\n\n\nАми Опренова - вокал \n\nДжак  Хюз - пиано\n\nВлади Михайлов - бас \n\nАндрей Велков - барабани \n\n\n\nАми Опренова е джаз музикант, живеещ и практикуващ във Великобритания и Европа през последните 10 години. Има 3 издадени албума, като последният от тях е включен в статии на престижните списания “Women in Jazz Media”, “Jazz in Europe” и ‘Italia in Jazz”. През годините е работила като певица, аранжор и композитор за съставите Coco ‘n’ the Fellas (UK) и Swing it’ Dixieland Band (Norway), а през 2022 г. печели Първа награда в Младежкия джаз фестивал в София",
+  "bodyEn": "Jazz returns to Bar National! Following two successful events, we're excited to continue our vocal jazz jam series in the heart of Sofia. Enjoy sophisticated jazz and superb cocktails as young artists take the stage to perform classic standards with a live trio.\n\nAmi Oprenova, fresh from her appearance on The Voice of Bulgaria, will lead the evening with music from the golden era of jazz. She's joined by Jack Hughes (piano), Vladi Mihaylov (bass), and Andrey Velkov (drums).",
+  "bodyBg": "Джазът се завръща в Bar National! След две успешни събития, продължаваме серията от вокални джаз джемове в сърцето на София. Насладете се на изискан джаз и авторски коктейли, докато млади артисти излизат на сцената с трио на живо.\n\nАми Опренова, след участието си в „Гласът на България“, ще води вечерта с музика от златната джаз ера. С нея ще бъдат Джак Хюз (пиано), Влади Михайлов (бас) и Андрей Велков (барабани).",
+  "startDate": "2022-10-28T17:00:00Z",
+  "venue": "Bar National",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "hosts": [
+    "Bar National",
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "jazz",
+    "jam-session",
+    "vocal-jazz",
+    "sofia",
+    "bulgaria",
+    "bar-national"
+  ],
+  "tagsBg": [
+    "джаз",
+    "джем сесия",
+    "вокален джаз",
+    "София",
+    "България",
+    "bar-national"
+  ],
+  "image": "/images/events/fb-803168254110650.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Bar+National+Sofia",
+  "sourceUrl": "https://www.facebook.com/events/803168254110650/",
+  "usersResponded": 50,
+  "eventType": "jam",
+  "admission": {
+    "type": "paid",
+    "note": "Reservations: +359 88 201 2039",
+    "noteBg": "Резервации: +359 88 201 2039"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

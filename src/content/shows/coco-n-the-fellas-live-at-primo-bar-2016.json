@@ -1,0 +1,61 @@
+{
+  "id": "1754072164851128",
+  "slug": "coco-n-the-fellas-live-at-primo-bar-2016",
+  "facebookId": "1754072164851128",
+  "title": "Coco 'n' the Fellas @ Primo Bar",
+  "titleEn": "Coco 'n' the Fellas @ Primo Bar",
+  "titleBg": "Coco 'n' the Fellas в Primo Bar",
+  "description": "An entertaining and swinging live show with the quartet at London's Primo Bar.",
+  "descriptionEn": "An entertaining and swinging live show with the quartet at London's Primo Bar.",
+  "descriptionBg": "Забавно и суингиращо шоу на живо с квартета в лондонския Primo Bar.",
+  "body": "Coco 'n' the Fellas will be back at the Primo Bar for an entertaining and swinging live show.\nAmi Oprenova - vocals\nDaniele Ciuffreda - electric guitar\nJoe Perkins . acoustic guitar\nHavard Tanner - double bas",
+  "bodyEn": "Coco 'n' the Fellas return to Primo Bar for an entertaining and swinging live show.\n\nAmi Oprenova - Vocals\nDaniele Ciuffreda - Electric Guitar\nJoe Perkins - Acoustic Guitar\nHåvard Tanner - Double Bass",
+  "bodyBg": "Coco 'n' the Fellas се завръщат в Primo Bar за едно забавно и суингиращо шоу на живо.\n\nАми Опренова - вокал\nДаниеле Чуфреда - електрическа китара\nДжо Пъркинс - акустична китара\nХавард Танер - контрабас",
+  "startDate": "2016-10-01T18:00:00Z",
+  "endDate": "2016-10-01T22:00:00Z",
+  "venue": "Primo Bar",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Ami Oprenova Music",
+    "Ami Oprenova Stavrou"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "london",
+    "uk",
+    "primo-bar"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "Лондон",
+    "Великобритания",
+    "primo-bar"
+  ],
+  "image": "/images/events/fb-1754072164851128.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Primo+Bar+London",
+  "sourceUrl": "https://www.facebook.com/events/1754072164851128/",
+  "usersResponded": 13,
+  "eventType": "concert",
+  "admission": {
+    "type": "free"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

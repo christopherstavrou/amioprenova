@@ -1,0 +1,67 @@
+{
+  "id": "924046074405883",
+  "slug": "live-recording-album-at-le-quecumbar-2016",
+  "facebookId": "924046074405883",
+  "title": "Live Recording ALBUM @ Le QuecumBar",
+  "titleEn": "Live Recording ALBUM @ Le QuecumBar",
+  "titleBg": "Запис на албум на живо в Le QuecumBar",
+  "description": "Be part of Ami Oprenova's first ever live album recording at London's premier gypsy swing venue.",
+  "descriptionEn": "Be part of Ami Oprenova's first ever live album recording at London's premier gypsy swing venue.",
+  "descriptionBg": "Станете част от първия запис на албум на живо на Ами Опренова в най-престижния джипси суинг клуб в Лондон.",
+  "body": "Dear Friends! \nWe are about to record out first ever LIVE ALBUM and we would like for you to be a part of it. We will have all the names of the audince on the Album so please do come and support us, we need some loud cheering :) \nWe will also be selling our brand new EP for the first time in the UK.\n\nThe places are limited so please make sure you book a table or book your tickets online at: http://quecumbar.co.uk\nTickets are 8GBP in advance. \nWe would really apreciate if you can let us know if you are planning to be part of the evening or not so we can make sure there is a table for everyone. \n\nWe are soooo excited for this project and cannot wait!!!\nSee you there !!!\nCoco",
+  "bodyEn": "Dear Friends! We are about to record our first ever LIVE ALBUM and we would like you to be a part of it. We will include the names of the audience members on the album, so please come and support us — we need some loud cheering! :)\n\nWe will also be selling our brand new EP for the first time in the UK. Places are limited, so please book your table or tickets online via the venue website.\n\nTickets: £8 in advance.",
+  "bodyBg": "Скъпи приятели! Предстои ни запис на първия ни АЛБУМ НА ЖИВО и бихме искали вие да сте част от него. Ще включим имената на публиката в албума, така че заповядайте да ни подкрепите — имаме нужда от вашите аплодисменти! :)\n\nЗа първи път в Обединеното кралство ще продаваме и нашето чисто ново ЕР. Местата са ограничени, затова моля резервирайте маса или билети онлайн през сайта на клуба.\n\nБилети: £8 предварително.",
+  "startDate": "2016-10-24T19:00:00Z",
+  "endDate": "2016-10-24T22:00:00Z",
+  "venue": "Le QuecumBar",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Ami Oprenova Music",
+    "Daniele Ciuffreda",
+    "Håvard Mathisen Tanner"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "gypsy-swing",
+    "album-launch",
+    "london",
+    "uk",
+    "le-quecumbar"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "циганско суинг",
+    "представяне на албум",
+    "Лондон",
+    "Великобритания",
+    "le-quecumbar"
+  ],
+  "image": "/images/events/fb-924046074405883.jpg",
+  "gallery": [],
+  "ticketUrl": "http://quecumbar.co.uk",
+  "mapUrl": "https://maps.google.com/?q=Le+QuecumBar+London",
+  "sourceUrl": "https://www.facebook.com/events/924046074405883/",
+  "usersResponded": 13,
+  "eventType": "album-launch",
+  "admission": {
+    "type": "paid",
+    "price": "£8"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "681087745433439",
+  "slug": "coco-n-the-fellas-2017",
+  "facebookId": "681087745433439",
+  "title": "Jazz Night with Coco ‘n’ the Fellas",
+  "titleEn": "Jazz Night with Coco ‘n’ the Fellas",
+  "titleBg": "Джаз вечер с Coco ‘n’ the Fellas",
+  "description": "An evening of vintage jazz and arrangements from across Europe with London-based Coco 'n' the Fellas in Sofia.",
+  "descriptionEn": "An evening of vintage jazz and arrangements from across Europe with London-based Coco 'n' the Fellas in Sofia.",
+  "descriptionBg": "Вечер със старомоден джаз и аранжименти от цяла Европа с лондонската група Coco 'n' the Fellas в София.",
+  "body": "Джаз вечер с Coco ‘n’ the Fellas. \nПодгряваша група Streed.\n\nЗаповядайте на уникална вечер с много китари и гласни струни! \n\nЛондонската група е на турне в четири държави това лято и първата им спирка е България. С подкрепата на страхотното дуо Streed, Коко ще ви представи парчета и аранжименти от Франция, Англия, Италия, Америка и Испания. \n\nВечер изпълнена с възпоменание на стария джаз стил, както и почит към църковната и съвременна музика. \n\nКъде: В новата сграда на Конферентин център \"Възраждане\", на ул. \"Осогово\" 86, София.\n\nКога: 27 юни 2017 г. \n\nЧас: Вратите ще са отворени за освежителни, летни напитки от 18:00 ч. Музиката започва в 18:30ч.\n\nВход: 7лв (Билети се закупуват на място или чрез ticketscoco@gmail.com) \n50% от стойността на билетите, ще бъдат дарени в подкрепа на семейства, част от Семейния лагер - Лято 2017. \n\nОчаква ви незабравима вечер!",
+  "bodyEn": "Jazz Night with Coco ‘n’ the Fellas. Opening act: Streed.\n\nJoin us for a unique evening with many guitars and vocal strings! \n\nThe London-based band is on tour in four countries this summer and their first stop is Bulgaria. Supported by the great duo Streed, Coco will present songs and arrangements from France, England, Italy, America, and Spain.\n\nAn evening filled with remembrance of the old jazz style, as well as a tribute to sacred and contemporary music.\n\nLocation: Conference Center \"Vazrazhdane\", 86 Osogovo St, Sofia.\n\nEntry: 7 BGN. 50% of ticket proceeds will be donated to support families part of Family Camp Summer 2017.",
+  "bodyBg": "Джаз вечер с Coco ‘n’ the Fellas. Подгряваша група Streed.\n\nЗаповядайте на уникална вечер с много китари и гласни струни! \n\nЛондонската група е на турне в четири държави това лято и първата им спирка е България. С подкрепата на страхотното дуо Streed, Коко ще ви представи парчета и аранжименти от Франция, Англия, Италия, Америка и Испания. \n\nВечер изпълнена с възпоменание на стария джаз стил, както и почит към църковната и съвременна музика. \n\nКъде: В новата сграда на Конферентен център „Възраждане“, на ул. „Осогово“ 86, София.\n\nВход: 7 лв. 50% от стойността на билетите ще бъдат дарени в подкрепа на семейства, част от Семейния лагер - Лято 2017.",
+  "startDate": "2017-06-27T15:30:00Z",
+  "venue": "Conference Center Vazrazhdane",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "hosts": [
+    "Ami Oprenova Music",
+    "Dimitrina Oprenova"
+  ],
+  "tags": [
+    "jazz",
+    "concert",
+    "charity",
+    "sofia",
+    "bulgaria",
+    "vazrazhdane"
+  ],
+  "tagsBg": [
+    "джаз",
+    "концерт",
+    "благотворителен",
+    "София",
+    "България",
+    "възраждане"
+  ],
+  "image": "/images/events/fb-681087745433439.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Conference+Center+Vazrazhdane+Sofia",
+  "sourceUrl": "https://www.facebook.com/events/681087745433439/",
+  "usersResponded": 139,
+  "eventType": "charity",
+  "admission": {
+    "type": "paid",
+    "price": "7 лв."
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked",
+    "venue": "locked"
+  }
+}

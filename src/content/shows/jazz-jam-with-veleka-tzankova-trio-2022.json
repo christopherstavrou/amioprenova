@@ -1,0 +1,64 @@
+{
+  "id": "578015313426382",
+  "slug": "jazz-jam-with-veleka-tzankova-trio-2022",
+  "facebookId": "578015313426382",
+  "title": "Jazz Jam with Veleka Tzankova & Trio",
+  "titleEn": "Jazz Jam with Veleka Tzankova & Trio",
+  "titleBg": "Джаз джем с Велека Цанкова и трио",
+  "description": "Experience the magic of jazz with vocalist Veleka Tzankova and a trio of rising stars at Bar National.",
+  "descriptionEn": "Experience the magic of jazz with vocalist Veleka Tzankova and a trio of rising stars at Bar National.",
+  "descriptionBg": "Преживейте магията на джаза с вокалистката Велека Цанкова и трио от изгряващи звезди в Bar National.",
+  "body": "Сърдечно ви каним да преживеете магията на джаз музиката в невероятната обстановка на Bar National на 19 май от 19:00ч. Обещаваме незабравимо музикално преживяване!\n\nПевицата Велека Цанкова ще създаде една музикална вечер за всички любители на джаза! \nС нея ще свирят младите звезди в джаза: \nИлия Лазаров - пиано\nКалина Андреева - бас\nАлександър Иванов - барабани\nЗаедно с Велека и фантастичното трио на сцената ще бъдат поканени приятели, колеги и гости, за да ви потопят в мелодични фрази и енергични импровизации. Не пропускайте възможността да се развихрите в танц и да се насладите на изисканите коктейли! \n\n\nЗа да резервирате маса, обадете се на телефона в страницата ни или ни пишете на лично съобщение!",
+  "bodyEn": "We cordially invite you to experience the magic of jazz at Bar National on May 19th. Vocalist Veleka Tzankova will host a musical evening for all jazz lovers, accompanied by rising stars: Iliya Lazarov (piano), Kalina Andreeva (bass), and Alexander Ivanov (drums).\n\nFriends and colleagues are invited to join the stage for melodic phrases and energetic improvisations. Don't miss the chance to dance and enjoy our signature cocktails!",
+  "bodyBg": "Сърдечно ви каним да преживеете магията на джаз музиката в Bar National на 19 май. Певицата Велека Цанкова ще създаде музикална вечер за всички любители на джаза, придружена от изгряващите звезди: Илия Лазаров (пиано), Калина Андреева (бас) и Александър Иванов (барабани).\n\nПриятели и колеги са поканени на сцената за мелодични фрази и енергични импровизации. Не пропускайте възможността за танци и изискани коктейли!",
+  "startDate": "2022-05-19T16:00:00Z",
+  "venue": "Bar National",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "hosts": [
+    "Bar National",
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "jazz",
+    "jam-session",
+    "vocal-jazz",
+    "sofia",
+    "bulgaria",
+    "bar-national"
+  ],
+  "tagsBg": [
+    "джаз",
+    "джем сесия",
+    "вокален джаз",
+    "София",
+    "България",
+    "bar-national"
+  ],
+  "image": "/images/events/fb-578015313426382.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Bar+National+Sofia",
+  "sourceUrl": "https://www.facebook.com/events/578015313426382/",
+  "usersResponded": 91,
+  "eventType": "jam",
+  "admission": {
+    "type": "paid",
+    "note": "Reservations recommended",
+    "noteBg": "Препоръчваме резервации"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

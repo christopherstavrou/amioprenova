@@ -1,0 +1,66 @@
+{
+  "id": "720421972821827",
+  "slug": "ami-oprenovatrio-present-jazz-jam-christmas-special-2026",
+  "facebookId": "720421972821827",
+  "title": "Ami Oprenova & Trio: Jazz Jam Christmas Special",
+  "titleEn": "Ami Oprenova & Trio: Jazz Jam Christmas Special",
+  "titleBg": "Ами Опренова и трио: Коледно джаз джем издание",
+  "description": "A special festive edition of the traditional Jazz Jam with Ami Oprenova & Trio at Bar National.",
+  "descriptionEn": "A special festive edition of the traditional Jazz Jam with Ami Oprenova & Trio at Bar National.",
+  "descriptionBg": "Специално празнично издание на традиционния джаз джем с Ами Опренова и трио в Bar National.",
+  "body": "Светлите празници наближат, и все повече ни завладява коледният дух. \nГреяно вино с канела, топъл шоколад,красива украса  и хубава музика са само част от празничната атмосфера, която ни заобикаля.\n\nПредставяме на вниманието ви, специалнотo издание на традиционния \n и така любим на всички ни Jazz Jam, представен от Ами Опренова & Trio. Те отново са ни приготвили много и хубава музика, но този път е специално подбрана и носеща в себе си магията на предстоящите Коледни празници.\n\nИ когато работим с професионалисти, и екипът е единен в идеите си :-)  - нашите бармани са подготвили коктейли,  които да допринесат за празничното настроение и допълнят усещането за наближаващата Коледа, създадено от музиката на Ами & Trio.\n\nbar National - Author's cocktails and live music \n\nОчакваме ви!",
+  "bodyEn": "The bright holidays are approaching, and the Christmas spirit is taking over. Mulled wine with cinnamon, hot chocolate, beautiful decorations, and good music are just part of the festive atmosphere surrounding us.\n\nWe present to your attention a special edition of the traditional and much-loved Jazz Jam, presented by Ami Oprenova & Trio. Once again, they have prepared plenty of great music, but this time it's specially selected to carry the magic of the upcoming Christmas holidays.\n\nAnd when we work with professionals and the team is united in its ideas :-) - our bartenders have prepared cocktails to contribute to the festive mood and complement the feeling of approaching Christmas created by the music of Ami & Trio.\n\nbar National - Author's cocktails and live music.\n\nWe look forward to seeing you!",
+  "bodyBg": "Светлите празници наближат, и все повече ни завладява коледният дух. \nГреяно вино с канела, топъл шоколад,красива украса  и хубава музика са само част от празничната атмосфера, която ни заобикаля.\n\nПредставяме на вниманието ви, специалнотo издание на традиционния \n и така любим на всички ни Jazz Jam, представен от Ами Опренова & Trio. Те отново са ни приготвили много и хубава музика, но този път е специално подбрана и носеща в себе си магията на предстоящите Коледни празници.\n\nИ когато работим с професионалисти, и екипът е единен в идеите си :-)  - нашите бармани са подготвили коктейли,  които да допринесат за празничното настроение и допълнят усещането за наближаващата Коледа, създадено от музиката на Ами & Trio.\n\nbar National - Author's cocktails and live music \n\nОчакваме ви!",
+  "startDate": "2022-12-16T19:00:00Z",
+  "venue": "Bar National",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "hosts": [
+    "Bar National",
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "jazz",
+    "jam-session",
+    "christmas",
+    "festive",
+    "sofia",
+    "bulgaria",
+    "bar-national"
+  ],
+  "tagsBg": [
+    "джаз",
+    "джем сесия",
+    "коледа",
+    "празничен",
+    "София",
+    "България",
+    "bar-national"
+  ],
+  "image": "/images/events/fb-720421972821827.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=42.68409992916,23.320312857759",
+  "sourceUrl": "https://www.facebook.com/events/720421972821827/",
+  "usersResponded": 32,
+  "eventType": "jam",
+  "admission": {
+    "type": "paid",
+    "note": "Reservations recommended",
+    "noteBg": "Препоръчваме резервации"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

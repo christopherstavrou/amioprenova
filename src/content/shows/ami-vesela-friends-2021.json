@@ -1,0 +1,68 @@
+{
+  "id": "4273648786063112",
+  "slug": "ami-vesela-friends-2021",
+  "facebookId": "4273648786063112",
+  "title": "Ami, Vesela & Friends",
+  "titleEn": "Ami, Vesela & Friends",
+  "titleBg": "Ами, Весела и приятели",
+  "description": "Vocalists Ami Oprenova and Vesela Morova return to Art Club Sofia for an evening of swing, jazz standards, and bossa nova.",
+  "descriptionEn": "Vocalists Ami Oprenova and Vesela Morova return to Art Club Sofia for an evening of swing, jazz standards, and bossa nova.",
+  "descriptionBg": "Вокалистките Ами Опренова и Весела Морова се завръщат в Арт Клуб София за вечер със суинг, джаз стандарти и боса нова.",
+  "body": "Втора порция джаз ще поднесат двете вокалистки - Ами Опренова и Весела Морова - на 9-ти септември в Арт Клуб София. И двете отдадени на суинга, классическите джаз стандарти, боса новата; и двете носещи импровизационен заряд и палитра от джаз емоции, Ами и Весела са подготвили дуетни и солови изпълнения, с инструменталната подкрепа на прекрасните Шибил Бенев - китара и Митко Шанов - контрабас. Вечерта се очаква да донесе и още доста вокални изненади!\n\nРезервирайте на тел.: 089 684 0174\nНачало: 20 ч\nВход: 7 лв",
+  "bodyEn": "Vocalists Ami Oprenova and Vesela Morova will serve a second portion of jazz on Sept 9th at Art Club Sofia. Both dedicated to swing, classic jazz standards, and bossa nova, and both carrying an improvisational spark and a palette of jazz emotions, Ami and Vesela have prepared duet and solo performances.\n\nThey will be supported by the wonderful Shibil Benev (guitar) and Mitko Shanov (double bass). The evening is expected to bring many more vocal surprises!\n\nBook at: 089 684 0174\nStart: 8 PM\nEntry: 7 BGN",
+  "bodyBg": "Втора порция джаз ще поднесат двете вокалистки - Ами Опренова и Весела Морова - на 9-ти септември в Арт Клуб София. И двете отдадени на суинга, классическите джаз стандарти, боса новата; и двете носещи импровизационен заряд и палитра от джаз емоции, Ами и Весела са подготвили дуетни и солови изпълнения, с инструменталната подкрепа на прекрасните Шибил Бенев - китара и Митко Шанов - контрабас. Вечерта се очаква да донесе и още доста вокални изненади!\n\nРезервирайте на тел.: 089 684 0174\nНачало: 20 ч\nВход: 7 лв",
+  "startDate": "2021-09-09T17:00:00Z",
+  "endDate": "2021-09-09T19:00:00Z",
+  "venue": "Art Club Sofia",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "hosts": [
+    "Art Club Sofia",
+    "Ami Oprenova Music",
+    "Ami Oprenova-Stavrou",
+    "Vesela Morova"
+  ],
+  "tags": [
+    "jazz",
+    "collaboration",
+    "swing",
+    "bossa-nova",
+    "sofia",
+    "bulgaria",
+    "art-club-sofia"
+  ],
+  "tagsBg": [
+    "джаз",
+    "колаборация",
+    "суинг",
+    "боса нова",
+    "София",
+    "България",
+    "art-club-sofia"
+  ],
+  "image": "/images/events/fb-4273648786063112.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=42.6903397532,23.3394168096",
+  "sourceUrl": "https://www.facebook.com/events/4273648786063112/",
+  "usersResponded": 61,
+  "eventType": "collaboration",
+  "admission": {
+    "type": "paid",
+    "price": "7 лв."
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

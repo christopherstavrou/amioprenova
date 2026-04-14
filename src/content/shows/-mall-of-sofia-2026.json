@@ -1,0 +1,66 @@
+{
+  "id": "3672507336406154",
+  "slug": "-mall-of-sofia-2026",
+  "facebookId": "3672507336406154",
+  "title": "Sofia Bell Choir - Mall of Sofia",
+  "titleEn": "Sofia Bell Choir - Mall of Sofia",
+  "titleBg": "Камбанен хор София - Mall of Sofia",
+  "description": "Enjoy the gentle sound of copper bells as the Sofia Bell Choir performs Christmas classics at Mall of Sofia.",
+  "descriptionEn": "Enjoy the gentle sound of copper bells as the Sofia Bell Choir performs Christmas classics at Mall of Sofia.",
+  "descriptionBg": "Насладете се на нежния звън на медните камбани с коледните класики на Камбанен хор София в Mall of Sofia.",
+  "body": "Сърдечно ви каним да се присъедините към нас в празнуването на Рождество! Коледният сезон настъпва, а ние се подготвяме за един необикновен звъннннн!\n\nС участието на над 12 брилянтни изпълнители и техните 32 камбани молът ще се изпълни с нежния звън на тези медни камбани! На сцената заедно с тях ще излязат гости – певци и инструменталисти – за да създадат една незабравима коледна програма! \n\nКамбанен хор София ще изпълни сбор от добре познати рождествени песни, химни и мелодии, както и кратък поздрав към публиката.\n\nНе пропускайте тази вълнуваща възможност и заповядайте със своите семейства и приятели! \n\n\n📅 събота 16.12 от 14:00 ч.\n📍 101 Булевард Александър Стамболийски, Sofia, Bulgaria",
+  "bodyEn": "We cordially invite you to join us in celebrating Christmas! The holiday season is approaching, and we are preparing for an extraordinary ring!\n\nFeaturing over 12 brilliant performers and their 32 bells, the mall will be filled with the gentle sound of these copper bells! They will be joined on stage by guest singers and instrumentalists to create an unforgettable Christmas program!\n\nSofia Bell Choir will perform a collection of well-known Christmas songs, hymns, and melodies, as well as a short greeting to the audience.\n\nDon't miss this exciting opportunity and come with your families and friends!\n\n📅 Saturday, Dec 16th at 2:00 PM\n📍 101 Alexander Stamboliyski Blvd, Sofia, Bulgaria",
+  "bodyBg": "Сърдечно ви каним да се присъедините към нас в празнуването на Рождество! Коледният сезон настъпва, а ние се подготвяме за един необикновен звъннннн!\n\nС участието на над 12 брилянтни изпълнители и техните 32 камбани молът ще се изпълни с нежния звън на тези медни камбани! На сцената заедно с тях ще излязат гости – певци и инструменталисти – за да създадат една незабравима коледна програма! \n\nКамбанен хор София ще изпълни сбор от добре познати рождествени песни, химни и мелодии, както и кратък поздрав към публиката.\n\nНе пропускайте тази вълнуваща възможност и заповядайте със своите семейства и приятели! \n\n\n📅 събота 16.12 от 14:00 ч.\n📍 101 Булевард Александър Стамболийски, Sofia, Bulgaria",
+  "startDate": "2023-12-16T12:00:00Z",
+  "endDate": "2023-12-16T13:00:00Z",
+  "venue": "Mall of Sofia",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "hosts": [
+    "First Baptist Church - Sofia",
+    "Mall of Sofia",
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "choir",
+    "christmas",
+    "festive",
+    "mall",
+    "sofia",
+    "bulgaria",
+    "mall-of-sofia"
+  ],
+  "tagsBg": [
+    "хор",
+    "коледа",
+    "празничен",
+    "мол",
+    "София",
+    "България",
+    "mall-of-sofia"
+  ],
+  "image": "/images/events/fb-3672507336406154.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=42.698385866359,23.308831793378",
+  "sourceUrl": "https://www.facebook.com/events/3672507336406154/",
+  "usersResponded": 49,
+  "eventType": "concert",
+  "admission": {
+    "type": "free"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

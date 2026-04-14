@@ -1,0 +1,69 @@
+{
+  "id": "150069422249155",
+  "slug": "coco-n-the-fellas-upstairs-bar-at-ronnie-scotts-2017",
+  "facebookId": "150069422249155",
+  "title": "Coco 'n' the Fellas @ Ronnie Scott's",
+  "titleEn": "Coco 'n' the Fellas @ Ronnie Scott's",
+  "titleBg": "Coco 'n' the Fellas в Ronnie Scott's",
+  "description": "An exciting take on gypsy swing combined with fusion and modern jazz at the legendary Ronnie Scott's Upstairs Bar.",
+  "descriptionEn": "An exciting take on gypsy swing combined with fusion and modern jazz at the legendary Ronnie Scott's Upstairs Bar.",
+  "descriptionBg": "Вълнуващ прочит на джипси суинг, комбиниран с фюжън и модерен джаз в легендарния Ronnie Scott's Upstairs Bar.",
+  "body": "Upstairs Bar at Ronnie Scott’s welcomes an exciting and upcoming international jazz group. With their unusual instrumentation they have developed a new and exciting take on swing jazz/ Jazz Manouche combined with the contemporary sound of fusion and modern jazz.\n\nThe ensemble has toured over 6 countries in Europe this past year and is in the process of releasing a 3rd album. Italia in Jazz states: ‘They revisit and respect memorable milestones in the immense jazz tradition and are pioneers in their field.” Recently they were featured on BBC Radio Scotland, “Some lovely versatile and agile vocals… I think they have a very fresh take on gypsy swing”. All members of the ensemble are committed composers and bring together their international influence of Bulgaria, Norway, Italy and the UK.\n\nBreathtaking arrangements, varied repertoire, highly regarded musicianship together with, “Oprenova’s rousing scat singing…” Coco will take you on a swingin’ celebration! get your tickets soon!\n\n£8 in adv. http://www.wegottickets.com/event/415632\n£10 on the door!",
+  "bodyEn": "Upstairs Bar at Ronnie Scott’s welcomes an exciting international jazz group. With their unusual instrumentation, they have developed a new and exciting take on gypsy swing combined with the contemporary sound of fusion and modern jazz.\n\nBreathtaking arrangements, varied repertoire, and highly regarded musicianship together with Ami Oprenova’s rousing scat singing ensure a swinging celebration! Get your tickets soon!",
+  "bodyBg": "Upstairs Bar в Ronnie Scott’s посреща вълнуваща международна джаз група. Със своя необичаен инструментариум, те развиват нов и модерен прочит на джипси суинга, комбиниран със съвременното звучене на фюжън и модерен джаз.\n\nСпиращи дъха аранжименти, разнообразен репертоар и високо ценено майсторство, заедно с виртуозното скат пеене на Ами Опренова, гарантират истински суинг празник! Купете билети скоро!",
+  "startDate": "2017-10-08T17:30:00Z",
+  "endDate": "2017-10-08T21:30:00Z",
+  "venue": "Ronnie Scott's Jazz Club",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Ami Oprenova Music",
+    "Daniele Ciuffreda",
+    "Elena Georgiou",
+    "Håvard Mathisen Tanner"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "gypsy-swing",
+    "london",
+    "uk",
+    "soho",
+    "ronnie-scotts"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "циганско суинг",
+    "Лондон",
+    "Великобритания",
+    "сохо",
+    "ronnie-scotts"
+  ],
+  "image": "/images/events/fb-150069422249155.jpg",
+  "gallery": [],
+  "ticketUrl": "http://www.wegottickets.com/event/415632",
+  "mapUrl": "https://maps.google.com/?q=Ronnie+Scotts+London",
+  "sourceUrl": "https://www.facebook.com/events/150069422249155/",
+  "usersResponded": 116,
+  "eventType": "concert",
+  "admission": {
+    "type": "paid",
+    "price": "£8 / £10"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked",
+    "ticketUrl": "locked"
+  }
+}

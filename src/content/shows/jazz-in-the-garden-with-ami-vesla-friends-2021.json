@@ -1,0 +1,69 @@
+{
+  "id": "169045785242767",
+  "slug": "jazz-in-the-garden-with-ami-vesla-friends-2021",
+  "facebookId": "169045785242767",
+  "title": "Jazz in the Garden: Ami & Vesela & Friends",
+  "titleEn": "Jazz in the Garden: Ami & Vesela & Friends",
+  "titleBg": "Джаз в градината: Ами, Весела и приятели",
+  "description": "An enchanting summer evening of vocal jazz and swing in the hidden garden of DaOrganic, Sofia.",
+  "descriptionEn": "An enchanting summer evening of vocal jazz and swing in the hidden garden of DaOrganic, Sofia.",
+  "descriptionBg": "Вълшебна лятна вечер с вокален джаз и суинг в тайната градина на DaOrganic, София.",
+  "body": "Join us for a beautiful summer evening in the garden of DaOrganic. Vocalists Ami Oprenova and Vesela Morova return for another portion of swing, classic jazz standards, and bossa nova.\n\nAccompanied by Shibil Benev (guitar) and Mitko Shanov (double bass), the evening promises a palette of jazz emotions and many vocal surprises in one of Sofia's most charming outdoor spaces.",
+  "bodyEn": "Join us for a beautiful summer evening in the garden of DaOrganic. Vocalists Ami Oprenova and Vesela Morova return for another portion of swing, classic jazz standards, and bossa nova.\n\nAccompanied by Shibil Benev (guitar) and Mitko Shanov (double bass), the evening promises a palette of jazz emotions and many vocal surprises in one of Sofia's most charming outdoor spaces.",
+  "bodyBg": "Присъединете се към нас за прекрасна лятна вечер в градината на DaOrganic. Вокалистките Ами Опренова и Весела Морова се завръщат за поредната порция суинг, класически джаз стандарти и боса нова.\n\nПридружени от Шибил Бенев (китара) и Митко Шанов (контрабас), вечерта обещава палитра от джаз емоции и много вокални изненади в едно от най-очарователните места на открито в София.",
+  "startDate": "2021-07-08T16:30:00Z",
+  "venue": "DaOrganic",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "hosts": [
+    "DaOrganic - art space & natural food restaurant",
+    "Ami Oprenova Music",
+    "Vesela Morova"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "outdoor",
+    "collaboration",
+    "vocal-jazz",
+    "sofia",
+    "bulgaria",
+    "daorganic"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "на открито",
+    "колаборация",
+    "вокален джаз",
+    "София",
+    "България",
+    "daorganic"
+  ],
+  "image": "/images/events/fb-169045785242767.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=DaOrganic+Sofia",
+  "sourceUrl": "https://www.facebook.com/events/169045785242767/",
+  "usersResponded": 248,
+  "eventType": "collaboration",
+  "admission": {
+    "type": "paid",
+    "price": "10 лв."
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked",
+    "venue": "locked"
+  }
+}

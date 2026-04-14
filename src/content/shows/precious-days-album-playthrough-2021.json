@@ -1,0 +1,61 @@
+{
+  "id": "254111169960726",
+  "slug": "precious-days-album-playthrough-2021",
+  "facebookId": "254111169960726",
+  "title": "Ami Oprenova: 'Precious Days' Album Playthrough",
+  "titleEn": "Ami Oprenova: 'Precious Days' Album Playthrough",
+  "titleBg": "Ами Опренова: Прослушване на албума „Precious Days“",
+  "description": "Experience Ami Oprenova's new album on one of the world's finest sound systems at Metronome, Morden.",
+  "descriptionEn": "Experience Ami Oprenova's new album on one of the world's finest sound systems at Metronome, Morden.",
+  "descriptionBg": "Чуйте новия албум на Ами Опренова на една от най-добрите озвучителни системи в света в Metronome, Мордън.",
+  "body": "A unique afternoon music event hosted by the artist Ami Oprenova. An album listen through; behind the scenes conversations and tours; and a chance to experience Metronome's incredible atmosphere.\n\nBe the first to hear the album on one of the world's great sound systems in the new Metronome Morden event space.\n\nIf you wish to attend in person, reserve your free space now! https://www.ticketsource.co.uk/metronome-life/ami-oprenova/2021-10-16/16:00/t-xemrna?fbclid=IwAR1nqRMzDU0iiy63Er3OpMtGV4r0avXeYhuf4LApPau6AetINGZr_48AW2A\n\n\n \nEvent Details\n\nFrom 4:00PM to 5:30PM\nLocation\nMetronome, Morden, SM4 5BL",
+  "bodyEn": "Join Ami Oprenova for a unique afternoon event featuring an exclusive listening of her new album, 'Precious Days'. Experience the tracks on a world-class sound system at Metronome Morden, alongside behind-the-scenes conversations and a tour of the space.\n\nReserve your free space via TicketSource.",
+  "bodyBg": "Присъединете се към Ами Опренова за едно уникално следобедно събитие — ексклузивно прослушване на новия й албум „Precious Days“. Чуйте песните на озвучителна система от световна класа в Metronome Morden, съпроводено от разговори „зад кулисите“ и обиколка на залата.\n\nРезервирайте безплатно своето място чрез TicketSource.",
+  "startDate": "2021-10-16T15:00:00Z",
+  "endDate": "2021-10-16T16:30:00Z",
+  "venue": "Metronome",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "album-launch",
+    "jazz",
+    "london",
+    "uk",
+    "metronome"
+  ],
+  "tagsBg": [
+    "представяне на албум",
+    "джаз",
+    "Лондон",
+    "Великобритания",
+    "metronome"
+  ],
+  "image": "/images/events/fb-254111169960726.jpg",
+  "gallery": [],
+  "ticketUrl": "https://www.ticketsource.co.uk/metronome-life/ami-oprenova",
+  "mapUrl": "https://maps.google.com/?q=Metronome+Morden+London",
+  "sourceUrl": "https://www.facebook.com/events/254111169960726/",
+  "usersResponded": 26,
+  "eventType": "album-launch",
+  "admission": {
+    "type": "free-booking",
+    "note": "Reserve at ticketsource.co.uk"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}
