@@ -5,10 +5,16 @@ import type { GalleryItem } from './gallery-schema';
 export type { GalleryItem };
 export type Event = CollectionEntry<'shows'>['data'];
 
+let allEventsPromise: Promise<readonly Event[]> | undefined;
+
+async function loadAllEvents(): Promise<readonly Event[]> {
+  allEventsPromise ??= getCollection('shows').then(collection => collection.map(entry => entry.data));
+  return allEventsPromise;
+}
+
 // Load all events from Content Collection
 export async function getAllEvents(): Promise<Event[]> {
-  const collection = await getCollection('shows');
-  return collection.map(entry => entry.data);
+  return [...await loadAllEvents()];
 }
 
 // Filter to upcoming events (future dates only), sorted ascending
