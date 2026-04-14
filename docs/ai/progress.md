@@ -110,7 +110,9 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Events collection populated with 8 real past events from Facebook (confirmed: 8 is complete — Playwright scroll found no more)
 - Follow-up fixes from review/testing: removed unsafe collection casts, fixed workflow paths to `src/content/shows/`, restored `gallery` + `_overrides` schema fields, fixed scraper runtime/loadExistingEvents issue, and stopped invalid fallback event writes
 - Audited and corrected additional Sofia/Bulgaria event timestamps where the stored ISO time clearly contradicted the event copy
-- Copilot review re-requested correctly on 2026-04-14 via reviewer assignment; no new inline findings surfaced beyond the already addressed first review round
+- Follow-up data cleanup: renamed malformed show slugs/filenames to stable descriptive values and corrected a remaining user-visible typo in event copy
+- `src/lib/events.ts` now caches the `shows` collection at module scope so repeated helpers/pages reuse the same loaded dataset during builds
+- Copilot review was re-requested repeatedly on 2026-04-14 until no further inline feedback remained on the latest branch head (`dd4cb61`)
 
 ### Nav localisation + home card content (2026-04-12) — PRs #32–#33
 - Localised mobile nav controls: "Toggle Theme" and "Language" labels now use the i18n dictionary in both EN and BG (#32)
