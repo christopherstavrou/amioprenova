@@ -104,9 +104,9 @@ const L = {
   }
 
   document.querySelectorAll('.show-actions-menu').forEach((root, i) => {
-    const trigger = root.querySelector('.show-actions-trigger') as HTMLButtonElement | null;
-    const panel = root.querySelector('.show-actions-panel') as HTMLElement | null;
-    if (!trigger || !panel) return;
+    const trigger = root.querySelector('.show-actions-trigger');
+    const panel = root.querySelector('.show-actions-panel');
+    if (!(trigger instanceof HTMLButtonElement) || !(panel instanceof HTMLElement)) return;
     const panelId = `show-actions-panel-${i}`;
     panel.id = panelId;
     trigger.setAttribute('aria-controls', panelId);
