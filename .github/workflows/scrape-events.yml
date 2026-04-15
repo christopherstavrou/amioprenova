@@ -62,7 +62,11 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          git diff --quiet src/content/shows/ public/images/events/ || echo "changed=true" >> "$GITHUB_OUTPUT"
+          if [ -n "$(git status --porcelain -- src/content/shows/ public/images/events/)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Commit and push if changed
         if: steps.changes.outputs.changed == 'true'
