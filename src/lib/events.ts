@@ -8,7 +8,9 @@ export type Event = CollectionEntry<'shows'>['data'];
 let allEventsPromise: Promise<readonly Event[]> | undefined;
 
 async function loadAllEvents(): Promise<readonly Event[]> {
-  allEventsPromise ??= getCollection('shows').then(collection => collection.map(entry => entry.data));
+  if (!allEventsPromise || import.meta.env.DEV) {
+    allEventsPromise = getCollection('shows').then(collection => collection.map(entry => entry.data));
+  }
   return allEventsPromise;
 }
 
