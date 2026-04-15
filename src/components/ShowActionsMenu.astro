@@ -23,6 +23,7 @@ interface Props {
 }
 
 const { items, shareUrl, shareTitle, class: className = '', labels = {} } = Astro.props;
+const panelId = `show-actions-panel-${Math.random().toString(36).slice(2, 9)}`;
 const L = {
   menu: labels.menu ?? 'Show actions',
   share: labels.share ?? 'Share',
@@ -39,13 +40,14 @@ const L = {
     class="show-actions-trigger inline-flex h-9 w-9 items-center justify-center rounded-md text-accent-primary shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
     aria-label={L.menu}
     aria-expanded="false"
+    aria-controls={panelId}
   >
     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6" d="M12 5h.01M12 12h.01M12 19h.01" />
     </svg>
   </button>
 
-  <div class="show-actions-panel hidden absolute right-0 top-full z-30 mt-2 w-56 rounded-lg border border-border bg-surface-elevated p-2 shadow-lg">
+  <div id={panelId} class="show-actions-panel hidden absolute right-0 top-full z-30 mt-2 w-56 rounded-lg border border-border bg-surface-elevated p-2 shadow-lg">
     {items.map((item) => (
       <a
         href={item.href}
@@ -103,13 +105,10 @@ const L = {
     document.removeEventListener('keydown', handleDocKeyDown);
   }
 
-  document.querySelectorAll('.show-actions-menu').forEach((root, i) => {
+  document.querySelectorAll('.show-actions-menu').forEach((root) => {
     const trigger = root.querySelector('.show-actions-trigger');
     const panel = root.querySelector('.show-actions-panel');
     if (!(trigger instanceof HTMLButtonElement) || !(panel instanceof HTMLElement)) return;
-    const panelId = `show-actions-panel-${i}`;
-    panel.id = panelId;
-    trigger.setAttribute('aria-controls', panelId);
 
     trigger.addEventListener('click', (e) => {
       e.stopPropagation();
