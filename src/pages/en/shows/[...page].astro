@@ -23,8 +23,8 @@ const pastEvents = await getPastEvents();
 
 const locationLine = (event: { venue: string; city: string; country: string }) =>
   [event.venue, [event.city, event.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
-const eventTitle = (event: typeof events[number]) => event.titleEn || (event.titleBg ? '' : event.title) || event.title;
-const eventDescription = (event: typeof events[number]) => event.descriptionEn || (event.descriptionBg ? '' : event.description) || event.description;
+const eventTitle = (event: typeof events[number]) => event.titleEn || event.title;
+const eventDescription = (event: typeof events[number]) => event.descriptionEn || event.description;
 const eventTags = (event: typeof events[number]) => event.tags ?? [];
 ---
 
@@ -54,7 +54,7 @@ const eventTags = (event: typeof events[number]) => event.tags ?? [];
                   <a href={`/en/shows/${event.slug}`} class="block overflow-hidden rounded-t-md sm:h-full sm:rounded-t-none sm:rounded-l-md">
                     <img
                       src={event.image}
-                      alt={event.title}
+                      alt={eventTitle(event)}
                       class="w-full aspect-[3/1] object-cover hover:scale-105 transition-transform duration-fast sm:h-full"
                       loading="lazy"
                     />
@@ -178,7 +178,7 @@ const eventTags = (event: typeof events[number]) => event.tags ?? [];
                     <a href={`/en/shows/${event.slug}`} class="block overflow-hidden rounded-t-md sm:h-full sm:rounded-t-none sm:rounded-l-md">
                       <img
                         src={event.image}
-                        alt={event.title}
+                        alt={eventTitle(event)}
                         class="w-full aspect-[3/1] object-cover hover:scale-105 transition-transform duration-fast sm:h-full"
                         loading="lazy"
                       />
