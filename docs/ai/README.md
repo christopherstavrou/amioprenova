@@ -11,6 +11,7 @@ This directory contains the operational manuals for AI agents working on the **a
 | [standards.md](standards.md) | **Implementation manual.** Naming, structure, patterns. |
 | [workflow.md](workflow.md) | **Process manual.** Branching, commits, PR format, review response. |
 | [decisions.md](decisions.md) | **Architecture log.** Why things are built this way. |
+| [event-enrichment.md](event-enrichment.md) | **Event data guide.** How to enrich, translate, and create event entries. |
 | [github-integration.md](github-integration.md) | **GitHub AI integration.** Claude Actions + Copilot custom instructions. |
 
 ## Copilot Instruction Files

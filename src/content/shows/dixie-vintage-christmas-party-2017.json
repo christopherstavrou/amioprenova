@@ -1,0 +1,69 @@
+{
+  "id": "353539571777839",
+  "slug": "dixie-vintage-christmas-party-2017",
+  "facebookId": "353539571777839",
+  "title": "Dixie Vintage Christmas Party",
+  "titleEn": "Dixie Vintage Christmas Party",
+  "titleBg": "Дикси винтидж коледно парти",
+  "description": "A festive swing paradise with MIND THE TRAD, featuring Christmas celebration songs and vintage dancing at Jamboree.",
+  "descriptionEn": "A festive swing paradise with MIND THE TRAD, featuring Christmas celebration songs and vintage dancing at Jamboree.",
+  "descriptionBg": "Празничен суинг рай с MIND THE TRAD, включващ коледни песни и винтидж танци в Jamboree.",
+  "body": "Dixie Vintage Christmas Party with MIND THE TRAD!\n\nFestive swing paradise at this incredible venue as MIND THE TRAD bring a sack full of magic with a sound encompassing swing and contemporary jazz.\n\nThe London based, New Orleans influenced band, will be creating an extra vintage event this December. Led by the vocalist Ami Oprenova covered in beads and glitter, together with the handsome boys wearing Dixie hats you are in for a Christmas treat! \n\nThere will be an incredible homemade cake stall as well as a professional Vintage Dance Teacher showing us the moves, we will be stomping away at the marvellous Jamboree stage room! \n\nThis evening will be full of Christmas celebration songs!!! \nA night Not to be missed!!! \nDoors 7pm/ Music 8pm\nAdv £5 / Door £7",
+  "bodyEn": "Festive swing paradise at this incredible venue as MIND THE TRAD bring a sack full of magic with a sound encompassing swing and contemporary jazz. The London-based, New Orleans-influenced band will be creating an extra vintage event this December.\n\nLed by Ami Oprenova, you're in for a Christmas treat with celebration songs, a homemade cake stall, and professional vintage dance teachers! Stomp away at the marvelous Jamboree stage room.\n\nAdv £5 / Door £7",
+  "bodyBg": "Празничен суинг рай в невероятния клуб Jamboree! MIND THE TRAD носят магическо звучене, обхващащо суинг и съвременен джаз. Базираната в Лондон група, повлияна от Ню Орлиънс, ще създаде едно истинско винтидж събитие този декември.\n\nВодени от Ами Опренова, ви очаква коледно изживяване с празнични песни, щанд за домашни торти и професионални учители по винтидж танци! Елате да танцувате в прекрасната зала на Jamboree.\n\nБилети: £5 предварително / £7 на място",
+  "startDate": "2017-12-19T19:00:00Z",
+  "endDate": "2017-12-19T23:00:00Z",
+  "venue": "Jamboree",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Ami Oprenova Music",
+    "Håvard Mathisen Tanner",
+    "Jeremy Paul"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "christmas",
+    "festive",
+    "dance",
+    "london",
+    "uk",
+    "jamboree"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "коледа",
+    "празничен",
+    "танци",
+    "Лондон",
+    "Великобритания",
+    "jamboree"
+  ],
+  "image": "/images/events/fb-353539571777839.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Jamboree+London",
+  "sourceUrl": "https://www.facebook.com/events/353539571777839/",
+  "usersResponded": 49,
+  "eventType": "concert",
+  "admission": {
+    "type": "paid",
+    "price": "£5 / £7"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

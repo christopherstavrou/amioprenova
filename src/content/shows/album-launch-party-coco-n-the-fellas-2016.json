@@ -1,0 +1,64 @@
+{
+  "id": "1783212228562291",
+  "slug": "album-launch-party-coco-n-the-fellas-2016",
+  "facebookId": "1783212228562291",
+  "title": "Album Launch Party (Coco 'n' the Fellas)",
+  "titleEn": "Album Launch Party (Coco 'n' the Fellas)",
+  "titleBg": "Промоция на албум на Coco 'n' the Fellas",
+  "description": "Join Coco 'n' the Fellas for their first Birmingham appearance and the launch of their new live album at The Spotted Dog.",
+  "descriptionEn": "Join Coco 'n' the Fellas for their first Birmingham appearance and the launch of their new live album at The Spotted Dog.",
+  "descriptionBg": "Присъединете се към Coco 'n' the Fellas за първото им гостуване в Бирмингам и промоцията на новия им албум на живо в The Spotted Dog.",
+  "body": "What better than a Friday night at the Spotted Dog! We love having a reason to party and for our first apearance in Birmingham we are arriving with a new live album!\n\nCome and enjoy some swinging music with Coco 'n' the Fellas for FREE!!! \n\nThe lovely girls behind the bar will be serving cheap drinks all night!  A raffle to top up the night and your chance to be one of the first owners of new album. \n\nMusic will start at 8pm sharp and will carry on till late! Don't forget it is FREE! A great night promised! \n\nAbout the band: www.coconthefellas.com\nwww.facebook.com/coconthefellas \n\nAfter a sucessful tour in Italy they return to London to record a live album at Le QuecumBar. Following the London Launch of the album at the original venue they travell to suprise the jazz fans around the Midlands. \n\n\"They revisit and respect memorable milestones in the immense jazz tradition and are pioneers in their field.\" (Jazz Italia)",
+  "bodyEn": "What better than a Friday night at the Spotted Dog! We love having a reason to party and for our first appearance in Birmingham we are arriving with a new live album!\n\nCome and enjoy some swinging music with Coco 'n' the Fellas for FREE!!!\n\nThe lovely girls behind the bar will be serving cheap drinks all night! A raffle to top up the night and your chance to be one of the first owners of the new album.\n\nMusic will start at 8 PM sharp and will carry on till late! Don't forget it is FREE! A great night promised!\n\nAfter a successful tour in Italy, they return to London to record a live album at Le QuecumBar. Following the London Launch of the album at the original venue, they travel to surprise jazz fans around the Midlands.\n\n\"They revisit and respect memorable milestones in the immense jazz tradition and are pioneers in their field.\" (Jazz Italia)",
+  "bodyBg": "Какво по-хубаво от петък вечер в The Spotted Dog! Обичаме поводите за парти и за първото ни гостуване в Бирмингам пристигаме с нов албум на живо!\n\nЕлате и се насладете на суинг музика с Coco 'n' the Fellas БЕЗПЛАТНО!!!\n\nПрекрасните момичета зад бара ще сервират напитки цяла вечер! Очаква ви и томбола и шанс да бъдете сред първите собственици на новия албум.\n\nМузиката започва точно в 20:00 и ще продължи до късно! Не забравяйте, че входът е СВОБОДЕН! Обещаваме страхотна вечер!\n\nСлед успешно турне в Италия, групата се завръща в Лондон, за да запише албум на живо в Le QuecumBar. След промоцията в Лондон, те пътуват, за да изненадат джаз феновете в Мидландс.\n\n„Те преоткриват и уважават паметни моменти в необятната джаз традиция и са пионери в своята област.“ (Jazz Italia)",
+  "startDate": "2016-12-16T19:00:00Z",
+  "endDate": "2016-12-16T23:00:00Z",
+  "venue": "The Spotted Dog",
+  "city": "Birmingham",
+  "country": "UK",
+  "hosts": [
+    "Ami Oprenova Music",
+    "Daniele Ciuffreda",
+    "Håvard Mathisen Tanner"
+  ],
+  "tags": [
+    "album-launch",
+    "jazz",
+    "swing",
+    "birmingham",
+    "uk",
+    "spotted-dog"
+  ],
+  "tagsBg": [
+    "представяне на албум",
+    "джаз",
+    "суинг",
+    "Бирмингам",
+    "Великобритания",
+    "spotted-dog"
+  ],
+  "image": "/images/events/fb-1783212228562291.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=The+Spotted+Dog+Birmingham",
+  "sourceUrl": "https://www.facebook.com/events/1783212228562291/",
+  "usersResponded": 18,
+  "eventType": "album-launch",
+  "admission": {
+    "type": "free"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "id": "369360818874808",
+  "slug": "sofia-bell-choir-german-christmas-market-2023",
+  "facebookId": "369360818874808",
+  "title": "Sofia Bell Choir / German Christmas Market",
+  "titleEn": "Sofia Bell Choir / German Christmas Market",
+  "titleBg": "Камбанен хор София / Немски Коледен Базар",
+  "description": "A unique live performance of handbell music at the German Christmas Market in Sofia.",
+  "descriptionEn": "A unique live performance of handbell music at the German Christmas Market in Sofia.",
+  "descriptionBg": "Уникално изпълнение на живо на камбанен хор на Немския коледен базар в София.",
+  "body": "Тази година искате да чуете нещо различно от обичайните рождествени концерти? Какво ще кажете за камбанен звън на живо!!!\n\nЗа втора поредна година Камбанен хор София взема участие в програмата на Немски Коледен Базар София. Заповядайте да се насладите на неповторимия звук на медните камбани!\n\nХорът се състои от 32 камбани и 12 брилянтни изпълнители. На сцената заедно с тях ще излязат гости – певци и инструменталисти – за да създадат една незабравима музикална вечер! Коледно настроение и радостни звуци ще се носят навред, а пък вие ще останете насърчени и готови за Рождествения сезон! \n\nКонцертната програма е сбор от добре познати рождествени песни, химни и мелодии, както и кратък поздрав към публиката.\n\nНе пропускайте тази вълнуваща вечер и заповядайте със своите семейства и приятели на откритата сцена на Базара! \n\nЕлате рано, за да сте най-близо до сцената! \n📅 събота, 02.12 от 19:00 ч.\n🏠София, Градската градина, пл. Александър Батенберг",
+  "bodyEn": "Looking for something different from the usual Christmas concerts this year? How about live handbells!!!\n\nFor the second year in a row, the Sofia Bell Choir participates in the program of the German Christmas Market Sofia. Come and enjoy the unique sound of copper bells!\n\nThe choir consists of 32 bells and 12 brilliant performers. They will be joined on stage by guest singers and instrumentalists to create an unforgettable musical evening! Christmas spirit and joyful sounds will be everywhere, leaving you encouraged and ready for the Nativity season!\n\nThe concert program is a collection of well-known Christmas songs, hymns, and melodies, as well as a short greeting to the audience.\n\nDon't miss this exciting evening and bring your families and friends to the outdoor stage of the Market!\n\nCome early to be closest to the stage!\n📅 Saturday, Dec 2nd at 7:00 PM\n🏠 Sofia, City Garden, Alexander Battenberg Square",
+  "bodyBg": "Тази година искате да чуете нещо различно от обичайните рождествени концерти? Какво ще кажете за камбанен звън на живо!!!\n\nЗа втора поредна година Камбанен хор София взема участие в програмата на Немски Коледен Базар София. Заповядайте да се насладите на неповторимия звук на медните камбани!\n\nХорът се състои от 32 камбани и 12 брилянтни изпълнители. На сцената заедно с тях ще излязат гости – певци и инструменталисти – за да създадат една незабравима музикална вечер! Коледно настроение и радостни звуци ще се носят навред, а пък вие ще останете насърчени и готови за Рождествения сезон! \n\nКонцертната програма е сбор от добре познати рождествени песни, химни и мелодии, както и кратък поздрав към публиката.\n\nНе пропускайте тази вълнуваща вечер и заповядайте със своите семейства и приятели на откритата сцена на Базара! \n\nЕлате рано, за да сте най-близо до сцената! \n📅 събота, 02.12 от 19:00 ч.\n🏠София, Градската градина, пл. Александър Батенберг",
+  "startDate": "2023-12-02T19:00:00+02:00",
+  "venue": "German Christmas Market",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "hosts": [
+    "First Baptist Church - Sofia",
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "choir",
+    "christmas",
+    "festive",
+    "outdoor",
+    "sofia",
+    "bulgaria",
+    "german-christmas-market"
+  ],
+  "tagsBg": [
+    "хор",
+    "коледа",
+    "празничен",
+    "на открито",
+    "София",
+    "България",
+    "немски-коледен-базар"
+  ],
+  "image": "/images/events/fb-369360818874808.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=42.695483389502,23.325798758353",
+  "sourceUrl": "https://www.facebook.com/events/369360818874808/",
+  "usersResponded": 71,
+  "eventType": "concert",
+  "admission": {
+    "type": "free"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked",
+    "venue": "locked"
+  }
+}

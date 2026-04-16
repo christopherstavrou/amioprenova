@@ -1,0 +1,71 @@
+{
+  "id": "879907536380496",
+  "slug": "ami-vessi-christmas-jazz-party-singles-2022",
+  "facebookId": "879907536380496",
+  "title": "Ami & Vessi Christmas Jazz Party @ Singles",
+  "titleEn": "Ami & Vessi Christmas Jazz Party @ Singles",
+  "titleBg": "Коледно джаз парти с Ами и Веси в Singles",
+  "description": "Vocalists Ami Oprenova and Vesela Morova combine their voices for a post-Christmas jazz celebration at Singles, Sofia.",
+  "descriptionEn": "Vocalists Ami Oprenova and Vesela Morova combine their voices for a post-Christmas jazz celebration at Singles, Sofia.",
+  "descriptionBg": "Вокалистките Ами Опренова и Весела Морова обединяват гласове за следколедно джаз парти в клуб Singles, София.",
+  "body": "Истинско удоволствие е да слушаш как Ами и Весела преплитат гласовете си в бурни джаз ритми, импровизации и мелодични песни със сладък пост-коледен привкус. Тяхното заразително весело настроение и бодър дух ни зареждат с още повече празничност, и в компанията на великолепното трио Калин Жечев (пиано), Влади Михайлов (бас), Андрей Велков (барабани).\n\nЗаповядайте на 28.12 от 19:30 ч!\n\nВесела Морова - вокал\nАми Опренова - вокал\nКалин Жечев - пиано\nВлади Михайлов - контрабас\nАндрей Велков - барабани\n\nБар Singles, НДК, Вход А4-дясно\nЗа резервации: лично съобщение на страницата на бара\nБилети: https://bilet.bg/bg/events/ami-vessi-christmas-jazz-party/3797",
+  "bodyEn": "It's a true pleasure to hear Ami and Vesela intertwine their voices in energetic jazz rhythms, improvisations, and melodic songs with a sweet post-Christmas flavor. Their infectious joyful mood and cheerful spirit charge us with even more festivity, accompanied by the magnificent trio: Kalin Zhechev (piano), Vladi Mihaylov (bass), and Andrey Velkov (drums).\n\nJoin us on Dec 28th at 7:30 PM!\n\nVesela Morova - vocals\nAmi Oprenova - vocals\nKalin Zhechev - piano\nVladi Mihaylov - double bass\nAndrey Velkov - drums\n\nSingles Bar, NDK, Entrance A4-right\nFor reservations: direct message on the bar's page\nTickets: https://bilet.bg/bg/events/ami-vessi-christmas-jazz-party/3797",
+  "bodyBg": "Истинско удоволствие е да слушаш как Ами и Весела преплитат гласовете си в бурни джаз ритми, импровизации и мелодични песни със сладък пост-коледен привкус. Тяхното заразително весело настроение и бодър дух ни зареждат с още повече празничност, и в компанията на великолепното трио Калин Жечев (пиано), Влади Михайлов (бас), Андрей Велков (барабани).\n\nЗаповядайте на 28.12 от 19:30 ч!\n\nВесела Морова - вокал\nАми Опренова - вокал\nКалин Жечев - пиано\nВлади Михайлов - контрабас\nАндрей Велков - барабани\n\nБар Singles, НДК, Вход А4-дясно\nЗа резервации: лично съобщение на страницата на бара\nБилети: https://bilet.bg/bg/events/ami-vessi-christmas-jazz-party/3797",
+  "startDate": "2022-12-28T19:30:00+02:00",
+  "endDate": "2022-12-28T22:00:00+02:00",
+  "venue": "Singles",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "hosts": [
+    "Ami Oprenova Music",
+    "Singles",
+    "Vesela Morova"
+  ],
+  "tags": [
+    "jazz",
+    "collaboration",
+    "christmas",
+    "festive",
+    "sofia",
+    "bulgaria",
+    "singles",
+    "ndk"
+  ],
+  "tagsBg": [
+    "джаз",
+    "колаборация",
+    "коледа",
+    "празничен",
+    "София",
+    "България",
+    "singles",
+    "ндк"
+  ],
+  "image": "/images/events/fb-879907536380496.jpg",
+  "gallery": [],
+  "ticketUrl": "https://bilet.bg/bg/events/ami-vessi-christmas-jazz-party/3797",
+  "mapUrl": "https://maps.google.com/?q=42.685696590734,23.318974971771",
+  "sourceUrl": "https://www.facebook.com/events/879907536380496/",
+  "usersResponded": 143,
+  "eventType": "collaboration",
+  "admission": {
+    "type": "paid",
+    "note": "Reservations via bar FB page",
+    "noteBg": "Резервации през Фейсбук страницата на бара"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked",
+    "ticketUrl": "locked"
+  }
+}

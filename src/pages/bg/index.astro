@@ -14,9 +14,10 @@ const t = ui['bg'];
 
 const featuredRelease = releases.find(r => r.featured) || releases[0];
 const featuredVideo = videos.find(v => v.featured) || videos[0];
-const upcomingShows = getNextEvents(3).map(event => ({
+const upcomingShows = (await getNextEvents(3)).map(event => ({
   ...event,
   formattedDate: formatShortDate(event.startDate, 'bg-BG'),
+  displayTitle: event.titleBg ?? event.title,
 }));
 ---
 
@@ -149,7 +150,7 @@ const upcomingShows = getNextEvents(3).map(event => ({
                   <li class="py-3">
                     <a href={`/bg/shows/${event.slug}`} class="block group">
                       <p class="text-xs text-text-secondary mb-0.5">{event.formattedDate}</p>
-                      <p class="text-sm font-medium group-hover:text-accent-primary transition-colors">{event.title}</p>
+                      <p class="text-sm font-medium group-hover:text-accent-primary transition-colors">{event.displayTitle}</p>
                       <p class="text-xs text-text-secondary">{event.venue}, {event.city}</p>
                     </a>
                   </li>

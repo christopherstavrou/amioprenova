@@ -1,0 +1,64 @@
+{
+  "id": "631764520351355",
+  "slug": "gypsy-swing-workshop-aberdeen-2017",
+  "facebookId": "631764520351355",
+  "title": "Gypsy Swing Workshop (Aberdeen)",
+  "titleEn": "Gypsy Swing Workshop (Aberdeen)",
+  "titleBg": "Уъркшоп по джипси суинг (Абърдийн)",
+  "description": "A deep dive into the tips and techniques of French jazz with Coco 'n' the Fellas at Musicrange Studios, Aberdeen.",
+  "descriptionEn": "A deep dive into the tips and techniques of French jazz with Coco 'n' the Fellas at Musicrange Studios, Aberdeen.",
+  "descriptionBg": "Запознайте се с тънкостите и техниките на френския джаз с Coco 'n' the Fellas в Musicrange Studios, Абърдийн.",
+  "body": "Come and enjoy an afternoon playing Gypsy Swing Music! \n\nLearn about all the tips and techniques of french jazz from the London bassed band that is currently touring Europe! \n\nALL LEVELS AND INSTRUMENTS WELCOME\nplaces for the masterclass are very limited! \n\nTO SIGN UP SEND AN EMAIL TO: masterclass.coco@yahoo.com\nDeadline is 20th of May !!!!\n\nThe fee for participating is £50. Observers/family/friends are welcome to attend – the fee for this is £20.\n\nThe Masterclass will be held at the Musicrange Studios, Aberdeen, AB10 1AL, United Kingdom \n\nIt will start at 1pm and will be finished by approximately 4:30pm. \n\nCoco 'n' the Fellas hope to explore the art of Gypsy Swing as a whole ensemble but also work on individual sound and techniques of each participant. They will be covering:\n- Jazz heads of tunes played in the style\n- improvisation and scat\n- stage presence \n- use of technology and microphones \n- jazz harmony and theory \n- counting in the band \n- interaction with other musicians\n- comping when other solos take place \n\nWe hope to see you there and make some sweet music !!!\n\nwww.coconthefellas.com/masterclass",
+  "bodyEn": "Come and enjoy an afternoon playing Gypsy Swing music! Learn tips and techniques of French jazz from the London-based band currently touring Europe.\n\nAll levels and instruments are welcome. The workshop covers jazz heads, improvisation, scat, stage presence, harmony, and group interaction.\n\nFee: £50 for participants / £20 for observers.\nLocation: Musicrange Studios, Aberdeen.",
+  "bodyBg": "Заповядайте на един следобед, посветен на джипси суинг музиката! Научете техниките на френския джаз от лондонската група, която в момента е на турне в Европа.\n\nВсички нива и инструменти са добре дошли. Уъркшопът обхваща джаз теми, импровизация, скат, сценично поведение, хармония и взаимодействие в групата.\n\nТакса: £50 за участници / £20 за слушатели.\nМясто: Musicrange Studios, Абърдийн.",
+  "startDate": "2017-05-27T12:00:00+01:00",
+  "endDate": "2017-05-27T15:30:00+01:00",
+  "venue": "Musicrange Studios",
+  "city": "Aberdeen",
+  "country": "UK",
+  "hosts": [
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "workshop",
+    "jazz",
+    "gypsy-swing",
+    "aberdeen",
+    "uk",
+    "musicrange-studios"
+  ],
+  "tagsBg": [
+    "уъркшоп",
+    "джаз",
+    "циганско суинг",
+    "Абърдийн",
+    "Великобритания",
+    "musicrange-studios"
+  ],
+  "image": "/images/events/fb-631764520351355.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Musicrange+Studios+Aberdeen",
+  "sourceUrl": "https://www.facebook.com/events/631764520351355/",
+  "usersResponded": 26,
+  "eventType": "workshop",
+  "admission": {
+    "type": "paid",
+    "price": "£50 / £20"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked",
+    "venue": "locked"
+  }
+}

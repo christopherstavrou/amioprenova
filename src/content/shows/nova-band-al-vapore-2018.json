@@ -1,0 +1,62 @@
+{
+  "id": "1872480156164323",
+  "slug": "nova-band-al-vapore-2018",
+  "facebookId": "1872480156164323",
+  "title": "Nova Band @ Al Vapore",
+  "titleEn": "Nova Band @ Al Vapore",
+  "titleBg": "Nova Band в Al Vapore",
+  "description": "An international blend of gypsy swing, blues, and gospel with Nova Music Group at Venice's historic Al Vapore.",
+  "descriptionEn": "An international blend of gypsy swing, blues, and gospel with Nova Music Group at Venice's historic Al Vapore.",
+  "descriptionBg": "Международна комбинация от джипси суинг, блус и госпъл с Nova Music Group в историческия клуб Al Vapore във Венеция.",
+  "body": "Giovedì 13 Settembre ore 21\n\nNOVA Music Groups è guidato dalla cantante anglo-bulgara Ami Oprenova, stella nascente del jazz made in uk.\nIl sound è un mix di gipsy, swing, est - european music, blues e gospel, grazie alla sezione ritmica tipica del gipsy swing ( chitarra rit / chitarra elettrica / contrabbasso ) ma con un repertorio e  arrangiamenti che spaziano tra i generi e che rendono le performance della band uniche.\n\ninfo www.alvapore.it\n\nPer prenotare:\n- chiamate dal Martedì al Sabato dopo le ore 18 e la Domenica dalle ore 19 questo numero: 041 930796\n- oppure scrivete a cristinaalvapore@gmail.com",
+  "bodyEn": "Nova Music Group is led by the Anglo-Bulgarian singer Ami Oprenova, a rising star of UK jazz. Their sound is a unique mix of gypsy swing, Eastern European music, blues, and gospel, featuring a traditional manouche rhythm section with arrangements that span across genres.",
+  "bodyBg": "Nova Music Group се води от англо-българската певица Ами Опренова, изгряваща звезда на британския джаз. Техният звук е уникална смес от джипси суинг, източноевропейска музика, блус и госпъл, включващ традиционна мануш ритъм секция с аранжименти, които обхващат различни жанрове.",
+  "startDate": "2018-09-13T19:00:00+02:00",
+  "endDate": "2018-09-13T23:00:00+02:00",
+  "venue": "Al Vapore Bar e Musica",
+  "city": "Marghera (Venice)",
+  "country": "Italy",
+  "hosts": [
+    "Al Vapore Bar e Musica",
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "jazz",
+    "gypsy-swing",
+    "blues",
+    "italy",
+    "al-vapore"
+  ],
+  "tagsBg": [
+    "джаз",
+    "циганско суинг",
+    "блус",
+    "Италия",
+    "al-vapore"
+  ],
+  "image": "/images/events/fb-1872480156164323.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Al+Vapore+Marghera+Italy",
+  "sourceUrl": "https://www.facebook.com/events/1872480156164323/",
+  "usersResponded": 30,
+  "eventType": "concert",
+  "admission": {
+    "type": "paid",
+    "note": "Reservations: 041 930796"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

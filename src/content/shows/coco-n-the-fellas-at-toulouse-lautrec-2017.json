@@ -1,0 +1,69 @@
+{
+  "id": "1852650015050778",
+  "slug": "coco-n-the-fellas-at-toulouse-lautrec-2017",
+  "facebookId": "1852650015050778",
+  "title": "Coco 'n' the Fellas @ Toulouse Lautrec",
+  "titleEn": "Coco 'n' the Fellas @ Toulouse Lautrec",
+  "titleBg": "Coco 'n' the Fellas в Toulouse Lautrec",
+  "description": "A journey through bebop, French gypsy swing, and jazz-fusion with the quartet in South London.",
+  "descriptionEn": "A journey through bebop, French gypsy swing, and jazz-fusion with the quartet in South London.",
+  "descriptionBg": "Пътешествие през бибоп, френски джипси суинг и джаз-фюжън с квартета в Южен Лондон.",
+  "body": "Come and join us for a lovely chilled show with the music of Coco 'n' The Fellas. \"Their music evokes both swing and contemporary jazz simultaneously.\" After touring this summer the band is excited to host their first show at Toulouse Loutrec! An evening filled with laughter, joy and great music! Book your tickets soon! \n\n\nDoors open at 20:30. Music at 21:30 \n£15 On the Door\nOnline Tickets from £10\nDoor Tickets £15\n\nOnly Bar food will be served in the Jazz Club.\n\nTo dine from the á la carte menu before the show \nPlease call 020 7582 6800 or Book Online\nPlease allow 60-90 minutes for dinner reservations.\n\nAbout Coco 'n' the Fellas: \n\n\nBebop, French Gypsy Swing and a little bit of jazz-fusion to ensure an amazing night! Coco ‘n’ the Fellas originally started as a Gypsy tribute quartet but soon found love in composing and arranging in their own style. Stretching the boundaries of the Swing traditions Coco will transport you to a sonic landscape of gypsy jazz, bebop, fusion and more... The band has been touring England, Scotland, Italy, Switzerland and even Bulgaria throughout the last year. Playing at renown venues such as Torino Jazz Club, Studio 5 Jazz Club, Be-bop café as well as featuring at radio stations and tv shown within Europe. \n\nAmi Oprenova - Vocals\nDaniele Cuifreda - Electric Guitar\nJoe Perkins - Acoustic Guitar\nHavard Tanner - Double Bass",
+  "bodyEn": "Join us for a lovely chilled show with the music of Coco 'n' the Fellas. \"Their music evokes both swing and contemporary jazz simultaneously.\"\n\nBebop, French Gypsy Swing, and a little bit of jazz-fusion to ensure an amazing night! Coco ‘n’ the Fellas originally started as a gypsy tribute quartet but soon found love in composing and arranging in their own style. Stretching the boundaries of the swing traditions, Coco will transport you to a sonic landscape of gypsy jazz, bebop, fusion and more.\n\nAmi Oprenova - Vocals\nDaniele Ciuffreda - Electric Guitar\nJoe Perkins - Acoustic Guitar\nHåvard Tanner - Double Bass",
+  "bodyBg": "Присъединете се към нас за един прекрасен концерт с музиката на Coco 'n' the Fellas. „Тяхната музика извиква едновременно суинг и съвременен джаз.“\n\nБибоп, френски джипси суинг и малко джаз-фюжън гарантират невероятна вечер! Coco ‘n’ the Fellas започват като трибют квартет към джипси музиката, но скоро откриват страстта си в композирането и аранжирането в собствен стил. Разширявайки границите на суинг традициите, групата ще ви отведе в звуков пейзаж от джипси джаз, бибоп, фюжън и още...\n\nАми Опренова - вокал\nДаниеле Чуфреда - електрическа китара\nДжо Пъркинс - акустична китара\nХавард Танер - контрабас",
+  "startDate": "2017-09-23T19:30:00+01:00",
+  "endDate": "2017-09-23T22:45:00+01:00",
+  "venue": "Toulouse Lautrec Jazz Club",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Toulouse Lautrec Restaurant & Jazz Club",
+    "Ami Oprenova Music",
+    "Daniele Ciuffreda",
+    "Nolan Regent",
+    "Håvard Mathisen Tanner"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "gypsy-swing",
+    "bebop",
+    "london",
+    "uk",
+    "toulouse-lautrec"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "циганско суинг",
+    "бибоп",
+    "Лондон",
+    "Великобритания",
+    "toulouse-lautrec"
+  ],
+  "image": "/images/events/fb-1852650015050778.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Toulouse+Lautrec+London",
+  "sourceUrl": "https://www.facebook.com/events/1852650015050778/",
+  "usersResponded": 26,
+  "eventType": "concert",
+  "admission": {
+    "type": "paid",
+    "price": "£10 / £15"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

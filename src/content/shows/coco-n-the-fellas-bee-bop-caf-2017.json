@@ -1,0 +1,65 @@
+{
+  "id": "806479649514738",
+  "slug": "coco-n-the-fellas-bee-bop-caf-2017",
+  "facebookId": "806479649514738",
+  "title": "Coco 'n' the Fellas @ Bee Bop Café",
+  "titleEn": "Coco 'n' the Fellas @ Bee Bop Café",
+  "titleBg": "Coco 'n' the Fellas в Bee Bop Café",
+  "description": "The London quartet brings their great rhythm and vintage jazz style to the old town of Plovdiv.",
+  "descriptionEn": "The London quartet brings their great rhythm and vintage jazz style to the old town of Plovdiv.",
+  "descriptionBg": "Лондонският квартет носи страхотния си ритъм и старомоден джаз стил в стария град на Пловдив.",
+  "body": "Coco 'n' the Fellas идват в ПЛОВДИВ!!! \n\nЛондонската група е на турне в четири държави това лято и втората им спирка е България. \n\nГрупата е известна със страхотния ритъм и танцов стил, който представя чрез музиката си. Ще ви е трудно да не станете и танцувате момента, в който инструментите засвирят. Bee Bop Café ще посрещне квартетът с редовната джаз вечер в четвъртък.\n\nКоко ще ви представи композиции и аранжименти от Франция, Англия, Италия, Америка и Испания. Програма, изпълнена с почитане на стария джаз стил! Върнете се в 20-те и 30-те за една вечер!\n\nЗаповядайте на уникална вечер с много китари и гласни струни! Стара Музика в стария град. \n\nВход: 8 лeвa [на място]\n\nhttp://beebopcafe.com\nhttp://coconthefellas.com",
+  "bodyEn": "Coco 'n' the Fellas are coming to PLOVDIV!!!\n\nThe London-based band is on tour in four countries this summer and their second stop is Bulgaria.\n\nThe band is known for their great rhythm and dance style. It will be hard not to get up and dance the moment the instruments start playing. Bee Bop Café will welcome the quartet for their regular Thursday jazz night.\n\nCoco will present compositions and arrangements from France, England, Italy, America, and Spain. A program dedicated to the old jazz style! Go back to the 20s and 30s for one evening!\n\nJoin us for a unique night with many guitars and vocal strings! Old music in the old town.\n\nEntry: 8 BGN [at the door]",
+  "bodyBg": "Coco 'n' the Fellas идват в ПЛОВДИВ!!!\n\nЛондонската група е на турне в четири държави това лято и втората им спирка е България.\n\nГрупата е известна със страхотния ритъм и танцов стил, който представя чрез музиката си. Ще ви е трудно да не станете и танцувате момента, в който инструментите засвирят. Bee Bop Café ще посрещне квартета с редовната джаз вечер в четвъртък.\n\nКоко ще ви представи композиции и аранжименти от Франция, Англия, Италия, Америка и Испания. Програма, изпълнена с почит към стария джаз стил! Върнете се в 20-те и 30-те за една вечер!\n\nЗаповядайте на уникална вечер с много китари и гласни струни! Стара музика в стария град.\n\nВход: 8 лв. [на място]",
+  "startDate": "2017-06-29T18:00:00+03:00",
+  "endDate": "2017-06-29T20:00:00+03:00",
+  "venue": "Bee Bop Café",
+  "city": "Plovdiv",
+  "country": "Bulgaria",
+  "hosts": [
+    "Bee Bop Café",
+    "Ami Oprenova Music",
+    "Ivan Nedelev"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "concert",
+    "plovdiv",
+    "bulgaria",
+    "beebop-cafe"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "концерт",
+    "Пловдив",
+    "България",
+    "beebop-cafe"
+  ],
+  "image": "/images/events/fb-806479649514738.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Bee+Bop+Cafe+Plovdiv",
+  "sourceUrl": "https://www.facebook.com/events/806479649514738/",
+  "usersResponded": 60,
+  "eventType": "concert",
+  "admission": {
+    "type": "paid",
+    "price": "8 лв."
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

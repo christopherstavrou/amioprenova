@@ -23,6 +23,7 @@ const otherVideos = videos.filter(v => !v.featured);
     <section class="mb-10">
       <div class="video-card" data-youtube-id={featuredVideo.youtubeId}>
         <button
+          type="button"
           class="video-thumb w-full relative rounded-lg overflow-hidden shadow-lg cursor-pointer block"
           aria-label={`Play ${featuredVideo.title}`}
         >
@@ -56,6 +57,7 @@ const otherVideos = videos.filter(v => !v.featured);
         <Card padding="none" hover={false} class="overflow-hidden">
           <div class="video-card" data-youtube-id={video.youtubeId}>
             <button
+              type="button"
               class="video-thumb w-full block"
               aria-label={`Play ${video.title}`}
             >

@@ -1,17 +1,16 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import Layout from '../../../layouts/Layout.astro';
-import Button from '../../../components/Button.astro';
 import Card from '../../../components/Card.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import Badge from '../../../components/Badge.astro';
-import SharePopover from '../../../components/SharePopover.astro';
+import ShowActionsMenu from '../../../components/ShowActionsMenu.astro';
 import SearchInput from '../../../components/SearchInput.astro';
 import { getUpcomingEvents, getPastEvents, formatEventDate } from '../../../lib/events';
 import { siteConfig } from '../../../config/site';
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const upcomingEvents = getUpcomingEvents();
+  const upcomingEvents = await getUpcomingEvents();
   if (upcomingEvents.length === 0) {
     return [{ params: { page: undefined }, props: { page: { data: [], currentPage: 1, lastPage: 1, url: { prev: null, next: null } } } }];
   }
@@ -20,7 +19,13 @@ export const getStaticPaths = (async ({ paginate }) => {
 
 const { page } = Astro.props;
 const events = page.data;
-const pastEvents = getPastEvents();
+const pastEvents = await getPastEvents();
+
+const locationLine = (event: { venue: string; city: string; country: string }) =>
+  [event.venue, [event.city, event.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
+const eventTitle = (event: typeof events[number]) => event.titleEn || event.title;
+const eventDescription = (event: typeof events[number]) => event.descriptionEn || event.description;
+const eventTags = (event: typeof events[number]) => event.tags ?? [];
 ---
 
 <Layout
@@ -45,61 +50,61 @@ const pastEvents = getPastEvents();
           <Card hover={true} padding="none">
             <div class="flex flex-col sm:flex-row">
               {event.image && (
-                <a href={`/en/shows/${event.slug}`} class="overflow-hidden rounded-t-md sm:rounded-t-none sm:rounded-l-md sm:shrink-0 sm:w-44">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    class="w-full aspect-[3/1] sm:aspect-auto sm:h-full object-cover hover:scale-105 transition-transform duration-fast"
-                    loading="lazy"
-                  />
-                </a>
+                <div class="relative sm:w-44 sm:self-stretch sm:shrink-0">
+                  <a href={`/en/shows/${event.slug}`} class="block overflow-hidden rounded-t-md sm:h-full sm:rounded-t-none sm:rounded-l-md">
+                    <img
+                      src={event.image}
+                      alt={eventTitle(event)}
+                      class="w-full aspect-[3/1] object-cover hover:scale-105 transition-transform duration-fast sm:h-full"
+                      loading="lazy"
+                    />
+                  </a>
+                  <div class="absolute right-3 top-3 sm:hidden">
+                    <ShowActionsMenu
+                      items={[
+                        ...(event.ticketUrl ? [{ href: event.ticketUrl, label: 'Tickets', icon: 'ticket' as const }] : []),
+                        ...(event.mapUrl ? [{ href: event.mapUrl, label: 'Map', icon: 'map' as const }] : []),
+                        ...(event.sourceUrl ? [{ href: event.sourceUrl, label: 'Facebook', icon: 'facebook' as const }] : []),
+                      ]}
+                      shareUrl={`${siteConfig.baseUrl}/en/shows/${event.slug}`}
+                      shareTitle={eventTitle(event)}
+                      labels={{ menu: 'Show actions', share: 'Share', copyLink: 'Copy link', copied: 'Copied!', facebook: 'Facebook', twitter: 'Twitter / X' }}
+                    />
+                  </div>
+                </div>
               )}
               <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
                 <div class="flex-grow min-w-0">
                   <a href={`/en/shows/${event.slug}`} class="group">
-                    <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">{event.title}</h2>
+                    <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">
+                      {eventTitle(event)}
+                    </h2>
                   </a>
                   <p class="text-text-secondary text-sm mb-1">
                     <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
                   </p>
-                  <p class="text-text-secondary text-sm mb-2">
-                    {event.venue} · {event.city}, {event.country}
-                  </p>
-                  {event.tags && event.tags.length > 0 && (
+                  {locationLine(event) && <p class="text-text-secondary text-sm mb-2">{locationLine(event)}</p>}
+                  {eventTags(event).length > 0 && (
                     <div class="flex gap-1.5 flex-wrap mb-2">
-                      {event.tags.map(tag => (
+                      {eventTags(event).map(tag => (
                         <Badge>{tag}</Badge>
                       ))}
                     </div>
                   )}
-                  <p class="text-text-primary text-sm line-clamp-2">{event.description}</p>
+                  <p class="text-text-primary text-sm line-clamp-2">
+                    {eventDescription(event)}
+                  </p>
                 </div>
-                <div class="flex gap-2 shrink-0 flex-wrap items-start">
-                  {event.ticketUrl && (
-                    <Button
-                      variant="primary"
-                      href={event.ticketUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-sm"
-                    >
-                      Tickets
-                    </Button>
-                  )}
-                  {event.mapUrl && (
-                    <Button
-                      variant="secondary"
-                      href={event.mapUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-sm"
-                    >
-                      Map
-                    </Button>
-                  )}
-                  <SharePopover
-                    url={`${siteConfig.baseUrl}/en/shows/${event.slug}`}
-                    title={event.title}
+                <div class:list={['shrink-0', event.image ? 'hidden sm:block' : 'block']}>
+                  <ShowActionsMenu
+                    items={[
+                      ...(event.ticketUrl ? [{ href: event.ticketUrl, label: 'Tickets', icon: 'ticket' as const }] : []),
+                      ...(event.mapUrl ? [{ href: event.mapUrl, label: 'Map', icon: 'map' as const }] : []),
+                      ...(event.sourceUrl ? [{ href: event.sourceUrl, label: 'Facebook', icon: 'facebook' as const }] : []),
+                    ]}
+                    shareUrl={`${siteConfig.baseUrl}/en/shows/${event.slug}`}
+                    shareTitle={eventTitle(event)}
+                    labels={{ menu: 'Show actions', share: 'Share', copyLink: 'Copy link', copied: 'Copied!', facebook: 'Facebook', twitter: 'Twitter / X' }}
                   />
                 </div>
               </div>
@@ -152,6 +157,7 @@ const pastEvents = getPastEvents();
     {pastEvents.length > 0 && (
       <div class="border-t border-border pt-8">
         <button
+          type="button"
           id="past-shows-toggle"
           class="flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-accent-primary transition-colors mb-6"
           aria-expanded="false"
@@ -168,61 +174,61 @@ const pastEvents = getPastEvents();
             <Card hover={true} padding="none">
               <div class="flex flex-col sm:flex-row">
                 {event.image && (
-                  <a href={`/en/shows/${event.slug}`} class="overflow-hidden rounded-t-md sm:rounded-t-none sm:rounded-l-md sm:shrink-0 sm:w-44">
-                    <img
-                      src={event.image}
-                      alt={event.title}
-                      class="w-full aspect-[3/1] sm:aspect-auto sm:h-full object-cover hover:scale-105 transition-transform duration-fast"
-                      loading="lazy"
-                    />
-                  </a>
+                  <div class="relative sm:w-44 sm:self-stretch sm:shrink-0">
+                    <a href={`/en/shows/${event.slug}`} class="block overflow-hidden rounded-t-md sm:h-full sm:rounded-t-none sm:rounded-l-md">
+                      <img
+                        src={event.image}
+                        alt={eventTitle(event)}
+                        class="w-full aspect-[3/1] object-cover hover:scale-105 transition-transform duration-fast sm:h-full"
+                        loading="lazy"
+                      />
+                    </a>
+                    <div class="absolute right-3 top-3 sm:hidden">
+                      <ShowActionsMenu
+                        items={[
+                          ...(event.ticketUrl ? [{ href: event.ticketUrl, label: 'Tickets', icon: 'ticket' as const }] : []),
+                          ...(event.mapUrl ? [{ href: event.mapUrl, label: 'Map', icon: 'map' as const }] : []),
+                          ...(event.sourceUrl ? [{ href: event.sourceUrl, label: 'Facebook', icon: 'facebook' as const }] : []),
+                        ]}
+                        shareUrl={`${siteConfig.baseUrl}/en/shows/${event.slug}`}
+                        shareTitle={eventTitle(event)}
+                        labels={{ menu: 'Show actions', share: 'Share', copyLink: 'Copy link', copied: 'Copied!', facebook: 'Facebook', twitter: 'Twitter / X' }}
+                      />
+                    </div>
+                  </div>
                 )}
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
                   <div class="flex-grow min-w-0">
                     <a href={`/en/shows/${event.slug}`} class="group">
-                      <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">{event.title}</h2>
+                      <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">
+                        {eventTitle(event)}
+                      </h2>
                     </a>
                     <p class="text-text-secondary text-sm mb-1">
                       <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
                     </p>
-                    <p class="text-text-secondary text-sm mb-2">
-                      {event.venue} · {event.city}, {event.country}
-                    </p>
-                    {event.tags && event.tags.length > 0 && (
+                    {locationLine(event) && <p class="text-text-secondary text-sm mb-2">{locationLine(event)}</p>}
+                    {eventTags(event).length > 0 && (
                       <div class="flex gap-1.5 flex-wrap mb-2">
-                        {event.tags.map(tag => (
+                        {eventTags(event).map(tag => (
                           <Badge>{tag}</Badge>
                         ))}
                       </div>
                     )}
-                    <p class="text-text-primary text-sm line-clamp-2">{event.description}</p>
+                    <p class="text-text-primary text-sm line-clamp-2">
+                      {eventDescription(event)}
+                    </p>
                   </div>
-                  <div class="flex gap-2 shrink-0 flex-wrap items-start">
-                    {event.ticketUrl && (
-                      <Button
-                        variant="primary"
-                        href={event.ticketUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="text-sm"
-                      >
-                        Tickets
-                      </Button>
-                    )}
-                    {event.mapUrl && (
-                      <Button
-                        variant="secondary"
-                        href={event.mapUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="text-sm"
-                      >
-                        Map
-                      </Button>
-                    )}
-                    <SharePopover
-                      url={`${siteConfig.baseUrl}/en/shows/${event.slug}`}
-                      title={event.title}
+                  <div class:list={['shrink-0', event.image ? 'hidden sm:block' : 'block']}>
+                    <ShowActionsMenu
+                      items={[
+                        ...(event.ticketUrl ? [{ href: event.ticketUrl, label: 'Tickets', icon: 'ticket' as const }] : []),
+                        ...(event.mapUrl ? [{ href: event.mapUrl, label: 'Map', icon: 'map' as const }] : []),
+                        ...(event.sourceUrl ? [{ href: event.sourceUrl, label: 'Facebook', icon: 'facebook' as const }] : []),
+                      ]}
+                      shareUrl={`${siteConfig.baseUrl}/en/shows/${event.slug}`}
+                      shareTitle={eventTitle(event)}
+                      labels={{ menu: 'Show actions', share: 'Share', copyLink: 'Copy link', copied: 'Copied!', facebook: 'Facebook', twitter: 'Twitter / X' }}
                     />
                   </div>
                 </div>

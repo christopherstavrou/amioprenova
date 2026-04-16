@@ -168,20 +168,24 @@ This document records key decisions made during the project's development.
 
 ## Data Management
 
-### Events as Static Data
+### Events as Content Collection
 
-**Decision**: Events/shows are stored in `src/data/events.json`. Editing requires rebuilding the site.
+**Decision**: Events/shows are stored as individual JSON files in `src/content/shows/` using Astro's Content Collections.
 
 **Rationale**:
-- V1 simplicity: No API calls, no external dependencies
-- Low frequency: Shows are not updated daily
-- Git history: Track changes to event data over time
+- Scalability: Splitting data into individual files prevents a single "mega-file" from growing too large and slowing down the build.
+- Type safety: Astro validates each event against a Zod schema at build time.
+- Better DX: Individual files are easier to manage and edit.
+- Git history: Track changes to each event independently.
 
-**Future upgrade path**:
-- Pull events from Google Calendar API at build time
-- Integrate with ticketing platform APIs
+**How it works**:
+- Scraper writes individual JSON files.
+- `src/lib/events.ts` uses `getCollection('shows')`.
+- Explicit locale fields (`bodyEn`, `bodyBg`) prevent bilingual text bleeding.
 
-**Status**: ✅ Implemented (static data)
+**Status**: ✅ Implemented (Content Collections)
+
+**Date**: 2026-04-14
 
 ---
 
@@ -290,4 +294,49 @@ These are hard limits that MUST NOT be violated in V1:
 6. **Content-driven multilingual** - No inline translation logic in pages
 7. **Design.md compliance** - All styling must reference DESIGN.md
 
+---
 
+### Event Data: `_overrides` Field for Human-Curated Fields
+
+**Decision**: Add an optional `_overrides` object to event entries in `src/content/shows/*.json`. The scraper checks this map before deciding whether to update a field.
+
+**States**:
+- `"locked"` — Human-verified. The scraper never overwrites this field.
+- `"fallback"` — Human-set best-effort value. Scraper replaces it only if the scraped value is non-empty.
+- *(absent)* — Scraper owns the field. Always uses the latest scraped value (existing behaviour).
+
+**Rationale**: Facebook returns poor location data for many Sofia venues (empty city/country, taglines instead of city names). Rather than adding increasingly complex scraper heuristics for bad data, a protection layer on the data itself is the right model. Human fixes are locked once verified; the scraper cannot undo them.
+
+**Implementation**: `resolveField(fieldName, existingEvent, scrapedValue)` in `scripts/scrape-facebook-events.mjs`. Fields `admission`, `eventType`, and `_overrides` itself are never written by the scraper — they are human-managed only.
+
+**Status**: ✅ Implemented
+
+**Date**: 2026-04-13
+
+---
+
+### Event Schema: `admission` and `eventType` Fields
+
+**Decision**: Add `admission` (structured object) and `eventType` (string enum) to the `Event` interface.
+
+**`admission` shape**:
+```json
+{
+  "type": "free | free-booking | paid | donation",
+  "price": "15 лв.",
+  "concessions": "12 лв. студенти / ученици",
+  "note": "Вход свободен за под 18 г."
+}
+```
+
+**`eventType` values**: `concert | jam | collaboration | charity | album-launch | workshop | birthday`
+
+**Rationale**: This information is buried in Facebook descriptions (often in Bulgarian, with emoji) and is important for audience decision-making. Structured fields allow it to appear in the labelled details card without polluting the body text.
+
+**Display**: Rendered in the event detail card with ticket and music-note icons respectively. Labels are currently hardcoded in English/Bulgarian per page file.
+
+**TODO — Localisation**: `eventType` display labels and `admission` type labels are currently hardcoded in each language's page file (`src/pages/en/shows/[slug].astro` and `src/pages/bg/shows/[slug].astro`). When a proper i18n system is introduced, these should be moved to `src/i18n/ui.ts` alongside other UI strings.
+
+**Status**: ✅ Implemented
+
+**Date**: 2026-04-13

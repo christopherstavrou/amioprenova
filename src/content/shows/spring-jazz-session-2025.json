@@ -1,0 +1,67 @@
+{
+  "id": "5",
+  "slug": "spring-jazz-session-2025",
+  "title": "Spring Jazz Session: Vocal Workshop & Jam",
+  "titleEn": "Spring Jazz Session: Vocal Workshop & Jam",
+  "titleBg": "Пролетна джаз сесия: Вокален уъркшоп и джем",
+  "description": "An interactive spring afternoon dedicated to vocal jazz improvisation and performance at NDK, Sofia.",
+  "descriptionEn": "An interactive spring afternoon dedicated to vocal jazz improvisation and performance at NDK, Sofia.",
+  "descriptionBg": "Интерактивен пролетен следобед, посветен на вокалната джаз импровизация и изпълнение в НДК, София.",
+  "body": "Join jazz vocalist Ami Oprenova for a unique spring workshop followed by an open jam session. This event is designed for both aspiring vocalists and jazz enthusiasts who want to explore the art of scat singing, phrasing, and stage presence.\n\nThe session will conclude with a live performance featuring professional accompaniment, where workshop participants are invited to share the stage.",
+  "bodyEn": "Join jazz vocalist Ami Oprenova for a unique spring workshop followed by an open jam session. This event is designed for both aspiring vocalists and jazz enthusiasts who want to explore the art of scat singing, phrasing, and stage presence.\n\nThe session will conclude with a live performance featuring professional accompaniment, where workshop participants are invited to share the stage.",
+  "bodyBg": "Присъединете се към джаз вокалистката Ами Опренова за уникален пролетен уъркшоп, последван от отворена джем сесия. Това събитие е предназначено както за начинаещи вокалисти, така и за джаз ентусиасти, които искат да изследват изкуството на скат пеенето, фразирането и сценичното присъствие.\n\nСесията ще завърши с изпълнение на живо с професионален съпровод, където участниците в уъркшопа са поканени да споделят сцената.",
+  "startDate": "2025-04-20T14:00:00+03:00",
+  "venue": "National Palace of Culture (NDK)",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "tags": [
+    "workshop",
+    "jam-session",
+    "jazz",
+    "vocal-jazz",
+    "sofia",
+    "bulgaria",
+    "ndk"
+  ],
+  "tagsBg": [
+    "уъркшоп",
+    "джем сесия",
+    "джаз",
+    "вокален джаз",
+    "София",
+    "България",
+    "ндк"
+  ],
+  "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=1280&h=720&auto=format&fit=crop",
+  "gallery": [
+    {
+      "type": "image",
+      "src": "https://images.unsplash.com/photo-1514320298314-9988421008d5?q=80&w=1280&h=720&auto=format&fit=crop",
+      "alt": "Microphone on stage",
+      "caption": "Ready for the workshop"
+    }
+  ],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=National+Palace+of+Culture+Sofia",
+  "eventType": "workshop",
+  "admission": {
+    "type": "paid",
+    "price": "20 лв.",
+    "note": "Includes workshop materials",
+    "noteBg": "Включва материали за уъркшопа"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

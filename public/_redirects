@@ -1,3 +1,3 @@
-# Soft launch: redirect all inner pages to splash until site is ready
-/en/*  /  302
-/bg/*  /  302
+# Soft launch: redirect all inner pages to splash until site is ready.
+# This is now handled by functions/_middleware.ts so the rule only fires
+# on the production domain (amioprenova.com) and not on *.pages.dev previews.

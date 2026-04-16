@@ -153,7 +153,7 @@ Set `"featured": true` on one video to feature it on the Home and Video pages. T
 
 ### Shows / Events
 
-Edit `src/data/events.json`. Rebuild to update the Shows page.
+Events are stored as individual JSON files in `src/content/shows/`. Rebuild to update the Shows page.
 
 ---
 

@@ -1,0 +1,59 @@
+{
+  "id": "1744567890123",
+  "slug": "winter-concert-series-2026",
+  "title": "Grand Winter Concert 2026",
+  "titleEn": "Grand Winter Concert 2026",
+  "titleBg": "Голям зимен концерт 2026",
+  "description": "Experience a magical evening of jazz and festive classics in the heart of Sofia.",
+  "descriptionEn": "Experience a magical evening of jazz and festive classics in the heart of Sofia.",
+  "descriptionBg": "Потопете се в магическа вечер с джаз и празнични класики в сърцето на София.",
+  "body": "Join us for the highlight of the winter season — a grand concert featuring a full jazz band, special guests, and a curated selection of winter classics and original arrangements. Set in one of Sofia's most beautiful concert halls, this evening promises warmth, elegance, and world-class musicianship.\n\nMore details and ticket information will be announced soon.",
+  "bodyEn": "Join us for the highlight of the winter season — a grand concert featuring a full jazz band, special guests, and a curated selection of winter classics and original arrangements. Set in one of Sofia's most beautiful concert halls, this evening promises warmth, elegance, and world-class musicianship.\n\nMore details and ticket information will be announced soon.",
+  "bodyBg": "Присъединете се към кулминацията на зимния сезон — голям концерт с пълен джаз бенд, специални гости и подбрана селекция от зимни класики и оригинални аранжименти. В една от най-красивите концертни зали на София, тази вечер обещава топлина, елегантност и музикално майсторство на световно ниво.\n\nПовече подробности и информация за билетите очаквайте скоро.",
+  "startDate": "2026-12-15T19:00:00+02:00",
+  "venue": "Bulgaria Hall",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "tags": [
+    "concert",
+    "jazz",
+    "festive",
+    "winter",
+    "sofia",
+    "bulgaria",
+    "bulgaria-hall"
+  ],
+  "tagsBg": [
+    "концерт",
+    "джаз",
+    "празничен",
+    "зима",
+    "София",
+    "България",
+    "зала-българия"
+  ],
+  "image": "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?q=80&w=1280&h=720&auto=format&fit=crop",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Bulgaria+Hall+Sofia",
+  "eventType": "concert",
+  "admission": {
+    "type": "paid",
+    "note": "Tickets available soon",
+    "noteBg": "Очаквайте билети скоро"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

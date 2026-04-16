@@ -17,6 +17,9 @@ lerna-debug.log*
 logs/
 *.log
 
+# Scraper credentials — never commit these
+scripts/facebook-cookies.json
+
 # Environment variables
 .env
 .env.local

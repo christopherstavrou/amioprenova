@@ -1,0 +1,59 @@
+{
+  "id": "1714248861936330",
+  "slug": "coco-n-the-fellas-italy-tour-2017",
+  "facebookId": "1714248861936330",
+  "title": "Coco 'n' the Fellas Italy Tour",
+  "titleEn": "Coco 'n' the Fellas Italy Tour",
+  "titleBg": "Турне в Италия на Coco 'n' the Fellas",
+  "description": "The band brings their new album 'Some Of Our Favourite Tunes' to Torino, Chivasso, and Bologna.",
+  "descriptionEn": "The band brings their new album 'Some Of Our Favourite Tunes' to Torino, Chivasso, and Bologna.",
+  "descriptionBg": "Групата представя новия си албум „Some Of Our Favourite Tunes“ в Торино, Кивасо и Болоня.",
+  "body": "After touring between Scotland and Bulgaria, Coco 'n' the Fellas are coming to Italy with their new album \"Some Of Our Favourite Tunes \".\n\nDopo i Tour in Scozia e Bulgaria, Coco 'n' the Fellas torna in Italia  per presentare l'ultimo disco \" Some of Our Favourite Tunes\" .\nEcco tutte le date:\n\n14 Luglio - Jazz Club Torino /  h 21:30\nhttp://www.jazzclub.torino.it/event/coco-n-the-fellas/\n15 Luglio - Estival - Chivasso / h 19:00\nhttps://www.facebook.com/events/243718436110147/\n16 Luglio - Passaggio in Collina - Piazzo (TO) / h 19:30\nhttps://www.facebook.com/events/1940005266256072/\n17 Luglio - Video Shoot Off The Corner\nhttps://www.facebook.com/OffTheCornerSessions/\n19 Luglio - Il Salotto del Jazz - Cantine Bentivoglio (BO) / h 21:30\nhttp://www.cantinabentivoglio.it/ita/salotto_del_jazz.html\n\nhttps://www.coconthefellas.com/on-tour",
+  "bodyEn": "After touring between Scotland and Bulgaria, Coco 'n' the Fellas are coming to Italy with their new album \"Some Of Our Favourite Tunes \".\n\nTour Dates:\n- July 14th: Jazz Club Torino\n- July 15th: Estival, Chivasso\n- July 16th: Passaggio in Collina, Piazzo (TO)\n- July 17th: Video Shoot Off The Corner\n- July 19th: Il Salotto del Jazz - Cantine Bentivoglio, Bologna",
+  "bodyBg": "След турнета в Шотландия и България, Coco 'n' the Fellas идват в Италия с новия си албум „Some Of Our Favourite Tunes“.\n\nДати на турнето:\n- 14 юли: Jazz Club Torino\n- 15 юли: Estival, Chivasso\n- 16 юли: Passaggio in Collina, Piazzo (TO)\n- 17 юли: Снимане на видео Off The Corner\n- 19 юли: Il Salotto del Jazz - Cantine Bentivoglio, Bologna",
+  "startDate": "2017-07-14T19:00:00+02:00",
+  "endDate": "2017-07-19T21:00:00+02:00",
+  "venue": "Various Locations",
+  "city": "Torino, Bologna",
+  "country": "Italy",
+  "hosts": [
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "jazz",
+    "tour",
+    "italy",
+    "album-launch"
+  ],
+  "tagsBg": [
+    "джаз",
+    "турне",
+    "Италия",
+    "представяне на албум"
+  ],
+  "image": "/images/events/fb-1714248861936330.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Italy",
+  "sourceUrl": "https://www.facebook.com/events/1714248861936330/",
+  "usersResponded": 10,
+  "eventType": "concert",
+  "admission": {
+    "type": "paid"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked",
+    "venue": "locked"
+  }
+}
