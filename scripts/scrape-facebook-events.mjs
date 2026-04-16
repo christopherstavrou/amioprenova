@@ -79,10 +79,20 @@ function loadExistingEvents() {
 //   'locked'   — human-verified, never overwrite
 //   'fallback' — human-set best-effort; prefer scraped if non-empty
 //   (absent)   — scraper owns this field, always use latest scraped value
+//
+// "Empty" is type-aware: null/undefined, empty string, or empty array all
+// count as missing so the existing fallback value is preserved.
+function isEmpty(value) {
+  if (value == null) return true;
+  if (typeof value === 'string') return value === '';
+  if (Array.isArray(value)) return value.length === 0;
+  return false;
+}
+
 function resolveField(fieldName, existingEvent, scrapedValue) {
   const policy = existingEvent?._overrides?.[fieldName];
   if (policy === 'locked')   return existingEvent[fieldName];
-  if (policy === 'fallback') return scrapedValue || existingEvent[fieldName];
+  if (policy === 'fallback') return isEmpty(scrapedValue) ? existingEvent[fieldName] : scrapedValue;
   return scrapedValue;
 }
 
