@@ -480,7 +480,7 @@ function mapEvent(fbEvent, existingEvent) {
       tags,
       image: coverImageUrl ? coverImagePath : (existingEvent?.image || undefined),
       gallery: gallery.length > 0 ? gallery : undefined,
-      ticketUrl: fbEvent.ticketUrl || existingEvent?.ticketUrl || undefined,
+      ticketUrl: resolveField('ticketUrl', existingEvent, fbEvent.ticketUrl ?? '') || undefined,
       mapUrl: mapUrl || undefined,
       sourceUrl: fbEvent.url,
       usersResponded: fbEvent.usersResponded > 0 ? fbEvent.usersResponded : undefined,

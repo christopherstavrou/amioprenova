@@ -97,7 +97,11 @@ const L = {
   }
 
   function closeAllMenus() {
-    document.querySelectorAll('.show-actions-panel').forEach((panel) => panel.classList.add('hidden'));
+    document.querySelectorAll('.show-actions-panel').forEach((panel) => {
+      panel.classList.add('hidden');
+      panel.querySelectorAll('.share-panel').forEach((sp) => sp.classList.add('hidden'));
+      panel.querySelectorAll('.share-trigger').forEach((st) => st.setAttribute('aria-expanded', 'false'));
+    });
     document.querySelectorAll('.show-actions-trigger').forEach((trigger) => trigger.setAttribute('aria-expanded', 'false'));
     document.removeEventListener('click', handleDocClick);
     document.removeEventListener('keydown', handleDocKeyDown);
