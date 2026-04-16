@@ -105,7 +105,7 @@ function parseWallClockDate(dateString: string): Date {
   return date;
 }
 
-// Date part only — "Sun 4 Jun 2024" / "нд 4 юни 2024 г."
+// Date part only — "Sun 4 Jun 2024" / "нд 4 юни 2024"
 // Uses formatToParts so we control the order and strip commas ourselves.
 export function formatEventDatePart(dateString: string, locale: string = 'en'): string {
   const date = parseWallClockDate(dateString);
