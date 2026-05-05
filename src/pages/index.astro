@@ -362,12 +362,12 @@ const year = new Date().getFullYear();
         text-decoration: none;
         border: 1.5px solid var(--color-accent-gold);
         color: var(--color-accent-gold);
-        background-color: color-mix(in srgb, var(--color-bg) 50%, transparent);
+        background-color: color-mix(in srgb, var(--color-bg) 50%, transparent 50%);
         transition: background-color var(--transition-fast), transform var(--transition-fast);
       }
 
       .link:hover {
-        background-color: color-mix(in srgb, var(--color-accent-gold) 15%, transparent);
+        background-color: color-mix(in srgb, var(--color-accent-gold) 15%, transparent 85%);
         transform: translateY(-1px);
       }
 
