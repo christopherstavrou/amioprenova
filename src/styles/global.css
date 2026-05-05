@@ -316,7 +316,8 @@ textarea::placeholder {
 }
 
 /* Burger/close icons: uses accent-primary token (maroon in light, gold in dark) */
-#mobile-menu-toggle {
+#mobile-menu-toggle,
+#mobile-close-btn {
   color: var(--color-accent-primary);
 }
 
@@ -361,9 +362,9 @@ textarea::placeholder {
     padding-bottom: 0.75rem;
   }
 
-  /* Reduce top clearance in mobile menu — viewport is short in landscape */
+  /* Reduce top clearance in mobile menu body — viewport is short in landscape */
   .mobile-menu .mobile-menu-body {
-    padding-top: 4rem;
+    padding-top: 0.25rem;
   }
 
   /* Hero: drop the min-height, cancel section padding (md: bumps it to 4rem but -mt-10 only cancels 2.5rem) */
