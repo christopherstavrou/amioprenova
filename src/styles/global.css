@@ -291,7 +291,7 @@ input:focus,
 textarea:focus {
   outline: none;
   border-color: var(--color-accent-primary);
-  box-shadow: 0 0 0 3px rgba(139, 28, 59, 0.1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent-primary) 10%, transparent);
 }
 
 input::placeholder,
@@ -308,16 +308,11 @@ textarea::placeholder {
 /* ===== Header Glass Effect ===== */
 
 .header-glass {
-  background: rgba(247, 244, 240, 0.85);
+  background: color-mix(in srgb, var(--color-bg) 85%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom-color: rgba(229, 229, 229, 0.5);
+  border-bottom-color: color-mix(in srgb, var(--color-border) 50%, transparent);
   transition: background-color var(--transition-base), border-color var(--transition-base);
-}
-
-:root[data-theme="dark"] .header-glass {
-  background: rgba(13, 12, 11, 0.85);
-  border-bottom-color: rgba(45, 41, 38, 0.5);
 }
 
 /* Burger/close icons: uses accent-primary token (maroon in light, gold in dark) */
@@ -327,7 +322,7 @@ textarea::placeholder {
 
 /* Mobile menu overlay — hidden by default, shown via .open class */
 .mobile-menu {
-  background: rgba(247, 244, 240, 0.97);
+  background: color-mix(in srgb, var(--color-bg) 97%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   opacity: 0;
@@ -335,10 +330,6 @@ textarea::placeholder {
   pointer-events: none;
   z-index: 40; /* below header z-50 so hamburger button stays tappable */
   transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-:root[data-theme="dark"] .mobile-menu {
-  background: rgba(13, 12, 11, 0.97);
 }
 
 .mobile-menu.open {

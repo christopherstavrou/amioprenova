@@ -1,7 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-  darkMode: 'media', // Use prefers-color-scheme for automatic theme switching
+  // Match the project's data-theme model: any `dark:` variant that ever
+  // appears in the codebase will activate against [data-theme="dark"] on
+  // <html>, not prefers-color-scheme. Components should still avoid `dark:`
+  // — dark mode is handled by CSS-variable overrides in global.css.
+  darkMode: ['selector', '[data-theme="dark"]'],
   theme: {
     extend: {
       screens: {
