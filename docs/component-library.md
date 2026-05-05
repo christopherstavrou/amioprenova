@@ -31,6 +31,7 @@ Each component file carries its own documentation in its frontmatter. This page 
 |---|---|
 | [`Logo`](../src/components/Logo.astro) | The "Ami Oprenova" wordmark. Do not inline the script font anywhere else. |
 | [`Badge`](../src/components/Badge.astro) | Small inline labels — tags, categories, metadata pills. Variants `default` / `accent` / `muted`. |
+| [`SocialIcon`](../src/components/SocialIcon.astro) | Any social or music platform glyph — Instagram, Facebook, YouTube, TikTok, Bandcamp, Spotify. Renders the SVG only; the caller wraps it in `<a>` with the appropriate href, hover styles, and `aria-label`. **Never inline a social SVG anywhere — extend `SocialIcon` instead.** |
 
 ## Media & sharing
 
