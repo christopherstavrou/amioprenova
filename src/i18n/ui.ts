@@ -17,6 +17,7 @@ export const ui = {
       links: 'Links',
       toggleTheme: 'Toggle Theme',
       toggleMenu: 'Toggle menu',
+      closeMenu: 'Close menu',
       language: 'Language',
     },
     home: {
@@ -44,6 +45,7 @@ export const ui = {
       links: 'Връзки',
       toggleTheme: 'Смяна на тема',
       toggleMenu: 'Меню',
+      closeMenu: 'Затвори менюто',
       language: 'Език',
     },
     home: {

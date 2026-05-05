@@ -330,7 +330,7 @@ textarea::placeholder {
   visibility: hidden;
   pointer-events: none;
   z-index: 40; /* below header z-50 so hamburger button stays tappable */
-  transition: opacity var(--transition-base) ease, visibility var(--transition-base) ease;
+  transition: opacity var(--transition-base), visibility var(--transition-base);
 }
 
 .mobile-menu.open {
