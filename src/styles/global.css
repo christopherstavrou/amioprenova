@@ -1,6 +1,44 @@
 /* Global Styles for amioprenova.com
- * Design system implementation based on DESIGN.md
- * Includes CSS variables for light/dark mode support via data-theme attribute
+ *
+ * This file is the source of truth for design tokens. To change a colour,
+ * radius, shadow, or transition site-wide, change it here. The brand concept
+ * (palette intent, typography character, voice) lives in docs/brand.md.
+ *
+ * Token groups (defined in :root for light mode, overridden in
+ * :root[data-theme="dark"] for dark mode):
+ *
+ *   --color-bg / --color-surface / --color-surface-{muted,elevated}
+ *       Page and panel backgrounds. Surface sits above bg; surface-elevated
+ *       is for floating UI (dropdowns, modals, tooltips).
+ *
+ *   --color-text-{primary,secondary,inverse,heading}
+ *       Body, secondary, on-accent, and heading text. Heading uses gold in
+ *       dark mode and near-black in light mode.
+ *
+ *   --color-accent-{primary,primary-hover,secondary,gold}
+ *       Burgundy in light mode, gold in dark mode. Accent slots all resolve
+ *       to the mode's lead colour by design — single-accent palette per mode.
+ *
+ *   --color-border / --color-border-light / --color-border-focus
+ *       Default, subtle, and focus-state borders.
+ *
+ *   --color-overlay
+ *       Lightbox/modal scrim.
+ *
+ *   --gradient-h1 / --gradient-hero
+ *       Three-stop gradients used by h1 and the hero name; rendered with
+ *       background-clip: text.
+ *
+ *   --shadow-{sm,md,lg}
+ *       Elevation steps. Stronger in dark mode for contrast.
+ *
+ *   --radius-{sm,md,lg}        4 / 8 / 12 px corner radii.
+ *   --transition-{fast,base,slow}   150 / 250 / 500 ms easing.
+ *
+ * Theme switching: the data-theme attribute on <html> is set by the inline
+ * script in Layout.astro before first paint. Tailwind utilities reference
+ * these variables via tailwind.config.mjs — never use Tailwind's dark:
+ * variant in components.
  */
 
 /* ===== Google Fonts ===== */
@@ -253,7 +291,7 @@ input:focus,
 textarea:focus {
   outline: none;
   border-color: var(--color-accent-primary);
-  box-shadow: 0 0 0 3px rgba(139, 28, 59, 0.1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent-primary) 10%, transparent);
 }
 
 input::placeholder,
@@ -270,37 +308,29 @@ textarea::placeholder {
 /* ===== Header Glass Effect ===== */
 
 .header-glass {
-  background: rgba(247, 244, 240, 0.85);
+  background: color-mix(in srgb, var(--color-bg) 85%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom-color: rgba(229, 229, 229, 0.5);
+  border-bottom-color: color-mix(in srgb, var(--color-border) 50%, transparent);
   transition: background-color var(--transition-base), border-color var(--transition-base);
 }
 
-:root[data-theme="dark"] .header-glass {
-  background: rgba(13, 12, 11, 0.85);
-  border-bottom-color: rgba(45, 41, 38, 0.5);
-}
-
 /* Burger/close icons: uses accent-primary token (maroon in light, gold in dark) */
-#mobile-menu-toggle {
+#mobile-menu-toggle,
+#mobile-close-btn {
   color: var(--color-accent-primary);
 }
 
 /* Mobile menu overlay — hidden by default, shown via .open class */
 .mobile-menu {
-  background: rgba(247, 244, 240, 0.97);
+  background: color-mix(in srgb, var(--color-bg) 97%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   z-index: 40; /* below header z-50 so hamburger button stays tappable */
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-:root[data-theme="dark"] .mobile-menu {
-  background: rgba(13, 12, 11, 0.97);
+  transition: opacity var(--transition-base), visibility var(--transition-base);
 }
 
 .mobile-menu.open {
@@ -332,9 +362,9 @@ textarea::placeholder {
     padding-bottom: 0.75rem;
   }
 
-  /* Reduce top clearance in mobile menu — viewport is short in landscape */
+  /* Reduce top clearance in mobile menu body — viewport is short in landscape */
   .mobile-menu .mobile-menu-body {
-    padding-top: 4rem;
+    padding-top: 0.25rem;
   }
 
   /* Hero: drop the min-height, cancel section padding (md: bumps it to 4rem but -mt-10 only cancels 2.5rem) */
