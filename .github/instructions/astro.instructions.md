@@ -92,7 +92,7 @@ document.body.style.overflow = '';
 
 ## Content Collections
 
-- Blog schema is defined in `src/content/config.ts` and imports the Zod schema from `src/lib/gallery-schema.ts` — do not redefine gallery item types inline.
+- Blog schema is defined in `src/content.config.ts` and imports the Zod schema from `src/lib/gallery-schema.ts` — do not redefine gallery item types inline.
 - The `gallery` field uses a `z.discriminatedUnion` on `type`: `'image'` | `'youtube'` | `'vimeo'`.
 - Always add `image` and `gallery` as optional fields — never required — so existing content remains valid.
 

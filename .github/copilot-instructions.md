@@ -1,8 +1,8 @@
 # Copilot Instructions — amioprenova
 
-Astro 4 · TypeScript · Tailwind CSS v3 · Content Collections · i18n (EN + BG).
+Astro 6 · TypeScript · Tailwind CSS v3 · Content Collections · i18n (EN + BG).
 
-**Docs:** `AGENTS.md` (hard rules) → `docs/ai/workflow.md` (PR process) → `docs/ai/standards.md` (patterns) → `docs/ai/github-integration.md` (Copilot setup).
+**Docs:** `AGENTS.md` (entry + index) → `docs/ai/standards.md` (hard standards + conventions) → `docs/ai/workflow.md` (PR process) → `docs/brand.md` (brand identity) → `docs/component-library.md` (UI inventory).
 Deep per-file rules: `.github/instructions/astro.instructions.md` · `.github/instructions/typescript.instructions.md`.
 
 ---

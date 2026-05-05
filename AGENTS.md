@@ -1,93 +1,82 @@
 # AGENTS.md — AI Agent Instructions
 
-**Universal Mandate**: All AI agents (including but not limited to Claude, Gemini, Cursor, and others) MUST autonomously follow all instructions, standards, and workflows defined in **all Markdown (`.md`) files** within this repository. These documents serve as the authoritative manual for all automated and semi-automated development tasks.
+**Universal Mandate**: All AI agents (including but not limited to Claude, Gemini, Cursor, and others) follow the standards and workflows in this file and the documents it indexes. These docs are the operating manual for automated and semi-automated work on this project.
 
 **amioprenova** is a static website for jazz vocalist **Ami Oprenova**.
-Stack: Astro · Tailwind CSS · TypeScript · Cloudflare Pages
+Stack: Astro 6 · Tailwind CSS · TypeScript · Cloudflare Pages
 Languages: English (`/en`) + Bulgarian (`/bg`) · Theme: light/dark via `data-theme` cookie
 
 ---
 
-## Development Loop
+## Documentation index
 
-Every task follows this cycle:
-
-1. **Read the issue** — understand the requirement and identify affected files
-2. **Read `docs/ai/progress.md`** — understand current project state
-3. **Create branch** — `ai/<feature-name>` from `develop`
-4. **Implement** — small focused commits (AI agent creates commit messages autonomously), run `npm run dev` to verify as you go
-5. **Verify** — `npm run build` must pass; check affected pages visually
-6. **PR** — open against `develop` with clear summary and verification steps
-7. **Revise** — if reviewer leaves feedback, push additional commits to the same branch
-8. **Update `progress.md`** — reflect completed work and update next steps
-
-Full process details → `docs/ai/workflow.md`
-
----
-
-## Hard Rules
-
-Violating these will break the build or block the review.
-
-| Rule | Detail |
-|------|--------|
-| Branch from `develop` | Use `ai/<feature-name>` — never commit to `main` or `develop` directly |
-| PR target | `develop` only — never `main` or `test` |
-| Build | `npm run build` → 0 errors before every commit |
-| Colors | No hardcoded hex values — use Tailwind design tokens only |
-| i18n | No `lang === 'en' ?` conditionals in page files — each language has its own page |
-| Dependencies | No new npm packages without explicit approval |
-
-Implementation conventions → `docs/ai/standards.md`
-
----
-
-## Documentation Index
+The docs are organised by audience and volatility. Read the file that matches what you need.
 
 | File | Read when |
-|------|-----------|
-| `docs/ai/progress.md` | Every session — current state, what's next |
-| `docs/ai/workflow.md` | Process questions — branching, commits, PR format, review response |
-| `docs/ai/standards.md` | Implementation questions — naming, structure, patterns |
-| `docs/ai/decisions.md` | Architecture questions — why things are built the way they are |
-| `docs/ai/github-integration.md` | GitHub Actions / Copilot setup, triggering, troubleshooting |
-| `DESIGN.md` | Visual questions — colors, typography, component specs |
-| `README.md` | Content/data management, commands, deployment |
+|---|---|
+| [`docs/ai/progress.md`](./docs/ai/progress.md) | Every session — current state, what's next |
+| [`docs/ai/standards.md`](./docs/ai/standards.md) | Implementation questions — hard standards, conventions, patterns |
+| [`docs/ai/workflow.md`](./docs/ai/workflow.md) | Process questions — branching, commits, PRs, review |
+| [`docs/ai/decisions.md`](./docs/ai/decisions.md) | Architecture questions — why things are built this way |
+| [`docs/ai/event-enrichment.md`](./docs/ai/event-enrichment.md) | Working on events / show entries / scraper output |
+| [`docs/ai/github-integration.md`](./docs/ai/github-integration.md) | GitHub Actions / Claude / Copilot setup and triggering |
+| [`docs/brand.md`](./docs/brand.md) | Brand identity — palette concept, voice, photography |
+| [`docs/component-library.md`](./docs/component-library.md) | What components exist; when to use each |
+| [`README.md`](./README.md) | Content management, commands, deployment |
 
-## Copilot Instruction Files
+Source-of-truth files (read the code directly, not a doc about it):
 
-GitHub Copilot reads its own instruction files (see `docs/ai/github-integration.md` for full context). These mirror the rules in this file — keep them in sync when hard rules change:
-
-| File | Scope |
-|------|-------|
-| `.github/copilot-instructions.md` | Repo-wide rules read on every PR review (≤ 4,000 chars) |
-| `.github/instructions/astro.instructions.md` | Deep guidance for `*.astro` files |
-| `.github/instructions/typescript.instructions.md` | TypeScript rules for `*.ts` files |
+- **Design tokens** — top of [`src/styles/global.css`](./src/styles/global.css)
+- **Component specs** — frontmatter docstring of each [`src/components/*.astro`](./src/components/)
+- **External URLs and config** — [`src/config/site.ts`](./src/config/site.ts)
+- **UI strings** — [`src/i18n/ui.ts`](./src/i18n/ui.ts)
 
 ---
 
-## Repository Map
+## Hard standards (the short list)
+
+The full enforceable standard list is in [`docs/ai/standards.md`](./docs/ai/standards.md) §1. The non-negotiables in one paragraph:
+
+`npm run build` must pass with zero errors. No hardcoded hex/rgba/duration values — use design tokens. No `lang === 'en' ?…` ternaries in pages — EN and BG pages are sibling files with matching structure. No `dark:` Tailwind variants — dark mode is `data-theme` on `<html>`. No `innerHTML` with user-controlled data. Every non-submit `<button>` has `type="button"`. Icon-only buttons have `aria-label` from the i18n dictionary. Never duplicate something the [component library](./docs/component-library.md) already covers — extend it instead.
+
+Beyond that, exercise judgement. The conventions in `standards.md` §2 are defaults to follow when there's no reason not to.
+
+---
+
+## Repository map
 
 ```
 src/
-├── components/        # Reusable UI — Button, Card, PageHeader, etc.
+├── components/        # Reusable UI — see docs/component-library.md
 ├── layouts/           # Layout.astro — SEO, header, nav, footer
 ├── pages/{en,bg}/     # One .astro file per page per language
-├── content/           # Markdown — blog posts, about page
-├── data/              # JSON — events.json, releases.json, videos.json
-├── config/site.ts     # All external URLs and site metadata
+├── content/           # Markdown blog + page entries; JSON show entries
+├── data/              # JSON — releases, videos, cake-and-jazz
+├── config/site.ts     # External URLs and site metadata
 ├── i18n/ui.ts         # Short UI strings (nav labels, buttons, footer)
-├── lib/               # Utility functions (events, formatting)
-└── styles/global.css  # CSS custom properties and design tokens
+├── lib/               # Utilities (events, schemas)
+├── scripts/           # Client-side scripts (inline-video, list-search)
+└── styles/global.css  # Design tokens and base styles
 ```
 
 ---
 
-## Quick Reference
+## Copilot mirror files
+
+GitHub Copilot reads its own instruction files (see [`docs/ai/github-integration.md`](./docs/ai/github-integration.md)). Keep them in sync when the hard standards change:
+
+| File | Scope |
+|---|---|
+| [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) | Repo-wide rules read on every PR review (≤ 4,000 chars) |
+| [`.github/instructions/astro.instructions.md`](./.github/instructions/astro.instructions.md) | Deep guidance for `*.astro` files |
+| [`.github/instructions/typescript.instructions.md`](./.github/instructions/typescript.instructions.md) | TypeScript rules for `*.ts` files |
+
+---
+
+## Quick reference
 
 ```bash
 npm run dev            # Dev server → http://localhost:4321
 npm run build          # Production build (run before every commit)
 npx astro check        # TypeScript type check
 ```
-

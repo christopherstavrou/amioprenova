@@ -292,7 +292,7 @@ These are hard limits that MUST NOT be violated in V1:
 4. **No on-site payments** - Links to external platforms only
 5. **No contact form backend** - Mailto links only in V1
 6. **Content-driven multilingual** - No inline translation logic in pages
-7. **Design.md compliance** - All styling must reference DESIGN.md
+7. **Design tokens** - All styling must use the tokens defined in `src/styles/global.css` (the source of truth). The brand concept is documented in `docs/brand.md`.
 
 ---
 

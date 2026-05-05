@@ -1,6 +1,44 @@
 /* Global Styles for amioprenova.com
- * Design system implementation based on DESIGN.md
- * Includes CSS variables for light/dark mode support via data-theme attribute
+ *
+ * This file is the source of truth for design tokens. To change a colour,
+ * radius, shadow, or transition site-wide, change it here. The brand concept
+ * (palette intent, typography character, voice) lives in docs/brand.md.
+ *
+ * Token groups (defined in :root for light mode, overridden in
+ * :root[data-theme="dark"] for dark mode):
+ *
+ *   --color-bg / --color-surface / --color-surface-{muted,elevated}
+ *       Page and panel backgrounds. Surface sits above bg; surface-elevated
+ *       is for floating UI (dropdowns, modals, tooltips).
+ *
+ *   --color-text-{primary,secondary,inverse,heading}
+ *       Body, secondary, on-accent, and heading text. Heading uses gold in
+ *       dark mode and near-black in light mode.
+ *
+ *   --color-accent-{primary,primary-hover,secondary,gold}
+ *       Burgundy in light mode, gold in dark mode. Accent slots all resolve
+ *       to the mode's lead colour by design — single-accent palette per mode.
+ *
+ *   --color-border / --color-border-light / --color-border-focus
+ *       Default, subtle, and focus-state borders.
+ *
+ *   --color-overlay
+ *       Lightbox/modal scrim.
+ *
+ *   --gradient-h1 / --gradient-hero
+ *       Three-stop gradients used by h1 and the hero name; rendered with
+ *       background-clip: text.
+ *
+ *   --shadow-{sm,md,lg}
+ *       Elevation steps. Stronger in dark mode for contrast.
+ *
+ *   --radius-{sm,md,lg}        4 / 8 / 12 px corner radii.
+ *   --transition-{fast,base,slow}   150 / 250 / 500 ms easing.
+ *
+ * Theme switching: the data-theme attribute on <html> is set by the inline
+ * script in Layout.astro before first paint. Tailwind utilities reference
+ * these variables via tailwind.config.mjs — never use Tailwind's dark:
+ * variant in components.
  */
 
 /* ===== Google Fonts ===== */
