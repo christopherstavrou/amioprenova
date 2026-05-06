@@ -13,8 +13,8 @@ applyTo: "**/*.ts"
 
 ## Naming conventions
 
-- `PascalCase` for types, interfaces, classes, and Zod schemas (`galleryItemSchema`, `Event`, `GalleryItem`).
-- `camelCase` for variables, functions, and module-level constants (`getUpcomingEvents`, `formatEventDate`).
+- `PascalCase` for types, interfaces, and classes (`Event`, `GalleryItem`).
+- `camelCase` for variables, functions, module-level constants, and Zod schema constants (`getUpcomingEvents`, `formatEventDate`, `galleryItemSchema`).
 - `UPPER_SNAKE_CASE` is reserved for true compile-time constants, not runtime values.
 
 ## Zod schemas — single source of truth

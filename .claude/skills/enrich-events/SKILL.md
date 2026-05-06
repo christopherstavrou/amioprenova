@@ -40,6 +40,7 @@ for (const f of readdirSync(dir).filter(f => f.endsWith('.json'))) {
   const ev = JSON.parse(readFileSync(join(dir, f), 'utf8'));
   const gaps = [];
   if (!ev.description || ev.description.length < 20) gaps.push('description');
+  if (!ev.descriptionEn) gaps.push('descriptionEn');
   if (!ev.descriptionBg) gaps.push('descriptionBg');
   if (!ev.bodyBg && ev.body) gaps.push('bodyBg');
   if (!ev.country) gaps.push('country');
