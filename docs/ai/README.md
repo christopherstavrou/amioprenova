@@ -10,6 +10,7 @@ Operational manuals for AI agents working on the **amioprenova** project.
 | [standards.md](standards.md) | Hard standards, conventions, patterns |
 | [workflow.md](workflow.md) | Branching, commits, PR process, review |
 | [decisions.md](decisions.md) | Why major architectural choices were made |
+| [tech-debt.md](tech-debt.md) | Running log of deferred refactors and pre-existing gaps |
 | [event-enrichment.md](event-enrichment.md) | Enriching, translating, and creating event entries |
 | [github-integration.md](github-integration.md) | Claude Actions + Copilot custom instructions |
 

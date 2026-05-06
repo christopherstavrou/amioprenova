@@ -335,7 +335,7 @@ These are hard limits that MUST NOT be violated in V1:
 
 **Display**: Rendered in the event detail card with ticket and music-note icons respectively. Labels are currently hardcoded in English/Bulgarian per page file.
 
-**TODO — Localisation**: `eventType` display labels and `admission` type labels are currently hardcoded in each language's page file (`src/pages/en/shows/[slug].astro` and `src/pages/bg/shows/[slug].astro`). When a proper i18n system is introduced, these should be moved to `src/i18n/ui.ts` alongside other UI strings.
+**Localisation follow-up**: tracked in [`tech-debt.md`](./tech-debt.md) under `i18n` — `eventType` and `admission.type` display labels are currently per-page; should move to `src/i18n/ui.ts`.
 
 **Status**: ✅ Implemented
 

@@ -18,6 +18,7 @@ The docs are organised by audience and volatility. Read the file that matches wh
 | [`docs/ai/standards.md`](./docs/ai/standards.md) | Implementation questions — hard standards, conventions, patterns |
 | [`docs/ai/workflow.md`](./docs/ai/workflow.md) | Process questions — branching, commits, PRs, review |
 | [`docs/ai/decisions.md`](./docs/ai/decisions.md) | Architecture questions — why things are built this way |
+| [`docs/ai/tech-debt.md`](./docs/ai/tech-debt.md) | Spotting a deferred refactor or pre-existing gap during a PR |
 | [`docs/ai/event-enrichment.md`](./docs/ai/event-enrichment.md) | Working on events / show entries / scraper output |
 | [`docs/ai/github-integration.md`](./docs/ai/github-integration.md) | GitHub Actions / Claude / Copilot setup and triggering |
 | [`docs/brand.md`](./docs/brand.md) | Brand identity — palette concept, voice, photography |
