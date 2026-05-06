@@ -65,7 +65,7 @@ These are objective, enforceable, and must hold on every PR.
 
 ### Common anti-patterns to avoid
 
-Quick-scan reference. Each row corresponds to a rule stated earlier in §1 or §2 — surfaced here for fast review.
+Quick-scan reference. Each row corresponds to a rule stated in this document — surfaced here for fast review.
 
 | Don't | Do instead |
 |---|---|
