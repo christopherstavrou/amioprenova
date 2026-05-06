@@ -63,6 +63,19 @@ These are objective, enforceable, and must hold on every PR.
 - Keep Zod schemas in dedicated modules (e.g. [`src/lib/gallery-schema.ts`](../../src/lib/gallery-schema.ts)) so the runtime isn't bundled into pages that only need the type. Use `import type { … }` for type-only imports.
 - New optional fields on existing collection schemas use `.optional()` — never a breaking change to existing content.
 
+### Common anti-patterns to avoid
+
+Quick-scan reference. Each row corresponds to a rule stated earlier in §1 or §2 — surfaced here for fast review.
+
+| Don't | Do instead |
+|---|---|
+| Inline `lang === 'en' ?…` ternaries | Sibling EN/BG page files |
+| Hardcoded hex/rgba | Design tokens via Tailwind utilities or `var(--…)` |
+| Inline social or icon SVGs | `SocialIcon` (or extend the icon component) |
+| Premature abstraction for a single use | Inline until repeated |
+| Props for hypothetical future callers | Add when a real caller needs them |
+| Refactor adjacent code while fixing a bug | Note in [`docs/ai/tech-debt.md`](./tech-debt.md), fix in a separate PR |
+
 ---
 
 ## 2. Conventions
@@ -76,6 +89,16 @@ Defaults to follow when nothing else applies. Deviate when there's a reason; men
 - Utilities in `src/lib/` (camelCase filenames).
 - Long-form content in `src/content/{blog,pages,shows}/`.
 - All external URLs in [`src/config/site.ts`](../../src/config/site.ts) — never hardcode a URL in a page or component.
+
+### File size and extraction
+
+Soft guidance, not rules — exercise judgement.
+
+- Source files comfortably under ~200 lines is healthy.
+- Files over ~300 lines are candidates for splitting.
+- If a single change produces more than ~100 lines of diff in one file, pause and check whether that file should split first.
+- Extract a component when the same markup (≥ 3 lines) appears in 2+ places, or a self-contained named section grows past ~40 lines.
+- Don't extract for a single use, and don't extract when the proposed component would need more props than its template has lines.
 
 ### Imports
 
@@ -128,6 +151,18 @@ Name components after what they *are*, not what they do. `SectionHeader`, not `R
 
 - New npm packages require explicit user approval. Confirm a native browser API or existing utility cannot do the job first.
 - Prefer dev-only packages (build tooling) over runtime packages.
+
+### Documentation expectations
+
+When making changes, update the right doc — not all of them, just the one that owns the change:
+
+- New component → one-line docstring in its frontmatter explaining purpose and prop contract.
+- New utility → JSDoc comment if the signature isn't self-explanatory.
+- Architectural change → entry in [`docs/ai/decisions.md`](./decisions.md).
+- Completed task → update [`docs/ai/progress.md`](./progress.md) (move done items, refresh next).
+- Spotted gap that's out of scope → add to [`docs/ai/tech-debt.md`](./tech-debt.md).
+
+Don't add JSDocs to functions that are already clear; don't comment code you didn't touch.
 
 ---
 
@@ -193,7 +228,7 @@ export const getStaticPaths = (async ({ paginate }) => {
 - Don't add props for hypothetical future callers.
 - Don't extract a "helper" / "util" / "common" function for a single use.
 
-If a pattern within the current PR is repeated 2+ times, extract it before raising. If the duplication is pre-existing, note it in `progress.md` under tech debt — don't refactor as scope creep.
+If a pattern within the current PR is repeated 2+ times, extract it before raising. If the duplication is pre-existing, note it in [`docs/ai/tech-debt.md`](./tech-debt.md) — don't refactor as scope creep.
 
 ### Scope discipline
 
