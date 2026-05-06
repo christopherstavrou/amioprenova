@@ -35,7 +35,13 @@ All three feature-branch prefixes are valid. Branch protection on `develop` acce
 2. **Orient.** `git checkout develop && git pull origin develop`. Read [`progress.md`](./progress.md) for current state.
 3. **Branch.** `git checkout -b ai/<short-name>`.
 4. **Implement.** Small focused commits; run `npm run dev` as you go.
-5. **Verify.** `npm run build` passes. `git diff --name-only` shows only task-relevant files. Spot-check affected pages in the browser, including dark mode (DevTools → Rendering → `prefers-color-scheme: dark`).
+5. **Verify.** Quick gate before opening the PR — fail any item, fix it before pushing:
+   - `npm run build` passes (0 errors).
+   - `git diff --name-only` shows only task-relevant files.
+   - Spot-check affected pages in the browser, light and dark (DevTools → Rendering → `prefers-color-scheme: dark`).
+   - For UI changes: sanity-check at 375 px mobile width (DevTools device toolbar).
+   - No debug code, `console.log`, or commented-out blocks remain in the diff.
+   - If the task is complete, [`docs/ai/progress.md`](./progress.md) is updated in the same PR.
 6. **Pre-flight.** Walk the diff against [`docs/ai/standards.md`](./standards.md) §1 (hard standards). The goal is a clean review pass, not zero comments — reviewers will catch things you missed, and that's fine.
 7. **Open PR** against `develop`. Use the template — title under 50 chars, summary, changes list, verify steps.
 8. **Address review.** Read every comment, fix what's right, push fixes. Reply inline to threads explaining what changed or why a comment doesn't apply. Re-request review.
