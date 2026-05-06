@@ -50,6 +50,30 @@ A new component earns its place when:
 1. The same markup or behaviour appears (or is about to appear) in two or more places, **or**
 2. The element is a brand surface that should be consistent site-wide — even if it is currently only used once. Icons, share controls, and CTAs are examples of this category.
 
+### Before extracting, ask
+
+A quick check before building a new component:
+
+1. Is this duplicated in 2+ places now (or about to be)?
+2. Will the abstraction be clearer than the inline copies, or just shorter?
+3. Does it have a name that describes what it *is* (no "helper" / "util" / "common")?
+4. Are all proposed props needed by current callers, or are some for hypothetical future ones?
+
+If any answer is "no", keep the markup inline until the situation changes.
+
+### Before writing new markup, sweep
+
+Check first whether something already fits:
+
+- `src/components/` — any existing component covers this surface?
+- `src/lib/` — any existing utility covers this logic?
+- `src/i18n/ui.ts` — any existing translation key covers this label?
+- `src/config/site.ts` — any existing URL or constant covers this value?
+
+If you spot pre-existing duplication you can't fix in scope, add an entry to [`docs/ai/tech-debt.md`](./ai/tech-debt.md) under `refactor` — don't silently fix it as scope creep.
+
+### Component shape
+
 Keep components small. Five props is a soft ceiling; more usually means the component is doing two jobs. Use a `class?: string` forwarding prop on every component so callers can adjust spacing without prop sprawl.
 
 Document the component in two places:
