@@ -164,7 +164,19 @@ body {
   transition: background-color var(--transition-base), color var(--transition-base);
 }
 
-/* ===== Typography ===== */
+/* ===== Typography =====
+ *
+ * Sizes per element (mobile / desktop ≥ 768px):
+ *
+ *   h1     2.25rem (36px) / 3rem    (48px)
+ *   h2     1.5rem  (24px) / 2.5rem  (40px)
+ *   h3     1.25rem (20px) / 1.75rem (28px)
+ *   body   1rem    (16px) / 1rem    (16px)   line-height 1.6
+ *   small  0.875rem (14px) — same on both
+ *
+ * Heading line-height is 1.2 (set on the shared h1-h6 selector).
+ * Body line-height is 1.6 (set on `body` above).
+ */
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Playfair Display', 'Merriweather', Georgia, serif;
@@ -305,7 +317,25 @@ textarea::placeholder {
   transition: color var(--transition-base), border-color var(--transition-base);
 }
 
-/* ===== Header Glass Effect ===== */
+/* ===== Header Glass Effect =====
+ *
+ * The header sits above page content with a frosted-glass effect:
+ * `backdrop-filter: blur(12px)` blurs the content behind it; the
+ * `-webkit-` prefix is required for Safari. The background uses
+ * `color-mix` against `--color-bg` rather than a hardcoded rgba so
+ * the tint stays correct in both light and dark modes (the rgba
+ * pattern would silently drift if --color-bg ever changed).
+ *
+ * In browsers without `backdrop-filter` support the element still
+ * renders with an 85% bg colour, which is readable against any page
+ * content — no JS fallback needed.
+ *
+ * Position and z-index are set on the <header> element via Tailwind
+ * utilities (`sticky top-0 z-50`). z-50 keeps it above the mobile
+ * menu overlay (z-40) when both are visible. Note: `backdrop-filter`
+ * creates a new stacking context — relevant to the lightbox
+ * portal-to-body pattern documented in standards.md §3.
+ */
 
 .header-glass {
   background: color-mix(in srgb, var(--color-bg) 85%, transparent);
