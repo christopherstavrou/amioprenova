@@ -1,0 +1,60 @@
+name: PR Quality
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  quality-gate:
+    name: PR quality gate
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Check PR quality
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+            const errors = [];
+            const warnings = [];
+
+            // 1. Base branch — all feature work must target develop
+            if (pr.base.ref === 'main') {
+              errors.push('❌ **Wrong base branch** — target `develop`, not `main`. Retarget this PR: `gh pr edit ' + pr.number + ' --base develop`.');
+            }
+
+            // 2. WIP title on non-draft PR
+            if (!pr.draft && /^\[WIP\]/i.test(pr.title)) {
+              errors.push('❌ **WIP title on a non-draft PR** — either mark the PR as a draft, or remove `[WIP]` from the title.');
+            }
+
+            // 3. Summary section must be filled
+            const summaryMatch = body.match(/##\s*Summary\s*\n+([\s\S]*?)(?=\n\s*##|\n\s*---|\s*$)/i);
+            const summaryText = summaryMatch
+              ? summaryMatch[1].replace(/<!--[\s\S]*?-->/g, '').trim()
+              : '';
+            if (!summaryText) {
+              errors.push('❌ **Empty Summary** — one sentence: what changed and why.');
+            }
+
+            // 4. Issue reference (warn only — hotfixes/docs may not have an issue)
+            if (!/(?:closes?|fixes?|resolves?)\s+#\d+/i.test(body)) {
+              warnings.push('⚠️ **No issue reference** — add `Closes #N` if this resolves a tracked issue.');
+            }
+
+            const hasIssues = errors.length > 0 || warnings.length > 0;
+            if (hasIssues) {
+              const msg = [...errors, ...warnings].join('\n\n');
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: `### PR Quality Gate\n\n${msg}\n\n_Fix the items marked ❌ and push to re-run._`,
+              });
+            }
+
+            if (errors.length > 0) {
+              core.setFailed('PR quality gate failed — see comment above.');
+            }

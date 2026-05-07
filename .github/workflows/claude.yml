@@ -39,6 +39,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
+          ref: develop
           fetch-depth: 1
 
       - name: Run Claude Code

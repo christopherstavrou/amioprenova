@@ -1,20 +1,36 @@
+<!-- Base branch: develop — retarget if this shows main -->
+
+Closes #
+
 ## Summary
-<!-- What does this PR do and why? -->
+<!-- One sentence: what changed and why -->
 
 ## Changes
-<!-- List of files/components changed and what changed in each -->
+<!-- Files modified and what changed in each -->
 
-## How to Verify
-<!-- Step-by-step: which pages to visit, what to click, what to check -->
+## Acceptance criteria verified
+<!-- For each criterion from the linked issue, confirm it passes in the Cloudflare preview -->
+<!-- The Cloudflare Pages bot posts the preview URL in the comments above -->
 
 ## Notes
-<!-- Breaking changes, follow-up work, open questions -->
+<!-- Breaking changes, follow-up work, open questions — delete if none -->
 
 ## Checklist
-- [ ] `npm run build` passes (0 errors, expected page count)
-- [ ] Tested locally at `localhost:4321`
-- [ ] EN and BG locale pages are in sync (if page files were changed)
-- [ ] No hardcoded hex/rgba values — Tailwind tokens or CSS variables only
+
+**Always**
+- [ ] `npm run build` passes (0 errors)
+- [ ] Preview URL verified (see Cloudflare Pages comment above)
+
+**If `.astro` or `.ts` files changed**
+- [ ] No hardcoded hex/rgba — design tokens only
+- [ ] All new `<button>` elements have `type="button"`
+
+**If EN/BG pages changed**
+- [ ] Both locale files updated in the same commit
 - [ ] No `lang === 'en' ?` conditionals in page files
-- [ ] All new `<button>` elements have `type="button"` (or `type="submit"` where appropriate)
-- [ ] `docs/ai/progress.md` updated (for feature branches)
+
+**If `src/i18n/ui.ts` changed**
+- [ ] Keys added under both `en` and `bg`
+
+**If a tech-debt item is resolved**
+- [ ] Entry removed from `docs/ai/tech-debt.md` in this PR
