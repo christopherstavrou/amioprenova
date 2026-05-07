@@ -27,11 +27,6 @@ Append under the correct area heading below. No date field — git blame supplie
 
 ## i18n
 
-- area: i18n
-  where: `src/pages/{en,bg}/shows/[slug].astro`
-  what: `eventType` and `admission.type` display labels are hardcoded in each language's page file.
-  suggested fix: move the label dictionaries into `src/i18n/ui.ts` alongside the existing nav/footer/a11y dictionaries.
-
 ## content
 
 - area: content
