@@ -623,7 +623,8 @@ async function main() {
             await downloadImage(coverImageUrl, destPath);
             console.log(`  Cover: ${wasNew ? 'downloaded' : 'exists'} → /images/events/${coverImageFilename}`);
           } catch (imgErr) {
-            console.warn(`  Cover: failed to download (${imgErr.message.replace(/[\r\n]/g, ' ')}) — skipping`);
+            const safeMsg = imgErr.message.replace(/\n|\r/g, '');
+            console.warn(`  Cover: failed to download (${safeMsg}) — skipping`);
             mapped.image = existing?.image ?? '';
           }
         }
@@ -638,7 +639,9 @@ async function main() {
               await downloadImage(entry.url, destPath);
               if (wasNew) console.log(`    + ${entry.filename}`);
             } catch (imgErr) {
-              console.warn(`    ! failed to download ${entry.filename}: ${imgErr.message.replace(/[\r\n]/g, ' ')}`);
+              const safeName = entry.filename.replace(/\n|\r/g, '');
+              const safeMsg = imgErr.message.replace(/\n|\r/g, '');
+              console.warn(`    ! failed to download ${safeName}: ${safeMsg}`);
               // Remove failed gallery entry from mapped.gallery
               mapped.gallery = mapped.gallery.filter(
                 (g) => !g.src?.endsWith(entry.filename)
