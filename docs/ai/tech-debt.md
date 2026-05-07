@@ -46,9 +46,3 @@ Append under the correct area heading below. No date field — git blame supplie
   what: `// @ts-nocheck` suppresses TypeScript errors on the inline client-side `<script>` blocks.
   suggested fix: extract each script to a `.ts` side-car file typed against the DOM and remove the suppress comment; defer until components need a larger rework.
 
-## build
-
-- area: build
-  where: `.npmrc`
-  what: `legacy-peer-deps=true` silences npm peer-dep conflicts introduced when upgrading to Astro 6. Exact conflicting packages not yet pinpointed.
-  suggested fix: after a future dependency audit, identify which package(s) declare an overly-narrow peer range and either patch-override or await an upstream fix; then remove the flag.
