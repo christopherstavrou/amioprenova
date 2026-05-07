@@ -41,8 +41,3 @@ Append under the correct area heading below. No date field — git blame supplie
   what: 700-line monolithic scraper — field mapping, rate-limit logic, image download, and `_overrides` merge all live in one file.
   suggested fix: split into focused modules (fetcher, mapper, image-handler, merge) when the scraping behaviour needs a significant rework; no urgency while the script is stable.
 
-- area: refactor
-  where: `src/components/GalleryLightbox.astro` (line 343) and `src/components/SharePopover.astro` (line 95)
-  what: `// @ts-nocheck` suppresses TypeScript errors on the inline client-side `<script>` blocks.
-  suggested fix: extract each script to a `.ts` side-car file typed against the DOM and remove the suppress comment; defer until components need a larger rework.
-
