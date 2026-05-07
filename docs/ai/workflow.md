@@ -58,7 +58,7 @@ All three feature-branch prefixes are valid. Branch protection on `develop` acce
 
 ## Steps
 
-1. **Check your local branch.** Run git branch --show-current. Always start from the latest develop: git checkout develop && git pull origin develop. Never start work on a leftover feature branch — it carries unrelated history and will create conflicts.
+1. **Check your local branch.** Run `git branch --show-current` before anything else. If you are not on `develop`, switch now: `git checkout develop && git pull origin develop`. Never start work on a leftover feature branch — it carries unrelated history and will create conflicts.
 2. **Read the issue.** Understand requirements, identify affected files, note constraints.
 3. **Orient.** Read [`progress.md`](./progress.md) for current state.
 4. **Branch.** `git checkout -b ai/<short-name>`.

@@ -46,10 +46,12 @@ jobs:
             }
 
             // Find existing quality gate comment to update rather than spam
-            const { data: comments } = await github.rest.issues.listComments({
+            // Paginate to handle PRs with more than 30 comments
+            const comments = await github.paginate(github.rest.issues.listComments, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: pr.number,
+              per_page: 100,
             });
             const botComment = comments.find(c =>
               c.user.login === 'github-actions[bot]' &&
