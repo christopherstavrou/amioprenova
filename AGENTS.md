@@ -64,7 +64,7 @@ src/
 
 ## Copilot mirror files
 
-GitHub Copilot reads its own instruction files (see [`docs/ai/github-integration.md`](./docs/ai/github-integration.md)). Keep them in sync when the hard standards change:
+GitHub Copilot reads its own instruction files (see [`docs/ai/github-integration.md`](./docs/ai/github-integration.md)). These files do not duplicate standards — they reference this file and the docs index. Update them only if Copilot's review behaviour or scoped file-type guidance needs to change:
 
 | File | Scope |
 |---|---|

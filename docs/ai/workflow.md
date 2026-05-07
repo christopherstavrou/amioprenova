@@ -44,7 +44,7 @@ All three feature-branch prefixes are valid. Branch protection on `develop` acce
    - If the task is complete, [`docs/ai/progress.md`](./progress.md) is updated in the same PR.
 6. **Pre-flight.** Walk the diff against [`docs/ai/standards.md`](./standards.md) §1 (hard standards). The goal is a clean review pass, not zero comments — reviewers will catch things you missed, and that's fine.
 7. **Open PR** against `develop`. Use the template — title under 50 chars, summary, changes list, verify steps.
-8. **Address review.** Read every comment, fix what's right, push fixes. Reply inline to threads explaining what changed or why a comment doesn't apply. Re-request review.
+8. **Address review.** Follow the sequence in [§ Review feedback](#review-feedback) below — it covers fixing, replying, tech-debt logging, and re-requesting review.
 9. **Update [`progress.md`](./progress.md)** when the PR is approved or merged — move done items, update next steps.
 
 ### Commit format
@@ -77,7 +77,7 @@ For every comment thread, work through this sequence in order:
 1. **Read** all comments before touching any code — understand the full picture first.
 2. **Fix** each valid comment in the working tree.
 3. **Commit and push** all fixes in one focused commit.
-4. **Reply inline** to every thread — what changed and where, or a clear reason why the comment doesn't apply. Do this after pushing so the reply references real code. Never silently close a thread or push fixes without a reply: the author has no way to know what was done.
+4. **Reply inline** to every thread — what changed and where, or a clear reason why the comment doesn't apply. Do this after pushing so the reply references real code. Never silently close a thread or push fixes without a reply: the reviewer has no way to know what was done.
 5. **Post a summary comment** on the PR listing what was addressed and anything intentionally left unchanged with a reason.
 6. **Re-request review.**
 
