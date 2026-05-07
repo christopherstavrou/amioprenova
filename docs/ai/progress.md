@@ -32,6 +32,14 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Landing page: removed direct language links (Soft Launch ready)
 - **Strict Localization**: Refactored show detail and list pages to prevent "bilingual bleeding" by prioritizing locale-specific fields (`titleEn/Bg`, `bodyEn/Bg`) and intelligently falling back to base fields only when safe. (2026-04-14)
 
+### Multi-agent workflow improvements (2026-05-07) — PR #62
+- New PR quality gate workflow (`.github/workflows/pr-quality.yml`): fails on wrong base branch, WIP title on non-draft, empty Summary; warns on missing `Closes #N`; updates-or-deletes existing comment instead of spamming; fires on draft/ready transitions
+- `claude.yml`: checkout now resolves the correct ref per event type (PR head SHA for review/comment events, `develop` for issue events)
+- PR template: `Closes #` at top, base branch reminder, `Acceptance criteria verified` section, conditional checklist sections
+- Issue template: agent-agnostic with dropdown routing, required `Affected files` and `Acceptance criteria` fields
+- `workflow.md`: issue creation + agent routing section, draft PR convention, coordinator checklist, updated anti-patterns table
+- `copilot-instructions.md`: duplicate PR check and base branch rules added
+
 ### Documentation (2026-03-10)
 - Refactored docs: added `standards.md`, rewrote `workflow.md` and `AI.md` (generalized for all AI agents)
 - Deleted redundant `commands.md` and `project-summary.md`
