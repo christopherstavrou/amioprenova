@@ -98,3 +98,14 @@ export const siteConfig = {
     },
   ],
 } as const;
+
+/**
+ * Feature flags for the Events/Shows section.
+ * Set any flag to false to globally hide that field across all show pages.
+ */
+export const eventFeatures = {
+  showEndTime: true,        // "18:30 – 22:00" end time on detail pages
+  showHosts: true,          // "with Ami Oprenova Trio" performer line
+  showUsersResponded: false, // Facebook attendance count (off by default — often low numbers)
+  showCanceledBadge: true,  // Red "Canceled" badge on canceled events
+} as const;

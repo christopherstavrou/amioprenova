@@ -1,0 +1,59 @@
+{
+  "id": "3",
+  "slug": "acoustic-session-varna-2026",
+  "title": "Acoustic Jazz Session @ Varna",
+  "titleEn": "Acoustic Jazz Session @ Varna",
+  "titleBg": "Акустична джаз сесия във Варна",
+  "description": "An intimate evening of acoustic jazz standards and bossa nova at Varna's favourite arts space.",
+  "descriptionEn": "An intimate evening of acoustic jazz standards and bossa nova at Varna's favourite arts space.",
+  "descriptionBg": "Камерна вечер с акустични джаз стандарти и боса нова в любимото арт пространство на Варна.",
+  "body": "Join us for a relaxed afternoon of acoustic music in Varna's favourite arts space. Ami Oprenova will perform a selection of intimate jazz arrangements and bossa nova classics, accompanied by acoustic guitar.\n\nCome early to grab a good seat, enjoy a coffee or a glass of wine, and soak in the warm, creative atmosphere of The Art Cafe.",
+  "bodyEn": "Join us for a relaxed afternoon of acoustic music in Varna's favourite arts space. Ami Oprenova will perform a selection of intimate jazz arrangements and bossa nova classics, accompanied by acoustic guitar.\n\nCome early to grab a good seat, enjoy a coffee or a glass of wine, and soak in the warm, creative atmosphere of The Art Cafe.",
+  "bodyBg": "Присъединете се към нас за релаксиращ следобед с акустична музика в любимото арт пространство на Варна. Ами Опренова ще изпълни селекция от камерни джаз аранжименти и боса нова класики, придружени от акустична китара.\n\nЕлате по-рано, за да си запазите хубаво място, да се насладите на кафе или чаша вино и да потънете в топлата, творческа атмосфера на The Art Cafe.",
+  "startDate": "2026-09-10T19:30:00+03:00",
+  "venue": "The Art Cafe",
+  "city": "Varna",
+  "country": "Bulgaria",
+  "tags": [
+    "acoustic",
+    "jazz",
+    "bossa-nova",
+    "intimate",
+    "varna",
+    "bulgaria",
+    "art-cafe"
+  ],
+  "tagsBg": [
+    "акустичен",
+    "джаз",
+    "боса нова",
+    "камерен",
+    "Варна",
+    "България",
+    "art-cafe"
+  ],
+  "image": "https://images.unsplash.com/photo-1445985543470-41fba5c3144a?q=80&w=1280&h=720&auto=format&fit=crop",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=The+Art+Cafe+Varna",
+  "eventType": "concert",
+  "admission": {
+    "type": "free",
+    "note": "Free entry / Pay what you can",
+    "noteBg": "Вход свободен / Дарение по желание"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

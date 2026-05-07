@@ -15,6 +15,13 @@ export const ui = {
       press: 'Press',
       contact: 'Contact',
       links: 'Links',
+      toggleTheme: 'Toggle Theme',
+      toggleMenu: 'Toggle menu',
+      closeMenu: 'Close menu',
+      language: 'Language',
+    },
+    home: {
+      playVideo: 'Play',
     },
     footer: {
       copyright: 'All rights reserved.',
@@ -36,6 +43,13 @@ export const ui = {
       press: 'Преса',
       contact: 'Контакт',
       links: 'Връзки',
+      toggleTheme: 'Смяна на тема',
+      toggleMenu: 'Меню',
+      closeMenu: 'Затвори менюто',
+      language: 'Език',
+    },
+    home: {
+      playVideo: 'Пусни',
     },
     footer: {
       copyright: 'Всички права запазени.',

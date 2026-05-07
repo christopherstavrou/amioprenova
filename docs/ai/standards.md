@@ -1,288 +1,239 @@
 # Implementation Standards
 
-This document defines how code is written and structured in this repository.
-It is the practical operating manual for implementation — covering conventions,
-guardrails, and quality rules for both human contributors and AI agents.
+How code is written and structured in this repository. Three tiers — read each accordingly:
 
-**Read alongside:**
-- `docs/ai/workflow.md` — branching, commits, and PR process
-- `docs/ai/decisions.md` — why major architectural choices were made
-- `DESIGN.md` — visual design system (colors, typography, components)
+- **§1 Hard standards** — non-negotiable. Violating these breaks builds, accessibility, security, or i18n parity. CI and reviewers will block the work.
+- **§2 Conventions** — soft consistency rules. Default to following them; deviate when the work is better for it and say so in the PR.
+- **§3 Patterns and rationale** — accumulated lessons (Astro idioms, browser quirks, Zod boundaries). Treat as guidance, not law. If a pattern feels wrong for a specific case, use judgement.
 
----
-
-## 1. File Size and Splitting Rules
-
-**Guideline**: Source files should be under 200 lines.
-**Threshold**: Files over 300 lines are candidates for splitting.
-**Hard limit for AI**: If a single task produces more than 100 lines of diff in one file, stop and consider whether the work should be two separate PRs.
-
-When to split a file:
-- A page file contains a section that is repeated across multiple pages → extract to a component
-- A layout file has distinct, self-contained regions (header, footer, mobile menu) → extract to components
-- A utility file has grown to contain functions across unrelated domains → split by domain
-
-Do not split purely to reduce line count. Split when it improves readability or enables reuse.
+**Read alongside:** [`docs/ai/workflow.md`](./workflow.md) (process), [`docs/ai/decisions.md`](./decisions.md) (architectural rationale), [`docs/brand.md`](../brand.md) (visual identity), [`docs/component-library.md`](../component-library.md) (UI inventory).
 
 ---
 
-## 2. Component Conventions
+## 1. Hard standards
 
-All reusable UI lives in `src/components/`. Follow this structure in every component:
+These are objective, enforceable, and must hold on every PR.
 
-```astro
----
-/**
- * ComponentName — one-sentence description of its purpose
- * Reference: DESIGN.md §Section (if applicable)
- */
+### Build and types
 
-export interface Props {
-  // Required props first, then optional props
-  requiredProp: string;
-  optionalProp?: 'value-a' | 'value-b';
-  class?: string; // Always allow className forwarding
-}
+- `npm run build` passes with zero errors.
+- No `any`. Use `unknown` and narrow, or define a specific type.
+- No `as X` casts unless the cast is provably safe with an inline comment explaining why. If you reach for a cast, the upstream type is probably wrong — fix that instead.
 
-const { requiredProp, optionalProp = 'value-a', class: className = '' } = Astro.props;
+### Design tokens
 
-// Compute derived values here (class strings, variant lookups)
-const variantClasses = {
-  'value-a': 'some-classes',
-  'value-b': 'other-classes',
-};
-const classes = `${variantClasses[optionalProp]} ${className}`;
----
+- No hardcoded hex or rgba values in `.astro` / `.ts` files. Use Tailwind utility classes that resolve to design tokens, or `var(--color-*)` directly.
+- No hardcoded transition durations. Use `var(--transition-fast)` (150ms), `var(--transition-base)` (250ms), or `var(--transition-slow)` (500ms), or the matching Tailwind `duration-fast` / `duration-base` / `duration-slow` utilities.
+- Tokens are defined in [`src/styles/global.css`](../../src/styles/global.css). To change a value site-wide, change it there.
+- Dark mode is `data-theme="dark"` on `<html>`. **Do not** write `dark:` Tailwind variants in components or pages.
 
-<!-- Template -->
-```
+### i18n parity
 
-Rules:
-- Always define `export interface Props` — even for simple components
-- Always accept and forward a `class?: string` prop to support per-use customization
-- Compute class strings in the frontmatter using lookup objects, not inline ternaries in the template
-- Do not accept layout-level props (margin, padding) — let the caller handle spacing
+- EN and BG pages are sibling files. Never branch on language with `lang === 'en' ? … : …` inside a single page file.
+- EN and BG page structure must match — same conditional guards, same component props, same sections. If you change the structure of one, change the other in the same commit.
+- New UI strings shared between locales go in [`src/i18n/ui.ts`](../../src/i18n/ui.ts) under `en` and `bg`.
+- Components used on both EN and BG pages accept a `labels` prop with English defaults; BG callers pass Bulgarian strings. JS that updates text at runtime reads from `data-*` attributes — not hardcoded strings in the script.
 
-**When to create a new component:**
-- The same HTML structure (more than ~3 lines) appears in 2 or more places → extract it
-- A named, self-contained section of a page grows past ~40 lines → candidate for extraction
+### Accessibility
 
-**When NOT to create a new component:**
-- The structure appears only once and is simple → leave it inline in the page
-- The proposed component needs more props than the template has lines → the abstraction is not worth it
+- Every `<button>` that is not a form submit has `type="button"`.
+- Disclosure widgets (popovers, dropdowns, mobile menu) have `aria-expanded` on the trigger and `aria-controls` pointing to the panel ID. Keep `aria-expanded` in sync on open/close.
+- Modal dialogs and full-screen overlays: `role="dialog"`, `aria-modal="true"`, focus trap (Tab/Shift+Tab cycle), Escape to close, focus restored on close.
+- Icon-only buttons have an `aria-label`. The label string comes from `src/i18n/ui.ts` if it differs by locale, never a hardcoded English string in JSX.
+- Images have `alt` text — descriptive for content images, empty (`alt=""`) for purely decorative ones.
 
----
+### Security
 
-## 3. Page and Layout Conventions
+- Never use `innerHTML` with user-controlled or fetched data. Build DOM with `document.createElement` + `textContent`.
+- No hardcoded secrets, API keys, or credentials in source files.
+- Scraper credentials (e.g. `scripts/facebook-cookies.json`) are gitignored. Confirm before committing anything from `scripts/`.
 
-**Pages** (`src/pages/{en,bg}/*.astro`):
-- Must import and use `Layout.astro` as the outermost wrapper
-- Must pass `title`, `description`, and `lang` props to `Layout`
-- Title format: `"Page Name - amioprenova"`
-- Description: 150–160 characters
-- Content is in the target language — no language conditionals in page files
-- Data loading (JSON imports, utility calls) belongs in the frontmatter, not the template
+### Component library
 
-**Layouts** (`src/layouts/`):
-- Handle SEO, document structure, global navigation, and footer
-- Do not contain page-specific content
-- Changes to `Layout.astro` affect every page — test multiple pages after any change
+- Use the existing components in [`docs/component-library.md`](../component-library.md). If a piece of markup resembles something in the library, use the library entry. If the library has a gap, extend it — don't inline a one-off.
+- This applies especially to icons, share controls, badges, buttons, and headers — surfaces with brand presence.
 
-**Separation rule**: If logic is needed on more than one page, it belongs in `src/lib/`. If UI is needed on more than one page, it belongs in `src/components/`. Pages should be thin orchestration layers.
+### Static generation
 
----
+- Every `getStaticPaths` that calls `paginate()` includes an empty-list fallback so the route still builds when the data source returns zero items.
 
-## 4. Import Conventions
+### Schemas
 
-Order imports in this sequence, with a blank line between each group:
+- Zod schemas are the source of truth. Derive types with `z.infer<typeof schema>` — never duplicate a Zod schema as a separate TS interface.
+- Keep Zod schemas in dedicated modules (e.g. [`src/lib/gallery-schema.ts`](../../src/lib/gallery-schema.ts)) so the runtime isn't bundled into pages that only need the type. Use `import type { … }` for type-only imports.
+- New optional fields on existing collection schemas use `.optional()` — never a breaking change to existing content.
 
-```astro
----
-// 1. Framework / Astro builtins
-import { getCollection } from 'astro:content';
+### Common anti-patterns to avoid
 
-// 2. Layouts
-import Layout from '../../layouts/Layout.astro';
+Quick-scan reference. Each row corresponds to a rule stated in this document — surfaced here for fast review.
 
-// 3. Components
-import Button from '../../components/Button.astro';
-import Card from '../../components/Card.astro';
-
-// 4. Library utilities
-import { getNextEvents, formatEventDate } from '../../lib/events';
-
-// 5. Data files (JSON)
-import releases from '../../data/releases.json';
-
-// 6. Config and i18n
-import { siteConfig } from '../../config/site';
----
-```
-
-Use relative paths. Do not use path aliases unless they are already configured in `tsconfig.json`.
+| Don't | Do instead |
+|---|---|
+| Inline `lang === 'en' ?…` ternaries | Sibling EN/BG page files |
+| Hardcoded hex/rgba | Design tokens via Tailwind utilities or `var(--…)` |
+| Inline social or icon SVGs | `SocialIcon` (or extend the icon component) |
+| Premature abstraction for a single use | Inline until repeated |
+| Props for hypothetical future callers | Add when a real caller needs them |
+| Refactor adjacent code while fixing a bug | Note in [`docs/ai/tech-debt.md`](./tech-debt.md), fix in a separate PR |
 
 ---
 
-## 5. Naming Conventions
+## 2. Conventions
+
+Defaults to follow when nothing else applies. Deviate when there's a reason; mention it in the PR if the deviation is large.
+
+### File organisation
+
+- Components in `src/components/` (PascalCase filenames).
+- Pages in `src/pages/{en,bg}/` (kebab-case filenames).
+- Utilities in `src/lib/` (camelCase filenames).
+- Long-form content in `src/content/{blog,pages,shows}/`.
+- All external URLs in [`src/config/site.ts`](../../src/config/site.ts) — never hardcode a URL in a page or component.
+
+### File size and extraction
+
+Soft guidance, not rules — exercise judgement.
+
+- Source files comfortably under ~200 lines is healthy.
+- Files over ~300 lines are candidates for splitting.
+- If a single change produces more than ~100 lines of diff in one file, pause and check whether that file should split first.
+- Extract a component when the same markup (≥ 3 lines) appears in 2+ places, or a self-contained named section grows past ~40 lines.
+- Don't extract for a single use, and don't extract when the proposed component would need more props than its template has lines.
+
+### Imports
+
+Order in this sequence with a blank line between groups:
+
+1. Astro / framework builtins
+2. Layouts
+3. Components
+4. Library utilities
+5. Data files (JSON)
+6. Config and i18n
+
+Use relative paths. Use `import type { … }` for type-only imports.
+
+### Component shape
+
+Every component:
+
+- Defines `export interface Props`.
+- Accepts a `class?: string` forwarding prop.
+- Computes class strings in the frontmatter using lookup objects, not inline ternaries in the template.
+- Carries a one-line docstring in the frontmatter explaining its purpose. Prop docs go in the docstring, not in the table here.
+
+### Naming
 
 | Thing | Convention | Example |
 |---|---|---|
-| Component files | PascalCase | `SectionHeader.astro` |
-| Page files | kebab-case | `about.astro`, `blog.astro` |
-| Utility files | camelCase | `events.ts`, `formatDate.ts` |
-| CSS custom properties | `--kebab-case` | `--text-primary`, `--accent-primary` |
-| Tailwind custom tokens | `kebab-case` | `text-text-primary`, `bg-accent-primary` |
-| Data files | kebab-case | `events.json`, `releases.json` |
-| Git branches | `ai/kebab-case` | `ai/fix-mobile-nav` |
-| Commit scopes | kebab-case matching file scope | `feat(blog):`, `fix(nav):` |
+| Component file | PascalCase | `SectionHeader.astro` |
+| Page file | kebab-case | `about.astro` |
+| Utility file | camelCase | `events.ts` |
+| CSS custom property | `--kebab-case` | `--color-text-primary` |
+| Tailwind token | kebab-case | `text-text-primary` |
 
-Name components after what they *are*, not what they do. `SectionHeader` not `RenderSectionTitle`.
+Name components after what they *are*, not what they do. `SectionHeader`, not `RenderSectionTitle`.
 
----
+### Date formatting
 
-## 6. Styling Conventions
+- Use `toLocaleString` (not `toLocaleDateString`) when time is included — `toLocaleDateString` silently drops time fields.
+- Locale strings: `en-US` and `bg-BG` (match existing usage in the codebase).
+- Build runs in UTC on CI. Use `timeZone: 'UTC'` in formatter options for stable SSG output.
+- Helpers in [`src/lib/events.ts`](../../src/lib/events.ts) handle the wall-clock parsing — prefer them over re-rolling.
 
-**Absolute rules:**
-- Never use hardcoded hex color values in `.astro` or `.ts` files
-- All colors must use CSS custom property tokens via Tailwind (e.g., `text-text-primary`, `bg-accent-primary`)
-- Never use inline `style` attributes for colors or theme-sensitive values
-- Never use Tailwind's default color palette (e.g., `text-red-500`, `bg-gray-100`) — use design system tokens only
+### Comments
 
-**Class construction:**
-- Build class strings in the frontmatter, not in template expressions
-- Use lookup objects for variant classes (see `Button.astro` as the pattern)
-- Avoid long ternaries in the template — extract to a named variable
+- Comment on the *why* when it is non-obvious — a hidden constraint, a workaround for a specific bug, behaviour that would surprise a reader.
+- Don't comment on the *what* — well-named identifiers do that.
+- Don't reference the current task or PR ("added for issue #123") — that lives in commit messages and PR descriptions.
 
-**Responsive design:**
-- Mobile-first: base styles apply to mobile, `md:` and `lg:` override for larger screens
-- Tablet breakpoint (`md:`): 768px; Desktop (`lg:`): 1024px
+### Dependencies
 
-**Dark mode:**
-- Do not write `dark:` Tailwind variants in component or page files
-- Dark mode is handled entirely by CSS custom properties and the `data-theme` attribute on `<html>`
-- If a color doesn't adapt correctly in dark mode, fix the CSS variable definition, not the template
+- New npm packages require explicit user approval. Confirm a native browser API or existing utility cannot do the job first.
+- Prefer dev-only packages (build tooling) over runtime packages.
 
----
+### Documentation expectations
 
-## 7. Patterns to Prefer
+When making changes, update the right doc — not all of them, just the one that owns the change:
 
-- **Check `src/components/` first** before writing any new markup — use an existing component if it fits
-- **Use `siteConfig`** for all external URLs — never hardcode a URL in a page or component
-- **Use `src/lib/` utilities** for any logic used in 2 or more places (date formatting, event filtering, etc.)
-- **Use `src/i18n/ui.ts`** for short, repeated UI labels (nav items, button text, footer copy)
-- **Inline SVGs** only for icons that need theme-sensitive coloring via `currentColor`
-- **Conditional rendering** with `&&` for optional sections (e.g., `{event.ticketUrl && <Button>}`)
-- **Astro Content Collections** for long-form content that may be updated independently of code
+- New component → one-line docstring in its frontmatter explaining purpose and prop contract.
+- New utility → JSDoc comment if the signature isn't self-explanatory.
+- Architectural change → entry in [`docs/ai/decisions.md`](./decisions.md).
+- Completed task → update [`docs/ai/progress.md`](./progress.md) (move done items, refresh next).
+- Spotted gap that's out of scope → add to [`docs/ai/tech-debt.md`](./tech-debt.md).
+
+Don't add JSDocs to functions that are already clear; don't comment code you didn't touch.
 
 ---
 
-## 8. Patterns to Avoid
+## 3. Patterns and rationale
 
-- **Inline translation logic** — no `lang === 'en' ? 'Shows' : 'Концерти'` in templates; each language has its own page file
-- **Hardcoded colors in style attributes** — no `style="background: #8B1C3B"` in `.astro` files
-- **Duplicate SVG markup** — if an icon appears in 2+ places, consider extracting it to a component
-- **Abstraction for one use** — do not create a utility, component, or helper for something that exists in only one place
-- **Extra props for hypothetical future use** — only add props that are used by current callers
-- **Scope creep** — do not improve or refactor code that is adjacent to the task you were asked to do
+Astro idioms, browser quirks, and accumulated lessons. Apply judgement — these are not absolute.
 
----
+### Astro components
 
-## 9. Dependency Rules
+- Logic lives in the `---` frontmatter block. `<script>` tags are for client-side behaviour only.
+- Derive computed values (formatted dates, canonical URLs) in frontmatter, not inline in JSX.
+- Use `<style is:global>` for rules with compound selectors (e.g. `:root[data-theme="dark"] .my-class`) or that target elements rendered outside the component.
 
-Adding a new npm dependency requires **explicit user approval before installation**. Before requesting approval:
-1. Confirm that a native browser API or existing utility cannot do the job
-2. Check the package's maintenance status and bundle size impact
-3. Confirm it belongs as a `devDependency` if it is only used at build time
+### Multi-instance components
 
-Project philosophy: minimal client-side JavaScript. Prefer solutions that:
-- Work without a package (native APIs, CSS)
-- Are dev-only (Tailwind plugins, Astro integrations)
-- Do not add to the client-side bundle
+A component that can appear more than once on a page must scope all DOM queries to an instance root — never `document.getElementById` with hardcoded IDs.
 
----
-
-## 10. Readability and Maintainability
-
-- **Comments**: Only add where logic is non-obvious. Do not comment self-evident code.
-- **Component doc comment**: One-line description in the frontmatter comment block is sufficient
-- **Magic values**: Assign any hardcoded number or string to a named constant
-- **Nesting depth**: If HTML nesting exceeds 4 levels consistently, the structure is likely too complex
-- **Template length**: Scan for extractable sections when a template exceeds ~80 lines
-
----
-
-## 11. Safe Change Practices
-
-Optimize for **small, reviewable diffs**:
-
-- Change one logical thing per commit
-- Change one feature or fix per PR
-- Do not mix styling changes with logic changes in the same commit
-- Do not modify files outside the stated scope of the task
-- Do not clean up or refactor surrounding code while fixing a bug — submit a separate PR
-
-**If a task requires touching more than 5 files**, stop and propose splitting it into smaller tasks with separate PRs.
-
-**Before opening a PR**, verify:
-1. Only the files required by the task have changed (`git diff --name-only`)
-2. The diff is readable — each changed line has a clear reason
-3. No debug code, `console.log`, or commented-out blocks remain
-
----
-
-## 12. Avoiding Over-Abstraction
-
-Abstraction should be earned, not anticipated. Before creating any new abstraction, apply these tests:
-
-- **Duplication test**: Does this code already exist in at least one other place? If not, keep it inline.
-- **Clarity test**: Does the abstraction make the code easier to understand, or just shorter?
-- **Naming test**: Can you name it clearly without the words "helper", "util", "misc", or "common"? If not, the purpose isn't clear enough to justify extraction.
-- **Prop test**: If a component needs more than 5 props to cover its use cases, it may be trying to do too much.
-
-**AI-specific rule**: Do not create a new abstraction in the same PR as the task that prompted the refactor. If you notice duplication while working on a bug fix, note it in the PR description and treat it as a separate task.
-
----
-
-## 13. Avoiding Duplication
-
-Before writing any markup, logic, or data:
-- Check `src/components/` for an existing component
-- Check `src/lib/` for existing utility functions
-- Check `src/i18n/ui.ts` for existing translation strings
-- Check `src/config/site.ts` for existing URL constants
-- Search for the same SVG path string in other files before writing it again
-
-If you discover duplication in existing code, do not fix it silently. Note it in the PR description or create a separate task for it.
-
----
-
-## 14. Documentation Expectations
-
-When making changes:
-- **New component**: Add a one-line frontmatter comment describing its purpose and DESIGN.md reference if applicable
-- **New utility function**: Add a JSDoc comment if the function signature is not self-explanatory
-- **Architectural change**: Add an entry to `docs/ai/decisions.md`
-- **Completed task**: Update `docs/ai/progress.md` (move completed items, update next steps)
-
-Do not add comments to code you did not touch. Do not add docstrings to functions that were already clear without them.
-
----
-
-## 15. Validation Before Review
-
-Before pushing and opening a PR, complete this checklist:
-
-```
-- [ ] npm run build passes with 0 errors
-- [ ] npm run dev starts without errors
-- [ ] Affected pages load correctly (light mode)
-- [ ] Affected pages look correct in dark mode (DevTools > Rendering > prefers-color-scheme: dark)
-- [ ] Mobile layout verified (DevTools device toolbar, 375px width)
-- [ ] git diff --name-only shows only files relevant to the task
-- [ ] No hardcoded hex colors in changed files
-- [ ] No inline translation logic in page files
-- [ ] No debug code or commented-out blocks remain
-- [ ] docs/ai/progress.md updated if task is complete
+```js
+document.querySelectorAll('.my-component').forEach(root => {
+  // Scope queries to root, not document.
+});
 ```
 
-If any item fails, fix it before creating the PR.
+Astro's `<script>` block is deduplicated and runs once per page. Assign unique panel IDs dynamically (e.g. `panel-${i}`) for `aria-controls` when multiple instances exist.
+
+### Client-side JavaScript
+
+- Register listeners on open / on activate; remove them on close / on deactivate. Named handler functions only — anonymous functions can't be removed.
+- Use `import.meta.env.DEV` guards around `console.error` / `console.warn` so logs don't reach production.
+- Check `response.ok` before `response.json()`. Catch fetch errors and degrade gracefully.
+
+### Fixed overlays / lightboxes
+
+These patterns address real bugs seen on Android Chrome (Pixel 6 Pro). They are not theoretical.
+
+- **Portal to `<body>`.** A `backdrop-filter` ancestor creates a new stacking context that traps child z-index values. Move the overlay to `document.body` on open.
+- **JS-driven card dimensions.** CSS percentage-height chains break on Android Chrome when the address bar is visible; `100vh` is unreliable. Set `width` / `height` from `window.innerWidth` / `innerHeight` in JS on open and on resize.
+- **Scroll lock.** `overflow: hidden` on `<html>` and `<body>`. **Never** `position: fixed` on `<body>` — it shifts fixed children to the offset body rather than the viewport on Android Chrome.
+- **Touch action.** Don't set `touch-action: none` on the overlay — it blocks horizontal scrolling in children. Use `overscroll-behavior: none` instead, and `touch-action: pan-x` on horizontally scrollable children.
+
+### Content Collections
+
+Collection schemas live in [`src/content.config.ts`](../../src/content.config.ts). Shared schemas (e.g. gallery items) live in dedicated modules under `src/lib/` so their Zod runtime isn't bundled into pages that only need the type.
+
+### `getStaticPaths` empty fallback
+
+```ts
+export const getStaticPaths = (async ({ paginate }) => {
+  const items = await getData();
+  if (items.length === 0) {
+    return [{
+      params: { page: undefined },
+      props: { page: { data: [], currentPage: 1, lastPage: 1, url: { prev: null, next: null } } },
+    }];
+  }
+  return paginate(items, { pageSize: 6 });
+}) satisfies GetStaticPaths;
+```
+
+### Avoiding over-abstraction
+
+- Keep code inline until it's repeated. Three similar lines is better than a premature abstraction.
+- Don't add props for hypothetical future callers.
+- Don't extract a "helper" / "util" / "common" function for a single use.
+
+If a pattern within the current PR is repeated 2+ times, extract it before raising. If the duplication is pre-existing, note it in [`docs/ai/tech-debt.md`](./tech-debt.md) — don't refactor as scope creep.
+
+### Scope discipline
+
+- One logical change per commit; one feature or fix per PR.
+- Don't refactor adjacent code while fixing a bug.
+- If a task touches more than five files, consider splitting it.
+
+These are conventions, not laws — there are good reasons to break each of them sometimes. The goal is a reviewable diff, not a rule count.

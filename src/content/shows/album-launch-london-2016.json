@@ -1,0 +1,67 @@
+{
+  "id": "1208174302598273",
+  "slug": "album-launch-london-2016",
+  "facebookId": "1208174302598273",
+  "title": "Live Album Launch @ Le QuecumBar",
+  "titleEn": "Live Album Launch @ Le QuecumBar",
+  "titleBg": "Промоция на албум в Le QuecumBar",
+  "description": "Celebrate the launch of our new live album recorded at London's premier gypsy swing venue.",
+  "descriptionEn": "Celebrate the launch of our new live album recorded at London's premier gypsy swing venue.",
+  "descriptionBg": "Отпразнувайте промоцията на нашия нов албум на живо, записан в най-добрия клуб за джипси суинг в Лондон.",
+  "body": "About a month ago we recorded a live Album at the venue and we are delighted to be Launching it! \nCome and join us for an amazing evening of swing and jazz. \n\nMake sure you Book your Tickets in advance here: http://quecumbar.co.uk",
+  "bodyEn": "About a month ago we recorded a live Album at the venue and we are delighted to be Launching it! \nCome and join us for an amazing evening of swing and jazz. \n\nMake sure you Book your Tickets in advance here: http://quecumbar.co.uk",
+  "bodyBg": "Преди около месец записахме албум на живо в Le QuecumBar и сме щастливи да го представим официално! Присъединете се към нас за една невероятна вечер със суинг и джаз.\n\nРезервирайте билетите си предварително тук: http://quecumbar.co.uk",
+  "startDate": "2016-12-12T20:00:00Z",
+  "endDate": "2016-12-12T23:00:00Z",
+  "venue": "Le QuecumBar",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "album-launch",
+    "jazz",
+    "swing",
+    "gypsy-swing",
+    "london",
+    "uk",
+    "le-quecumbar"
+  ],
+  "tagsBg": [
+    "представяне на албум",
+    "джаз",
+    "суинг",
+    "циганско суинг",
+    "Лондон",
+    "Великобритания",
+    "le-quecumbar"
+  ],
+  "image": "/images/events/fb-1208174302598273.jpg",
+  "gallery": [],
+  "ticketUrl": "http://quecumbar.co.uk",
+  "mapUrl": "https://maps.google.com/?q=Le+QuecumBar+London",
+  "sourceUrl": "https://www.facebook.com/events/1208174302598273/",
+  "usersResponded": 15,
+  "eventType": "album-launch",
+  "admission": {
+    "type": "paid",
+    "note": "Book tickets at quecumbar.co.uk",
+    "noteBg": "Билети на quecumbar.co.uk"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked",
+    "ticketUrl": "locked"
+  }
+}

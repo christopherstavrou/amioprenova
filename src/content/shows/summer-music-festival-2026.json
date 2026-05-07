@@ -1,0 +1,63 @@
+{
+  "id": "1",
+  "slug": "summer-music-festival-2026",
+  "title": "Summer Jazz Festival @ South Park",
+  "titleEn": "Summer Jazz Festival @ South Park",
+  "titleBg": "Летен джаз фестивал в Южен парк",
+  "description": "An open-air celebration of jazz and contemporary music featuring Ami Oprenova and special guests in the heart of Sofia.",
+  "descriptionEn": "An open-air celebration of jazz and contemporary music featuring Ami Oprenova and special guests in the heart of Sofia.",
+  "descriptionBg": "Празник на джаза и съвременната музика на открито с участието на Ами Опренова и специални гости в сърцето на София.",
+  "body": "Join us for a magical evening under the stars at Sofia's premier open-air stage. Expect a mix of jazz standards, original compositions, and special guest appearances. Doors open at 19:00.",
+  "bodyEn": "Experience a magical evening under the stars at Sofia's premier open-air stage in South Park. The festival features a curated mix of jazz standards, original compositions, and special guest appearances by leading musicians.\n\nEnjoy the warm summer night with world-class live music in a beautiful park setting. Bring a blanket and your love for jazz!",
+  "bodyBg": "Преживейте магическа вечер под звездите на най-добрата сцена на открито в Южния парк в София. Фестивалът представя подбрана смес от джаз стандарти, авторски композиции и специални гостувания на водещи музиканти.\n\nНасладете се на топлата лятна нощ с музика на живо на световно ниво в красива паркова среда. Вземете одеяло и любовта си към джаза!",
+  "startDate": "2026-07-15T19:00:00+03:00",
+  "venue": "South Park Open Air Stage",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "tags": [
+    "festival",
+    "outdoor",
+    "jazz",
+    "sofia",
+    "bulgaria",
+    "south-park"
+  ],
+  "tagsBg": [
+    "фестивал",
+    "на открито",
+    "джаз",
+    "София",
+    "България",
+    "южен-парк"
+  ],
+  "image": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=1280&h=720&auto=format&fit=crop",
+  "gallery": [
+    {
+      "type": "image",
+      "src": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1280&h=720&auto=format&fit=crop",
+      "alt": "Concert stage at night",
+      "caption": "Festival stage under the stars"
+    }
+  ],
+  "mapUrl": "https://maps.google.com/?q=South+Park+Sofia",
+  "eventType": "concert",
+  "admission": {
+    "type": "free",
+    "note": "Free entry for all"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked",
+    "venue": "locked"
+  }
+}

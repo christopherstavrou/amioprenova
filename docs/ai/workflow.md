@@ -1,242 +1,115 @@
 # Development Workflow
 
-Mandatory process for all work in this repository.
+The process for shipping work in this repository. The aim is small, reviewable changes that build cleanly — not procedural compliance.
 
 ---
 
-## The Loop
+## The loop
 
 ```
-issue assigned
-  → read issue + project docs
-  → create branch
-  → implement (small commits)
-  → verify build
-  → open PR to develop
-  → reviewer gives feedback
-  → push revisions to same branch
-  → merge
-  → update progress.md
+issue → branch from develop → implement → verify build → PR → review → merge → update progress.md
 ```
+
+Each PR represents one logical change. Keep commits focused and the diff readable; reviewers will tell you if a change should be split.
 
 ---
 
-## Branch Model
+## Branches
 
 | Branch | Purpose | Who merges |
-|--------|---------|-----------|
-| `main` | Production — live site | Owner only (from `test`) |
+|---|---|---|
+| `main` | Production | Owner only (from `test`) |
 | `test` | QA staging | Owner only (from `develop`) |
 | `develop` | Development staging — all PRs land here | AI-generated PRs |
-| `ai/*` | Feature branches — deleted after merge | — |
+| `ai/*` | Feature branches from manual work | — |
+| `ai-issue-N` / `ai-pull-N` | Branches created by the GitHub Actions Claude workflow (template in [`.github/workflows/claude.yml`](../../.github/workflows/claude.yml)) | — |
+| `claude/*` | Branches created by the Claude cloud agent | — |
 
-Branch naming: `ai/<short-descriptive-name>` in kebab-case, 2–4 words.
-
-Examples: `ai/blog-search` · `ai/fix-mobile-nav` · `ai/add-press-photos`
+All three feature-branch prefixes are valid. Branch protection on `develop` accepts all of them. Use `ai/<short-name>` for manual work; the others are produced automatically by the matching tool.
 
 ---
 
-## Step by Step
+## Steps
 
-### 1. Read the issue
+1. **Read the issue.** Understand requirements, identify affected files, note constraints.
+2. **Orient.** `git checkout develop && git pull origin develop`. Read [`progress.md`](./progress.md) for current state.
+3. **Branch.** `git checkout -b ai/<short-name>`.
+4. **Implement.** Small focused commits; run `npm run dev` as you go.
+5. **Verify.** Quick gate before opening the PR — fail any item, fix it before pushing:
+   - `npm run build` passes (0 errors).
+   - `git diff --name-only` shows only task-relevant files.
+   - Spot-check affected pages in the browser, light and dark (DevTools → Rendering → `prefers-color-scheme: dark`).
+   - For UI changes: sanity-check at 375 px mobile width (DevTools device toolbar).
+   - No debug code, `console.log`, or commented-out blocks remain in the diff.
+   - If the task is complete, [`docs/ai/progress.md`](./progress.md) is updated in the same PR.
+6. **Pre-flight.** Walk the diff against [`docs/ai/standards.md`](./standards.md) §1 (hard standards). The goal is a clean review pass, not zero comments — reviewers will catch things you missed, and that's fine.
+7. **Open PR** against `develop`. Use the template — title under 50 chars, summary, changes list, verify steps.
+8. **Address review.** Read every comment, fix what's right, push fixes. Reply inline to threads explaining what changed or why a comment doesn't apply. Re-request review.
+9. **Update [`progress.md`](./progress.md)** when the PR is approved or merged — move done items, update next steps.
 
-Before writing any code:
-- Understand exactly what is being asked
-- Identify which files will likely be affected
-- Estimate scope — if it requires more than 5 files, propose splitting the work
-- Note any constraints or acceptance criteria in the issue
+### Commit format
 
-### 2. Orient
-
-```bash
-git checkout develop && git pull origin develop
-```
-
-Read `docs/ai/progress.md`. Note current state and any relevant in-progress work.
-
-Write a short plan (3–5 bullet points) before starting implementation.
-
-### 3. Create branch
-
-```bash
-git checkout -b ai/your-feature-name
-```
-
-### 4. Implement
-
-- Make small, focused commits — AI agent creates commit messages autonomously
-- Run `npm run dev` to verify changes as you work
-- Stay scoped to the issue — do not improve adjacent code
-
-**Commit format:**
-```
-<type>(<scope>): <subject>
-```
-Types: `feat` · `fix` · `docs` · `style` · `refactor` · `chore`
+`<type>(<scope>): <subject>` — types: `feat` · `fix` · `docs` · `style` · `refactor` · `chore`.
 
 Examples:
-```bash
-git commit -m "feat(blog): add client-side search with JSON index"
-git commit -m "fix(nav): correct active state on mobile"
-git commit -m "docs(ai): update progress after design system rollout"
-```
-
-### 5. Verify
-
-```bash
-npm run build          # Must pass with 0 errors
-git diff --name-only   # Only task-relevant files should be changed
-```
-
-Spot-check affected pages in the browser. Test dark mode: DevTools → Rendering → `prefers-color-scheme: dark`.
-
-### 6. Commit and push
-
-```bash
-git add <specific-files>   # Stage specific files, not git add .
-git commit -m "feat: description"
-
-# Always fetch before pushing — the remote may have moved since your last pull
-git fetch origin
-git rebase origin/ai/your-feature-name   # or origin/develop if pushing develop directly
-git push -u origin ai/your-feature-name
-```
-
-**If you have unstaged changes when rebasing:** `git stash` before the rebase, `git stash pop` after, then push.
-
-### 7. Open pull request
-
-```bash
-gh pr create --base develop --head ai/your-feature-name \
-  --title "concise title under 50 chars" \
-  --body "$(cat <<'EOF'
-## Summary
-What changed and why.
-
-## Changes
-- file-a: what changed
-- file-b: what changed
-
-## How to Verify
-1. npm run build
-2. npm run dev
-3. Navigate to [page]
-4. Check [specific behavior]
-
-## Notes
-Follow-up tasks or context.
-EOF
-)"
-```
-
-### 8. Handle review feedback
-
-If the reviewer requests changes:
-- Push additional commits to the **same branch** — do not open a new PR
-- Address each point of feedback directly
-- Add a comment on the PR explaining what was changed and why if not obvious
-- Re-verify: `npm run build` must still pass
-
-### 9. Update progress.md
-
-After the PR is merged (or as a final commit before requesting review):
-
-```bash
-git add docs/ai/progress.md
-git commit -m "docs(ai): update progress after [feature]"
-git push
-```
-
-Move completed items to Done. Update the Next list. Note any new open questions.
+- `feat(blog): add client-side search`
+- `fix(nav): correct active state on mobile`
+- `docs(brand): update voice and tone section`
 
 ---
 
-## PR Size
+## PR size
 
-| Good PR | Avoid |
-|---------|-------|
-| 1–3 files changed | 10+ files changed |
-| 50–200 lines of diff | 500+ lines of diff |
+| Good | Avoid |
+|---|---|
+| 1–3 files | 10+ files |
+| 50–200 lines | 500+ lines |
 | Single focused change | Multiple unrelated changes |
 
-If a task requires touching more than 5 files, stop and propose two PRs.
+If a task naturally requires more, propose splitting it. If the work is genuinely indivisible, ship it and explain in the PR description why.
 
 ---
 
-## Checklist
+## Review feedback
 
-```
-Before starting:
-- [ ] Read the issue — understand requirements
-- [ ] On develop, pulled latest
-- [ ] Read docs/ai/progress.md
-- [ ] Plan written (3–5 bullets)
+Read every comment. Fix what's correct, push the fix, reply to the thread explaining what changed. If a comment is wrong or the suggestion would worsen the work, say so — explain the reasoning. Reviewer opinions on aesthetics don't override deliberate UX decisions, but they do flag inconsistencies worth examining.
 
-Before opening PR:
-- [ ] npm run build passes (0 errors)
-- [ ] git diff --name-only shows only task-relevant files
-- [ ] Affected pages verified in browser (light + dark mode)
-- [ ] All commits have clear messages
-
-After PR:
-- [ ] docs/ai/progress.md updated
-- [ ] No uncommitted changes remaining
-```
+Re-request review after pushing fixes. The cycle is normal; the first round is rarely the last.
 
 ---
 
 ## Troubleshooting
 
-**Build fails** — Read the error. Fix the TypeScript or import issue. Never commit if the build fails.
+**Build fails.** Read the error, fix the type or import issue, re-run. Don't commit failing builds.
 
-**Merge conflicts:**
+**Merge conflicts.**
 ```bash
 git checkout develop && git pull origin develop
-git checkout ai/your-branch && git merge develop
-# Resolve conflicts, then stage only the resolved files — do not use git add .
-git add <resolved-files> && git commit -m "chore: resolve merge conflicts" && git push
+git checkout ai/<branch> && git merge develop
+# Resolve, stage resolved files only, commit, push.
 ```
 
-**Wrong branch commit:**
+**Push rejected — fetch first.** Remote has commits you don't (review fix-ups, auto-commits):
 ```bash
-git reset HEAD~1 && git stash
-git checkout -b ai/correct-branch
-git stash pop && git add . && git commit -m "your message"
-git push -u origin ai/correct-branch
-```
-
-**HTTP 403 on push** — Branch must start with `ai/`:
-```bash
-git branch -m ai/your-feature-name
-git push -u origin ai/your-feature-name
-```
-
-**Push rejected — "fetch first"** — Remote has commits you don't have locally (Copilot review, auto-commits, another push):
-```bash
-git stash                          # if you have unstaged changes
+git stash      # if you have unstaged changes
 git fetch origin
-git rebase origin/<branch-name>
-git stash pop                      # if you stashed
-git push origin <branch-name>
+git rebase origin/<branch>
+git stash pop  # if you stashed
+git push origin <branch>
 ```
-Never use `--force` on `develop` or `main` — they are protected.
+Never force-push to `develop` or `main` — they are protected.
 
-**Port 4321 in use:**
-```bash
-lsof -ti:4321 | xargs kill -9 && npm run dev
-```
+**Port 4321 in use.** `lsof -ti:4321 | xargs kill -9 && npm run dev`
 
 ---
 
-## Anti-Patterns
+## Anti-patterns
 
-| Don't | Do instead |
-|-------|-----------|
-| Commit to `main` or `develop` | Use `ai/*` feature branches |
-| Push code that doesn't build | Verify `npm run build` first |
-| Create a PR touching 10+ files | Split into focused PRs |
-| Mix unrelated changes in one commit | One logical change per commit |
-| Improve code outside the task scope | Stay focused on what was asked |
-| Leave work uncommitted at end of session | Commit, push, open PR |
-| Push without fetching first | Always `git fetch origin && git rebase origin/<branch>` before `git push` |
-| Stage `.claude/settings.local.json` | It is gitignored — never commit it; it holds personal tool permissions |
+| Don't | Do |
+|---|---|
+| Commit to `main` or `develop` directly | Use a feature branch |
+| Push code that doesn't build | Run `npm run build` first |
+| Mix unrelated changes in one PR | Split into focused PRs |
+| Improve adjacent code while fixing a bug | Note it in `progress.md`, fix separately |
+| Stage `.claude/settings.local.json` | It's gitignored — personal permissions |
+| Force-push protected branches | Resolve via merge or rebase + normal push |

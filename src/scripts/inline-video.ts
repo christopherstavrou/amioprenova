@@ -2,6 +2,7 @@
  * Shared inline video player logic.
  * Import this in any page that has .video-card elements.
  * Only one video plays at a time across all cards on the page.
+ * Supports YouTube (data-youtube-id) and Vimeo (data-vimeo-id).
  */
 
 let activeCard: HTMLElement | null = null;
@@ -19,8 +20,9 @@ function stopActive() {
 }
 
 function playVideo(card: HTMLElement) {
-  const id = card.dataset.youtubeId;
-  if (!id) return;
+  const youtubeId = card.dataset.youtubeId;
+  const vimeoId = card.dataset.vimeoId;
+  if (!youtubeId && !vimeoId) return;
   if (activeCard === card) return;
 
   stopActive();
@@ -32,9 +34,15 @@ function playVideo(card: HTMLElement) {
   thumb.classList.add('hidden');
 
   const iframe = document.createElement('iframe');
-  iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
-  iframe.title = 'YouTube video player';
-  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  if (youtubeId) {
+    iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+    iframe.title = 'YouTube video player';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  } else if (vimeoId) {
+    iframe.src = `https://player.vimeo.com/video/${vimeoId}?autoplay=1`;
+    iframe.title = 'Vimeo video player';
+    iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+  }
   iframe.allowFullscreen = true;
   iframe.className = 'w-full h-full';
   player.appendChild(iframe);

@@ -1,0 +1,68 @@
+{
+  "id": "1223769811401753",
+  "slug": "ami-oprenova-quintet-presents-precious-days-2021",
+  "facebookId": "1223769811401753",
+  "title": "Ami Oprenova Quintet presents \"Precious Days\"",
+  "titleEn": "Ami Oprenova Quintet presents \"Precious Days\"",
+  "titleBg": "Квинтетът на Ами Опренова представя „Precious Days“",
+  "description": "Vocalist, band leader & composer Ami Oprenova returns to the UK for a tour presenting her latest arrangements from her 3rd album, ‘Precious Days’.",
+  "descriptionEn": "Vocalist, band leader & composer Ami Oprenova returns to the UK for a tour presenting her latest arrangements from her 3rd album, ‘Precious Days’.",
+  "descriptionBg": "Вокалистката и композитор Ами Опренова се завръща в Обединеното кралство за турне, представящо най-новите й аранжименти от нейния трети албум „Precious Days“.",
+  "body": "Vocalist, band leader & composer Ami Oprenova returns to the UK for a long awaited tour, and we’re delighted that it all kicks off with us at Toulouse. Ami will be bringing some of the top musicians of the UK jazz scene to present a unique evening full of energy, excitement and tasteful music presenting her latest arrangements hot off of her upcoming, 3rd album, ‘Precious Days’,\n\nAmi has two albums under her belt and has toured across Europe with her previous ensemble, ‘Coco ‘n’ the Fellas.’ Her music is full of lyrical melodies, harmonic language and versatile rhythms.  Influenced by Gypsy Swing, Blues & Bebop.\n\n‘Improvising is my way of expressing myself. The only time I feel truly alive and able to breathe in all that life has to offer” For Ami Oprenova scatting isn’t just a generic technique but a way of life!\n\n“”…Oprenova’s rousing scat singing is full of excellent technical mastery with incredible falsetto…” – Italia in Jazz (5 stars)\n\nAmi Oprenova – Vocals\nChris Eldred – Piano\nCaley Groves – Guitar\nNick Pini – Double Bass\nLilia Ioncheva – Percussion\n\nBook a table at our jazz club NOW and don’t miss out on a special evening.",
+  "bodyEn": "Vocalist, band leader & composer Ami Oprenova returns to the UK for a long awaited tour, and we’re delighted that it all kicks off with us at Toulouse. Ami will be bringing some of the top musicians of the UK jazz scene to present a unique evening full of energy, excitement and tasteful music presenting her latest arrangements hot off of her upcoming, 3rd album, ‘Precious Days’,\n\nAmi has two albums under her belt and has toured across Europe with her previous ensemble, ‘Coco ‘n’ the Fellas.’ Her music is full of lyrical melodies, harmonic language and versatile rhythms.  Influenced by Gypsy Swing, Blues & Bebop.\n\n‘Improvising is my way of expressing myself. The only time I feel truly alive and able to breathe in all that life has to offer” For Ami Oprenova scatting isn’t just a generic technique but a way of life!\n\n“”…Oprenova’s rousing scat singing is full of excellent technical mastery with incredible falsetto…” – Italia in Jazz (5 stars)\n\nAmi Oprenova – Vocals\nChris Eldred – Piano\nCaley Groves – Guitar\nNick Pini – Double Bass\nLilia Ioncheva – Percussion\n\nBook a table at our jazz club NOW and don’t miss out on a special evening.",
+  "bodyBg": "Вокалистката, лидер на бенд и композитор Ами Опренова се завръща в Обединеното кралство за дългоочаквано турне и сме щастливи, че всичко започва именно при нас в Toulouse. Ами ще доведе някои от най-добрите музиканти на британската джаз сцена, за да представи една уникална вечер, пълна с енергия, вълнение и изискана музика, представяйки най-новите си аранжименти от предстоящия си трети албум „Precious Days“.\n\nАми има два албума зад гърба си и е обиколила Европа с предишния си състав „Coco ‘n’ the Fellas“. Нейната музика е изпълнена с лирични мелодии, хармоничен език и разнообразни ритми, повлияни от джипси суинг, блус и бибоп.\n\n„Импровизацията е моят начин да изразя себе си. Единственият момент, в който се чувствам наистина жива и способна да вдишам всичко, което животът предлага.“ За Ами Опренова скат пеенето не е просто техника, а начин на живот!\n\n„...скат пеенето на Опренова е изпълнено с отлично техническо майсторство и невероятно фалсето...“ – Italia in Jazz (5 звезди)\n\nАми Опренова – вокал\nКрис Елдред – пиано\nКейли Гроувс – китара\nНик Пини – контрабас\nЛилия Йончева – перкусии\n\nРезервирайте маса в нашия джаз клуб СЕГА и не пропускайте тази специална вечер.",
+  "startDate": "2021-09-26T19:30:00+01:00",
+  "endDate": "2021-09-26T22:00:00+01:00",
+  "venue": "Toulouse Lautrec Jazz Club",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Toulouse Lautrec Restaurant & Jazz Club",
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "jazz",
+    "concert",
+    "quintet",
+    "vocal-jazz",
+    "london",
+    "uk",
+    "toulouse-lautrec"
+  ],
+  "tagsBg": [
+    "джаз",
+    "концерт",
+    "квинтет",
+    "вокален джаз",
+    "Лондон",
+    "Великобритания",
+    "toulouse-lautrec"
+  ],
+  "image": "/images/events/fb-1223769811401753.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=51.491122490747,-0.10337802555676",
+  "sourceUrl": "https://www.facebook.com/events/1223769811401753/",
+  "usersResponded": 19,
+  "eventType": "concert",
+  "admission": {
+    "type": "paid",
+    "price": "£15",
+    "note": "Reservations via venue website",
+    "noteBg": "Резервации през сайта на клуба"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

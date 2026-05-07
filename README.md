@@ -8,7 +8,7 @@ Official website for jazz vocalist **Ami Oprenova** — a static site built with
 
 ### Prerequisites
 
-- Node.js v18 or later
+- Node.js v20.19.0 or later (or v22+)
 - npm
 
 ### Commands
@@ -73,7 +73,7 @@ Blog posts are Markdown files. When a file exists, it is published — there is 
 
 **Add a post:**
 1. Create `src/content/blog/en/your-post-name.md`
-   Note: Bulgarian blog posts (`src/content/blog/bg/`) are not yet implemented — EN only.
+   Note: Bulgarian routes (`src/pages/bg/news/`) are scaffolded with empty-state handling. Add `src/content/blog/bg/your-post-name.md` to publish a Bulgarian post — no further wiring needed.
 2. Add required frontmatter:
    ```markdown
    ---
@@ -153,7 +153,7 @@ Set `"featured": true` on one video to feature it on the Home and Video pages. T
 
 ### Shows / Events
 
-Edit `src/data/events.json`. Rebuild to update the Shows page.
+Events are stored as individual JSON files in `src/content/shows/`. Rebuild to update the Shows page.
 
 ---
 
@@ -187,6 +187,7 @@ All external URLs and metadata are in `src/config/site.ts`. Update placeholder v
 
 ```
 src/
+├── content.config.ts        # Content collection definitions (glob loaders)
 ├── content/blog/en/         # Blog posts (Markdown) — EN only; BG not yet implemented
 ├── content/pages/{en,bg}/   # Page content, e.g. About (Markdown)
 ├── pages/{en,bg}/           # Page templates (Astro)
@@ -215,9 +216,11 @@ Before deploying, set `baseUrl` in `src/config/site.ts` to the production domain
 | File | Audience | Purpose |
 |------|----------|---------|
 | `README.md` | Everyone | Content management, commands, deployment |
-| `AGENTS.md` | All AI agents | Entry point: hard rules, doc index |
-| `DESIGN.md` | Developers | Visual design system |
+| `AGENTS.md` | All AI agents | Entry point: standards, doc index |
+| `docs/brand.md` | Designers, writers, agents | Brand identity — palette concept, voice, photography |
+| `docs/component-library.md` | Developers, agents | What components exist; when to use each |
+| `docs/ai/standards.md` | AI agents | Hard standards, conventions, patterns |
 | `docs/ai/workflow.md` | AI agents | Branch model, PR process |
-| `docs/ai/standards.md` | AI agents | Implementation conventions |
 | `docs/ai/decisions.md` | AI agents | Architectural decisions |
 | `docs/ai/progress.md` | AI agents | Session state: done / next |
+| `src/styles/global.css` (header) | Developers, agents | Design token reference (source of truth) |

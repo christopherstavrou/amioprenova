@@ -1,0 +1,60 @@
+{
+  "id": "6",
+  "slug": "new-year-concert-2024",
+  "title": "Jazz New Year's Eve 2024",
+  "titleEn": "Jazz New Year's Eve 2024",
+  "titleBg": "Джаз Нова Година 2024",
+  "description": "Celebrate the arrival of 2024 with a night of jazz classics, champagne, and dancing at Club 33, Varna.",
+  "descriptionEn": "Celebrate the arrival of 2024 with a night of jazz classics, champagne, and dancing at Club 33, Varna.",
+  "descriptionBg": "Отпразнувайте пристигането на 2024 г. с вечер, изпълнена с джаз класики, шампанско и танци в Club 33, Варна.",
+  "body": "Welcome 2024 with style! Join Ami Oprenova and her band for a spectacular New Year's Eve concert at Varna's iconic Club 33. The evening will feature a selection of upbeat swing, blues, and timeless jazz standards designed to keep you dancing until the countdown.\n\nEnjoy an elegant atmosphere, festive drinks, and the finest live music in the city.",
+  "bodyEn": "Welcome 2024 with style! Join Ami Oprenova and her band for a spectacular New Year's Eve concert at Varna's iconic Club 33. The evening will feature a selection of upbeat swing, blues, and timeless jazz standards designed to keep you dancing until the countdown.\n\nEnjoy an elegant atmosphere, festive drinks, and the finest live music in the city.",
+  "bodyBg": "Посрещнете 2024 година със стил! Присъединете се към Ами Опренова и нейната група за грандиозен новогодишен концерт в емблематичния Club 33 във Варна. Вечерта ще предложи селекция от енергичен суинг, блус и вечни джаз стандарти, създадени да ви държат на дансинга до обратното броене.\n\nНасладете се на елегантна атмосфера, празнични напитки и най-добрата музика на живо в града.",
+  "startDate": "2023-12-31T21:00:00+02:00",
+  "venue": "Club 33",
+  "city": "Varna",
+  "country": "Bulgaria",
+  "tags": [
+    "concert",
+    "jazz",
+    "swing",
+    "festive",
+    "new-year",
+    "varna",
+    "bulgaria"
+  ],
+  "tagsBg": [
+    "концерт",
+    "джаз",
+    "суинг",
+    "празничен",
+    "нова-година",
+    "Варна",
+    "България"
+  ],
+  "image": "https://images.unsplash.com/photo-1546271876-af6caec5fae5?q=80&w=1280&h=720&auto=format&fit=crop",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Club+33+Varna",
+  "eventType": "concert",
+  "admission": {
+    "type": "paid",
+    "price": "50 лв.",
+    "note": "Includes festive dinner and welcome drink",
+    "noteBg": "Включва празнична вечеря и питие за добре дошли"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

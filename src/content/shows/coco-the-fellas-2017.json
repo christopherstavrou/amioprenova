@@ -1,0 +1,61 @@
+{
+  "id": "511902469162068",
+  "slug": "coco-the-fellas-2017",
+  "facebookId": "511902469162068",
+  "title": "Coco 'n' the Fellas @ Primo Bar",
+  "titleEn": "Coco 'n' the Fellas @ Primo Bar",
+  "titleBg": "Coco 'n' the Fellas в Primo Bar",
+  "description": "An evening of contemporary jazz and swing with the international quartet at London's South Bank.",
+  "descriptionEn": "An evening of contemporary jazz and swing with the international quartet at London's South Bank.",
+  "descriptionBg": "Вечер със съвременен джаз и суинг с международния квартет в лондонския Саут Банк.",
+  "body": "Coco 'n' the Fellas, are comprised of Ami Oprenova, Joe Perkins, Daniele Ciuffreda and Havard Tanner. Their music evokes both swing and contemporary jazz simultaneously. Breathtaking arrangements, varied repertoire and highly regarded musicianship ensure that Coco will transport you to a sonic landscape of gypsy jazz, bebop, fusion and more.",
+  "bodyEn": "Coco 'n' the Fellas return to Primo Bar. The band features Ami Oprenova (vocals), Joe Perkins (acoustic guitar), Daniele Ciuffreda (electric guitar), and Håvard Tanner (double bass). Their music evokes both swing and contemporary jazz simultaneously, transporting you to a sonic landscape of gypsy jazz, bebop, and fusion.",
+  "bodyBg": "Coco 'n' the Fellas се завръщат в Primo Bar. Групата включва Ами Опренова (вокал), Джо Пъркинс (акустична китара), Даниеле Чуфреда (електрическа китара) и Хавард Танер (контрабас). Тяхната музика извиква едновременно суинг и съвременен джаз, пренасяйки ви в звуков пейзаж от джипси джаз, бибоп и фюжън.",
+  "startDate": "2017-11-03T21:00:00Z",
+  "endDate": "2017-11-03T23:30:00Z",
+  "venue": "Primo Bar",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Primo Bar",
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "london",
+    "uk",
+    "primo-bar"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "Лондон",
+    "Великобритания",
+    "primo-bar"
+  ],
+  "image": "/images/events/fb-511902469162068.jpg",
+  "gallery": [],
+  "ticketUrl": "",
+  "mapUrl": "https://maps.google.com/?q=Primo+Bar+London",
+  "sourceUrl": "https://www.facebook.com/events/511902469162068/",
+  "usersResponded": 9,
+  "eventType": "concert",
+  "admission": {
+    "type": "free"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

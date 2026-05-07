@@ -1,0 +1,66 @@
+{
+  "id": "329899995364675",
+  "slug": "jazz-in-the-city-sessions-2021",
+  "facebookId": "329899995364675",
+  "title": "\"Jazz in the City\" Sessions: Ami Oprenova & Hot Club de Plovdiv",
+  "titleEn": "\"Jazz in the City\" Sessions: Ami Oprenova & Hot Club de Plovdiv",
+  "titleBg": "Сесии „Джаз в града“: Ами Опренова и Hot Club de Plovdiv",
+  "description": "A musical journey through manouche classics, jazz standards, and original material, performed live in Sofia and streamed globally.",
+  "descriptionEn": "A musical journey through manouche classics, jazz standards, and original material, performed live in Sofia and streamed globally.",
+  "descriptionBg": "Музикално пътешествие през мануш класики, джаз стандарти и авторски материал, на живо в София и с онлайн излъчване.",
+  "body": "Joy has come once again and the good news is here!\nAs concerts are slowly starting up around the world, Ami Oprenova & Hot Club de Plovdiv are teaming up to create an unforgettable evening. Jazz in the City Sessions are proud to present two of the most prestigious Balkan-born artists on the Gypsy Swing Scene. This marvelous evening Ami and the String Ensemble will be taking you on a musical journey playing Manouche classics, jazz standards and original material. It will be a night to remember and the best part is yet to come!!!\nYou can enjoy this show in the comfort of your living room, bedroom or even in the bath…yes! You heard right! This event will be streamed live on Facebook and Instagram @amioprenovamusic ! Moreover, it will be mainly performed in English! You can watch for free and will have the opportunity to donate to the musicians if you wish to. Grab a drink and a snack at home and join the feet tapping, dance wiggling fun! We will even have comments read out at the gig and a short “meet and greet” chat in the end of the evening! How exciting!\nHowever, if you wish to be there live, feeling the rhythm under your feet and meeting the musicians in person, you CAN attend the performance in Sofia and cheer loudly for everyone else! Just make sure and grab one of the EXTREMELY limited number of tickets for the live show! To do so, email info@amioprenova.com and say how many people you wish to buy for; you will then receive instructions on how to book and what types of tickets are available. \nAddress: Renewal Conference Centre, 86 \"Osogovo\" St., 1303 Sofia\nDoors open at 19:00 Local Time (Sofia/BG)\nStart of Stream by 20:00 Local Time (Sofia/BG)\nThe incredible musicians that will take the stage are:\nAmi Oprenova – vocals\nHot Club de Plovdiv\nLyubomir Tolumbadjiev – Violin\nPetar Koychev – Lead Guitar\nMomchil Angelov – Rhythm Guitar\nChristo Minchev - Double Bass\nWe are looking forward to seeing you there!\nIn partnership with 'Cake & Jazz'",
+  "bodyEn": "As concerts slowly return, Ami Oprenova & Hot Club de Plovdiv team up for an unforgettable evening of Gypsy Swing. This \"Jazz in the City\" session features Manouche classics, jazz standards, and original compositions.\n\nEnjoy the show live at the Renewal Conference Centre in Sofia or via livestream on Facebook and Instagram @amioprenovamusic. Join the fun from home or grab one of the limited tickets to be there in person!",
+  "bodyBg": "Концертите бавно се завръщат, а Ами Опренова и Hot Club de Plovdiv се обединяват за една незабравима джипси суинг вечер. Сесията „Джаз в града“ включва мануш класики, джаз стандарти и авторски композиции.\n\nНасладете се на шоуто на живо в Конферентен център „Възраждане“ в София или чрез онлайн излъчване във Facebook и Instagram @amioprenovamusic. Присъединете се от дома си или вземете един от ограничените билети за живо присъствие!",
+  "startDate": "2021-06-27T19:00:00+03:00",
+  "venue": "Conference Center Vazrazhdane",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "hosts": [
+    "Conference Center Vazrazhdane",
+    "Hot Club de Plovdiv",
+    "Ami Oprenova Music"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "gypsy-swing",
+    "livestream",
+    "sofia",
+    "bulgaria",
+    "vazrazhdane"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "циганско суинг",
+    "онлайн излъчване",
+    "София",
+    "България",
+    "възраждане"
+  ],
+  "image": "/images/events/fb-329899995364675.jpg",
+  "mapUrl": "https://maps.google.com/?q=Conference+Center+Vazrazhdane+Sofia",
+  "sourceUrl": "https://www.facebook.com/events/329899995364675/",
+  "usersResponded": 145,
+  "eventType": "collaboration",
+  "admission": {
+    "type": "paid",
+    "note": "Limited tickets / Free livestream",
+    "noteBg": "Ограничени билети / Безплатен стрийм"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked",
+    "venue": "locked"
+  }
+}

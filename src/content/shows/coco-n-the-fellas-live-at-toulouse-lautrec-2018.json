@@ -1,0 +1,66 @@
+{
+  "id": "531316607253086",
+  "slug": "coco-n-the-fellas-live-at-toulouse-lautrec-2018",
+  "facebookId": "531316607253086",
+  "title": "Coco 'n' the Fellas @ Toulouse Lautrec",
+  "titleEn": "Coco 'n' the Fellas @ Toulouse Lautrec",
+  "titleBg": "Coco 'n' the Fellas в Toulouse Lautrec",
+  "description": "A sophisticated fusion of swing and contemporary jazz with the international quartet in South London.",
+  "descriptionEn": "A sophisticated fusion of swing and contemporary jazz with the international quartet in South London.",
+  "descriptionBg": "Изискана комбинация от суинг и съвременен джаз с международния квартет в Южен Лондон.",
+  "body": "\"Their music evokes both swing and contemporary jazz simultaneously.\"\n\n\nBebop, French Gypsy Swing and a little bit of jazz-fusion to ensure an amazing night! Coco ‘n’ the Fellas originally started as a Gypsy tribute quartet but soon found love in composing and arranging in their own style. Stretching the boundaries of the Swing traditions Coco will transport you to a sonic landscape of gypsy jazz, bebop, fusion and more... The band has been touring England, Scotland, Italy, Switzerland and even Bulgaria throughout the last year. Playing at renown venues such as Torino Jazz Club, Studio 5 Jazz Club, Be-bop café as well as featuring at radio stations and tv shown within Europe. \n\nDoor: 8.30pm\nShow: 9.30pm\nRoom: The Jazz Club\n\n£15 On the Door\nOnline Tickets from £10\nhttps://www.designmynight.com/london/whats-on/live-music/coco-n-the-fellas?t=tickets\n\nOnly Bar food will be served in the Jazz Club.\n\nTo dine from the á la carte menu before the show \nPlease call 020 7582 6800 or Book Online\nPlease allow 60-90 minutes for dinner reservations.\n\nCoco 'n' the Fellas: \nAmi Oprenova - Vocals\nDaniele Ciuffreda - Electric Guitar\nJoe Perkins - Acoustic Guitar\nHavard Tanner - Double Bass",
+  "bodyEn": "\"Their music evokes both swing and contemporary jazz simultaneously.\"\n\nBebop, French Gypsy Swing, and a little bit of jazz-fusion to ensure an amazing night! Coco ‘n’ the Fellas will transport you to a sonic landscape of gypsy jazz, bebop, fusion and more. The band has been touring across Europe, playing at renowned venues such as Torino Jazz Club and Studio 5.\n\nAmi Oprenova - Vocals\nDaniele Ciuffreda - Electric Guitar\nJoe Perkins - Acoustic Guitar\nHåvard Tanner - Double Bass",
+  "bodyBg": "„Тяхната музика извиква едновременно суинг и съвременен джаз.“\n\nБибоп, френски джипси суинг и малко джаз-фюжън гарантират невероятна вечер! Coco ‘n’ the Fellas ще ви пренесат в звуков пейзаж от джипси джаз, бибоп, фюжън и още. Групата е обиколила Европа, свирейки на престижни сцени като Torino Jazz Club и Studio 5.\n\nАми Опренова - вокал\nДаниеле Чуфреда - електрическа китара\nДжо Пъркинс - акустична китара\nХавард Танер - контрабас",
+  "startDate": "2018-02-02T20:30:00Z",
+  "endDate": "2018-02-02T23:30:00Z",
+  "venue": "Toulouse Lautrec Jazz Club",
+  "city": "London",
+  "country": "UK",
+  "hosts": [
+    "Toulouse Lautrec Restaurant & Jazz Club",
+    "Ami Oprenova Music",
+    "Nolan Regent",
+    "Håvard Mathisen Tanner"
+  ],
+  "tags": [
+    "jazz",
+    "swing",
+    "gypsy-swing",
+    "london",
+    "uk",
+    "toulouse-lautrec"
+  ],
+  "tagsBg": [
+    "джаз",
+    "суинг",
+    "циганско суинг",
+    "Лондон",
+    "Великобритания",
+    "toulouse-lautrec"
+  ],
+  "image": "/images/events/fb-531316607253086.jpg",
+  "gallery": [],
+  "ticketUrl": "https://www.designmynight.com/london/whats-on/live-music/coco-n-the-fellas?t=tickets",
+  "mapUrl": "https://maps.google.com/?q=Toulouse+Lautrec+London",
+  "sourceUrl": "https://www.facebook.com/events/531316607253086/",
+  "usersResponded": 31,
+  "eventType": "concert",
+  "admission": {
+    "type": "paid",
+    "price": "£10 / £15"
+  },
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "bodyEn": "locked",
+    "bodyBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "admission": "locked",
+    "eventType": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
+}

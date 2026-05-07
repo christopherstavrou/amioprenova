@@ -1,0 +1,570 @@
+---
+/**
+ * GalleryLightbox
+ * Compact thumbnail grid + full-screen lightbox with carousel.
+ * - Theme-aware overlay (warm off-white in light mode, near-black in dark mode)
+ * - JS-driven explicit pixel dimensions — bypasses CSS height chain bugs on Android Chrome
+ * - Body scroll lock via overflow:hidden on html+body (avoids position:fixed on body
+ *   which causes Android Chrome to position fixed children relative to the offset body)
+ * - Safe-area-inset padding for notch / home-indicator devices
+ * - Landscape phone: strip hidden, arrows centred below media
+ * - Keyboard: Escape, ArrowLeft, ArrowRight
+ * - Accessible: aria-modal, aria-label, focus management
+ * - Scoped to instance root — safe to use multiple times on the same page
+ */
+import type { GalleryItem } from '../lib/events';
+
+interface Props {
+  items: GalleryItem[];
+  labels?: {
+    dialog?: string;
+    close?: string;
+    previous?: string;
+    next?: string;
+    /** Prepended to the item label, e.g. "View " → "View Jazz Night" */
+    viewPrefix?: string;
+    /** Prepended to the strip-thumb index, e.g. "Go to item " → "Go to item 3" */
+    goToPrefix?: string;
+  };
+}
+
+const { items, labels = {} } = Astro.props;
+const L = {
+  dialog:     labels.dialog     ?? 'Gallery viewer',
+  close:      labels.close      ?? 'Close gallery',
+  previous:   labels.previous   ?? 'Previous',
+  next:       labels.next       ?? 'Next',
+  viewPrefix: labels.viewPrefix ?? 'View ',
+  goToPrefix: labels.goToPrefix ?? 'Go to item ',
+};
+
+function thumbSrc(item: GalleryItem): string {
+  if (item.type === 'youtube') return `https://img.youtube.com/vi/${item.id}/mqdefault.jpg`;
+  if (item.type === 'image') return item.src;
+  return '';
+}
+
+function itemLabel(item: GalleryItem): string {
+  if (item.type === 'image') return item.alt;
+  return item.title;
+}
+
+const itemsJson = JSON.stringify(items.map(item => {
+  if (item.type === 'image') return { type: 'image', src: item.src, alt: item.alt ?? '', caption: item.caption ?? '' };
+  if (item.type === 'youtube') return { type: 'youtube', id: item.id, title: item.title };
+  return { type: 'vimeo', id: item.id, title: item.title };
+}));
+---
+
+<!-- ─── Instance root ───────────────────────────────────────────────── -->
+<div class="gallery-instance">
+
+  <!-- ─── Thumbnail grid ─────────────────────────────────────────────── -->
+  <div
+    class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 gallery-grid"
+    data-gallery-items={itemsJson}
+  >
+    {items.map((item, i) => (
+      <button
+        type="button"
+        class="gallery-thumb relative aspect-video rounded-md overflow-hidden bg-surface-muted group focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
+        data-gallery-index={i}
+        aria-label={`${L.viewPrefix}${itemLabel(item)}`}
+      >
+        {(item.type === 'image' || item.type === 'youtube') && (
+          <img
+            src={thumbSrc(item)}
+            alt={itemLabel(item)}
+            class="w-full h-full object-cover transition-transform duration-fast group-hover:scale-105"
+            loading="lazy"
+          />
+        )}
+        {item.type === 'vimeo' && (
+          <div class="w-full h-full flex items-center justify-center bg-surface-muted">
+            <span class="text-xs text-text-secondary px-2 text-center line-clamp-2">{item.title}</span>
+          </div>
+        )}
+        {(item.type === 'youtube' || item.type === 'vimeo') && (
+          <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-colors">
+            <svg class="w-8 h-8 text-white drop-shadow" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        )}
+        {item.type === 'image' && (
+          <div class="absolute inset-0 flex items-center justify-center bg-transparent group-hover:bg-black/20 transition-colors">
+            <svg class="w-6 h-6 text-white opacity-0 group-hover:opacity-100 drop-shadow transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+            </svg>
+          </div>
+        )}
+      </button>
+    ))}
+  </div>
+
+  <!-- ─── Lightbox ───────────────────────────────────────────────────── -->
+  <!--
+    Layout (all screen sizes):
+
+      ┌─────────────────────────────┐
+      │ counter              close  │  ← top bar (shrink-0)
+      ├─────────────────────────────┤
+      │                             │
+      │       media  (flex-1)       │  ← full width, grows to fill
+      │                             │
+      ├─────────────────────────────┤
+      │         caption             │  ← shrink-0
+      ├─────────────────────────────┤
+      │ ←   [strip thumbnails]  →  │  ← shrink-0 nav row
+      └─────────────────────────────┘
+
+    On phone landscape (max-height ≤ 500px): strip hidden, arrows centred.
+
+    Card dimensions are set explicitly by JS on open (window.innerWidth/Height)
+    to bypass Android Chrome's broken CSS percentage-height resolution chain.
+  -->
+  <div
+    class="gallery-lightbox hidden fixed inset-0 z-[200] overflow-hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-label={L.dialog}
+  >
+    <div class="gl-card">
+
+      <!-- Top bar: counter + close -->
+      <div class="flex items-center justify-between shrink-0">
+        <span class="gallery-counter gl-meta text-sm tabular-nums select-none"></span>
+        <button type="button" class="gallery-close gl-btn" aria-label={L.close}>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Media: full width, grows to fill remaining height -->
+      <div class="gallery-content gl-content">
+        <!-- Injected by JS: <img> or <div class="gl-video"><iframe></div> -->
+      </div>
+
+      <!-- Caption -->
+      <p class="gallery-caption gl-meta text-center text-sm shrink-0 min-h-[1.25rem] px-2 select-none"></p>
+
+      <!-- Nav row: prev arrow · thumbnail strip · next arrow -->
+      <div class="gl-nav-row flex items-center gap-1 sm:gap-2 shrink-0">
+        <button type="button" class="gallery-prev gl-btn shrink-0" aria-label={L.previous}>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <div class="gl-strip-container flex-1 overflow-x-auto">
+          <div class="flex gap-1.5 w-max mx-auto">
+            {items.map((item, i) => (
+              <button
+                type="button"
+                class="gl-strip-thumb shrink-0 w-14 h-9 sm:w-16 sm:h-10 rounded overflow-hidden relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
+                data-strip-index={i}
+                aria-label={`${L.goToPrefix}${i + 1}`}
+                tabindex="-1"
+              >
+                {(item.type === 'image' || item.type === 'youtube') && (
+                  <img src={thumbSrc(item)} alt="" class="w-full h-full object-cover" loading="lazy" />
+                )}
+                {item.type === 'vimeo' && (
+                  <div class="w-full h-full bg-surface-muted flex items-center justify-center">
+                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button type="button" class="gallery-next gl-btn shrink-0" aria-label={L.next}>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+    </div><!-- /gl-card -->
+  </div><!-- /gallery-lightbox -->
+
+</div><!-- /gallery-instance -->
+
+<style is:global>
+  /*
+   * ── Overlay: theme-aware full-screen scrim ──
+   * Light mode: warm off-white (distinct from page #FAFAF8).
+   * Dark mode: near-black.
+   * No backdrop-filter — unnecessary on a near-opaque surface
+   * and creates a stacking context that can interfere with z-index.
+   */
+  /*
+   * Page scroll is locked via overflow:hidden on html+body, so
+   * touch-action:none is unnecessary here and would prevent pan-x
+   * on the thumbnail strip. Allow the strip to scroll horizontally.
+   */
+  .gallery-lightbox {
+    background: var(--color-overlay);
+    overscroll-behavior: none;
+  }
+  .gl-strip-container {
+    touch-action: pan-x;
+  }
+
+  /*
+   * ── Card: position:absolute inset:0 gives CSS fallback dimensions ──
+   * JS also sets explicit pixel width/height on open (syncSize) to
+   * bypass Android Chrome's broken percentage-height resolution chain.
+   * max-width / margin are controlled by JS (desktop: centred, mobile: full).
+   */
+  .gl-card {
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+    padding:
+      max(0.75rem, env(safe-area-inset-top))
+      max(0.75rem, env(safe-area-inset-right))
+      max(0.75rem, env(safe-area-inset-bottom))
+      max(0.75rem, env(safe-area-inset-left));
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem; /* gap-1.5 */
+    /* Extra bottom padding keeps the thumbnail strip clear of the gesture nav bar */
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  }
+  @media (min-width: 640px) {
+    .gl-card {
+      gap: 0.5rem; /* gap-2 */
+      padding:
+        max(1rem, env(safe-area-inset-top))
+        max(1rem, env(safe-area-inset-right))
+        max(1.5rem, env(safe-area-inset-bottom))
+        max(1rem, env(safe-area-inset-left));
+    }
+  }
+
+  /*
+   * ── Media area: grows to fill all remaining card height ──
+   * flex:1 min-height:0 works because .gl-card has concrete pixel
+   * dimensions set by JS. overflow:hidden clips oversized images.
+   */
+  .gl-content {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /*
+   * ── Images: fill the content area (letterboxed, not cropped) ──
+   * width/height 100% fill the gl-content flex cell; object-fit:contain
+   * renders the image at its natural aspect ratio within that space so
+   * no empty dark gap appears above/below the image.
+   */
+  .gallery-content img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 0.5rem;
+  }
+
+  /*
+   * ── Videos: 16:9, constrained by both axes ──
+   * width:100% fills the content width. max-height:100% shrinks
+   * proportionally when the natural 16:9 height would overflow.
+   */
+  .gallery-content .gl-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 100%;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: var(--color-surface-muted);
+  }
+  .gallery-content .gl-video iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* ── Control buttons ── */
+  .gl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    flex-shrink: 0;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+  }
+  .gl-btn:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-surface-muted);
+  }
+  .gl-btn:focus-visible {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+  }
+
+  /* ── Meta text (counter, caption) ── */
+  .gl-meta { color: var(--color-text-secondary); }
+
+  /* ── Strip thumbs ── */
+  .gl-strip-thumb {
+    opacity: 0.45;
+    transition: opacity var(--transition-fast);
+  }
+  .gl-strip-thumb:hover { opacity: 0.75; }
+  .gl-strip-thumb.is-active {
+    opacity: 1;
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+  }
+
+  /*
+   * ── Landscape phone: hide the strip, centre the arrows ──
+   * On short landscape viewports (≤ 500px) there isn't enough vertical room
+   * for thumbnails. The counter still shows position.
+   */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .gl-strip-container { display: none; }
+    .gl-nav-row { justify-content: center; gap: 2rem; }
+  }
+</style>
+
+<script>
+  // @ts-nocheck
+  // Astro deduplicates this script — it runs once per page.
+  // Each .gallery-instance gets its own closure so multiple galleries on the
+  // same page are fully independent (no shared global IDs).
+
+  document.querySelectorAll('.gallery-instance').forEach(instance => {
+    const lightbox  = instance.querySelector('.gallery-lightbox');
+    const contentEl = instance.querySelector('.gallery-content');
+    const captionEl = instance.querySelector('.gallery-caption');
+    const counterEl = instance.querySelector('.gallery-counter');
+    const closeBtn  = instance.querySelector('.gallery-close');
+    const prevBtn   = instance.querySelector('.gallery-prev');
+    const nextBtn   = instance.querySelector('.gallery-next');
+    const card      = lightbox?.querySelector('.gl-card');
+
+    if (!lightbox || !contentEl || !card) return;
+
+    let items = [];
+    let activeIndex = 0;
+    let previouslyFocused = null;
+
+    /* ── Body scroll lock ──
+     * Only overflow:hidden on <html> and <body>. Do NOT use position:fixed on
+     * body — on Android Chrome it causes position:fixed children (the lightbox)
+     * to be positioned relative to the offset body instead of the viewport.
+     */
+    function lockBody() {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }
+    function unlockBody() {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    }
+
+    /* ── Header suppression ──
+     * The sticky header (z-50) can paint over the lightbox (z-[200]) on some
+     * Android Chrome builds due to backdrop-filter stacking context quirks.
+     * Suppressing it while the lightbox is open is the simplest guaranteed fix.
+     */
+    const headerEl = document.querySelector('header');
+    function suppressHeader() {
+      if (headerEl) headerEl.style.visibility = 'hidden';
+    }
+    function restoreHeader() {
+      if (headerEl) headerEl.style.visibility = '';
+    }
+
+    /*
+     * ── Explicit pixel dimensions ──
+     * Sets card width/height directly from window dimensions.
+     * Bypasses CSS percentage-height chain bugs on Android Chrome.
+     * On wide screens (≥ 1024px) centres card at max-width 64rem.
+     */
+    function syncSize() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      card.style.width  = w + 'px';
+      card.style.height = h + 'px';
+      if (w >= 1024) {
+        card.style.maxWidth   = '64rem';
+        card.style.marginLeft  = 'auto';
+        card.style.marginRight = 'auto';
+      } else {
+        card.style.maxWidth   = 'none';
+        card.style.marginLeft  = '0';
+        card.style.marginRight = '0';
+      }
+    }
+
+    function loadItems(grid) {
+      try { return JSON.parse(grid?.dataset?.galleryItems || '[]'); } catch { return []; }
+    }
+
+    function stopMedia() {
+      contentEl.innerHTML = '';
+    }
+
+    function updateStrip(index) {
+      lightbox.querySelectorAll('.gl-strip-thumb').forEach((btn, i) => {
+        btn.classList.toggle('is-active', i === index);
+        btn.tabIndex = i === index ? 0 : -1;
+      });
+
+      /*
+       * Scroll the strip container manually — avoids scrollIntoView() which
+       * can trigger Android Chrome to toggle the address bar, changing the
+       * viewport height mid-navigation and causing layout drift.
+       */
+      const activeThumb = lightbox.querySelector(`.gl-strip-thumb[data-strip-index="${index}"]`);
+      const container   = activeThumb?.closest('.gl-strip-container');
+      if (activeThumb && container) {
+        const target = activeThumb.offsetLeft
+          - container.offsetWidth  / 2
+          + activeThumb.offsetWidth / 2;
+        container.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+      }
+    }
+
+    function renderContent(index) {
+      stopMedia();
+      const item = items[index];
+      if (!item) return;
+
+      if (item.type === 'image') {
+        const img = document.createElement('img');
+        img.src = item.src;
+        img.alt = item.alt || '';
+        contentEl.appendChild(img);
+        captionEl.textContent = item.caption || '';
+      } else {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'gl-video';
+        const iframe = document.createElement('iframe');
+        iframe.src = item.type === 'youtube'
+          ? `https://www.youtube.com/embed/${item.id}?autoplay=1`
+          : `https://player.vimeo.com/video/${item.id}?autoplay=1`;
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen';
+        iframe.allowFullscreen = true;
+        iframe.title = item.title || '';
+        wrapper.appendChild(iframe);
+        contentEl.appendChild(wrapper);
+        captionEl.textContent = item.title || '';
+      }
+
+      counterEl.textContent = `${index + 1} / ${items.length}`;
+      updateStrip(index);
+    }
+
+    function navigate(delta) {
+      activeIndex = ((activeIndex + delta) % items.length + items.length) % items.length;
+      renderContent(activeIndex);
+    }
+
+    function openLightbox(grid, index) {
+      items = loadItems(grid);
+      if (!items.length) return;
+      previouslyFocused = document.activeElement;
+      activeIndex = ((index % items.length) + items.length) % items.length;
+
+      /*
+       * Portal: move lightbox to a direct child of <body> on first use.
+       * This guarantees z-index is compared in the root stacking context
+       * against the header (z-50), so z-[200] definitively wins.
+       */
+      if (lightbox.parentElement !== document.body) {
+        document.body.appendChild(lightbox);
+      }
+
+      /* Set explicit pixel dimensions before showing */
+      syncSize();
+      window.addEventListener('resize', syncSize);
+      lightbox._cleanupResize = () => window.removeEventListener('resize', syncSize);
+
+      renderContent(activeIndex);
+      lightbox.classList.remove('hidden');
+      lockBody();
+      suppressHeader();
+      document.addEventListener('keydown', handleKeyDown);
+      closeBtn?.focus();
+    }
+
+    function closeLightbox() {
+      lightbox._cleanupResize?.();
+      delete lightbox._cleanupResize;
+
+      document.removeEventListener('keydown', handleKeyDown);
+      stopMedia();
+      captionEl.textContent = '';
+      lightbox.classList.add('hidden');
+      unlockBody();
+      restoreHeader();
+      if (previouslyFocused && document.contains(previouslyFocused)) {
+        previouslyFocused.focus();
+      }
+    }
+
+    // Grid clicks
+    instance.querySelectorAll('.gallery-thumb').forEach(btn => {
+      const grid = btn.closest('.gallery-grid');
+      btn.addEventListener('click', () => openLightbox(grid, Number(btn.dataset.galleryIndex)));
+    });
+
+    // Strip clicks (query from lightbox so they work after portal-to-body)
+    lightbox.querySelectorAll('.gl-strip-thumb').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        activeIndex = Number(btn.dataset.stripIndex);
+        renderContent(activeIndex);
+      });
+    });
+
+    closeBtn?.addEventListener('click', closeLightbox);
+    prevBtn?.addEventListener('click', () => navigate(-1));
+    nextBtn?.addEventListener('click', () => navigate(1));
+
+    // Click the backdrop (lightbox background, not card) to close
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    /*
+     * Keyboard handler: registered on open, unregistered on close.
+     * Defined once per instance (not shared across instances) but never
+     * accumulates — at most one listener per instance is active at a time.
+     */
+    function handleKeyDown(e) {
+      if (e.key === 'Escape')     { e.preventDefault(); closeLightbox(); return; }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); navigate(-1); return; }
+      if (e.key === 'ArrowRight') { e.preventDefault(); navigate(1); return; }
+
+      /* Focus trap: keep Tab/Shift+Tab within the lightbox */
+      if (e.key === 'Tab') {
+        const focusable = Array.from(
+          lightbox.querySelectorAll('button:not([tabindex="-1"])')
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+          if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+        }
+      }
+    }
+  });
+</script>
