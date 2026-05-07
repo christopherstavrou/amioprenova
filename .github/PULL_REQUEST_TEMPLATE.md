@@ -23,7 +23,7 @@ Closes #
 
 **If `.astro` or `.ts` files changed**
 - [ ] No hardcoded hex/rgba — design tokens only
-- [ ] All new `<button>` elements have `type="button"`
+- [ ] All new <button> elements have type="button" (or type="submit" where appropriate)
 
 **If EN/BG pages changed**
 - [ ] Both locale files updated in the same commit
