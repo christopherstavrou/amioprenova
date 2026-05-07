@@ -1,6 +1,56 @@
 // Central site configuration
 // All external URLs and constants should be defined here
 
+export interface LocalizedString {
+  en: string;
+  bg: string;
+}
+
+export interface LinksPagePlatform {
+  label: string;
+  icon: string;
+  url: string;
+}
+
+export interface LinksPageLink {
+  label: LocalizedString;
+  sublabel?: LocalizedString;
+  url: string;
+  icon?: string;
+  variant?: 'featured' | 'default' | 'subtle';
+  external?: boolean;
+}
+
+export interface LinksPageSection {
+  heading?: LocalizedString;
+  links: LinksPageLink[];
+}
+
+export interface LinksPageConfig {
+  profile: {
+    image: string;
+    tagline: LocalizedString;
+  };
+  featuredRelease: {
+    active: boolean;
+    albumArt: string;
+    title: LocalizedString;
+    subtitle: LocalizedString;
+    youtubeId?: string;
+    platforms: LinksPagePlatform[];
+    countdownTo?: string;
+  };
+  sections: LinksPageSection[];
+  socialIcons: Array<{
+    platform: string;
+    url: string;
+  }>;
+  email: {
+    active: boolean;
+    endpoint: string;
+  };
+}
+
 export const siteConfig = {
   // Site identity
   siteName: 'amioprenova',
@@ -55,48 +105,101 @@ export const siteConfig = {
   ],
 
   // Links page (linktree-style hub)
-  linksPageLinks: [
-    {
-      label: 'Listen on Spotify',
-      url: '', // TODO: Add when verified
-      category: 'music',
+  linksPage: {
+    profile: {
+      image: '/press/press-photo-1.jpg',
+      tagline: { en: 'Jazz vocalist', bg: 'Джаз вокалистка' },
     },
-    {
-      label: 'Buy on Bandcamp',
-      url: 'https://amioprenova.bandcamp.com',
-      category: 'music',
+    featuredRelease: {
+      active: false,
+      albumArt: '',
+      title: { en: '', bg: '' },
+      subtitle: { en: 'Out now', bg: 'Вече е навън' },
+      platforms: [],
     },
-    {
-      label: 'Watch on YouTube',
-      url: 'https://www.youtube.com/@amioprenova496',
-      category: 'music',
+    sections: [
+      {
+        heading: { en: 'Music', bg: 'Музика' },
+        links: [
+          {
+            label: { en: 'Listen on Spotify', bg: 'Слушайте в Spotify' },
+            url: '', // TODO: Add when verified
+            icon: 'spotify',
+            variant: 'default',
+            external: true,
+          },
+          {
+            label: { en: 'Buy on Bandcamp', bg: 'Купете от Bandcamp' },
+            url: 'https://amioprenova.bandcamp.com',
+            icon: 'bandcamp',
+            variant: 'default',
+            external: true,
+          },
+          {
+            label: { en: 'Watch on YouTube', bg: 'Гледайте в YouTube' },
+            url: 'https://www.youtube.com/@amioprenova496',
+            icon: 'youtube',
+            variant: 'default',
+            external: true,
+          },
+        ],
+      },
+      {
+        heading: { en: 'Social', bg: 'Социални мрежи' },
+        links: [
+          {
+            label: { en: 'Instagram', bg: 'Instagram' },
+            url: 'https://www.instagram.com/amioprenovamusic',
+            icon: 'instagram',
+            variant: 'default',
+            external: true,
+          },
+          {
+            label: { en: 'TikTok', bg: 'TikTok' },
+            url: 'https://www.tiktok.com/@amioprenovamusic',
+            icon: 'tiktok',
+            variant: 'default',
+            external: true,
+          },
+          {
+            label: { en: 'Facebook', bg: 'Facebook' },
+            url: 'https://www.facebook.com/amioprenovamusic/',
+            icon: 'facebook',
+            variant: 'default',
+            external: true,
+          },
+        ],
+      },
+      {
+        heading: { en: 'Support', bg: 'Подкрепа' },
+        links: [
+          {
+            label: { en: 'Support Me', bg: 'Подкрепете ме' },
+            url: '', // TODO: Add when verified
+            variant: 'default',
+            external: true,
+          },
+          {
+            label: { en: 'Get Tickets', bg: 'Купете билети' },
+            url: '', // TODO: Add when verified
+            variant: 'default',
+            external: true,
+          },
+        ],
+      },
+    ],
+    socialIcons: [
+      { platform: 'instagram', url: 'https://www.instagram.com/amioprenovamusic' },
+      { platform: 'tiktok', url: 'https://www.tiktok.com/@amioprenovamusic' },
+      { platform: 'facebook', url: 'https://www.facebook.com/amioprenovamusic/' },
+      { platform: 'youtube', url: 'https://www.youtube.com/@amioprenova496' },
+      { platform: 'bandcamp', url: 'https://amioprenova.bandcamp.com' },
+    ],
+    email: {
+      active: false,
+      endpoint: 'mailto:amioprenova@gmail.com',
     },
-    {
-      label: 'Instagram',
-      url: 'https://www.instagram.com/amioprenovamusic',
-      category: 'social',
-    },
-    {
-      label: 'TikTok',
-      url: 'https://www.tiktok.com/@amioprenovamusic',
-      category: 'social',
-    },
-    {
-      label: 'Facebook',
-      url: 'https://www.facebook.com/amioprenovamusic/',
-      category: 'social',
-    },
-    {
-      label: 'Support Me',
-      url: '', // TODO: Add when verified
-      category: 'support',
-    },
-    {
-      label: 'Get Tickets',
-      url: '', // TODO: Add when verified
-      category: 'support',
-    },
-  ],
+  } satisfies LinksPageConfig,
 } as const;
 
 /**

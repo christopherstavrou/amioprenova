@@ -3,7 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import Button from '../../components/Button.astro';
 import { siteConfig } from '../../config/site';
 
-const activeLinks = siteConfig.linksPageLinks.filter(link => link.url);
+const activeLinks = siteConfig.linksPage.sections
+  .flatMap(section => section.links)
+  .filter(link => link.url);
 ---
 
 <Layout
@@ -27,7 +29,7 @@ const activeLinks = siteConfig.linksPageLinks.filter(link => link.url);
             rel="noopener noreferrer"
             class="w-full text-center"
           >
-            {link.label}
+            {link.label.en}
           </Button>
         ))}
       </div>
