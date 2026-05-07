@@ -292,7 +292,7 @@ These are hard limits that MUST NOT be violated in V1:
 4. **No on-site payments** - Links to external platforms only
 5. **No contact form backend** - Mailto links only in V1
 6. **Content-driven multilingual** - No inline translation logic in pages
-7. **Design.md compliance** - All styling must reference DESIGN.md
+7. **Design tokens** - All styling must use the tokens defined in `src/styles/global.css` (the source of truth). The brand concept is documented in `docs/brand.md`.
 
 ---
 
@@ -335,7 +335,7 @@ These are hard limits that MUST NOT be violated in V1:
 
 **Display**: Rendered in the event detail card with ticket and music-note icons respectively. Labels are currently hardcoded in English/Bulgarian per page file.
 
-**TODO — Localisation**: `eventType` display labels and `admission` type labels are currently hardcoded in each language's page file (`src/pages/en/shows/[slug].astro` and `src/pages/bg/shows/[slug].astro`). When a proper i18n system is introduced, these should be moved to `src/i18n/ui.ts` alongside other UI strings.
+**Localisation follow-up**: tracked in [`tech-debt.md`](./tech-debt.md) under `i18n` — `eventType` and `admission.type` display labels are currently per-page; should move to `src/i18n/ui.ts`.
 
 **Status**: ✅ Implemented
 

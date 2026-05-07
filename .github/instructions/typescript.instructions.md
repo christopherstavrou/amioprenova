@@ -13,8 +13,8 @@ applyTo: "**/*.ts"
 
 ## Naming conventions
 
-- `PascalCase` for types, interfaces, classes, and Zod schemas (`galleryItemSchema`, `Event`, `GalleryItem`).
-- `camelCase` for variables, functions, and module-level constants (`getUpcomingEvents`, `formatEventDate`).
+- `PascalCase` for types, interfaces, and classes (`Event`, `GalleryItem`).
+- `camelCase` for variables, functions, module-level constants, and Zod schema constants (`getUpcomingEvents`, `formatEventDate`, `galleryItemSchema`).
 - `UPPER_SNAKE_CASE` is reserved for true compile-time constants, not runtime values.
 
 ## Zod schemas — single source of truth
@@ -44,8 +44,8 @@ Keep Zod schemas in dedicated modules, separate from runtime data-helper files.
 src/lib/
   gallery-schema.ts   ← Zod schema + z.infer type (imports zod)
   events.ts           ← Data helpers (imports type only from gallery-schema.ts)
-src/content/
-  config.ts           ← Astro collection schema (imports Zod schema from gallery-schema.ts)
+src/
+  content.config.ts   ← Astro collection schema (imports Zod schema from gallery-schema.ts)
 ```
 
 **Why:** `events.ts` is imported by route pages. If it imports `zod` at the top level, Zod is bundled into every page that uses event helpers. A type-only import (`import type { GalleryItem } from './gallery-schema'`) has zero runtime cost.
@@ -56,7 +56,7 @@ src/content/
 - Filter/sort at the helper level (`getUpcomingEvents`, `getPastEvents`) so pages never contain raw date comparisons.
 - Export the inferred type alongside the schema from the schema module so callers can do `import type { GalleryItem } from '../lib/events'` (which re-exports it).
 
-## Content Collections (`src/content/config.ts`)
+## Content Collections (`src/content.config.ts`)
 
 - Define each collection with `defineCollection` + a typed Zod schema.
 - All new optional fields must use `.optional()` — never a breaking change to existing content.

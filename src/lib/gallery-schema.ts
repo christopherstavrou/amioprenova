@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 /**
  * Single source of truth for the gallery item schema and derived type.
- * Imported by src/content/config.ts (Zod schema) and src/lib/events.ts (TS type only).
+ * Imported by src/content.config.ts (Zod schema) and src/lib/events.ts (TS type only).
  * Kept in its own module so the Zod runtime is not bundled into pages
  * that only need the event data helpers from events.ts.
  */

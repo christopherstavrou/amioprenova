@@ -30,11 +30,11 @@ const encodedUrl = encodeURIComponent(url);
 const encodedTitle = encodeURIComponent(title);
 const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
 const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
-const triggerClasses = {
+const triggerClasses = ({
   icon: 'inline-flex items-center justify-center rounded-md border-2 border-accent-primary px-3 py-3 text-accent-primary hover:bg-accent-primary hover:text-text-inverse',
-  button: 'inline-flex items-center justify-center gap-2.5 rounded-md border-2 border-accent-primary px-4 py-2.5 text-sm font-medium text-accent-primary hover:bg-accent-primary hover:text-text-inverse',
+  button: 'inline-flex items-center justify-center gap-2.5 rounded-md border-2 border-accent-primary px-6 py-3 font-medium text-accent-primary hover:bg-accent-primary hover:text-text-inverse',
   'menu-item': 'flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-sm text-text-primary hover:bg-surface-muted',
-}[variant];
+}[variant]) ?? 'inline-flex items-center justify-center rounded-md border-2 border-accent-primary px-3 py-3 text-accent-primary hover:bg-accent-primary hover:text-text-inverse';
 ---
 
 <div class={`share-popover relative inline-block ${className}`}>
@@ -72,9 +72,8 @@ const triggerClasses = {
       rel="noopener noreferrer"
       class="flex items-center gap-2 px-3 py-2 text-sm text-text-primary rounded hover:bg-surface-muted transition-colors"
     >
-      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5" />
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.5 13.5L21 3m0 0h-6.75M21 3v6.75" />
+      <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
       </svg>
       {L.facebook}
     </a>
@@ -93,70 +92,5 @@ const triggerClasses = {
 </div>
 
 <script>
-  // @ts-nocheck
-  // Deduplicated by Astro — runs once per page even with multiple SharePopover instances.
-
-  // Assign unique IDs to each panel and wire aria-controls on the trigger.
-  document.querySelectorAll('.share-popover').forEach((root, i) => {
-    const trigger = root.querySelector('.share-trigger');
-    const panel   = root.querySelector('.share-panel');
-    if (!trigger || !panel) return;
-    const panelId = `share-panel-${i}`;
-    panel.id = panelId;
-    trigger.setAttribute('aria-controls', panelId);
-  });
-
-  function openPanel(trigger) {
-    const panel = trigger.parentElement.querySelector('.share-panel');
-    if (!panel) return;
-    const isHidden = panel.classList.contains('hidden');
-    closeAllPanels();
-    if (isHidden) {
-      panel.classList.remove('hidden');
-      trigger.setAttribute('aria-expanded', 'true');
-    }
-  }
-
-  function closeAllPanels() {
-    document.querySelectorAll('.share-panel').forEach(p => p.classList.add('hidden'));
-    document.querySelectorAll('.share-trigger').forEach(t => t.setAttribute('aria-expanded', 'false'));
-  }
-
-  document.addEventListener('click', async (e) => {
-    const trigger = e.target.closest('.share-trigger');
-    const copyBtn = e.target.closest('.copy-link-btn');
-
-    if (trigger) {
-      e.stopPropagation();
-      const url = trigger.dataset.shareUrl;
-      const shareTitle = trigger.dataset.shareTitle;
-
-      if (navigator.share) {
-        try {
-          await navigator.share({ title: shareTitle, url });
-        } catch (err) {
-          if (err.name !== 'AbortError') openPanel(trigger);
-        }
-        return;
-      }
-      openPanel(trigger);
-
-    } else if (copyBtn) {
-      e.stopPropagation();
-      const url = copyBtn.dataset.copyUrl;
-      const span = copyBtn.querySelector('span');
-      try {
-        await navigator.clipboard.writeText(url);
-        if (span) {
-          span.textContent = copyBtn.dataset.copiedLabel ?? 'Copied!';
-          setTimeout(() => { span.textContent = copyBtn.dataset.copyLabel ?? 'Copy link'; }, 2000);
-        }
-      } catch {
-        // clipboard API unavailable
-      }
-
-    } else if (!e.target.closest('.share-panel')) {
-      closeAllPanels();
-    }
-  });
+  import './SharePopover.ts';
 </script>

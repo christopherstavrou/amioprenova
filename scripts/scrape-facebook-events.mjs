@@ -79,10 +79,20 @@ function loadExistingEvents() {
 //   'locked'   — human-verified, never overwrite
 //   'fallback' — human-set best-effort; prefer scraped if non-empty
 //   (absent)   — scraper owns this field, always use latest scraped value
+//
+// "Empty" is type-aware: null/undefined, empty string, or empty array all
+// count as missing so the existing fallback value is preserved.
+function isEmpty(value) {
+  if (value == null) return true;
+  if (typeof value === 'string') return value === '';
+  if (Array.isArray(value)) return value.length === 0;
+  return false;
+}
+
 function resolveField(fieldName, existingEvent, scrapedValue) {
   const policy = existingEvent?._overrides?.[fieldName];
   if (policy === 'locked')   return existingEvent[fieldName];
-  if (policy === 'fallback') return scrapedValue || existingEvent[fieldName];
+  if (policy === 'fallback') return isEmpty(scrapedValue) ? existingEvent[fieldName] : scrapedValue;
   return scrapedValue;
 }
 
@@ -208,7 +218,7 @@ async function collectAllEventUrlsViaBrowser(pageUrl, type) {
     const anchors = Array.from(document.querySelectorAll('a[href*="/events/"]'));
     return anchors
       .map((a) => a.href)
-      .filter((h) => /facebook\.com\/events\/\d+/.test(h))
+      .filter((h) => /^https?:\/\/(?:www\.)?facebook\.com\/events\/\d+/.test(h))
       .map((h) => {
         const match = h.match(/(https:\/\/www\.facebook\.com\/events\/\d+)/);
         return match ? match[1] + '/' : null;
@@ -480,7 +490,7 @@ function mapEvent(fbEvent, existingEvent) {
       tags,
       image: coverImageUrl ? coverImagePath : (existingEvent?.image || undefined),
       gallery: gallery.length > 0 ? gallery : undefined,
-      ticketUrl: fbEvent.ticketUrl || existingEvent?.ticketUrl || undefined,
+      ticketUrl: resolveField('ticketUrl', existingEvent, fbEvent.ticketUrl ?? '') || undefined,
       mapUrl: mapUrl || undefined,
       sourceUrl: fbEvent.url,
       usersResponded: fbEvent.usersResponded > 0 ? fbEvent.usersResponded : undefined,
@@ -613,7 +623,8 @@ async function main() {
             await downloadImage(coverImageUrl, destPath);
             console.log(`  Cover: ${wasNew ? 'downloaded' : 'exists'} → /images/events/${coverImageFilename}`);
           } catch (imgErr) {
-            console.warn(`  Cover: failed to download (${imgErr.message}) — skipping`);
+            const safeMsg = imgErr.message.replace(/\n|\r/g, '');
+            console.warn(`  Cover: failed to download (${safeMsg}) — skipping`);
             mapped.image = existing?.image ?? '';
           }
         }
@@ -628,7 +639,9 @@ async function main() {
               await downloadImage(entry.url, destPath);
               if (wasNew) console.log(`    + ${entry.filename}`);
             } catch (imgErr) {
-              console.warn(`    ! failed to download ${entry.filename}: ${imgErr.message}`);
+              const safeName = entry.filename.replace(/\n|\r/g, '');
+              const safeMsg = imgErr.message.replace(/\n|\r/g, '');
+              console.warn(`    ! failed to download ${safeName}: ${safeMsg}`);
               // Remove failed gallery entry from mapped.gallery
               mapped.gallery = mapped.gallery.filter(
                 (g) => !g.src?.endsWith(entry.filename)

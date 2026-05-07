@@ -10,7 +10,7 @@
   "body": "An evening of vocal jazz in one of Plovdiv's most intimate settings. Expect a carefully curated setlist of jazz classics alongside new original material. Limited seating — book early.",
   "bodyEn": "Join Ami Oprenova for an intimate evening of vocal jazz at Plovdiv's legendary Blue Note Club. The performance will feature a carefully curated selection of jazz standards alongside new original material, creating a warm and sophisticated atmosphere.\n\nLimited seating is available to preserve the intimate nature of the venue. Advance booking is highly recommended.",
   "bodyBg": "Присъединете се към Ами Опренова за камерна вечер с вокален джаз в легендарния клуб Blue Note в Пловдив. Програмата включва внимателно подбрана селекция от джаз стандарти и нов авторски материал, създаващи топла и изискана атмосфера.\n\nМестата са ограничени, за да се запази интимното усещане на клуба. Препоръчваме предварителна резервация.",
-  "startDate": "2026-08-22T18:00:00Z",
+  "startDate": "2026-08-22T21:00:00+03:00",
   "venue": "Blue Note Club",
   "city": "Plovdiv",
   "country": "Bulgaria",
@@ -31,8 +31,6 @@
     "blue-note"
   ],
   "image": "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?q=80&w=1280&h=720&auto=format&fit=crop",
-  "gallery": [],
-  "ticketUrl": "",
   "mapUrl": "https://maps.google.com/?q=Blue+Note+Club+Plovdiv",
   "eventType": "concert",
   "admission": {

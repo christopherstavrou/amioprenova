@@ -8,7 +8,9 @@ export type Event = CollectionEntry<'shows'>['data'];
 let allEventsPromise: Promise<readonly Event[]> | undefined;
 
 async function loadAllEvents(): Promise<readonly Event[]> {
-  allEventsPromise ??= getCollection('shows').then(collection => collection.map(entry => entry.data));
+  if (!allEventsPromise || import.meta.env.DEV) {
+    allEventsPromise = getCollection('shows').then(collection => collection.map(entry => entry.data));
+  }
   return allEventsPromise;
 }
 
@@ -103,7 +105,7 @@ function parseWallClockDate(dateString: string): Date {
   return date;
 }
 
-// Date part only — "Sun 4 Jun 2024" / "нд 4 юни 2024 г."
+// Date part only — "Sun 4 Jun 2024" / "нд 4 юни 2024"
 // Uses formatToParts so we control the order and strip commas ourselves.
 export function formatEventDatePart(dateString: string, locale: string = 'en'): string {
   const date = parseWallClockDate(dateString);

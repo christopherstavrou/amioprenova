@@ -36,7 +36,27 @@ Determine which mode applies from user instructions:
 Run before touching any event to see what needs work:
 
 ```bash
-node -e "const fs=require('fs'); const path=require('path'); const dir='./src/content/shows'; const files=fs.readdirSync(dir).filter(f=>f.endsWith('.json')); files.forEach(f=>{ const ev=JSON.parse(fs.readFileSync(path.join(dir,f))); const gaps=[]; if(!ev.description||ev.description.length<20)gaps.push('description'); if(!ev.descriptionEn)gaps.push('descriptionEn'); if(!ev.descriptionBg)gaps.push('descriptionBg'); if(!ev.bodyBg&&ev.body)gaps.push('bodyBg'); if(!ev.country)gaps.push('country'); if(!ev.city)gaps.push('city'); if(!ev.tags||ev.tags.length===0)gaps.push('tags'); if(!ev.tagsBg||ev.tagsBg.length===0)gaps.push('tagsBg'); if(!ev.image||ev.image.includes('picsum'))gaps.push('image'); if(!ev.eventType)gaps.push('eventType'); if(!ev.admission)gaps.push('admission'); if(gaps.length)console.log('file='+f+' '+ev.title.slice(0,40)+': '+gaps.join(', ')); });"
+node --input-type=module -e "
+import { readFileSync, readdirSync } from 'fs';
+import { join } from 'path';
+const dir = './src/content/shows';
+for (const f of readdirSync(dir).filter(f => f.endsWith('.json'))) {
+  const ev = JSON.parse(readFileSync(join(dir, f), 'utf8'));
+  const gaps = [];
+  if (!ev.description || ev.description.length < 20) gaps.push('description');
+  if (!ev.descriptionEn) gaps.push('descriptionEn');
+  if (!ev.descriptionBg) gaps.push('descriptionBg');
+  if (!ev.bodyBg && ev.body) gaps.push('bodyBg');
+  if (!ev.country) gaps.push('country');
+  if (!ev.city) gaps.push('city');
+  if (!ev.tags || ev.tags.length === 0) gaps.push('tags');
+  if (!ev.tagsBg || ev.tagsBg.length === 0) gaps.push('tagsBg');
+  if (!ev.image || ev.image.includes('picsum')) gaps.push('image');
+  if (!ev.eventType) gaps.push('eventType');
+  if (!ev.admission) gaps.push('admission');
+  if (gaps.length) console.log(\`\${f}  \${ev.title.slice(0, 40)}: \${gaps.join(', ')}\`);
+}
+"
 ```
 
 ## Field-by-Field Guide

@@ -1,3 +1,0 @@
-# Soft launch: redirect all inner pages to splash until site is ready
-/en/*  /  302
-/bg/*  /  302
