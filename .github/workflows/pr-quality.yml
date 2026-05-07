@@ -2,7 +2,7 @@ name: PR Quality
 
 on:
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, edited, synchronize, reopened, ready_for_review, converted_to_draft]
 
 jobs:
   quality-gate:
@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      issues: write
     steps:
       - name: Check PR quality
         uses: actions/github-script@v7
@@ -44,14 +45,44 @@ jobs:
               warnings.push('⚠️ **No issue reference** — add `Closes #N` if this resolves a tracked issue.');
             }
 
+            // Find existing quality gate comment to update rather than spam
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+            });
+            const botComment = comments.find(c =>
+              c.user.login === 'github-actions[bot]' &&
+              c.body.includes('### PR Quality Gate')
+            );
+
             const hasIssues = errors.length > 0 || warnings.length > 0;
+
             if (hasIssues) {
               const msg = [...errors, ...warnings].join('\n\n');
-              await github.rest.issues.createComment({
+              const commentBody = `### PR Quality Gate\n\n${msg}\n\n_Fix the items marked ❌ and push to re-run._`;
+
+              if (botComment) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: botComment.id,
+                  body: commentBody,
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: pr.number,
+                  body: commentBody,
+                });
+              }
+            } else if (botComment) {
+              // PR now passes — remove the stale failure comment
+              await github.rest.issues.deleteComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: pr.number,
-                body: `### PR Quality Gate\n\n${msg}\n\n_Fix the items marked ❌ and push to re-run._`,
+                comment_id: botComment.id,
               });
             }
 

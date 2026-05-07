@@ -51,10 +51,9 @@ body:
         Each criterion must be verifiable in the Cloudflare preview URL without access to code.
         Use checkbox format. Describe the observable outcome, not the implementation.
       placeholder: |
-        - [ ] `npm run build` passes with zero errors
         - [ ] Visit /en/shows/jazz-night — event type label renders as "Concert" (not a raw key)
         - [ ] Visit /bg/shows/jazz-night — same label renders in Bulgarian
-        - [ ] No hardcoded strings remain in either slug page file
+        - [ ] No hardcoded strings visible on either page
     validations:
       required: true
   - type: textarea
