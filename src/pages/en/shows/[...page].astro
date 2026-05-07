@@ -1,13 +1,10 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import Layout from '../../../layouts/Layout.astro';
-import Card from '../../../components/Card.astro';
 import PageHeader from '../../../components/PageHeader.astro';
-import Badge from '../../../components/Badge.astro';
-import ShowActionsMenu from '../../../components/ShowActionsMenu.astro';
-import SearchInput from '../../../components/SearchInput.astro';
-import { getUpcomingEvents, getPastEvents, formatEventDate } from '../../../lib/events';
-import { siteConfig } from '../../../config/site';
+import ShowsList from '../../../components/ShowsList.astro';
+import { getUpcomingEvents, getPastEvents } from '../../../lib/events';
+import { ui } from '../../../i18n/ui';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const upcomingEvents = await getUpcomingEvents();
@@ -18,14 +15,7 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
-const events = page.data;
 const pastEvents = await getPastEvents();
-
-const locationLine = (event: { venue: string; city: string; country: string }) =>
-  [event.venue, [event.city, event.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
-const eventTitle = (event: typeof events[number]) => event.titleEn || event.title;
-const eventDescription = (event: typeof events[number]) => event.descriptionEn || event.description;
-const eventTags = (event: typeof events[number]) => event.tags ?? [];
 ---
 
 <Layout
@@ -35,226 +25,17 @@ const eventTags = (event: typeof events[number]) => event.tags ?? [];
 >
   <PageHeader title="Upcoming Shows" class="nav:text-center" />
 
-  <div class="max-w-4xl mx-auto">
-    <div class="flex justify-end mb-8">
-      <SearchInput labels={{ placeholder: 'Search shows...' }} />
-    </div>
-
-    {events.length === 0 ? (
-      <p class="text-text-secondary text-lg">
-        No upcoming shows at the moment. Check back soon or follow on social media for announcements!
-      </p>
-    ) : (
-      <div class="space-y-3 mb-6">
-        {events.map(event => (
-          <Card hover={true} padding="none">
-            <div class="flex flex-col sm:flex-row">
-              {event.image && (
-                <div class="relative sm:w-44 sm:self-stretch sm:shrink-0">
-                  <a href={`/en/shows/${event.slug}`} class="block overflow-hidden rounded-t-md sm:h-full sm:rounded-t-none sm:rounded-l-md">
-                    <img
-                      src={event.image}
-                      alt={eventTitle(event)}
-                      class="w-full aspect-[3/1] object-cover hover:scale-105 transition-transform duration-fast sm:h-full"
-                      loading="lazy"
-                    />
-                  </a>
-                  <div class="absolute right-3 top-3 sm:hidden">
-                    <ShowActionsMenu
-                      items={[
-                        ...(event.ticketUrl ? [{ href: event.ticketUrl, label: 'Tickets', icon: 'ticket' as const }] : []),
-                        ...(event.mapUrl ? [{ href: event.mapUrl, label: 'Map', icon: 'map' as const }] : []),
-                        ...(event.sourceUrl ? [{ href: event.sourceUrl, label: 'Facebook', icon: 'facebook' as const }] : []),
-                      ]}
-                      shareUrl={`${siteConfig.baseUrl}/en/shows/${event.slug}`}
-                      shareTitle={eventTitle(event)}
-                      labels={{ menu: 'Show actions', share: 'Share', copyLink: 'Copy link', copied: 'Copied!', facebook: 'Facebook', twitter: 'Twitter / X' }}
-                    />
-                  </div>
-                </div>
-              )}
-              <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
-                <div class="flex-grow min-w-0">
-                  <a href={`/en/shows/${event.slug}`} class="group">
-                    <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">
-                      {eventTitle(event)}
-                    </h2>
-                  </a>
-                  <p class="text-text-secondary text-sm mb-1">
-                    <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
-                  </p>
-                  {locationLine(event) && <p class="text-text-secondary text-sm mb-2">{locationLine(event)}</p>}
-                  {eventTags(event).length > 0 && (
-                    <div class="flex gap-1.5 flex-wrap mb-2">
-                      {eventTags(event).map(tag => (
-                        <Badge>{tag}</Badge>
-                      ))}
-                    </div>
-                  )}
-                  <p class="text-text-primary text-sm line-clamp-2">
-                    {eventDescription(event)}
-                  </p>
-                </div>
-                <div class:list={['shrink-0', event.image ? 'hidden sm:block' : 'block']}>
-                  <ShowActionsMenu
-                    items={[
-                      ...(event.ticketUrl ? [{ href: event.ticketUrl, label: 'Tickets', icon: 'ticket' as const }] : []),
-                      ...(event.mapUrl ? [{ href: event.mapUrl, label: 'Map', icon: 'map' as const }] : []),
-                      ...(event.sourceUrl ? [{ href: event.sourceUrl, label: 'Facebook', icon: 'facebook' as const }] : []),
-                    ]}
-                    shareUrl={`${siteConfig.baseUrl}/en/shows/${event.slug}`}
-                    shareTitle={eventTitle(event)}
-                    labels={{ menu: 'Show actions', share: 'Share', copyLink: 'Copy link', copied: 'Copied!', facebook: 'Facebook', twitter: 'Twitter / X' }}
-                  />
-                </div>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
-    )}
-
-    {/* Pagination */}
-    {(page.lastPage > 1) && (
-      <nav class="flex justify-between items-center border-t border-border pt-8 mb-12">
-        <div>
-          {page.url.prev ? (
-            <a
-              href={page.url.prev}
-              class="inline-block px-4 py-2 border border-border rounded hover:border-accent-primary hover:text-accent-primary transition-colors"
-            >
-              ← Previous
-            </a>
-          ) : (
-            <span class="inline-block px-4 py-2 border border-border-light rounded text-text-secondary cursor-not-allowed opacity-50">
-              ← Previous
-            </span>
-          )}
-        </div>
-
-        <span class="text-sm text-text-secondary">
-          Page {page.currentPage} of {page.lastPage}
-        </span>
-
-        <div>
-          {page.url.next ? (
-            <a
-              href={page.url.next}
-              class="inline-block px-4 py-2 border border-border rounded hover:border-accent-primary hover:text-accent-primary transition-colors"
-            >
-              Next →
-            </a>
-          ) : (
-            <span class="inline-block px-4 py-2 border border-border-light rounded text-text-secondary cursor-not-allowed opacity-50">
-              Next →
-            </span>
-          )}
-        </div>
-      </nav>
-    )}
-
-    {/* Past shows */}
-    {pastEvents.length > 0 && (
-      <div class="border-t border-border pt-8">
-        <button
-          type="button"
-          id="past-shows-toggle"
-          class="flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-accent-primary transition-colors mb-6"
-          aria-expanded="false"
-          aria-controls="past-shows-list"
-        >
-          <svg id="past-shows-chevron" class="w-4 h-4 transition-transform duration-fast" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-          Show past shows ({pastEvents.length})
-        </button>
-
-        <div id="past-shows-list" class="hidden space-y-3">
-          {pastEvents.map(event => (
-            <Card hover={true} padding="none">
-              <div class="flex flex-col sm:flex-row">
-                {event.image && (
-                  <div class="relative sm:w-44 sm:self-stretch sm:shrink-0">
-                    <a href={`/en/shows/${event.slug}`} class="block overflow-hidden rounded-t-md sm:h-full sm:rounded-t-none sm:rounded-l-md">
-                      <img
-                        src={event.image}
-                        alt={eventTitle(event)}
-                        class="w-full aspect-[3/1] object-cover hover:scale-105 transition-transform duration-fast sm:h-full"
-                        loading="lazy"
-                      />
-                    </a>
-                    <div class="absolute right-3 top-3 sm:hidden">
-                      <ShowActionsMenu
-                        items={[
-                          ...(event.ticketUrl ? [{ href: event.ticketUrl, label: 'Tickets', icon: 'ticket' as const }] : []),
-                          ...(event.mapUrl ? [{ href: event.mapUrl, label: 'Map', icon: 'map' as const }] : []),
-                          ...(event.sourceUrl ? [{ href: event.sourceUrl, label: 'Facebook', icon: 'facebook' as const }] : []),
-                        ]}
-                        shareUrl={`${siteConfig.baseUrl}/en/shows/${event.slug}`}
-                        shareTitle={eventTitle(event)}
-                        labels={{ menu: 'Show actions', share: 'Share', copyLink: 'Copy link', copied: 'Copied!', facebook: 'Facebook', twitter: 'Twitter / X' }}
-                      />
-                    </div>
-                  </div>
-                )}
-                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
-                  <div class="flex-grow min-w-0">
-                    <a href={`/en/shows/${event.slug}`} class="group">
-                      <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">
-                        {eventTitle(event)}
-                      </h2>
-                    </a>
-                    <p class="text-text-secondary text-sm mb-1">
-                      <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
-                    </p>
-                    {locationLine(event) && <p class="text-text-secondary text-sm mb-2">{locationLine(event)}</p>}
-                    {eventTags(event).length > 0 && (
-                      <div class="flex gap-1.5 flex-wrap mb-2">
-                        {eventTags(event).map(tag => (
-                          <Badge>{tag}</Badge>
-                        ))}
-                      </div>
-                    )}
-                    <p class="text-text-primary text-sm line-clamp-2">
-                      {eventDescription(event)}
-                    </p>
-                  </div>
-                  <div class:list={['shrink-0', event.image ? 'hidden sm:block' : 'block']}>
-                    <ShowActionsMenu
-                      items={[
-                        ...(event.ticketUrl ? [{ href: event.ticketUrl, label: 'Tickets', icon: 'ticket' as const }] : []),
-                        ...(event.mapUrl ? [{ href: event.mapUrl, label: 'Map', icon: 'map' as const }] : []),
-                        ...(event.sourceUrl ? [{ href: event.sourceUrl, label: 'Facebook', icon: 'facebook' as const }] : []),
-                      ]}
-                      shareUrl={`${siteConfig.baseUrl}/en/shows/${event.slug}`}
-                      shareTitle={eventTitle(event)}
-                      labels={{ menu: 'Show actions', share: 'Share', copyLink: 'Copy link', copied: 'Copied!', facebook: 'Facebook', twitter: 'Twitter / X' }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </div>
-    )}
-  </div>
-
-  <script>
-    import { initListSearch } from '../../../scripts/list-search';
-    initListSearch({ type: 'event', lang: 'en' });
-
-    // Past shows toggle
-    const toggleBtn = document.getElementById('past-shows-toggle');
-    const pastList  = document.getElementById('past-shows-list');
-    const chevron   = document.getElementById('past-shows-chevron');
-    if (toggleBtn && pastList && chevron) {
-      toggleBtn.addEventListener('click', () => {
-        const isHidden = pastList.classList.contains('hidden');
-        pastList.classList.toggle('hidden');
-        chevron.style.transform = isHidden ? 'rotate(90deg)' : '';
-        toggleBtn.setAttribute('aria-expanded', String(isHidden));
-      });
-    }
-  </script>
+  <ShowsList
+    events={page.data}
+    lang="en"
+    labels={ui.en.showsList}
+    pagination={{
+      currentPage: page.currentPage,
+      lastPage: page.lastPage,
+      prevUrl: page.url.prev,
+      nextUrl: page.url.next,
+    }}
+    mode="upcoming"
+    pastEvents={pastEvents}
+  />
 </Layout>
