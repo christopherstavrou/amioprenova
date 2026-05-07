@@ -23,6 +23,23 @@ export const ui = {
     home: {
       playVideo: 'Play',
     },
+    shows: {
+      eventType: {
+        concert: 'Concert',
+        jam: 'Jam Session',
+        collaboration: 'Collaboration',
+        charity: 'Charity Event',
+        'album-launch': 'Album Launch',
+        workshop: 'Workshop',
+        birthday: 'Birthday Show',
+      },
+      admissionType: {
+        free: 'Free entry',
+        'free-booking': 'Free · Booking required',
+        paid: 'Paid entry',
+        donation: 'Pay what you can',
+      },
+    },
     footer: {
       copyright: 'All rights reserved.',
     },
@@ -51,6 +68,23 @@ export const ui = {
     home: {
       playVideo: 'Пусни',
     },
+    shows: {
+      eventType: {
+        concert: 'Концерт',
+        jam: 'Джем сесия',
+        collaboration: 'Колаборация',
+        charity: 'Благотворителен концерт',
+        'album-launch': 'Представяне на албум',
+        workshop: 'Майсторски клас',
+        birthday: 'Рождено тържество',
+      },
+      admissionType: {
+        free: 'Вход свободен',
+        'free-booking': 'Свободен · Изисква резервация',
+        paid: 'Платен вход',
+        donation: 'Дарение по желание',
+      },
+    },
     footer: {
       copyright: 'Всички права запазени.',
     },
@@ -61,3 +95,7 @@ export const ui = {
 } as const;
 
 export type Language = keyof typeof ui;
+
+export function useTranslations(lang: Language) {
+  return ui[lang];
+}

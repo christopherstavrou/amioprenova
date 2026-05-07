@@ -7,6 +7,7 @@ import SharePopover from '../../../components/SharePopover.astro';
 import GalleryLightbox from '../../../components/GalleryLightbox.astro';
 import { getAllEvents, formatEventDatePart, formatEventTime, formatTimezoneLabel } from '../../../lib/events';
 import { siteConfig, eventFeatures } from '../../../config/site';
+import { useTranslations } from '../../../i18n/ui';
 
 export const getStaticPaths = (async () => {
   const allEvents = await getAllEvents();
@@ -17,6 +18,7 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { event } = Astro.props;
+const t = useTranslations('bg');
 
 const title = event.titleBg || (event.titleEn ? '' : event.title) || event.title;
 const description = event.descriptionBg || (event.descriptionEn ? '' : event.description) || event.description;
@@ -43,15 +45,8 @@ const filteredHosts = (event.hosts ?? []).filter(
 
 const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
 const canceledBadgeClass = 'mt-2 shrink-0 inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-accent-primary text-accent-primary bg-surface-muted';
-const eventTypeLabels = {
-  concert: 'Концерт',
-  jam: 'Джем сесия',
-  collaboration: 'Колаборация',
-  charity: 'Благотворителен концерт',
-  'album-launch': 'Представяне на албум',
-  workshop: 'Майсторски клас',
-  birthday: 'Рождено тържество',
-} satisfies Record<NonNullable<typeof event.eventType>, string>;
+const eventTypeLabels = t.shows.eventType;
+const admissionTypeLabels = t.shows.admissionType;
 ---
 
 <Layout
@@ -160,14 +155,14 @@ const eventTypeLabels = {
               Вход
             </dt>
             <dd class="flex-1 min-w-0">
-              {event.admission.type === 'free' && <p class="text-text-primary">Вход свободен</p>}
-              {event.admission.type === 'free-booking' && <p class="text-text-primary">Свободен · Изисква резервация</p>}
+              {event.admission.type === 'free' && <p class="text-text-primary">{admissionTypeLabels.free}</p>}
+              {event.admission.type === 'free-booking' && <p class="text-text-primary">{admissionTypeLabels['free-booking']}</p>}
               {event.admission.type === 'paid' && (
                 <p class="text-text-primary">
-                  {event.admission.price ? event.admission.price : 'Платен вход'}
+                  {event.admission.price ? event.admission.price : admissionTypeLabels.paid}
                 </p>
               )}
-              {event.admission.type === 'donation' && <p class="text-text-primary">Дарение по желание</p>}
+              {event.admission.type === 'donation' && <p class="text-text-primary">{admissionTypeLabels.donation}</p>}
               {event.admission.concessions && <p class="text-text-secondary text-sm">{event.admission.concessions}</p>}
               {(event.admission.noteBg ?? event.admission.note) && <p class="text-text-secondary text-sm">{event.admission.noteBg ?? event.admission.note}</p>}
             </dd>
