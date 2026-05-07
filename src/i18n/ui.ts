@@ -58,6 +58,9 @@ export const ui = {
       actionsFacebook: 'Facebook',
       actionsTwitter: 'Twitter / X',
     },
+    news: {
+      minRead: 'min read',
+    },
     footer: {
       copyright: 'All rights reserved.',
     },
@@ -120,6 +123,9 @@ export const ui = {
       actionsCopied: 'Копирано!',
       actionsFacebook: 'Фейсбук',
       actionsTwitter: 'Twitter / X',
+    },
+    news: {
+      minRead: 'мин. четене',
     },
     footer: {
       copyright: 'Всички права запазени.',
