@@ -23,6 +23,8 @@ function closeAllPanels(): void {
   document.querySelectorAll<HTMLElement>('.share-trigger').forEach(t => t.setAttribute('aria-expanded', 'false'));
 }
 
+let copyTimeout: ReturnType<typeof setTimeout> | undefined;
+
 document.addEventListener('click', async (e) => {
   if (!(e.target instanceof Element)) return;
   const target = e.target;
@@ -52,7 +54,8 @@ document.addEventListener('click', async (e) => {
       await navigator.clipboard.writeText(url);
       if (span) {
         span.textContent = copyBtn.dataset.copiedLabel ?? 'Copied!';
-        setTimeout(() => {
+        if (copyTimeout) clearTimeout(copyTimeout);
+        copyTimeout = setTimeout(() => {
           span.textContent = copyBtn.dataset.copyLabel ?? 'Copy link';
         }, 2000);
       }

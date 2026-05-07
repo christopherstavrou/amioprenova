@@ -1,17 +1,4 @@
-interface SerializedImageItem {
-  type: 'image';
-  src: string;
-  alt: string;
-  caption: string;
-}
-
-interface SerializedVideoItem {
-  type: 'youtube' | 'vimeo';
-  id: string;
-  title: string;
-}
-
-type SerializedGalleryItem = SerializedImageItem | SerializedVideoItem;
+import type { GalleryItem } from '../lib/gallery-schema';
 
 // WeakMap avoids attaching a dynamic property to the DOM element.
 const resizeCleanups = new WeakMap<Element, () => void>();
@@ -36,7 +23,7 @@ document.querySelectorAll('.gallery-instance').forEach(instance => {
   const prevBtn  = instance.querySelector<HTMLButtonElement>('.gallery-prev');
   const nextBtn  = instance.querySelector<HTMLButtonElement>('.gallery-next');
 
-  let items: SerializedGalleryItem[] = [];
+  let items: GalleryItem[] = [];
   let activeIndex = 0;
   let previouslyFocused: Element | null = null;
 
@@ -76,10 +63,10 @@ document.querySelectorAll('.gallery-instance').forEach(instance => {
     }
   }
 
-  function loadItems(grid: HTMLElement | null): SerializedGalleryItem[] {
+  function loadItems(grid: HTMLElement | null): GalleryItem[] {
     try {
       // Safe cast: data was serialized from the component's own frontmatter.
-      return JSON.parse(grid?.dataset.galleryItems ?? '[]') as SerializedGalleryItem[];
+      return JSON.parse(grid?.dataset.galleryItems ?? '[]') as GalleryItem[];
     } catch {
       return [];
     }
@@ -115,7 +102,7 @@ document.querySelectorAll('.gallery-instance').forEach(instance => {
       img.src = item.src;
       img.alt = item.alt;
       contentEl.appendChild(img);
-      captionEl.textContent = item.caption;
+      captionEl.textContent = item.caption ?? '';
     } else {
       const wrapper = document.createElement('div');
       wrapper.className = 'gl-video';
@@ -147,7 +134,7 @@ document.querySelectorAll('.gallery-instance').forEach(instance => {
 
     if (e.key === 'Tab') {
       const focusable = Array.from(
-        lightbox.querySelectorAll<HTMLButtonElement>('button:not([tabindex="-1"])')
+        lightbox.querySelectorAll<HTMLElement>('button:not([tabindex="-1"]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"]), iframe')
       );
       if (focusable.length === 0) return;
       const first = focusable[0];
