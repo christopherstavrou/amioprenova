@@ -27,11 +27,6 @@ Append under the correct area heading below. No date field — git blame supplie
 
 ## i18n
 
-- area: i18n
-  where: `src/pages/{en,bg}/shows/[slug].astro`
-  what: `eventType` and `admission.type` display labels are hardcoded in each language's page file.
-  suggested fix: move the label dictionaries into `src/i18n/ui.ts` alongside the existing nav/footer/a11y dictionaries.
-
 ## content
 
 - area: content
@@ -42,18 +37,7 @@ Append under the correct area heading below. No date field — git blame supplie
 ## refactor
 
 - area: refactor
-  where: `src/components/{Button,Card,PageHeader,SectionHeader,Badge}.astro`
-  what: each component's frontmatter docstring still says "Based on DESIGN.md specifications" but `DESIGN.md` was deleted in the doc restructure.
-  suggested fix: replace each line with the relevant spec inline (variant states, padding, shadow tokens) drawn from the brand colocation pattern, or remove the line and let the docstring describe behaviour only.
-
-- area: refactor
   where: `scripts/scrape-facebook-events.mjs`
   what: 700-line monolithic scraper — field mapping, rate-limit logic, image download, and `_overrides` merge all live in one file.
   suggested fix: split into focused modules (fetcher, mapper, image-handler, merge) when the scraping behaviour needs a significant rework; no urgency while the script is stable.
 
-## build
-
-- area: build
-  where: `.npmrc`
-  what: `legacy-peer-deps=true` silences npm peer-dep conflicts introduced when upgrading to Astro 6. Exact conflicting packages not yet pinpointed.
-  suggested fix: after a future dependency audit, identify which package(s) declare an overly-narrow peer range and either patch-override or await an upstream fix; then remove the flag.
