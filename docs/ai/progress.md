@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-04-14
+**Last updated**: 2026-05-07
 
 ---
 
@@ -28,7 +28,7 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Sticky glass header with theme toggle and language switcher
 - Blog: Markdown posts, pagination (6/page), client-side search
 - SEO: OpenGraph, Twitter Card, canonical URLs, robots.txt
-- Sitemap configured (⏸️ disabled pending full public launch)
+- Sitemap configured and enabled for public launch
 - Landing page: removed direct language links (Soft Launch ready)
 - **Strict Localization**: Refactored show detail and list pages to prevent "bilingual bleeding" by prioritizing locale-specific fields (`titleEn/Bg`, `bodyEn/Bg`) and intelligently falling back to base fields only when safe. (2026-04-14)
 
@@ -63,6 +63,10 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Production domain confirmed: `https://amioprenova.com` (set in `src/config/site.ts` and `astro.config.mjs`)
 - Cloudflare Pages connected to repo with GitHub Actions
 - Hero imagery and About page biography completed; some placeholder/demo content still remains in secondary content areas and should be cleaned up before full launch
+
+### Full Launch (2026-05-07)
+- Removed `public/_redirects` soft-launch redirect file to expose full site paths
+- Re-enabled sitemap integration in `astro.config.mjs` (`@astrojs/sitemap`)
 
 ### Shows + News enhancements (2026-04-11) — PRs #27, #29–#31
 - `GalleryLightbox` component: compact thumbnail grid + full-screen lightbox with carousel (images, YouTube, Vimeo)
@@ -136,8 +140,6 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 
 ### Full Launch
 - Fix outstanding bugs and improvements
-- Remove `public/_redirects` to expose full site
-- Re-enable sitemap in `astro.config.mjs`
 
 ### V2 Enhancements
 - Newsletter: integrate Mailchimp (replace placeholder form)
