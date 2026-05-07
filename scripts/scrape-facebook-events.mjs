@@ -218,7 +218,7 @@ async function collectAllEventUrlsViaBrowser(pageUrl, type) {
     const anchors = Array.from(document.querySelectorAll('a[href*="/events/"]'));
     return anchors
       .map((a) => a.href)
-      .filter((h) => /facebook\.com\/events\/\d+/.test(h))
+      .filter((h) => /^https?:\/\/(?:www\.)?facebook\.com\/events\/\d+/.test(h))
       .map((h) => {
         const match = h.match(/(https:\/\/www\.facebook\.com\/events\/\d+)/);
         return match ? match[1] + '/' : null;
@@ -623,7 +623,7 @@ async function main() {
             await downloadImage(coverImageUrl, destPath);
             console.log(`  Cover: ${wasNew ? 'downloaded' : 'exists'} → /images/events/${coverImageFilename}`);
           } catch (imgErr) {
-            console.warn(`  Cover: failed to download (${imgErr.message}) — skipping`);
+            console.warn(`  Cover: failed to download (${imgErr.message.replace(/[\r\n]/g, ' ')}) — skipping`);
             mapped.image = existing?.image ?? '';
           }
         }
@@ -638,7 +638,7 @@ async function main() {
               await downloadImage(entry.url, destPath);
               if (wasNew) console.log(`    + ${entry.filename}`);
             } catch (imgErr) {
-              console.warn(`    ! failed to download ${entry.filename}: ${imgErr.message}`);
+              console.warn(`    ! failed to download ${entry.filename}: ${imgErr.message.replace(/[\r\n]/g, ' ')}`);
               // Remove failed gallery entry from mapped.gallery
               mapped.gallery = mapped.gallery.filter(
                 (g) => !g.src?.endsWith(entry.filename)
