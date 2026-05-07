@@ -72,9 +72,20 @@ If a task naturally requires more, propose splitting it. If the work is genuinel
 
 ## Review feedback
 
-Read every comment. Fix what's correct, push the fix, reply to the thread explaining what changed. If a comment is wrong or the suggestion would worsen the work, say so — explain the reasoning. Reviewer opinions on aesthetics don't override deliberate UX decisions, but they do flag inconsistencies worth examining.
+For every comment thread, work through this sequence in order:
 
-Re-request review after pushing fixes. The cycle is normal; the first round is rarely the last.
+1. **Read** all comments before touching any code — understand the full picture first.
+2. **Fix** each valid comment in the working tree.
+3. **Commit and push** all fixes in one focused commit.
+4. **Reply inline** to every thread — what changed and where, or a clear reason why the comment doesn't apply. Do this after pushing so the reply references real code. Never silently close a thread or push fixes without a reply: the author has no way to know what was done.
+5. **Post a summary comment** on the PR listing what was addressed and anything intentionally left unchanged with a reason.
+6. **Re-request review.**
+
+A comment may identify a real issue that is genuinely out of scope for the current PR. In that case: add an entry to [`docs/ai/tech-debt.md`](./tech-debt.md) and reply to the thread with the entry so the reviewer can see it is tracked. Do not fix out-of-scope issues inline — keep the PR focused.
+
+If a comment is wrong or would worsen the work, say so plainly. Reviewer opinions on aesthetics don't override deliberate decisions, but they do flag inconsistencies worth examining.
+
+The cycle is normal; a clean first round is the goal, not a guarantee.
 
 ---
 
