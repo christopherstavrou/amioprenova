@@ -10,7 +10,7 @@ import ShowActionsMenu from './ShowActionsMenu.astro';
 import SearchInput from './SearchInput.astro';
 import { formatEventDate } from '../lib/events';
 import type { Event } from '../lib/events';
-import { siteConfig } from '../config/site';
+import { siteConfig, eventFeatures } from '../config/site';
 
 export interface ShowsListLabels {
   searchPlaceholder: string;
@@ -20,6 +20,7 @@ export interface ShowsListLabels {
   paginationPage: string;
   paginationOf: string;
   pastShowsToggle: string;
+  canceledBadge: string;
   actionsMenu: string;
   actionsTickets: string;
   actionsMap: string;
@@ -129,6 +130,11 @@ const pastShowsLabel = labels.pastShowsToggle.replace('{count}', String(pastEven
                     {eventTitle(event)}
                   </h2>
                 </a>
+                {eventFeatures.showCanceledBadge && event.isCanceled && (
+                  <div class="mb-1">
+                    <Badge variant="accent">{labels.canceledBadge}</Badge>
+                  </div>
+                )}
                 <p class="text-text-secondary text-sm mb-1">
                   <span class="font-medium">{formatEventDate(event.startDate, lang)}</span>
                 </p>
@@ -243,6 +249,11 @@ const pastShowsLabel = labels.pastShowsToggle.replace('{count}', String(pastEven
                       {eventTitle(event)}
                     </h2>
                   </a>
+                  {eventFeatures.showCanceledBadge && event.isCanceled && (
+                    <div class="mb-1">
+                      <Badge variant="accent">{labels.canceledBadge}</Badge>
+                    </div>
+                  )}
                   <p class="text-text-secondary text-sm mb-1">
                     <span class="font-medium">{formatEventDate(event.startDate, lang)}</span>
                   </p>
