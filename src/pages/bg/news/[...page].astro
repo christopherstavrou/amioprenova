@@ -103,7 +103,7 @@ const t = useTranslations('bg');
                   <a href={heroPostUrl} class="font-medium text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors">
                     {t.news.readMore}
                   </a>
-                  <SharePopover url={heroShareUrl} title={heroPost.data.title} labels={{ share: 'Сподели', copyLink: 'Копирай линк', copied: 'Копирано!', facebook: 'Фейсбук', twitter: 'Twitter / X' }} />
+                  <SharePopover url={heroShareUrl} title={heroPost.data.title} labels={t.news.share} />
                 </div>
               </div>
             </div>
@@ -157,7 +157,7 @@ const t = useTranslations('bg');
                         <p class="text-text-primary text-sm line-clamp-2">{post.data.description}</p>
                       </div>
                       <div class:list={['shrink-0', post.data.image ? 'hidden sm:block' : 'block']}>
-                        <SharePopover url={shareUrl} title={post.data.title} labels={{ share: 'Сподели', copyLink: 'Копирай линк', copied: 'Копирано!', facebook: 'Фейсбук', twitter: 'Twitter / X' }} />
+                        <SharePopover url={shareUrl} title={post.data.title} labels={t.news.share} />
                       </div>
                     </div>
                   </div>

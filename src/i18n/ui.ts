@@ -118,6 +118,13 @@ export const ui = {
       minRead: 'min read',
       latestLabel: 'Latest',
       readMore: 'Read more →',
+      share: {
+        share: 'Share',
+        copyLink: 'Copy link',
+        copied: 'Copied!',
+        facebook: 'Facebook',
+        twitter: 'Twitter / X',
+      },
     },
     links: {
       tagline: 'Jazz vocalist & composer',
@@ -246,6 +253,13 @@ export const ui = {
       minRead: 'мин. четене',
       latestLabel: 'Най-ново',
       readMore: 'Прочети повече →',
+      share: {
+        share: 'Сподели',
+        copyLink: 'Копирай линк',
+        copied: 'Копирано!',
+        facebook: 'Фейсбук',
+        twitter: 'Twitter / X',
+      },
     },
     links: {
       tagline: 'Джаз певица и композитор',
