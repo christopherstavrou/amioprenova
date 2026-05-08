@@ -17,7 +17,6 @@ export interface Props {
     tagline: string;
     toggleTheme: string;
     language: string;
-    scrollIndicator: string;
   };
 }
 
@@ -88,8 +87,8 @@ const { lang, labels } = Astro.props;
     <p class="links-hero__tagline">{labels.tagline}</p>
   </div>
 
-  <!-- Scroll indicator -->
-  <div class="links-hero__scroll" aria-label={labels.scrollIndicator} role="img">
+  <!-- Scroll indicator (decorative visual affordance) -->
+  <div class="links-hero__scroll" aria-hidden="true">
     <svg class="links-hero__chevron w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
     </svg>
@@ -170,6 +169,12 @@ const { lang, labels } = Astro.props;
     gap: 0.75rem;
   }
 
+  /* Shared backdrop blur for both hero controls */
+  .links-hero__ctrl-btn,
+  .links-hero__lang-select {
+    backdrop-filter: blur(4px);
+  }
+
   .links-hero__ctrl-btn {
     display: flex;
     align-items: center;
@@ -182,7 +187,6 @@ const { lang, labels } = Astro.props;
     border: none;
     cursor: pointer;
     transition: background var(--transition-fast);
-    backdrop-filter: blur(4px);
   }
 
   .links-hero__ctrl-btn:hover {
@@ -204,7 +208,6 @@ const { lang, labels } = Astro.props;
     font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
-    backdrop-filter: blur(4px);
     transition: background var(--transition-fast);
     letter-spacing: 0.05em;
   }
@@ -219,8 +222,8 @@ const { lang, labels } = Astro.props;
   }
 
   .links-hero__lang-select option {
-    background: #1a1a1a;
-    color: var(--color-on-image);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
   }
 
   /* ── Centre content ── */
@@ -262,21 +265,22 @@ const { lang, labels } = Astro.props;
   }
 
   /* ── Artist name ──
-   * Overrides the global h1 gradient-text treatment so the name is always
-   * white on the dark image overlay regardless of light/dark theme. */
-  .links-hero__name {
+   * The compound selector `.links-hero h1` outranks the global `h1` rule
+   * (class + element > element alone) so gradient-text is reset cleanly
+   * without any !important declarations. */
+  .links-hero h1.links-hero__name {
     font-family: 'Playfair Display', 'Merriweather', Georgia, serif;
     font-weight: 700;
     font-size: clamp(2.5rem, 7vw, 5rem);
     letter-spacing: 0.02em;
     line-height: 1.1;
     margin-bottom: 0.75rem;
-    /* Reset global h1 gradient text */
-    background: none !important;
-    -webkit-background-clip: unset !important;
-    background-clip: unset !important;
-    -webkit-text-fill-color: var(--color-on-image) !important;
-    color: var(--color-on-image) !important;
+    /* Reset global h1 gradient-text treatment */
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    -webkit-text-fill-color: var(--color-on-image);
+    color: var(--color-on-image);
   }
 
   /* ── Tagline ── */
