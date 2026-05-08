@@ -42,7 +42,8 @@
   "eventType": "album-launch",
   "admission": {
     "type": "free-booking",
-    "note": "Reserve at ticketsource.co.uk"
+    "note": "Reserve at ticketsource.co.uk",
+    "noteBg": "Резервирайте на ticketsource.co.uk"
   },
   "_overrides": {
     "titleEn": "locked",
