@@ -7,6 +7,7 @@ import Card from '../../../components/Card.astro';
 import Badge from '../../../components/Badge.astro';
 import SharePopover from '../../../components/SharePopover.astro';
 import SearchInput from '../../../components/SearchInput.astro';
+import Pagination from '../../../components/Pagination.astro';
 import { siteConfig } from '../../../config/site';
 import { useTranslations } from '../../../i18n/ui';
 
@@ -161,43 +162,13 @@ const heroFormattedDate = heroPost
     )}
 
     {/* Pagination */}
-    {(page.lastPage > 1) && (
-      <nav class="flex justify-between items-center border-t border-border pt-8 mb-12">
-        <div>
-          {page.url.prev ? (
-            <a
-              href={page.url.prev}
-              class="inline-block px-4 py-2 border border-border rounded hover:border-accent-primary hover:text-accent-primary transition-colors"
-            >
-              ← Previous
-            </a>
-          ) : (
-            <span class="inline-block px-4 py-2 border border-border-light rounded text-text-secondary cursor-not-allowed opacity-50">
-              ← Previous
-            </span>
-          )}
-        </div>
-
-        <span class="text-sm text-text-secondary">
-          Page {page.currentPage} of {page.lastPage}
-        </span>
-
-        <div>
-          {page.url.next ? (
-            <a
-              href={page.url.next}
-              class="inline-block px-4 py-2 border border-border rounded hover:border-accent-primary hover:text-accent-primary transition-colors"
-            >
-              Next →
-            </a>
-          ) : (
-            <span class="inline-block px-4 py-2 border border-border-light rounded text-text-secondary cursor-not-allowed opacity-50">
-              Next →
-            </span>
-          )}
-        </div>
-      </nav>
-    )}
+    <Pagination
+      currentPage={page.currentPage}
+      lastPage={page.lastPage}
+      prevUrl={page.url.prev ?? null}
+      nextUrl={page.url.next ?? null}
+      labels={t.pagination}
+    />
   </div>
 
   <script>

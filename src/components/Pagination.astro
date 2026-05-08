@@ -1,0 +1,72 @@
+---
+/**
+ * Pagination — prev/next navigation for paginated list pages.
+ * Renders nothing when lastPage <= 1.
+ *
+ * Props:
+ *   currentPage — 1-based index of the active page
+ *   lastPage    — total number of pages
+ *   prevUrl     — href for the previous page, or null on page 1
+ *   nextUrl     — href for the next page, or null on the last page
+ *   labels      — localised strings; use ui.ts pagination entry
+ *     labels.prev   — e.g. "Previous" / "Предишна"
+ *     labels.next   — e.g. "Next" / "Следваща"
+ *     labels.pageOf — template with {current} and {last} placeholders,
+ *                     e.g. "Page {current} of {last}"
+ */
+interface Props {
+  currentPage: number;
+  lastPage: number;
+  prevUrl: string | null;
+  nextUrl: string | null;
+  labels: {
+    prev: string;
+    next: string;
+    pageOf: string;
+  };
+}
+
+const { currentPage, lastPage, prevUrl, nextUrl, labels } = Astro.props;
+
+const pageOfText = labels.pageOf
+  .replace('{current}', String(currentPage))
+  .replace('{last}', String(lastPage));
+---
+
+{lastPage > 1 && (
+  <nav class="flex justify-between items-center border-t border-border pt-8 mb-12">
+    <div>
+      {prevUrl ? (
+        <a
+          href={prevUrl}
+          class="inline-block px-4 py-2 border border-border rounded hover:border-accent-primary hover:text-accent-primary transition-colors"
+        >
+          ← {labels.prev}
+        </a>
+      ) : (
+        <span class="inline-block px-4 py-2 border border-border-light rounded text-text-secondary cursor-not-allowed opacity-50">
+          ← {labels.prev}
+        </span>
+      )}
+    </div>
+
+    <span class="text-sm text-text-secondary">
+      {pageOfText}
+    </span>
+
+    <div>
+      {nextUrl ? (
+        <a
+          href={nextUrl}
+          class="inline-block px-4 py-2 border border-border rounded hover:border-accent-primary hover:text-accent-primary transition-colors"
+        >
+          {labels.next} →
+        </a>
+      ) : (
+        <span class="inline-block px-4 py-2 border border-border-light rounded text-text-secondary cursor-not-allowed opacity-50">
+          {labels.next} →
+        </span>
+      )}
+    </div>
+  </nav>
+)}
