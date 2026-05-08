@@ -82,11 +82,6 @@ const canceledBadgeClass = 'mt-1 shrink-0 inline-block px-2 py-0.5 text-xs font-
                 loading="lazy"
               />
             </a>
-            {eventFeatures.showCanceledBadge && event.isCanceled && (
-              <span class="absolute left-2 top-2 inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-accent-primary text-accent-primary bg-surface-muted">
-                {l.canceled}
-              </span>
-            )}
             <div class="absolute right-3 top-3 sm:hidden">
               <ShowActionsMenu
                 items={[
@@ -108,7 +103,7 @@ const canceledBadgeClass = 'mt-1 shrink-0 inline-block px-2 py-0.5 text-xs font-
                 {getTitle(event)}
               </h2>
             </a>
-            {eventFeatures.showCanceledBadge && event.isCanceled && !event.image && (
+            {eventFeatures.showCanceledBadge && event.isCanceled && (
               <span class={canceledBadgeClass}>
                 {l.canceled}
               </span>
