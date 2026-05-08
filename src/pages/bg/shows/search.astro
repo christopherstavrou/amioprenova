@@ -1,0 +1,82 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import ShowsFilterBar from '../../../components/ShowsFilterBar.astro';
+import { getAllEvents } from '../../../lib/events';
+import { useTranslations } from '../../../i18n/ui';
+
+const t = useTranslations('bg');
+const s = t.shows.search;
+
+const allEvents = await getAllEvents();
+
+// Derive unique sorted cities from content data (no hardcoding)
+const cities = [...new Set(allEvents.map(e => e.city).filter(Boolean))].sort() as string[];
+
+// Derive event types actually present in the dataset
+const availableTypes: Set<string> = new Set(allEvents.flatMap(e => e.eventType ? [e.eventType] : []));
+const eventTypes = (Object.entries(t.shows.eventType) as [string, string][])
+  .filter(([value]) => availableTypes.has(value))
+  .map(([value, label]) => ({ value, label }));
+
+const admissionTypes = [
+  { value: 'free', label: t.shows.admissionType.free },
+  { value: 'free-booking', label: t.shows.admissionType['free-booking'] },
+  { value: 'paid', label: t.shows.admissionType.paid },
+  { value: 'donation', label: t.shows.admissionType.donation },
+];
+
+const filterBarLabels = {
+  placeholder: s.placeholder,
+  searchBtn: s.searchBtn,
+  filterToggle: s.filterToggle,
+  allTypes: s.allTypes,
+  allCities: s.allCities,
+  anyAdmission: s.anyAdmission,
+};
+
+// Labels passed to the client-side script via data attribute
+const searchLabels = {
+  upcoming: s.upcoming,
+  past: s.past,
+  pastBadge: s.pastBadge,
+  resultsFor: s.resultsFor,
+  resultsCount: s.resultsCount,
+  noResults: s.noResults,
+  noResultsHint: s.noResultsHint,
+  noQuery: s.noQuery,
+  clearFilters: s.clearFilters,
+  removeFilter: s.removeFilter,
+};
+---
+
+<Layout
+  title={`${s.pageTitle} - amioprenova`}
+  description="Търсете сред всички минали и предстоящи концерти на amioprenova. Филтрирайте по вид събитие, град и вход."
+  lang="bg"
+>
+  <PageHeader title={s.pageTitle} />
+
+  <div class="max-w-4xl mx-auto">
+    <div
+      id="shows-search-root"
+      data-labels={JSON.stringify(searchLabels)}
+    >
+      <ShowsFilterBar
+        labels={filterBarLabels}
+        eventTypes={eventTypes}
+        cities={cities}
+        admissionTypes={admissionTypes}
+      />
+
+      <p id="shows-results-count" class="text-text-secondary text-sm mt-4 min-h-[1.25rem]"></p>
+
+      <div id="shows-results-container" class="mt-4 space-y-3"></div>
+    </div>
+  </div>
+
+  <script>
+    import { initShowsSearch } from '../../../scripts/shows-full-search';
+    initShowsSearch({ lang: 'bg' });
+  </script>
+</Layout>
