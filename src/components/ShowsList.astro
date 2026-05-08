@@ -19,7 +19,7 @@ export interface ShowsListLabels {
   paginationNext: string;
   paginationPage: string;
   paginationOf: string;
-  pastShowsToggle: string;
+  pastShowsArchiveLink: string;
   canceledBadge: string;
   actionsMenu: string;
   actionsTickets: string;
@@ -89,7 +89,7 @@ const shareMenuLabels = {
   twitter: labels.actionsTwitter,
 };
 
-const pastShowsLabel = labels.pastShowsToggle.replace('{count}', String(pastEvents.length));
+const archiveUrl = `/${lang}/shows/archive`;
 ---
 
 <div class={`max-w-4xl mx-auto ${className}`} data-shows-list data-lang={lang}>
@@ -207,84 +207,13 @@ const pastShowsLabel = labels.pastShowsToggle.replace('{count}', String(pastEven
   )}
 
   {mode === 'upcoming' && pastEvents.length > 0 && (
-    <div class="border-t border-border pt-8">
-      <button
-        type="button"
-        id="past-shows-toggle"
-        class="flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-accent-primary transition-colors mb-6"
-        aria-expanded="false"
-        aria-controls="past-shows-list"
+    <div class="border-t border-border pt-8 text-right">
+      <a
+        href={archiveUrl}
+        class="text-sm font-medium text-text-secondary hover:text-accent-primary transition-colors"
       >
-        <svg id="past-shows-chevron" class="w-4 h-4 transition-transform duration-fast" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-        {pastShowsLabel}
-      </button>
-
-      <div id="past-shows-list" class="hidden space-y-3">
-        {pastEvents.map(event => (
-          <Card hover={true} padding="none">
-            <div class="flex flex-col sm:flex-row">
-              {event.image && (
-                <div class="relative sm:w-44 sm:self-stretch sm:shrink-0">
-                  <a href={`${basePath}/${event.slug}`} class="block overflow-hidden rounded-t-md sm:h-full sm:rounded-t-none sm:rounded-l-md">
-                    <img
-                      src={event.image}
-                      alt={eventTitle(event)}
-                      class="w-full aspect-[3/1] object-cover hover:scale-105 transition-transform duration-fast sm:h-full"
-                      loading="lazy"
-                    />
-                  </a>
-                  <div class="absolute right-3 top-3 sm:hidden">
-                    <ShowActionsMenu
-                      items={actionItems(event)}
-                      shareUrl={`${siteConfig.baseUrl}${basePath}/${event.slug}`}
-                      shareTitle={eventTitle(event)}
-                      labels={shareMenuLabels}
-                    />
-                  </div>
-                </div>
-              )}
-              <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
-                <div class="flex-grow min-w-0">
-                  <a href={`${basePath}/${event.slug}`} class="group">
-                    <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">
-                      {eventTitle(event)}
-                    </h2>
-                  </a>
-                  {eventFeatures.showCanceledBadge && event.isCanceled && (
-                    <div class="mb-1">
-                      <Badge variant="accent">{labels.canceledBadge}</Badge>
-                    </div>
-                  )}
-                  <p class="text-text-secondary text-sm mb-1">
-                    <span class="font-medium">{formatEventDate(event.startDate, lang)}</span>
-                  </p>
-                  {locationLine(event) && <p class="text-text-secondary text-sm mb-2">{locationLine(event)}</p>}
-                  {eventTags(event).length > 0 && (
-                    <div class="flex gap-1.5 flex-wrap mb-2">
-                      {eventTags(event).map(tag => (
-                        <Badge>{tag}</Badge>
-                      ))}
-                    </div>
-                  )}
-                  <p class="text-text-primary text-sm line-clamp-2">
-                    {eventDescription(event)}
-                  </p>
-                </div>
-                <div class:list={['shrink-0', event.image ? 'hidden sm:block' : 'block']}>
-                  <ShowActionsMenu
-                    items={actionItems(event)}
-                    shareUrl={`${siteConfig.baseUrl}${basePath}/${event.slug}`}
-                    shareTitle={eventTitle(event)}
-                    labels={shareMenuLabels}
-                  />
-                </div>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
+        {labels.pastShowsArchiveLink}
+      </a>
     </div>
   )}
 </div>
@@ -296,17 +225,5 @@ const pastShowsLabel = labels.pastShowsToggle.replace('{count}', String(pastEven
   const lang = root instanceof HTMLElement ? root.dataset.lang : undefined;
   if (lang === 'en' || lang === 'bg') {
     initListSearch({ type: 'event', lang });
-  }
-
-  const toggleBtn = document.getElementById('past-shows-toggle');
-  const pastList = document.getElementById('past-shows-list');
-  const chevron = document.getElementById('past-shows-chevron');
-  if (toggleBtn && pastList && chevron) {
-    toggleBtn.addEventListener('click', () => {
-      const isHidden = pastList.classList.contains('hidden');
-      pastList.classList.toggle('hidden');
-      chevron.style.transform = isHidden ? 'rotate(90deg)' : '';
-      toggleBtn.setAttribute('aria-expanded', String(isHidden));
-    });
   }
 </script>
