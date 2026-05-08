@@ -24,6 +24,7 @@ export const ui = {
       playVideo: 'Play',
     },
     shows: {
+      canceled: 'Cancelled',
       eventType: {
         concert: 'Concert',
         jam: 'Jam Session',
@@ -69,6 +70,7 @@ export const ui = {
       playVideo: 'Пусни',
     },
     shows: {
+      canceled: 'Отменено',
       eventType: {
         concert: 'Концерт',
         jam: 'Джем сесия',
