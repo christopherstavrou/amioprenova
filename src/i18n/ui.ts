@@ -39,6 +39,12 @@ export const ui = {
         paid: 'Paid entry',
         donation: 'Pay what you can',
       },
+      archive: {
+        heading: 'Past Shows',
+        backToShows: '← Back to upcoming shows',
+        noEvents: 'No past shows found.',
+        pastShowsLink: 'Browse past shows →',
+      },
     },
     showsList: {
       searchPlaceholder: 'Search shows...',
@@ -104,6 +110,12 @@ export const ui = {
         'free-booking': 'Свободен · Изисква резервация',
         paid: 'Платен вход',
         donation: 'Дарение по желание',
+      },
+      archive: {
+        heading: 'Минали концерти',
+        backToShows: '← Назад към предстоящи концерти',
+        noEvents: 'Няма минали концерти.',
+        pastShowsLink: 'Разгледай минали концерти →',
       },
     },
     showsList: {
