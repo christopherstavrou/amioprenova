@@ -100,7 +100,7 @@ const t = useTranslations('bg');
                 </a>
                 <p class="text-text-primary text-base line-clamp-4 sm:line-clamp-5 mb-4">{heroPost.data.description}</p>
                 <div class="flex justify-between items-center">
-                  <a href={heroPostUrl} class="font-medium text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors">
+                  <a href={heroPostUrl} class="font-medium text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors" aria-label={`Прочети повече за ${heroPost.data.title}`}>
                     {t.news.readMore}
                   </a>
                   <SharePopover url={heroShareUrl} title={heroPost.data.title} labels={t.news.share} />
