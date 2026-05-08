@@ -34,6 +34,33 @@ const timeRange = eventFeatures.showEndTime && endTime ? `${startTime} – ${end
 const canonicalURL = `${siteConfig.baseUrl}/bg/shows/${event.slug}`;
 const hasGallery = (event.gallery ?? []).length > 0;
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: title,
+  startDate: event.startDate,
+  eventStatus: event.isCanceled ? 'https://schema.org/EventCancelled' : 'https://schema.org/EventScheduled',
+  location: {
+    '@type': 'Place',
+    name: event.venue,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: event.city,
+      addressCountry: event.country,
+    },
+  },
+  ...(event.endDate ? { endDate: event.endDate } : {}),
+  ...(description ? { description } : {}),
+  ...(event.image ? { image: new URL(event.image, siteConfig.baseUrl).href } : {}),
+  ...(event.ticketUrl ? { offers: { '@type': 'Offer', url: event.ticketUrl } } : {}),
+  url: canonicalURL,
+  performer: {
+    '@type': 'Person',
+    name: 'Ami Oprenova',
+  },
+};
+const jsonLdScript = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
+
 const cityCountryLine = [event.city, event.country].filter(Boolean).join(', ');
 const hasLocation = !!(event.venue || cityCountryLine);
 
@@ -54,6 +81,9 @@ const admissionTypeLabels = t.shows.admissionType;
   description={description}
   lang="bg"
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={jsonLdScript} />
+  </Fragment>
   <article class="max-w-3xl mx-auto">
     {event.image && (
       <div class="mb-8 rounded-lg overflow-hidden">
