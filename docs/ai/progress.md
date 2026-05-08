@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-05-07
+**Last updated**: 2026-05-08
 
 ---
 
@@ -71,6 +71,21 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Production domain confirmed: `https://amioprenova.com` (set in `src/config/site.ts` and `astro.config.mjs`)
 - Cloudflare Pages connected to repo with GitHub Actions
 - Hero imagery and About page biography completed; some placeholder/demo content still remains in secondary content areas and should be cleaned up before full launch
+
+### Shows + News + Links refactor — Round 1 (2026-05-08) — PRs #95–#99
+- `siteConfig.linksPage.sections` — replaced flat `linksPageLinks` array with structured sections model; EN + BG links pages updated (#95)
+- `ShowsList.astro` — extracted shared 298-line component from duplicate shows list pages; all 4 show pages are now thin wrappers (#96)
+- News card redesign — compact card layout with reading time, SharePopover, search; `showsList.searchPlaceholder` and `news.minRead` added to i18n (#97)
+- `@claude` schema.org/Event JSON-LD — added `<slot name="head" />` to Layout; show detail pages now emit structured data with absolute image URL (#98)
+- Admission note BG translations — all events with `admission.note` got `admission.noteBg` populated (#99)
+
+### Shows + News + Links refactor — Round 2 (2026-05-08) — PRs #101–#106
+- Shows detail i18n — all hardcoded labels in `[slug].astro` centralised to `ui.ts` under `shows.detail` (EN + BG) (#101)
+- Dedicated shows search pages at `/en/shows/search` and `/bg/shows/search` — full-corpus, URL-encoded, filterable with `ShowsFilterBar.astro` and `shows-full-search.ts` (#102)
+- Paginated archive routes at `/en/shows/archive/` and `/bg/shows/archive/` — `getPastEvents()` + Astro `paginate()`, 12 per page; `shows.archive` i18n keys added (#103)
+- `Pagination.astro` — shared component extracted from 4 list pages; `pagination.prev/next/pageOf` i18n keys added (#104)
+- News featured hero — most recent post on page 1 renders as full-width hero card; `news.latestLabel/readMore/share` i18n keys added (#105)
+- `LinksHero.astro` — full-bleed atmospheric hero for links pages with animated accent overlay, circular avatar, in-hero theme/language controls; `links.tagline` i18n keys added (#106)
 
 ### Full Launch (2026-05-07)
 - Removed `public/_redirects` soft-launch redirect file to expose full site paths
