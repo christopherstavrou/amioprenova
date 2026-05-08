@@ -40,6 +40,8 @@ const heroFormattedDate = heroPost
       year: 'numeric', month: 'long', day: 'numeric',
     })
   : '';
+
+const t = useTranslations('en');
 ---
 
 <Layout
@@ -194,7 +196,7 @@ const heroFormattedDate = heroPost
                         )}
                         <p class="text-text-primary text-sm line-clamp-2">{post.data.description}</p>
                         <a href={postUrl} class="text-sm font-medium text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors mt-2 inline-block">
-                          Read more →
+                          {t.news.readMore}
                         </a>
                       </div>
                       <div class="flex gap-2 shrink-0 flex-wrap items-start">
