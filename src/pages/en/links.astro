@@ -1,8 +1,11 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Button from '../../components/Button.astro';
+import LinksHero from '../../components/links/LinksHero.astro';
 import { siteConfig } from '../../config/site';
+import { ui } from '../../i18n/ui';
 
+const t = ui['en'];
 const activeLinks = siteConfig.linksPage.sections
   .flatMap(section => section.links)
   .filter(link => link.url);
@@ -13,12 +16,17 @@ const activeLinks = siteConfig.linksPage.sections
   description="All links in one place. Follow amioprenova on social media, stream music, and find all platforms here."
   lang="en"
 >
-  <div class="max-w-2xl mx-auto">
-    <div class="text-center mb-8">
-      <h1 class="font-serif text-4xl font-bold text-text-primary mb-3">amioprenova</h1>
-      <p class="text-text-secondary">All my links in one place</p>
-    </div>
+  <LinksHero
+    lang="en"
+    labels={{
+      tagline: t.links.tagline,
+      toggleTheme: t.nav.toggleTheme,
+      language: t.nav.language,
+      scrollIndicator: t.links.scrollIndicator,
+    }}
+  />
 
+  <div class="max-w-2xl mx-auto pt-10">
     {activeLinks.length > 0 ? (
       <div class="space-y-4">
         {activeLinks.map(link => (

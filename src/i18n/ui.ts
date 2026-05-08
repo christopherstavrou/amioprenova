@@ -117,6 +117,10 @@ export const ui = {
     news: {
       minRead: 'min read',
     },
+    links: {
+      tagline: 'Jazz vocalist & composer',
+      scrollIndicator: 'Scroll to links',
+    },
     footer: {
       copyright: 'All rights reserved.',
     },
@@ -238,6 +242,10 @@ export const ui = {
     },
     news: {
       minRead: 'мин. четене',
+    },
+    links: {
+      tagline: 'Джаз певица и композитор',
+      scrollIndicator: 'Превъртете към връзките',
     },
     footer: {
       copyright: 'Всички права запазени.',
