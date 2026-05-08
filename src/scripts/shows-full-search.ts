@@ -424,8 +424,8 @@ export function initShowsSearch({ lang }: ShowsSearchOptions): void {
         if (import.meta.env.DEV) console.error('Search index fetch failed:', response.status);
         return;
       }
-      // Cast is safe: we control this endpoint (search-index.json.ts)
-      const allEntries: EventSearchEntry[] = await response.json() as EventSearchEntry[];
+      // The cast is safe: we control this endpoint (search-index.json.ts)
+      const allEntries: EventSearchEntry[] = await response.json();
       allEvents = allEntries.filter(entry => entry.type === 'event' && entry.lang === lang);
     } catch (error) {
       if (import.meta.env.DEV) console.error('Failed to load search index:', error);
