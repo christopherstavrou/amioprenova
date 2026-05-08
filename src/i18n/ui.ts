@@ -130,6 +130,10 @@ export const ui = {
     links: {
       tagline: 'Jazz vocalist & composer',
       scrollIndicator: 'Scroll to links',
+      heading: 'Upcoming Shows',
+      getTickets: 'Get Tickets',
+      moreInfo: 'More info →',
+      viewAllShows: 'View all shows →',
     },
     pagination: {
       prev: 'Previous',
@@ -271,6 +275,10 @@ export const ui = {
     links: {
       tagline: 'Джаз певица и композитор',
       scrollIndicator: 'Превъртете към връзките',
+      heading: 'Предстоящи концерти',
+      getTickets: 'Купи билет',
+      moreInfo: 'Повече →',
+      viewAllShows: 'Всички концерти →',
     },
     pagination: {
       prev: 'Предишна',

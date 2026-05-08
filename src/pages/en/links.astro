@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Button from '../../components/Button.astro';
 import LinksHero from '../../components/links/LinksHero.astro';
+import LinksShowTeaser from '../../components/links/LinksShowTeaser.astro';
 import { siteConfig } from '../../config/site';
 import { ui } from '../../i18n/ui';
 
@@ -47,5 +48,7 @@ const activeLinks = siteConfig.linksPage.sections
         </p>
       </div>
     )}
+
+    <LinksShowTeaser lang="en" labels={t.links} />
   </div>
 </Layout>

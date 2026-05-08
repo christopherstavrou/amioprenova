@@ -1,0 +1,73 @@
+---
+/**
+ * LinksShowTeaser — up to 3 upcoming shows for the links hub page.
+ * Hidden entirely when no upcoming shows exist.
+ * Accepts lang to pick locale-appropriate show titles and labels for all UI strings.
+ */
+
+import { getUpcomingEvents, formatShortDate } from '../../lib/events';
+
+export interface Labels {
+  heading: string;
+  getTickets: string;
+  moreInfo: string;
+  viewAllShows: string;
+}
+
+export interface Props {
+  lang: 'en' | 'bg';
+  labels: Labels;
+  class?: string;
+}
+
+const { lang, labels, class: className = '' } = Astro.props;
+
+const upcoming = await getUpcomingEvents();
+const shows = upcoming.slice(0, 3);
+
+const showsBasePath = `/${lang}/shows`;
+const dateLocale = lang === 'bg' ? 'bg-BG' : 'en-US';
+---
+
+{shows.length > 0 && (
+  <section class={`mt-8 ${className}`}>
+    <h2 class="text-sm font-semibold text-text-secondary uppercase tracking-widest mb-3">{labels.heading}</h2>
+    <div class="divide-y divide-border">
+      {shows.map(show => (
+        <div class="flex items-center gap-3 py-3">
+          <div class="flex-1 min-w-0 text-sm text-text-secondary">
+            {formatShortDate(show.startDate, dateLocale)}
+            {' · '}
+            {show.venue}
+            {' · '}
+            {show.city}
+          </div>
+          <div class="shrink-0">
+            {show.ticketUrl ? (
+              <a
+                href={show.ticketUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center px-3 py-1 rounded text-xs font-medium bg-accent-primary text-text-inverse hover:bg-accent-primary-hover transition-colors duration-fast"
+              >
+                {labels.getTickets}
+              </a>
+            ) : (
+              <a
+                href={`${showsBasePath}/${show.slug}`}
+                class="text-xs text-accent-primary hover:underline"
+              >
+                {labels.moreInfo}
+              </a>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="mt-3 text-right">
+      <a href={showsBasePath} class="text-sm text-accent-primary hover:underline">
+        {labels.viewAllShows}
+      </a>
+    </div>
+  </section>
+)}
