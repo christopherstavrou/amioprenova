@@ -51,7 +51,7 @@ const jsonLd = {
   },
   ...(event.endDate ? { endDate: event.endDate } : {}),
   ...(description ? { description } : {}),
-  ...(event.image ? { image: event.image } : {}),
+  ...(event.image ? { image: new URL(event.image, siteConfig.baseUrl).href } : {}),
   ...(event.ticketUrl ? { offers: { '@type': 'Offer', url: event.ticketUrl } } : {}),
   url: canonicalURL,
   performer: {
@@ -81,7 +81,9 @@ const admissionTypeLabels = t.shows.admissionType;
   description={description}
   lang="bg"
 >
-  <script type="application/ld+json" set:html={jsonLdScript} />
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={jsonLdScript} />
+  </Fragment>
   <article class="max-w-3xl mx-auto">
     {event.image && (
       <div class="mb-8 rounded-lg overflow-hidden">
