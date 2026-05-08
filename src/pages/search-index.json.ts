@@ -36,6 +36,11 @@ export async function GET() {
       tags: lang === 'bg' ? (event.tagsBg ?? event.tags ?? []) : (event.tags ?? []),
       url: `/${lang}/shows/${event.slug}`,
       lang,
+      startDate: event.startDate,
+      eventType: event.eventType ?? '',
+      city: event.city,
+      venue: event.venue,
+      admissionType: event.admission?.type ?? '',
     }))
   );
 
