@@ -116,6 +116,8 @@ export const ui = {
     },
     news: {
       minRead: 'min read',
+      latestLabel: 'Latest',
+      readMore: 'Read more →',
     },
     links: {
       tagline: 'Jazz vocalist & composer',
@@ -242,6 +244,8 @@ export const ui = {
     },
     news: {
       minRead: 'мин. четене',
+      latestLabel: 'Най-ново',
+      readMore: 'Прочети повече →',
     },
     links: {
       tagline: 'Джаз певица и композитор',
