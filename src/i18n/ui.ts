@@ -130,6 +130,11 @@ export const ui = {
       tagline: 'Jazz vocalist & composer',
       scrollIndicator: 'Scroll to links',
     },
+    pagination: {
+      prev: 'Previous',
+      next: 'Next',
+      pageOf: 'Page {current} of {last}',
+    },
     footer: {
       copyright: 'All rights reserved.',
     },
@@ -264,6 +269,11 @@ export const ui = {
     links: {
       tagline: 'Джаз певица и композитор',
       scrollIndicator: 'Превъртете към връзките',
+    },
+    pagination: {
+      prev: 'Предишна',
+      next: 'Следваща',
+      pageOf: 'Страница {current} от {last}',
     },
     footer: {
       copyright: 'Всички права запазени.',
