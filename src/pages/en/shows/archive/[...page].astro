@@ -1,0 +1,50 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../../../layouts/Layout.astro';
+import PageHeader from '../../../../components/PageHeader.astro';
+import ShowsList from '../../../../components/ShowsList.astro';
+import { getPastEvents } from '../../../../lib/events';
+import { ui } from '../../../../i18n/ui';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const pastEvents = await getPastEvents();
+  if (pastEvents.length === 0) {
+    return [{ params: { page: undefined }, props: { page: { data: [], currentPage: 1, lastPage: 1, url: { prev: null, next: null } } } }];
+  }
+  return paginate(pastEvents, { pageSize: 12 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<Layout
+  title={page.currentPage === 1 ? "Past Shows - amioprenova" : `Past Shows - Page ${page.currentPage} - amioprenova`}
+  description="Browse the archive of past concerts and live performances by amioprenova."
+  lang="en"
+>
+  <PageHeader title="Past Shows" class="nav:text-center" />
+
+  <div class="max-w-4xl mx-auto">
+    <ShowsList
+      events={page.data}
+      lang="en"
+      labels={ui.en.showsList}
+      pagination={{
+        currentPage: page.currentPage,
+        lastPage: page.lastPage,
+        prevUrl: page.url.prev,
+        nextUrl: page.url.next,
+      }}
+      mode="archive"
+    />
+
+    <div class="border-t border-border pt-8">
+      <a
+        href="/en/shows"
+        class="inline-block text-sm text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors"
+      >
+        ← Back to upcoming shows
+      </a>
+    </div>
+  </div>
+</Layout>
