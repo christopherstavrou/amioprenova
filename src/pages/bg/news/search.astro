@@ -1,0 +1,59 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import { ui } from '../../../i18n/ui';
+
+const t = ui.bg.news;
+---
+
+<Layout
+  title="Търсене в новини - amioprenova"
+  description="Търсете всички новини на amioprenova."
+  lang="bg"
+>
+  <div class="max-w-4xl mx-auto">
+    <PageHeader title={t.searchTitle} class="nav:text-center" />
+
+    <form action="/bg/news/search" method="get" class="mb-8">
+      <div class="relative">
+        <input
+          type="search"
+          name="q"
+          id="search-input"
+          placeholder={t.searchPlaceholder}
+          aria-label={t.searchPlaceholder}
+          class="w-full px-4 py-2 bg-surface border border-border rounded-lg focus:outline-none focus:border-accent-primary text-text-primary placeholder:text-text-secondary transition-colors"
+          autocomplete="off"
+        />
+      </div>
+    </form>
+
+    <div
+      id="search-root"
+      data-lang="bg"
+      data-results-for={t.searchResultsFor}
+      data-result={t.searchResult}
+      data-results={t.searchResults}
+      data-no-results={t.searchNoResults}
+      data-no-results-tip={t.searchNoResultsTip}
+      data-empty-query={t.searchEmptyQuery}
+    >
+      <p id="search-status" class="text-text-secondary text-sm mb-6"></p>
+      <div id="search-list" class="space-y-3"></div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-border">
+      <a
+        href="/bg/news"
+        class="text-sm text-accent-primary hover:text-accent-primary-hover transition-colors"
+      >
+        {t.searchBack}
+      </a>
+    </div>
+  </div>
+
+  <script>
+    import { initNewsSearch } from '../../../scripts/news-search';
+    initNewsSearch();
+  </script>
+</Layout>

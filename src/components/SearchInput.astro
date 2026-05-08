@@ -3,7 +3,7 @@
  * SearchInput — search field for paginated list pages.
  *
  * When `action` is provided the input is wrapped in a GET form that navigates
- * to `action?q=<query>` on submit (e.g. the dedicated shows search page).
+ * to `action?q=<query>` on submit (e.g. the dedicated shows or news search page).
  * No results dropdown is rendered in this mode.
  *
  * Without `action` the component renders the traditional dropdown variant
@@ -32,6 +32,7 @@ const L = {
     <input
       type="search"
       name="q"
+      id={inputId}
       placeholder={L.placeholder}
       aria-label={L.ariaLabel}
       class="w-full px-4 py-2 bg-surface border border-border rounded-lg focus:outline-none focus:border-accent-primary text-text-primary placeholder:text-text-secondary transition-colors"
