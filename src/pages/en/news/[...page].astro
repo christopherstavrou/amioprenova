@@ -40,8 +40,6 @@ const heroFormattedDate = heroPost
       year: 'numeric', month: 'long', day: 'numeric',
     })
   : '';
-
-const t = useTranslations('en');
 ---
 
 <Layout
@@ -130,7 +128,7 @@ const t = useTranslations('en');
                           />
                         </a>
                         <div class="absolute right-3 top-3 sm:hidden">
-                          <SharePopover url={shareUrl} title={post.data.title} />
+                          <SharePopover url={shareUrl} title={post.data.title} labels={t.news.share} />
                         </div>
                       </div>
                     )}
@@ -150,56 +148,6 @@ const t = useTranslations('en');
                         <p class="text-text-primary text-sm line-clamp-2">{post.data.description}</p>
                       </div>
                       <div class:list={['shrink-0', post.data.image ? 'hidden sm:block' : 'block']}>
-                        <SharePopover url={shareUrl} title={post.data.title} />
-                      </div>
-                </div>
-              </div>
-            </div>
-          </Card>
-        )}
-
-        {/* Standard cards — remaining posts */}
-        {remainingPosts.length > 0 && (
-          <div class="space-y-3 mb-6">
-            {remainingPosts.map(post => {
-              const postSlug = post.id.replace('en/', '');
-              const postUrl = `/en/news/${postSlug}`;
-              const shareUrl = `${siteConfig.baseUrl}${postUrl}`;
-              const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
-                year: 'numeric', month: 'long', day: 'numeric'
-              });
-              return (
-                <Card hover={true} padding="none">
-                  <div class="flex flex-col sm:flex-row">
-                    {post.data.image && (
-                      <a href={postUrl} class="overflow-hidden rounded-t-md sm:rounded-t-none sm:rounded-l-md sm:shrink-0 sm:w-44">
-                        <img
-                          src={post.data.image}
-                          alt={post.data.title}
-                          class="w-full aspect-[3/1] sm:aspect-auto sm:h-full object-cover hover:scale-105 transition-transform duration-fast"
-                          loading="lazy"
-                        />
-                      </a>
-                    )}
-                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
-                      <div class="flex-grow min-w-0">
-                        <a href={postUrl} class="group">
-                          <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">{post.data.title}</h2>
-                        </a>
-                        <p class="text-text-secondary text-sm mb-2">{formattedDate}</p>
-                        {post.data.tags && post.data.tags.length > 0 && (
-                          <div class="flex gap-1.5 flex-wrap mb-2">
-                            {post.data.tags.map(tag => (
-                              <Badge>{tag}</Badge>
-                            ))}
-                          </div>
-                        )}
-                        <p class="text-text-primary text-sm line-clamp-2">{post.data.description}</p>
-                        <a href={postUrl} class="text-sm font-medium text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors mt-2 inline-block" aria-label={`Read more about ${post.data.title}`}>
-                          {t.news.readMore}
-                        </a>
-                      </div>
-                      <div class="flex gap-2 shrink-0 flex-wrap items-start">
                         <SharePopover url={shareUrl} title={post.data.title} labels={t.news.share} />
                       </div>
                     </div>
