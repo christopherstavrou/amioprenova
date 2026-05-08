@@ -1,10 +1,17 @@
 ---
 /**
- * SearchInput — search field + results dropdown for paginated list pages.
- * Wired by list-search.ts via inputId/resultsId (default: 'search-input' / 'search-results').
- * Pass matching inputId/resultsId to initListSearch if overriding the defaults.
+ * SearchInput — search field for paginated list pages.
+ *
+ * When `action` is provided the input is wrapped in a GET form that navigates
+ * to `action?q=<query>` on submit (e.g. the dedicated shows search page).
+ * No results dropdown is rendered in this mode.
+ *
+ * Without `action` the component renders the traditional dropdown variant
+ * wired by list-search.ts via inputId/resultsId.
  */
 interface Props {
+  /** Form action URL. When set the component renders a navigating form instead of the inline dropdown. */
+  action?: string;
   inputId?: string;
   resultsId?: string;
   labels?: {
@@ -13,23 +20,35 @@ interface Props {
   };
 }
 
-const { inputId = 'search-input', resultsId = 'search-results', labels = {} } = Astro.props;
+const { action, inputId = 'search-input', resultsId = 'search-results', labels = {} } = Astro.props;
 const L = {
   placeholder: labels.placeholder ?? 'Search...',
   ariaLabel: labels.ariaLabel ?? labels.placeholder ?? 'Search',
 };
 ---
 
-<div class="relative w-full md:w-64">
-  <input
-    type="search"
-    id={inputId}
-    placeholder={L.placeholder}
-    aria-label={L.ariaLabel}
-    class="w-full px-4 py-2 bg-surface border border-border rounded-lg focus:outline-none focus:border-accent-primary text-text-primary placeholder:text-text-secondary transition-colors"
-  />
-  <div
-    id={resultsId}
-    class="hidden absolute top-full mt-2 w-full bg-surface-elevated border border-border rounded-lg shadow-lg max-h-96 overflow-y-auto z-10"
-  ></div>
-</div>
+{action ? (
+  <form method="get" action={action} class="relative w-full md:w-64">
+    <input
+      type="search"
+      name="q"
+      placeholder={L.placeholder}
+      aria-label={L.ariaLabel}
+      class="w-full px-4 py-2 bg-surface border border-border rounded-lg focus:outline-none focus:border-accent-primary text-text-primary placeholder:text-text-secondary transition-colors"
+    />
+  </form>
+) : (
+  <div class="relative w-full md:w-64">
+    <input
+      type="search"
+      id={inputId}
+      placeholder={L.placeholder}
+      aria-label={L.ariaLabel}
+      class="w-full px-4 py-2 bg-surface border border-border rounded-lg focus:outline-none focus:border-accent-primary text-text-primary placeholder:text-text-secondary transition-colors"
+    />
+    <div
+      id={resultsId}
+      class="hidden absolute top-full mt-2 w-full bg-surface-elevated border border-border rounded-lg shadow-lg max-h-96 overflow-y-auto z-10"
+    ></div>
+  </div>
+)}
