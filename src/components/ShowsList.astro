@@ -65,7 +65,7 @@ const getTags = (event: Event) =>
 const locationLine = (event: { venue: string; city: string; country: string }) =>
   [event.venue, [event.city, event.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
 
-const canceledBadgeClass = 'mt-1 shrink-0 inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-accent-primary text-accent-primary bg-surface-muted';
+const canceledBadgeClass = 'mt-1 mb-2 shrink-0 inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-accent-primary text-accent-primary bg-surface-muted';
 ---
 
 <div class:list={['space-y-3', className]}>
