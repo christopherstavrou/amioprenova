@@ -1,0 +1,373 @@
+---
+/**
+ * LinksHero — full-bleed hero for the /links page.
+ *
+ * Props
+ *   lang     — current locale ('en' | 'bg'), used to set the alternate lang URL
+ *   labels   — all user-visible strings (tagline, aria labels)
+ *              BG callers must pass Bulgarian strings; English defaults are baked in.
+ */
+import { Image } from 'astro:assets';
+import heroImage from '../../assets/images/hero-performance.jpg';
+import type { Language } from '../../i18n/ui';
+
+export interface Props {
+  lang: Language;
+  labels: {
+    tagline: string;
+    toggleTheme: string;
+    language: string;
+  };
+}
+
+const { lang, labels } = Astro.props;
+---
+
+<section class="links-hero" aria-label="Artist introduction">
+  <!-- Background photo (decorative — covered by dark overlay) -->
+  <Image
+    src={heroImage}
+    alt=""
+    class="links-hero__bg"
+    width={1920}
+    loading="eager"
+    aria-hidden="true"
+  />
+
+  <!-- Static dark gradient overlay -->
+  <div class="links-hero__overlay" aria-hidden="true"></div>
+
+  <!-- Animated accent gradient overlay (CSS keyframes, no JS) -->
+  <div class="links-hero__anim" aria-hidden="true"></div>
+
+  <!-- Controls: theme toggle + language switcher (top-right) -->
+  <div class="links-hero__controls">
+    <!-- Theme toggle -->
+    <button
+      type="button"
+      data-hero-theme-toggle
+      aria-label={labels.toggleTheme}
+      class="links-hero__ctrl-btn"
+    >
+      <!-- Sun icon — shown in dark mode (click → go light) -->
+      <svg class="hero-sun-icon hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+      </svg>
+      <!-- Moon icon — shown in light mode (click → go dark) -->
+      <svg class="hero-moon-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+      </svg>
+    </button>
+
+    <!-- Language switcher -->
+    <select
+      data-hero-lang-select
+      aria-label={labels.language}
+      class="links-hero__lang-select"
+    >
+      <option value="en" selected={lang === 'en'}>EN</option>
+      <option value="bg" selected={lang === 'bg'}>BG</option>
+    </select>
+  </div>
+
+  <!-- Centre content: avatar → name → tagline -->
+  <div class="links-hero__content">
+    <div class="links-hero__avatar-wrap">
+      <Image
+        src={heroImage}
+        alt="Ami Oprenova"
+        class="links-hero__avatar"
+        width={256}
+        height={256}
+        loading="eager"
+      />
+    </div>
+
+    <h1 class="links-hero__name">Ami Oprenova</h1>
+    <p class="links-hero__tagline">{labels.tagline}</p>
+  </div>
+
+  <!-- Scroll indicator (decorative visual affordance) -->
+  <div class="links-hero__scroll" aria-hidden="true">
+    <svg class="links-hero__chevron w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </div>
+</section>
+
+<style is:global>
+  /* ── Full-bleed breakout ── */
+  /* Escape the Layout <main> container padding and max-width */
+  .links-hero {
+    position: relative;
+    width: 100vw;
+    /* horizontal breakout: shift left by (containerWidth/2 - viewportWidth/2) */
+    margin-left: calc(50% - 50vw);
+    /* top breakout: cancel Layout pt-6 / md:pt-8 / nav:pt-10 */
+    margin-top: -1.5rem;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .links-hero { margin-top: -2rem; }
+  }
+
+  @media (min-width: 1180px) {
+    .links-hero { margin-top: -2.5rem; }
+  }
+
+  /* ── Background photo ── */
+  .links-hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  /* ── Static dark gradient overlay ── */
+  .links-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      var(--color-hero-scrim-start) 0%,
+      var(--color-hero-scrim-mid)   50%,
+      var(--color-hero-scrim-end)   100%
+    );
+  }
+
+  /* ── Animated accent gradient overlay ── */
+  .links-hero__anim {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at 50% 65%,
+      color-mix(in srgb, var(--color-accent-primary) 22%, transparent) 0%,
+      transparent 65%
+    );
+    animation: linksHeroAccentPulse 10s ease-in-out infinite;
+  }
+
+  @keyframes linksHeroAccentPulse {
+    0%, 100% { opacity: 0.5; }
+    50%       { opacity: 1;   }
+  }
+
+  /* ── Controls (top-right) ── */
+  .links-hero__controls {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* Shared backdrop blur for both hero controls */
+  .links-hero__ctrl-btn,
+  .links-hero__lang-select {
+    backdrop-filter: blur(4px);
+  }
+
+  .links-hero__ctrl-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, black 35%, transparent);
+    color: var(--color-on-image);
+    border: none;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+  }
+
+  .links-hero__ctrl-btn:hover {
+    background: color-mix(in srgb, black 55%, transparent);
+  }
+
+  .links-hero__ctrl-btn:focus-visible {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+  }
+
+  .links-hero__lang-select {
+    appearance: none;
+    background: color-mix(in srgb, black 35%, transparent);
+    color: var(--color-on-image);
+    border: 1px solid color-mix(in srgb, var(--color-on-image) 30%, transparent);
+    border-radius: var(--radius-md);
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    letter-spacing: 0.05em;
+  }
+
+  .links-hero__lang-select:hover {
+    background: color-mix(in srgb, black 55%, transparent);
+  }
+
+  .links-hero__lang-select:focus-visible {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+  }
+
+  .links-hero__lang-select option {
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+  }
+
+  /* ── Centre content ── */
+  .links-hero__content {
+    position: relative;
+    z-index: 10;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5rem 1.5rem 3rem;
+  }
+
+  /* ── Avatar ── */
+  .links-hero__avatar-wrap {
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid color-mix(in srgb, var(--color-on-image) 30%, transparent);
+    margin-bottom: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .links-hero__avatar-wrap {
+      width: 9rem;
+      height: 9rem;
+    }
+  }
+
+  .links-hero__avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  /* ── Artist name ──
+   * The compound selector `.links-hero h1` outranks the global `h1` rule
+   * (class + element > element alone) so gradient-text is reset cleanly
+   * without any !important declarations. */
+  .links-hero h1.links-hero__name {
+    font-family: 'Playfair Display', 'Merriweather', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+    /* Reset global h1 gradient-text treatment */
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    -webkit-text-fill-color: var(--color-on-image);
+    color: var(--color-on-image);
+  }
+
+  /* ── Tagline ── */
+  .links-hero__tagline {
+    font-size: 1rem;
+    color: color-mix(in srgb, var(--color-on-image) 75%, transparent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 768px) {
+    .links-hero__tagline { font-size: 1.125rem; }
+  }
+
+  /* ── Scroll indicator ── */
+  .links-hero__scroll {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2rem;
+    color: color-mix(in srgb, var(--color-on-image) 60%, transparent);
+  }
+
+  .links-hero__chevron {
+    animation: linksHeroChevronBounce 2s ease-in-out infinite;
+  }
+
+  @keyframes linksHeroChevronBounce {
+    0%, 100% { transform: translateY(0);   opacity: 0.6; }
+    50%       { transform: translateY(8px); opacity: 1;   }
+  }
+</style>
+
+<script>
+  // Hero-local theme toggle and language switcher.
+  // These mirror the Layout.astro controls — both update the same
+  // data-theme attribute and site_theme cookie, and both sync all
+  // sun/moon icons on the page so the header and hero stay in step.
+
+  const heroThemeBtn = document.querySelector<HTMLButtonElement>('[data-hero-theme-toggle]');
+  const heroSunIcon  = document.querySelector<SVGElement>('.hero-sun-icon');
+  const heroMoonIcon = document.querySelector<SVGElement>('.hero-moon-icon');
+  const heroLangSelect = document.querySelector<HTMLSelectElement>('[data-hero-lang-select]');
+
+  function setCookie(name: string, value: string): void {
+    const maxAge = 365 * 24 * 60 * 60;
+    const secureAttr = location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Strict${secureAttr}`;
+  }
+
+  function syncAllThemeIcons(theme: string): void {
+    const isDark = theme === 'dark';
+    // Hero icons
+    heroSunIcon?.classList.toggle('hidden', !isDark);
+    heroMoonIcon?.classList.toggle('hidden', isDark);
+    // Layout header icons (kept in sync so both sets reflect the same state)
+    document.querySelectorAll<SVGElement>('.sun-icon, .sun-icon-mobile').forEach(el =>
+      el.classList.toggle('hidden', !isDark)
+    );
+    document.querySelectorAll<SVGElement>('.moon-icon, .moon-icon-mobile').forEach(el =>
+      el.classList.toggle('hidden', isDark)
+    );
+  }
+
+  // Initialise hero icons to match the theme already applied by the
+  // Layout's inline <head> script before first paint.
+  const initialTheme = document.documentElement.getAttribute('data-theme') ?? 'light';
+  syncAllThemeIcons(initialTheme);
+
+  if (heroThemeBtn) {
+    heroThemeBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') ?? 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      setCookie('site_theme', next);
+      syncAllThemeIcons(next);
+    });
+  }
+
+  if (heroLangSelect) {
+    heroLangSelect.addEventListener('change', (e) => {
+      const newLang = (e.target as HTMLSelectElement).value; // safe: fires on <select>
+      const newPath = window.location.pathname.replace(/^\/(en|bg)/, `/${newLang}`);
+      setCookie('site_lang', newLang);
+      window.location.href = newPath;
+    });
+  }
+</script>

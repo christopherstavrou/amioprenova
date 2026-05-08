@@ -100,6 +100,9 @@
   --color-hero-scrim-mid:   rgba(13, 12, 11, 0.75);
   --color-hero-scrim-end:   rgba(13, 12, 11, 0.92);
 
+  /* Invariant token — text/UI placed directly on image overlays (always white) */
+  --color-on-image: #FFFFFF;
+
   /* Overlay (lightbox scrim) */
   --color-overlay: rgba(240, 237, 232, 0.97);
 }
