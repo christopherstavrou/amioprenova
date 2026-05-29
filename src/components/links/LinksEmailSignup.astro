@@ -1,0 +1,25 @@
+---
+import { siteConfig } from '../../config/site';
+import { ui } from '../../i18n/ui';
+
+interface Props {
+  lang: 'en' | 'bg';
+}
+
+const { lang } = Astro.props;
+const emailConfig = siteConfig.linksPage.emailSignup;
+const t = ui[lang];
+
+if (!emailConfig.active) return;
+---
+
+<div class="text-center py-6">
+  <h2 class="font-serif text-xl font-bold text-text-primary mb-1">{emailConfig.heading[lang]}</h2>
+  <p class="text-text-secondary text-sm mb-4">{emailConfig.subtext[lang]}</p>
+  <a
+    href={`mailto:${siteConfig.bookingEmail}`}
+    class="inline-block px-6 py-2.5 rounded-xl bg-accent-primary text-white font-medium hover:bg-accent-primary-hover transition-colors duration-fast"
+  >
+    {t.links.emailSignup.cta}
+  </a>
+</div>
