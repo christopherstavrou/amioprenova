@@ -44,7 +44,8 @@
   "eventType": "concert",
   "admission": {
     "type": "free",
-    "note": "Online livestream"
+    "note": "Online livestream",
+    "noteBg": "Онлайн излъчване на живо"
   },
   "_overrides": {
     "titleEn": "locked",

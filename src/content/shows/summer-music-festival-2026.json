@@ -43,7 +43,8 @@
   "eventType": "concert",
   "admission": {
     "type": "free",
-    "note": "Free entry for all"
+    "note": "Free entry for all",
+    "noteBg": "Свободен вход за всички"
   },
   "_overrides": {
     "titleEn": "locked",

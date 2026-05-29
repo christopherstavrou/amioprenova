@@ -43,7 +43,8 @@
   "eventType": "concert",
   "admission": {
     "type": "paid",
-    "note": "Reservations: 041 930796"
+    "note": "Reservations: 041 930796",
+    "noteBg": "Резервации: 041 930796"
   },
   "_overrides": {
     "titleEn": "locked",
