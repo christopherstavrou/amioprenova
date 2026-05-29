@@ -78,6 +78,9 @@ export const ui = {
         twitter: 'Twitter / X',
       },
     },
+    news: {
+      minRead: 'min read',
+    },
     pagination: {
       prev: '← Previous',
       next: 'Next →',
@@ -166,6 +169,9 @@ export const ui = {
         facebook: 'Фейсбук',
         twitter: 'Twitter / X',
       },
+    },
+    news: {
+      minRead: 'мин. четене',
     },
     pagination: {
       prev: '← Предишна',
