@@ -1,23 +1,65 @@
-name: "@claude Task"
-description: Ask Claude to implement something on this repo
+name: "Task"
+description: Create a task for an AI agent or human contributor
 labels: []
 body:
   - type: markdown
     attributes:
       value: |
-        Claude will pick this up automatically. Be specific — mention affected pages, languages (EN/BG), and any constraints.
-  - type: textarea
-    id: task
+        **After creating this issue:**
+        - To use **@claude**: add a comment with `@claude please start` on the issue
+        - To use **Copilot coding agent**: assign the issue via the Assignees field
+        - To assign to **yourself**: just start working and branch from `develop`
+
+        **Before creating:** verify no open PR already covers this work.
+  - type: dropdown
+    id: agent
     attributes:
-      label: Task
-      description: What should Claude do? Start with "@claude" to trigger the workflow.
-      placeholder: "@claude please..."
+      label: Intended agent
+      description: Who should implement this? (informational — see instructions above to actually trigger the agent)
+      options:
+        - "@claude — complex reasoning, multi-file, Astro/TS expertise"
+        - "Copilot coding agent — clear pattern, well-scoped, specific files"
+        - "Human"
     validations:
       required: true
   - type: textarea
-    id: context
+    id: what
     attributes:
-      label: Context & constraints
-      description: Affected pages, files, or anything Claude should know before starting.
+      label: What
+      description: One paragraph describing the change and why it is needed.
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Affected files
+      description: |
+        Explicit list of every file that needs changing — including related files the agent might miss
+        (e.g. sibling locale pages, middleware that intercepts the feature, tech-debt.md if resolving a tracked item).
+      placeholder: |
+        - src/pages/en/shows/[slug].astro
+        - src/pages/bg/shows/[slug].astro
+        - src/i18n/ui.ts
+        - docs/ai/tech-debt.md (remove resolved entry)
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: |
+        Each criterion must be verifiable in the Cloudflare preview URL without access to code.
+        Use checkbox format. Describe the observable outcome, not the implementation.
+      placeholder: |
+        - [ ] Visit /en/shows/jazz-night — event type label renders as "Concert" (not a raw key)
+        - [ ] Visit /bg/shows/jazz-night — same label renders in Bulgarian
+        - [ ] No hardcoded strings visible on either page
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes and constraints
+      description: Related files not listed above, known edge cases, links to existing patterns in the codebase. Read AGENTS.md before starting.
     validations:
       required: false
