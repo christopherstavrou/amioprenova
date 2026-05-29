@@ -55,48 +55,108 @@ export const siteConfig = {
   ],
 
   // Links page (linktree-style hub)
-  linksPageLinks: [
-    {
-      label: 'Listen on Spotify',
-      url: '', // TODO: Add when verified
-      category: 'music',
+  linksPage: {
+    profile: {
+      image: '/images/ami-profile.jpg', // TODO: Replace with real artist photo path
+      tagline: {
+        en: 'Jazz vocalist · Sofia & London',
+        bg: 'Джаз вокалист · София и Лондон',
+      },
     },
-    {
-      label: 'Buy on Bandcamp',
-      url: 'https://amioprenova.bandcamp.com',
-      category: 'music',
+    featuredRelease: {
+      active: false, // Toggle on when a release is ready
+      albumArt: '', // TODO: album art path
+      title: { en: '', bg: '' },
+      subtitle: { en: 'Out now', bg: 'Вече е навън' },
+      youtubeId: '',
+      platforms: [] as Array<{ label: string; icon: string; url: string }>,
+      countdownTo: '',
     },
-    {
-      label: 'Watch on YouTube',
-      url: 'https://www.youtube.com/@amioprenova496',
-      category: 'music',
+    sections: [
+      {
+        heading: { en: 'Music', bg: 'Музика' },
+        links: [
+          {
+            label: { en: 'Listen on Spotify', bg: 'Слушай в Spotify' },
+            url: '', // TODO: Add when verified
+            icon: 'spotify',
+            variant: 'default' as 'featured' | 'default' | 'subtle',
+            external: true,
+          },
+          {
+            label: { en: 'Buy on Bandcamp', bg: 'Купи в Bandcamp' },
+            url: 'https://amioprenova.bandcamp.com',
+            icon: 'bandcamp',
+            variant: 'default' as 'featured' | 'default' | 'subtle',
+            external: true,
+          },
+          {
+            label: { en: 'Watch on YouTube', bg: 'Гледай в YouTube' },
+            url: 'https://www.youtube.com/@amioprenova496',
+            icon: 'youtube',
+            variant: 'default' as 'featured' | 'default' | 'subtle',
+            external: true,
+          },
+        ],
+      },
+      {
+        heading: { en: 'Connect', bg: 'Последвай' },
+        links: [
+          {
+            label: { en: 'Instagram', bg: 'Instagram' },
+            url: 'https://www.instagram.com/amioprenovamusic',
+            icon: 'instagram',
+            variant: 'default' as 'featured' | 'default' | 'subtle',
+            external: true,
+          },
+          {
+            label: { en: 'TikTok', bg: 'TikTok' },
+            url: 'https://www.tiktok.com/@amioprenovamusic',
+            icon: 'tiktok',
+            variant: 'default' as 'featured' | 'default' | 'subtle',
+            external: true,
+          },
+          {
+            label: { en: 'Facebook', bg: 'Facebook' },
+            url: 'https://www.facebook.com/amioprenovamusic/',
+            icon: 'facebook',
+            variant: 'default' as 'featured' | 'default' | 'subtle',
+            external: true,
+          },
+        ],
+      },
+      {
+        heading: { en: 'Support', bg: 'Подкрепи' },
+        links: [
+          {
+            label: { en: 'Support Me', bg: 'Подкрепи ме' },
+            url: '', // TODO: Add when verified
+            icon: 'heart',
+            variant: 'featured' as 'featured' | 'default' | 'subtle',
+            external: true,
+          },
+          {
+            label: { en: 'Get Tickets', bg: 'Вземи билети' },
+            url: '', // TODO: Add when verified
+            icon: 'ticket',
+            variant: 'default' as 'featured' | 'default' | 'subtle',
+            external: true,
+          },
+        ],
+      },
+    ],
+    socialIcons: [
+      { platform: 'instagram', url: 'https://www.instagram.com/amioprenovamusic' },
+      { platform: 'tiktok', url: 'https://www.tiktok.com/@amioprenovamusic' },
+      { platform: 'facebook', url: 'https://www.facebook.com/amioprenovamusic/' },
+      { platform: 'youtube', url: 'https://www.youtube.com/@amioprenova496' },
+    ],
+    emailSignup: {
+      active: true,
+      heading: { en: 'Stay close', bg: 'Бъди близо' },
+      subtext: { en: 'News before anyone else.', bg: 'Новини преди всички.' },
     },
-    {
-      label: 'Instagram',
-      url: 'https://www.instagram.com/amioprenovamusic',
-      category: 'social',
-    },
-    {
-      label: 'TikTok',
-      url: 'https://www.tiktok.com/@amioprenovamusic',
-      category: 'social',
-    },
-    {
-      label: 'Facebook',
-      url: 'https://www.facebook.com/amioprenovamusic/',
-      category: 'social',
-    },
-    {
-      label: 'Support Me',
-      url: '', // TODO: Add when verified
-      category: 'support',
-    },
-    {
-      label: 'Get Tickets',
-      url: '', // TODO: Add when verified
-      category: 'support',
-    },
-  ],
+  },
 } as const;
 
 /**
