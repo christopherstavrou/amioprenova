@@ -77,12 +77,12 @@ export const ui = {
         facebook: 'Facebook',
         twitter: 'Twitter / X',
       },
-      pagination: {
-        prev: '← Previous',
-        next: 'Next →',
-        page: 'Page',
-        of: 'of',
-      },
+    },
+    pagination: {
+      prev: '← Previous',
+      next: 'Next →',
+      page: 'Page',
+      of: 'of',
     },
     footer: {
       copyright: 'All rights reserved.',
@@ -166,12 +166,12 @@ export const ui = {
         facebook: 'Фейсбук',
         twitter: 'Twitter / X',
       },
-      pagination: {
-        prev: '← Предишна',
-        next: 'Следваща →',
-        page: 'Страница',
-        of: 'от',
-      },
+    },
+    pagination: {
+      prev: '← Предишна',
+      next: 'Следваща →',
+      page: 'Страница',
+      of: 'от',
     },
     footer: {
       copyright: 'Всички права запазени.',
