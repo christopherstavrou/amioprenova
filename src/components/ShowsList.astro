@@ -7,6 +7,7 @@ import Pagination from './Pagination.astro';
 import type { Event } from '../lib/events';
 import { formatEventDate } from '../lib/events';
 import { eventFeatures } from '../config/site';
+import { ui } from '../i18n/ui';
 
 export interface Props {
   events: Event[];
@@ -52,6 +53,8 @@ const eventTags = (event: Event) =>
   lang === 'bg' ? (event.tagsBg ?? event.tags ?? []) : (event.tags ?? []);
 const locationLine = (event: Event) =>
   [event.venue, [event.city, event.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
+
+const detail = ui[lang].shows.detail;
 ---
 
 <div>
@@ -79,8 +82,8 @@ const locationLine = (event: Event) =>
                 <div class="absolute right-3 top-3 sm:hidden">
                   <ShowActionsMenu
                     items={[
-                      ...(event.ticketUrl ? [{ href: event.ticketUrl, label: labels.menuLabel, icon: 'ticket' as const }] : []),
-                      ...(event.mapUrl ? [{ href: event.mapUrl, label: labels.menuLabel, icon: 'map' as const }] : []),
+                      ...(event.ticketUrl ? [{ href: event.ticketUrl, label: detail.tickets, icon: 'ticket' as const }] : []),
+                      ...(event.mapUrl ? [{ href: event.mapUrl, label: detail.map, icon: 'map' as const }] : []),
                       ...(event.sourceUrl ? [{ href: event.sourceUrl, label: labels.facebook, icon: 'facebook' as const }] : []),
                     ]}
                     shareUrl={`${baseUrl}/${lang}/shows/${event.slug}`}
@@ -120,8 +123,8 @@ const locationLine = (event: Event) =>
               <div class:list={['shrink-0', event.image ? 'hidden sm:block' : 'block']}>
                 <ShowActionsMenu
                   items={[
-                    ...(event.ticketUrl ? [{ href: event.ticketUrl, label: labels.menuLabel, icon: 'ticket' as const }] : []),
-                    ...(event.mapUrl ? [{ href: event.mapUrl, label: labels.menuLabel, icon: 'map' as const }] : []),
+                    ...(event.ticketUrl ? [{ href: event.ticketUrl, label: detail.tickets, icon: 'ticket' as const }] : []),
+                    ...(event.mapUrl ? [{ href: event.mapUrl, label: detail.map, icon: 'map' as const }] : []),
                     ...(event.sourceUrl ? [{ href: event.sourceUrl, label: labels.facebook, icon: 'facebook' as const }] : []),
                   ]}
                   shareUrl={`${baseUrl}/${lang}/shows/${event.slug}`}
