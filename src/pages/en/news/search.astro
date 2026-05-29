@@ -1,0 +1,115 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import SearchInput from '../../../components/SearchInput.astro';
+import { ui } from '../../../i18n/ui';
+
+const t = ui['en'].news;
+---
+
+<Layout
+  title="Search News - amioprenova"
+  description="Search all news articles and updates from amioprenova."
+  lang="en"
+>
+  <PageHeader title={t.search.heading} class="nav:text-center" />
+
+  <div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+      <SearchInput
+        labels={{ placeholder: t.search.searchPlaceholder, ariaLabel: 'Search' }}
+        action="/en/news/search"
+      />
+    </div>
+
+    <div id="search-status" class="text-text-secondary text-sm mb-4 hidden"></div>
+
+    <div id="results-list" class="space-y-3 hidden"></div>
+
+    <div id="no-results" class="hidden text-center py-12">
+      <p class="text-text-secondary text-lg" id="no-results-text"></p>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const LANG = 'en';
+  const t = {
+    resultsPrefix: 'results for',
+    noResults: 'No articles found for',
+  };
+
+  function escapeHtml(str: string): string {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  interface SearchEntry {
+    type: 'event' | 'post';
+    title: string;
+    description?: string;
+    date: string;
+    tags: string[];
+    url: string;
+    lang: string;
+  }
+
+  function renderCard(item: SearchEntry): string {
+    return `
+      <a href="${item.url}" class="block rounded-xl border border-border bg-surface hover:border-accent-primary transition-all duration-fast p-4">
+        <h3 class="font-serif text-lg font-bold leading-snug mb-1 hover:text-accent-primary transition-colors">${escapeHtml(item.title)}</h3>
+        <p class="text-text-secondary text-sm mb-2">${escapeHtml(item.date)}</p>
+        ${item.description ? `<p class="text-text-primary text-sm line-clamp-2">${escapeHtml(item.description)}</p>` : ''}
+        ${item.tags.length > 0 ? `<div class="flex gap-1.5 flex-wrap mt-2">${item.tags.map(tag => `<span class="text-xs bg-surface-muted border border-border px-2 py-0.5 rounded">${escapeHtml(tag)}</span>`).join('')}</div>` : ''}
+      </a>
+    `;
+  }
+
+  async function runSearch(query: string) {
+    const statusEl = document.getElementById('search-status')!;
+    const resultsList = document.getElementById('results-list')!;
+    const noResults = document.getElementById('no-results')!;
+    const noResultsText = document.getElementById('no-results-text')!;
+
+    if (!query.trim()) {
+      statusEl.classList.add('hidden');
+      resultsList.classList.add('hidden');
+      noResults.classList.add('hidden');
+      return;
+    }
+
+    const res = await fetch('/search-index.json');
+    const index: SearchEntry[] = await res.json();
+    const q = query.toLowerCase();
+
+    const matches = index.filter(item =>
+      item.type === 'post' &&
+      item.lang === LANG &&
+      (item.title.toLowerCase().includes(q) ||
+       (item.description ?? '').toLowerCase().includes(q) ||
+       item.tags.some(tag => tag.toLowerCase().includes(q)))
+    );
+
+    statusEl.textContent = `${matches.length} ${t.resultsPrefix} "${query}"`;
+    statusEl.classList.remove('hidden');
+
+    if (matches.length === 0) {
+      resultsList.classList.add('hidden');
+      noResultsText.textContent = `${t.noResults} "${query}"`;
+      noResults.classList.remove('hidden');
+      return;
+    }
+
+    noResults.classList.add('hidden');
+    resultsList.innerHTML = matches.map(renderCard).join('');
+    resultsList.classList.remove('hidden');
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q') ?? '';
+
+  if (q) {
+    const input = document.querySelector<HTMLInputElement>('input[name="q"]');
+    if (input) input.value = q;
+    runSearch(q);
+  }
+</script>

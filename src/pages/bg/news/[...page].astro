@@ -42,7 +42,7 @@ function readingMinutes(description: string): number {
   <div class="max-w-4xl mx-auto">
     {posts.length > 0 && (
       <div class="flex justify-end mb-8">
-        <SearchInput labels={{ placeholder: 'Търсене...' }} />
+        <SearchInput labels={{ placeholder: t.news.search.searchPlaceholder, ariaLabel: 'Търси' }} action="/bg/news/search" />
       </div>
     )}
 
@@ -146,8 +146,4 @@ function readingMinutes(description: string): number {
     )}
   </div>
 
-  <script>
-    import { initListSearch } from '../../../scripts/list-search';
-    initListSearch({ type: 'post', lang: 'bg' });
-  </script>
 </Layout>
