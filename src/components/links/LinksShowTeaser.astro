@@ -1,0 +1,57 @@
+---
+import { getUpcomingEvents, formatShortDate } from '../../lib/events';
+import { ui } from '../../i18n/ui';
+
+interface Props {
+  lang: 'en' | 'bg';
+}
+
+const { lang } = Astro.props;
+const t = ui[lang].links.shows;
+const locale = lang === 'bg' ? 'bg-BG' : 'en-US';
+
+const upcomingEvents = await getUpcomingEvents();
+const shows = upcomingEvents.slice(0, 3);
+---
+
+{shows.length > 0 && (
+  <div>
+    <h2 class="text-xs font-semibold uppercase tracking-widest text-text-secondary mb-3">{t.heading}</h2>
+    <div class="space-y-2 mb-4">
+      {shows.map(event => {
+        const title = lang === 'bg' ? (event.titleBg || event.title) : (event.titleEn || event.title);
+        const locationParts = [event.venue, event.city].filter(Boolean);
+        const location = locationParts.join(' · ');
+        const date = formatShortDate(event.startDate, locale);
+        const detailUrl = `/${lang}/shows/${event.slug}`;
+
+        return (
+          <div class="flex items-center justify-between gap-3 py-2 border-b border-border last:border-0">
+            <div class="min-w-0 flex-1">
+              <a href={detailUrl} class="font-medium text-sm text-text-primary hover:text-accent-primary transition-colors line-clamp-1">{title}</a>
+              <p class="text-xs text-text-secondary mt-0.5">{date}{location ? ` · ${location}` : ''}</p>
+            </div>
+            {event.ticketUrl ? (
+              <a
+                href={event.ticketUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="shrink-0 text-xs font-medium px-3 py-1 rounded-lg border border-accent-primary text-accent-primary hover:bg-accent-primary hover:text-white transition-all duration-fast"
+              >
+                {t.tickets}
+              </a>
+            ) : (
+              <a
+                href={detailUrl}
+                class="shrink-0 text-xs text-text-secondary hover:text-accent-primary transition-colors"
+              >
+                {t.moreInfo}
+              </a>
+            )}
+          </div>
+        );
+      })}
+    </div>
+    <a href={`/${lang}/shows`} class="text-sm text-accent-primary hover:text-accent-primary-hover transition-colors">{t.viewAll}</a>
+  </div>
+)}
