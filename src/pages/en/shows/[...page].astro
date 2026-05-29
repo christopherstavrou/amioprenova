@@ -7,7 +7,7 @@ import Badge from '../../../components/Badge.astro';
 import ShowActionsMenu from '../../../components/ShowActionsMenu.astro';
 import SearchInput from '../../../components/SearchInput.astro';
 import { getUpcomingEvents, getPastEvents, formatEventDate } from '../../../lib/events';
-import { siteConfig } from '../../../config/site';
+import { siteConfig, eventFeatures } from '../../../config/site';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const upcomingEvents = await getUpcomingEvents();
@@ -80,6 +80,11 @@ const eventTags = (event: typeof events[number]) => event.tags ?? [];
                       {eventTitle(event)}
                     </h2>
                   </a>
+                  {eventFeatures.showCanceledBadge && event.isCanceled && (
+                    <span class="inline-block mb-1 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-accent-primary text-accent-primary bg-surface-muted">
+                      Cancelled
+                    </span>
+                  )}
                   <p class="text-text-secondary text-sm mb-1">
                     <span class="font-medium">{formatEventDate(event.startDate, 'en')}</span>
                   </p>

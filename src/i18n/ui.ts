@@ -23,6 +23,9 @@ export const ui = {
     home: {
       playVideo: 'Play',
     },
+    shows: {
+      cancelled: 'Cancelled',
+    },
     footer: {
       copyright: 'All rights reserved.',
     },
@@ -50,6 +53,9 @@ export const ui = {
     },
     home: {
       playVideo: 'Пусни',
+    },
+    shows: {
+      cancelled: 'Отменено',
     },
     footer: {
       copyright: 'Всички права запазени.',
