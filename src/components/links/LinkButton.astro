@@ -1,0 +1,35 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  sublabel?: string;
+  external?: boolean;
+  variant?: 'featured' | 'default' | 'subtle';
+}
+
+const { href, label, sublabel, external = false, variant = 'default' } = Astro.props;
+---
+
+<a
+  href={href}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+  class:list={[
+    'flex items-center justify-between w-full px-5 py-3.5 rounded-xl border transition-all duration-fast hover:scale-[1.02]',
+    variant === 'featured'
+      ? 'bg-accent-primary text-white border-accent-primary hover:bg-accent-primary-hover hover:border-accent-primary-hover shadow-sm hover:shadow-md'
+      : variant === 'subtle'
+      ? 'bg-transparent border-border text-text-primary hover:border-accent-primary hover:text-accent-primary'
+      : 'bg-white/8 backdrop-blur-md border-white/12 text-text-primary hover:border-accent-primary hover:bg-white/12',
+  ]}
+>
+  <div class="min-w-0">
+    <span class="font-medium block">{label}</span>
+    {sublabel && <span class="text-xs opacity-70 block">{sublabel}</span>}
+  </div>
+  {external && (
+    <svg class="w-4 h-4 shrink-0 opacity-50 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
+  )}
+</a>

@@ -1,0 +1,38 @@
+---
+import LinkButton from './LinkButton.astro';
+
+interface LinkItem {
+  label: string;
+  sublabel?: string;
+  url: string;
+  external?: boolean;
+  variant?: 'featured' | 'default' | 'subtle';
+}
+
+interface Props {
+  heading?: string;
+  links: LinkItem[];
+}
+
+const { heading, links } = Astro.props;
+const activeLinks = links.filter(l => l.url);
+---
+
+{activeLinks.length > 0 && (
+  <div>
+    {heading && (
+      <h2 class="text-xs font-semibold uppercase tracking-widest text-text-secondary mb-3">{heading}</h2>
+    )}
+    <div class="space-y-3">
+      {activeLinks.map(link => (
+        <LinkButton
+          href={link.url}
+          label={link.label}
+          sublabel={link.sublabel}
+          external={link.external}
+          variant={link.variant}
+        />
+      ))}
+    </div>
+  </div>
+)}
