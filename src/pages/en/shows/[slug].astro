@@ -45,6 +45,43 @@ const filteredHosts = (event.hosts ?? []).filter(
 
 const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
 const canceledBadgeClass = 'mt-2 shrink-0 inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-accent-primary text-accent-primary bg-surface-muted';
+
+const jsonLD: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: title,
+  startDate: event.startDate,
+  ...(event.endDate ? { endDate: event.endDate } : {}),
+  location: {
+    '@type': 'Place',
+    name: event.venue || cityCountryLine,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: event.city,
+      addressCountry: event.country,
+    },
+  },
+  url: canonicalURL,
+  ...(description ? { description } : {}),
+  ...(event.image ? { image: event.image } : {}),
+  eventStatus: event.isCanceled
+    ? 'https://schema.org/EventCancelled'
+    : 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  organizer: {
+    '@type': 'Person',
+    name: 'Ami Oprenova',
+    url: siteConfig.baseUrl,
+  },
+  ...(event.ticketUrl ? {
+    offers: {
+      '@type': 'Offer',
+      url: event.ticketUrl,
+      availability: 'https://schema.org/InStock',
+    },
+  } : {}),
+};
+const jsonLDString = JSON.stringify(jsonLD).replace(/<\//g, '<\\/');
 ---
 
 <Layout
@@ -52,6 +89,7 @@ const canceledBadgeClass = 'mt-2 shrink-0 inline-block px-2 py-0.5 text-xs font-
   description={description}
   lang="en"
 >
+  <script slot="head" type="application/ld+json" set:html={jsonLDString} />
   <article class="max-w-3xl mx-auto">
     {event.image && (
       <div class="mb-8 rounded-lg overflow-hidden">
