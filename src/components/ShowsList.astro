@@ -1,0 +1,146 @@
+---
+import Card from './Card.astro';
+import Badge from './Badge.astro';
+import ShowActionsMenu from './ShowActionsMenu.astro';
+import SearchInput from './SearchInput.astro';
+import Pagination from './Pagination.astro';
+import type { Event } from '../lib/events';
+import { formatEventDate } from '../lib/events';
+import { eventFeatures } from '../config/site';
+
+export interface Props {
+  events: Event[];
+  lang: 'en' | 'bg';
+  baseUrl: string;
+  labels: {
+    searchPlaceholder: string;
+    empty: string;
+    menuLabel: string;
+    shareLabel: string;
+    copyLink: string;
+    copied: string;
+    facebook: string;
+    twitter: string;
+    cancelled: string;
+  };
+  pagination: {
+    currentPage: number;
+    lastPage: number;
+    prevUrl: string | null | undefined;
+    nextUrl: string | null | undefined;
+    labels: { prev: string; next: string; page: string; of: string };
+  };
+  mode?: 'upcoming' | 'archive' | 'search';
+  searchAction?: string;
+}
+
+const {
+  events,
+  lang,
+  baseUrl,
+  labels,
+  pagination,
+  mode = 'upcoming',
+  searchAction,
+} = Astro.props;
+
+const eventTitle = (event: Event) =>
+  lang === 'bg' ? (event.titleBg || event.title) : (event.titleEn || event.title);
+const eventDescription = (event: Event) =>
+  lang === 'bg' ? (event.descriptionBg || event.description) : (event.descriptionEn || event.description);
+const eventTags = (event: Event) =>
+  lang === 'bg' ? (event.tagsBg ?? event.tags ?? []) : (event.tags ?? []);
+const locationLine = (event: Event) =>
+  [event.venue, [event.city, event.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
+---
+
+<div>
+  <div class="flex justify-end mb-8">
+    <SearchInput labels={{ placeholder: labels.searchPlaceholder }} action={searchAction} />
+  </div>
+
+  {events.length === 0 ? (
+    <p class="text-text-secondary text-lg">{labels.empty}</p>
+  ) : (
+    <div class="space-y-3 mb-6">
+      {events.map(event => (
+        <Card hover={true} padding="none">
+          <div class="flex flex-col sm:flex-row">
+            {event.image && (
+              <div class="relative sm:w-44 sm:self-stretch sm:shrink-0">
+                <a href={`/${lang}/shows/${event.slug}`} class="block overflow-hidden rounded-t-md sm:h-full sm:rounded-t-none sm:rounded-l-md">
+                  <img
+                    src={event.image}
+                    alt={eventTitle(event)}
+                    class="w-full aspect-[3/1] object-cover hover:scale-105 transition-transform duration-fast sm:h-full"
+                    loading="lazy"
+                  />
+                </a>
+                <div class="absolute right-3 top-3 sm:hidden">
+                  <ShowActionsMenu
+                    items={[
+                      ...(event.ticketUrl ? [{ href: event.ticketUrl, label: labels.menuLabel, icon: 'ticket' as const }] : []),
+                      ...(event.mapUrl ? [{ href: event.mapUrl, label: labels.menuLabel, icon: 'map' as const }] : []),
+                      ...(event.sourceUrl ? [{ href: event.sourceUrl, label: labels.facebook, icon: 'facebook' as const }] : []),
+                    ]}
+                    shareUrl={`${baseUrl}/${lang}/shows/${event.slug}`}
+                    shareTitle={eventTitle(event)}
+                    labels={{ menu: labels.menuLabel, share: labels.shareLabel, copyLink: labels.copyLink, copied: labels.copied, facebook: labels.facebook, twitter: labels.twitter }}
+                  />
+                </div>
+              </div>
+            )}
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
+              <div class="flex-grow min-w-0">
+                <a href={`/${lang}/shows/${event.slug}`} class="group">
+                  <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">
+                    {eventTitle(event)}
+                  </h2>
+                </a>
+                {eventFeatures.showCanceledBadge && event.isCanceled && (
+                  <span class="inline-block mb-1 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-accent-primary text-accent-primary bg-surface-muted">
+                    {labels.cancelled}
+                  </span>
+                )}
+                <p class="text-text-secondary text-sm mb-1">
+                  <span class="font-medium">{formatEventDate(event.startDate, lang)}</span>
+                </p>
+                {locationLine(event) && <p class="text-text-secondary text-sm mb-2">{locationLine(event)}</p>}
+                {eventTags(event).length > 0 && (
+                  <div class="flex gap-1.5 flex-wrap mb-2">
+                    {eventTags(event).map(tag => (
+                      <Badge>{tag}</Badge>
+                    ))}
+                  </div>
+                )}
+                <p class="text-text-primary text-sm line-clamp-2">
+                  {eventDescription(event)}
+                </p>
+              </div>
+              <div class:list={['shrink-0', event.image ? 'hidden sm:block' : 'block']}>
+                <ShowActionsMenu
+                  items={[
+                    ...(event.ticketUrl ? [{ href: event.ticketUrl, label: labels.menuLabel, icon: 'ticket' as const }] : []),
+                    ...(event.mapUrl ? [{ href: event.mapUrl, label: labels.menuLabel, icon: 'map' as const }] : []),
+                    ...(event.sourceUrl ? [{ href: event.sourceUrl, label: labels.facebook, icon: 'facebook' as const }] : []),
+                  ]}
+                  shareUrl={`${baseUrl}/${lang}/shows/${event.slug}`}
+                  shareTitle={eventTitle(event)}
+                  labels={{ menu: labels.menuLabel, share: labels.shareLabel, copyLink: labels.copyLink, copied: labels.copied, facebook: labels.facebook, twitter: labels.twitter }}
+                />
+              </div>
+            </div>
+          </div>
+        </Card>
+      ))}
+    </div>
+  )}
+
+  <Pagination
+    currentPage={pagination.currentPage}
+    lastPage={pagination.lastPage}
+    prevUrl={pagination.prevUrl}
+    nextUrl={pagination.nextUrl}
+    labels={pagination.labels}
+  />
+</div>
