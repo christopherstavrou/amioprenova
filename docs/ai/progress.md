@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-05-29
+**Last updated**: 2026-05-30
 
 ---
 
@@ -132,6 +132,33 @@ Home · About · Music · Video · Shows · Blog/News · Press · Contact · Lin
 - Fixed `formatEventDate`: `toLocaleDateString` → `toLocaleString` so time fields are not silently dropped (#33)
 - Added `formatShortDate()` helper for compact date display; moved date formatting to Astro frontmatter (#33)
 
+### Overnight batch — all open issues (2026-05-30) — branch `feature/overnight-batch`
+
+Implemented all actionable open issues from the GitHub issue tracker in a single branch. One commit per issue.
+
+- **#121** — Fixed `scrape-events.yml`: checkout + push to `develop` (was `main`), added `git pull --rebase`, upgraded action versions
+- **#70** — BG translations complete: all show JSON files have `titleBg`, `descriptionBg`, `bodyBg`
+- **#66** — Cancelled badge on shows list page cards (EN + BG)
+- **#67** — Shows i18n refactor: all hardcoded labels moved to `ui.ts`; field labels, button text, admission strings, gallery labels, event type labels
+- **#63** — `schema.org/Event` JSON-LD injected on show detail pages via `<slot name="head">` in Layout
+- **#78** — Shared `Pagination.astro` component — used by all 4 list pages (shows + news, EN + BG)
+- **#72** — Shared `ShowsList.astro` component — upcoming shows pages are now thin wrappers
+- **#80** — News card redesign: hero on page 1, `aspect-[4/3]` thumbnails, reading time, page size 12, removed "Read more →" and SharePopover
+- **#81** — News hero card (first post on page 1 gets full-width hero layout)
+- **#83** — `linksPage` config restructured in `site.ts` (sections, headings, labels, socialIcons, emailSignup)
+- **#73** — Paginated archive route for past shows (`/en/shows/archive/[...page]`, `/bg/shows/archive/[...page]`)
+- **#75** — Dedicated shows search page with upcoming/past grouping, result count
+- **#74** — Upcoming shows page: past shows toggle removed, replaced with archive teaser line
+- **#76** — Search bar redirects to dedicated search page on shows pages (via `searchAction` prop on ShowsList)
+- **#77** — Magnifying glass submit button on SearchInput when in form/redirect mode
+- **#79** — News search page + search bar redirect on news list pages
+- **#85** — `LinkButton` and `LinkSection` components with glassmorphism styling
+- **#84** — `LinksHero` component: avatar, name, tagline, theme toggle, language switcher, scroll indicator
+- **#87** — `LinksShowTeaser` component: next 3 upcoming shows on links page
+- **#88** — `LinksSocialStrip` (icon-only row) and `LinksEmailSignup` (mailto CTA) components
+
+Skipped (owner input required or infra): #51, #64, #65, #68, #69, #71, #82, #86, #89, #90, #91, #92, #93, #94, #112, #113
+
 ---
 
 ## ⏭ Next
@@ -170,7 +197,7 @@ Awaiting answers from the artist/owner before these can progress:
 ## 🔢 Build Status
 
 ```bash
-npm run build   # Expected: 142 pages, 0 errors
+npm run build   # Expected: 153 pages, 0 errors
 npm run dev     # Expected: http://localhost:4321
 ```
 
