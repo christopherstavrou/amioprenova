@@ -2,11 +2,19 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-04-14
+**Last updated**: 2026-05-29
 
 ---
 
 ## ✅ Done
+
+### Rollback to PR #47 baseline (2026-05-29)
+- Rolled back both `main` and `develop` to commit `032ec69` (PR #47) via `rollback-prep` branch
+- **Reason:** soft-launch gate (`public/_redirects` + `functions/_middleware.ts`) was deleted without authorisation in commit `4ae27bb` (7 May 2026); `/en/` and `/bg/` were publicly accessible on production
+- **Discarded:** develop was 16 commits ahead of main with unvalidated overnight batch work (PRs #95–#109)
+- **Preserved:** CI quality gate (`pr-quality.yml`), improved `claude.yml` checkout logic, updated workflow docs, PR/issue templates, component quality improvements (GalleryLightbox/SharePopover `.ts` extraction, component docstring cleanup, `package.json` peer-dep overrides)
+- **All discarded source work tracked as open issues:** #63, #67, #70, #72, #73, #75, #76, #78, #80, #81, #83, #84, #87, #110, #111
+- **Site status:** soft launch active — `/en/*` and `/bg/*` redirect to `/`; sitemap disabled
 
 ### Infrastructure
 - Astro + TypeScript + Tailwind CSS initialized
