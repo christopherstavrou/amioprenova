@@ -33,6 +33,7 @@ export async function GET() {
       title: lang === 'bg' ? (event.titleBg ?? event.title) : (event.titleEn ?? event.title),
       description: lang === 'bg' ? (event.descriptionBg ?? event.description) : (event.descriptionEn ?? event.description),
       date: formatEventDate(event.startDate, lang),
+      startDate: event.startDate,
       tags: lang === 'bg' ? (event.tagsBg ?? event.tags ?? []) : (event.tags ?? []),
       url: `/${lang}/shows/${event.slug}`,
       lang,
