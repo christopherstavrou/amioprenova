@@ -109,6 +109,17 @@ export const ui = {
       page: 'Page',
       of: 'of',
     },
+    links: {
+      shows: {
+        heading: 'Upcoming Shows',
+        viewAll: 'View all shows →',
+        tickets: 'Tickets',
+        moreInfo: 'More info →',
+      },
+      emailSignup: {
+        cta: 'Get updates',
+      },
+    },
     footer: {
       copyright: 'All rights reserved.',
     },
@@ -222,6 +233,17 @@ export const ui = {
       next: 'Следваща →',
       page: 'Страница',
       of: 'от',
+    },
+    links: {
+      shows: {
+        heading: 'Предстоящи концерти',
+        viewAll: 'Виж всички концерти →',
+        tickets: 'Билети',
+        moreInfo: 'Виж повече →',
+      },
+      emailSignup: {
+        cta: 'Абонирай се',
+      },
     },
     footer: {
       copyright: 'Всички права запазени.',
