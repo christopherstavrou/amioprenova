@@ -1,0 +1,18 @@
+{
+  "id": "test-free",
+  "slug": "test-free-show-2026",
+  "title": "Free Jazz Session @ Hakaset [TEST]",
+  "titleEn": "Free Jazz Session @ Hakaset [TEST]",
+  "titleBg": "Безплатна джаз сесия @ Хакасет [ТЕСТ]",
+  "description": "A free open-door jazz session.",
+  "descriptionEn": "A free open-door jazz session. No tickets required, just show up.",
+  "descriptionBg": "Безплатна джаз сесия с отворени врати.",
+  "startDate": "2026-07-20T18:00:00+03:00",
+  "venue": "Hakaset Bar",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "eventType": "jam",
+  "admission": { "type": "free" },
+  "tags": ["jazz", "jam", "free"],
+  "tagsBg": ["джаз", "джем", "безплатно"]
+}

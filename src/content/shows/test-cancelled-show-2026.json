@@ -1,0 +1,20 @@
+{
+  "id": "test-cancelled",
+  "slug": "test-cancelled-show-2026",
+  "title": "Jazz at The Garden [TEST - CANCELLED]",
+  "titleEn": "Jazz at The Garden [TEST - CANCELLED]",
+  "titleBg": "Джаз в Градината [ТЕСТ - ОТМЕНЕНО]",
+  "description": "An outdoor jazz evening that was unfortunately cancelled.",
+  "descriptionEn": "An outdoor jazz evening that was unfortunately cancelled due to severe weather.",
+  "descriptionBg": "Открит джаз концерт, за съжаление отменен поради лошо време.",
+  "startDate": "2026-08-15T20:00:00+03:00",
+  "venue": "The Garden Venue",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "isCanceled": true,
+  "eventType": "concert",
+  "admission": { "type": "paid", "price": "15 BGN" },
+  "tags": ["jazz", "outdoor", "cancelled"],
+  "tagsBg": ["джаз", "открит", "отменено"],
+  "image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1280&h=720&auto=format&fit=crop"
+}
