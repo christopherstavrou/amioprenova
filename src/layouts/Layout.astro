@@ -178,8 +178,11 @@ const isActive = (href: string) => {
             aria-expanded="false"
             aria-controls="mobile-menu"
           >
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg id="burger-icon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <svg id="close-icon" class="w-8 h-8 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
           </button>
         </div>
@@ -408,6 +411,8 @@ const isActive = (href: string) => {
       const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
       const mobileMenu = document.getElementById('mobile-menu');
       const mobileCloseBtn = document.getElementById('mobile-close-btn');
+      const burgerIcon = document.getElementById('burger-icon');
+      const closeIcon = document.getElementById('close-icon');
 
       let menuOpen = false;
 
@@ -444,6 +449,8 @@ const isActive = (href: string) => {
         if (menuOpen) {
           mobileMenu?.classList.add('open');
           mobileMenuToggle?.setAttribute('aria-expanded', 'true');
+          burgerIcon?.classList.add('hidden');
+          closeIcon?.classList.remove('hidden');
           document.documentElement.style.overflow = 'hidden';
           document.body.style.overflow = 'hidden';
           mobileMenu?.addEventListener('keydown', trapFocus);
@@ -452,6 +459,8 @@ const isActive = (href: string) => {
         } else {
           mobileMenu?.classList.remove('open');
           mobileMenuToggle?.setAttribute('aria-expanded', 'false');
+          burgerIcon?.classList.remove('hidden');
+          closeIcon?.classList.add('hidden');
           document.documentElement.style.overflow = '';
           document.body.style.overflow = '';
           mobileMenu?.removeEventListener('keydown', trapFocus);
