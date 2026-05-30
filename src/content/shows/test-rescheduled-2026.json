@@ -1,0 +1,19 @@
+{
+  "id": "test-rescheduled",
+  "slug": "test-rescheduled-2026",
+  "title": "Quartet Night [TEST - RESCHEDULED]",
+  "titleEn": "Quartet Night [TEST - RESCHEDULED]",
+  "titleBg": "Вечер на квартета [ТЕСТ - ПРЕМЕСТЕНО]",
+  "description": "Moved to a new date — no image, to test the no-image status card.",
+  "descriptionEn": "Moved to a new date. This entry has no image, to test the no-image status card layout.",
+  "descriptionBg": "Преместено на нова дата. Тази бележка няма изображение, за да тества оформлението на картата без снимка.",
+  "startDate": "2026-11-14T20:00:00+02:00",
+  "venue": "Jazz Club",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "status": "rescheduled",
+  "eventType": "concert",
+  "admission": { "type": "paid", "price": "20 BGN" },
+  "tags": ["jazz", "quartet", "rescheduled"],
+  "tagsBg": ["джаз", "квартет", "преместено"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "test-cancelled-past",
+  "slug": "test-cancelled-past-2024",
+  "title": "Spring Gala [TEST - CANCELLED, PAST]",
+  "titleEn": "Spring Gala [TEST - CANCELLED, PAST]",
+  "titleBg": "Пролетна гала [ТЕСТ - ОТМЕНЕНО, МИНАЛО]",
+  "description": "A past event that was cancelled — explicit status outranks derived past.",
+  "descriptionEn": "A past event that was cancelled. Explicit status (cancelled) takes priority over the derived 'past' badge.",
+  "descriptionBg": "Минало събитие, което беше отменено. Изричният статус (отменено) има приоритет пред автоматичния етикет „минало“.",
+  "startDate": "2024-04-20T19:00:00+03:00",
+  "venue": "Grand Hall",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "status": "cancelled",
+  "eventType": "concert",
+  "admission": { "type": "paid", "price": "30 BGN" },
+  "tags": ["jazz", "gala", "cancelled"],
+  "tagsBg": ["джаз", "гала", "отменено"],
+  "image": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=1280&h=720&auto=format&fit=crop"
+}

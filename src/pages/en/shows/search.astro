@@ -30,8 +30,6 @@ const cardLabels = {
   twitter: t.list.twitter,
   tickets: t.detail.tickets,
   map: t.detail.map,
-  cancelled: t.cancelled,
-  pastLabel: t.search.pastLabel,
 };
 ---
 
@@ -52,22 +50,13 @@ const cardLabels = {
       />
     </div>
 
-    <!-- Filter tier 1: scope pills -->
-    <div class="flex gap-1.5 mb-3" id="scope-pills">
-      <button type="button" data-scope="all" class="scope-pill active-scope px-3.5 py-1.5 text-sm rounded-full border border-accent-primary bg-accent-primary text-text-inverse font-medium transition-all">
-        {t.search.allScopes}
-      </button>
-      <button type="button" data-scope="upcoming" class="scope-pill px-3.5 py-1.5 text-sm rounded-full border border-border text-text-secondary hover:border-accent-primary hover:text-accent-primary transition-all">
-        {t.search.upcoming}
-      </button>
-      <button type="button" data-scope="past" class="scope-pill px-3.5 py-1.5 text-sm rounded-full border border-border text-text-secondary hover:border-accent-primary hover:text-accent-primary transition-all">
-        {t.search.past}
-      </button>
-    </div>
-
-    <!-- Filter tier 2: dropdowns -->
-    {(years.length > 1 || cities.length > 1 || types.length > 1) && (
-      <div class="flex flex-wrap gap-2 mb-5">
+    <!-- Filters (dropdowns; scope defaults to All) -->
+    <div class="flex flex-wrap gap-2 mb-5">
+        <select id="filter-scope" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
+          <option value="all">{t.search.allScopes}</option>
+          <option value="upcoming">{t.statusBadge.scheduled}</option>
+          <option value="past">{t.statusBadge.past}</option>
+        </select>
         {years.length > 1 && (
           <select id="filter-year" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
             <option value="">{t.search.allYears}</option>
@@ -86,8 +75,7 @@ const cardLabels = {
             {types.map(tp => <option value={tp}>{t.eventType[tp] ?? tp}</option>)}
           </select>
         )}
-      </div>
-    )}
+    </div>
 
     <!-- Result count -->
     <p id="result-count" class="text-text-secondary text-sm font-medium mb-4"></p>
@@ -115,7 +103,7 @@ const cardLabels = {
               lang={lang}
               baseUrl={siteConfig.baseUrl}
               labels={cardLabels}
-              showPastBadge={!isUpcoming}
+              showScheduledBadge={true}
             />
           </div>
         );
@@ -143,6 +131,7 @@ const cardLabels = {
   var activeScope = 'all';
 
   var searchInput = /** @type {HTMLInputElement|null} */ (document.getElementById('shows-search-input'));
+  var filterScope = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-scope'));
   var filterYear = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-year'));
   var filterCity = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-city'));
   var filterType = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-type'));
@@ -153,21 +142,6 @@ const cardLabels = {
 
   var allItems = Array.from(document.querySelectorAll('.show-card-item'));
 
-  // Scope pills
-  document.querySelectorAll('.scope-pill').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      activeScope = btn.getAttribute('data-scope') || 'all';
-      document.querySelectorAll('.scope-pill').forEach(function(b) {
-        b.classList.remove('active-scope', 'bg-accent-primary', 'text-text-inverse', 'border-accent-primary', 'font-medium');
-        b.classList.add('text-text-secondary', 'border-border');
-      });
-      btn.classList.add('active-scope', 'bg-accent-primary', 'text-text-inverse', 'border-accent-primary', 'font-medium');
-      btn.classList.remove('text-text-secondary', 'border-border');
-      currentPage = 1;
-      applyFilters();
-    });
-  });
-
   if (searchInput) {
     searchInput.addEventListener('input', function() {
       var q = searchInput.value.trim();
@@ -177,8 +151,12 @@ const cardLabels = {
     });
   }
 
-  [filterYear, filterCity, filterType].forEach(function(sel) {
-    if (sel) sel.addEventListener('change', function() { currentPage = 1; applyFilters(); });
+  [filterScope, filterYear, filterCity, filterType].forEach(function(sel) {
+    if (sel) sel.addEventListener('change', function() {
+      if (sel === filterScope) activeScope = filterScope.value || 'all';
+      currentPage = 1;
+      applyFilters();
+    });
   });
 
   function applyFilters() {

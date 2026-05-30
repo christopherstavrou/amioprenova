@@ -12,6 +12,11 @@ const admissionSchema = z.object({
 
 const eventTypeEnum = z.enum(['concert', 'jam', 'collaboration', 'charity', 'album-launch', 'workshop', 'birthday']);
 
+// Event lifecycle status — aligned to schema.org EventStatusType.
+// 'scheduled' is the default/normal state and is never shown as a badge.
+// 'past' is NOT stored here — it is derived from the event date at display time.
+const eventStatusEnum = z.enum(['scheduled', 'cancelled', 'postponed', 'rescheduled', 'moved-online']);
+
 const overridePolicyEnum = z.enum(['locked', 'fallback']);
 
 const showsCollection = defineCollection({
@@ -49,6 +54,9 @@ const showsCollection = defineCollection({
     mapUrl: z.string().optional(),
     sourceUrl: z.string().optional(),
     usersResponded: z.number().optional(),
+    // Preferred: status. isCanceled is the legacy boolean kept for the Facebook
+    // scraper (FB only exposes cancellation) — it maps to status 'cancelled'.
+    status: eventStatusEnum.optional(),
     isCanceled: z.boolean().optional(),
     admission: admissionSchema.optional(),
     eventType: eventTypeEnum.optional(),

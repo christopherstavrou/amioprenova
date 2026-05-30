@@ -19,7 +19,6 @@ export interface Props {
     copied: string;
     facebook: string;
     twitter: string;
-    cancelled: string;
   };
   pagination: {
     currentPage: number;
@@ -78,7 +77,6 @@ const detail = ui[lang].shows.detail;
             twitter: labels.twitter,
             tickets: detail.tickets,
             map: detail.map,
-            cancelled: labels.cancelled,
           }}
         />
       ))}

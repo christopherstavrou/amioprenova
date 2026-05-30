@@ -24,7 +24,14 @@ export const ui = {
       playVideo: 'Play',
     },
     shows: {
-      cancelled: 'Cancelled',
+      statusBadge: {
+        scheduled: 'Scheduled',
+        cancelled: 'Cancelled',
+        postponed: 'Postponed',
+        rescheduled: 'Rescheduled',
+        'moved-online': 'Moved online',
+        past: 'Past',
+      },
       detail: {
         date: 'Date',
         time: 'Time',
@@ -93,8 +100,6 @@ export const ui = {
         back: 'Back to Shows',
         resultsPrefix: 'results for',
         noResults: 'No shows found for',
-        upcoming: 'Upcoming',
-        past: 'Past',
         searchPlaceholder: 'Search all shows...',
         allScopes: 'All',
         allYears: 'All years',
@@ -102,7 +107,6 @@ export const ui = {
         allTypes: 'All types',
         count: 'shows',
         resultCount: 'results for',
-        pastLabel: 'Past',
       },
     },
     news: {
@@ -167,7 +171,14 @@ export const ui = {
       playVideo: 'Пусни',
     },
     shows: {
-      cancelled: 'Отменено',
+      statusBadge: {
+        scheduled: 'Планирано',
+        cancelled: 'Отменено',
+        postponed: 'Отложено',
+        rescheduled: 'Преместено',
+        'moved-online': 'Онлайн',
+        past: 'Минало',
+      },
       detail: {
         date: 'Дата',
         time: 'Час',
@@ -236,8 +247,6 @@ export const ui = {
         back: 'Обратно към концертите',
         resultsPrefix: 'резултата за',
         noResults: 'Не са намерени концерти за',
-        upcoming: 'Предстоящи',
-        past: 'Минали',
         searchPlaceholder: 'Търсене на всички концерти...',
         allScopes: 'Всички',
         allYears: 'Всички години',
@@ -245,7 +254,6 @@ export const ui = {
         allTypes: 'Всички типове',
         count: 'концерта',
         resultCount: 'резултата за',
-        pastLabel: 'Минало',
       },
     },
     news: {

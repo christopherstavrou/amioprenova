@@ -3,8 +3,8 @@ import Card from './Card.astro';
 import Badge from './Badge.astro';
 import ShowActionsMenu from './ShowActionsMenu.astro';
 import type { Event } from '../lib/events';
-import { formatEventDate } from '../lib/events';
-import { eventFeatures } from '../config/site';
+import { formatEventDate, getDisplayStatus } from '../lib/events';
+import { ui } from '../i18n/ui';
 
 export interface Props {
   event: Event;
@@ -19,20 +19,25 @@ export interface Props {
     twitter: string;
     tickets: string;
     map: string;
-    cancelled: string;
-    pastLabel?: string;
   };
-  showPastBadge?: boolean;
+  /** Show a 'Scheduled' badge for normal future events (full search), vs hide it (main list). */
+  showScheduledBadge?: boolean;
 }
 
-const { event, lang, baseUrl, labels, showPastBadge = false } = Astro.props;
+const { event, lang, baseUrl, labels, showScheduledBadge = false } = Astro.props;
 
 const eventTitle = lang === 'bg' ? (event.titleBg || event.title) : (event.titleEn || event.title);
 const eventDescription = lang === 'bg' ? (event.descriptionBg || event.description) : (event.descriptionEn || event.description);
 const eventTags = lang === 'bg' ? (event.tagsBg ?? event.tags ?? []) : (event.tags ?? []);
 const locationLine = [event.venue, [event.city, event.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
 
-const isCancelled = eventFeatures.showCanceledBadge && event.isCanceled;
+// Resolved lifecycle status (explicit status, else derived 'past'/'scheduled', else none).
+const displayStatus = getDisplayStatus(event, { showScheduled: showScheduledBadge });
+const statusLabel = displayStatus ? ui[lang].shows.statusBadge[displayStatus] : null;
+// 'scheduled'/'past' are neutral (muted); cancelled/postponed/etc. are notable (accent).
+const statusBadgeClass = (displayStatus === 'past' || displayStatus === 'scheduled')
+  ? 'inline-flex h-9 items-center px-3 rounded-md border border-border bg-surface-muted text-text-secondary text-xs font-semibold uppercase tracking-wide'
+  : 'show-actions-trigger inline-flex h-9 items-center px-3 rounded-md shadow-sm text-accent-primary text-xs font-semibold uppercase tracking-wide';
 
 const menuItems = [
   ...(event.ticketUrl ? [{ href: event.ticketUrl, label: labels.tickets, icon: 'ticket' as const }] : []),
@@ -80,9 +85,9 @@ const shareUrl = `${baseUrl}/${lang}/shows/${event.slug}`;
           {/* Mobile overlay — hidden on desktop */}
           <div class="absolute top-0 inset-x-0 flex items-center justify-between px-3 pt-3 sm:hidden">
             <div class="flex items-center h-9">
-              {isCancelled && (
-                <span class="show-actions-trigger inline-flex h-9 items-center px-3 rounded-md shadow-sm text-accent-primary text-xs font-semibold uppercase tracking-wide">
-                  {labels.cancelled}
+              {displayStatus && (
+                <span class={statusBadgeClass}>
+                  {statusLabel}
                 </span>
               )}
             </div>
@@ -104,16 +109,16 @@ const shareUrl = `${baseUrl}/${lang}/shows/${event.slug}`;
               <h2 class="font-serif text-lg font-bold leading-snug group-hover:text-accent-primary transition-colors">{eventTitle}</h2>
             </a>
             <div class="flex items-center gap-2 shrink-0 -mt-0.5">
-              {isCancelled && (
-                <span class="show-actions-trigger inline-flex h-9 items-center px-3 rounded-md shadow-sm text-accent-primary text-xs font-semibold uppercase tracking-wide">
-                  {labels.cancelled}
+              {displayStatus && (
+                <span class={statusBadgeClass}>
+                  {statusLabel}
                 </span>
               )}
               <ShowActionsMenu items={menuItems} shareUrl={shareUrl} shareTitle={eventTitle} labels={menuLabels} />
             </div>
           </div>
         </>
-      ) : isCancelled ? (
+      ) : displayStatus ? (
         <>
           {/* ── CASE C: no image, cancelled ───────────────────────────────
               Mobile: compact badge + menu bar, title below.
@@ -123,8 +128,8 @@ const shareUrl = `${baseUrl}/${lang}/shows/${event.slug}`;
           {/* Mobile: badge + menu bar, then title — hidden on desktop */}
           <div class="sm:hidden">
             <div class="flex items-center justify-between pl-4 pr-3 pt-3 pb-1">
-              <span class="show-actions-trigger inline-flex h-9 items-center px-3 rounded-md shadow-sm text-accent-primary text-xs font-semibold uppercase tracking-wide">
-                {labels.cancelled}
+              <span class={statusBadgeClass}>
+                {statusLabel}
               </span>
               <div class="shrink-0">
                 <ShowActionsMenu items={menuItems} shareUrl={shareUrl} shareTitle={eventTitle} labels={menuLabels} />
@@ -143,8 +148,8 @@ const shareUrl = `${baseUrl}/${lang}/shows/${event.slug}`;
               <h2 class="font-serif text-lg font-bold leading-snug group-hover:text-accent-primary transition-colors">{eventTitle}</h2>
             </a>
             <div class="flex items-center gap-2 shrink-0 -mt-0.5">
-              <span class="show-actions-trigger inline-flex h-9 items-center px-3 rounded-md shadow-sm text-accent-primary text-xs font-semibold uppercase tracking-wide">
-                {labels.cancelled}
+              <span class={statusBadgeClass}>
+                {statusLabel}
               </span>
               <ShowActionsMenu items={menuItems} shareUrl={shareUrl} shareTitle={eventTitle} labels={menuLabels} />
             </div>
@@ -168,13 +173,6 @@ const shareUrl = `${baseUrl}/${lang}/shows/${event.slug}`;
 
       {/* ── Shared content: date, location, tags, description ── */}
       <div class="px-4 pb-4">
-        {showPastBadge && labels.pastLabel && (
-          <div class="mb-1">
-            <span class="inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-border text-text-secondary bg-surface-muted">
-              {labels.pastLabel}
-            </span>
-          </div>
-        )}
         <p class="text-text-secondary text-sm mb-1">
           <span class="font-medium">{formatEventDate(event.startDate, lang)}</span>
         </p>

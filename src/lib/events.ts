@@ -1,9 +1,56 @@
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import type { GalleryItem } from './gallery-schema';
+import { eventFeatures } from '../config/site';
 
 export type { GalleryItem };
 export type Event = CollectionEntry<'shows'>['data'];
+
+/**
+ * The status badge to display for an event, or null for none.
+ * Explicit lifecycle status (schema.org EventStatusType, minus the
+ * never-badged 'scheduled') takes priority; otherwise 'past' is derived
+ * from the date. 'cancelled' display honours the showCanceledBadge flag.
+ * The legacy `isCanceled` boolean maps to 'cancelled'.
+ */
+export type DisplayStatus = 'scheduled' | 'cancelled' | 'postponed' | 'rescheduled' | 'moved-online' | 'past';
+
+/**
+ * @param showScheduled  Whether a normal future event resolves to 'scheduled'
+ *   (shown in full search and on detail pages) or null (hidden on the main
+ *   upcoming list, where a "Scheduled" badge on every card would be noise).
+ */
+export function getDisplayStatus(
+  event: Event,
+  { showScheduled = false, now = new Date() }: { showScheduled?: boolean; now?: Date } = {},
+): DisplayStatus | null {
+  let explicit: DisplayStatus | null = null;
+  if (event.status && event.status !== 'scheduled') {
+    explicit = event.status;
+  } else if (event.isCanceled) {
+    explicit = 'cancelled';
+  }
+  if (explicit === 'cancelled' && !eventFeatures.showCanceledBadge) {
+    explicit = null;
+  }
+  if (explicit) return explicit;
+  if (new Date(event.startDate) < now) return 'past';
+  return showScheduled ? 'scheduled' : null;
+}
+
+/** Map a DisplayStatus to its schema.org EventStatusType URL (for JSON-LD). */
+export function schemaEventStatus(event: Event): string {
+  const s = event.status && event.status !== 'scheduled'
+    ? event.status
+    : (event.isCanceled ? 'cancelled' : 'scheduled');
+  switch (s) {
+    case 'cancelled': return 'https://schema.org/EventCancelled';
+    case 'postponed': return 'https://schema.org/EventPostponed';
+    case 'rescheduled': return 'https://schema.org/EventRescheduled';
+    case 'moved-online': return 'https://schema.org/EventMovedOnline';
+    default: return 'https://schema.org/EventScheduled';
+  }
+}
 
 let allEventsPromise: Promise<readonly Event[]> | undefined;
 

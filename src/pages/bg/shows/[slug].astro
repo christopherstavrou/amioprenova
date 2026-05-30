@@ -6,7 +6,7 @@ import Badge from '../../../components/Badge.astro';
 import BackLink from '../../../components/BackLink.astro';
 import SharePopover from '../../../components/SharePopover.astro';
 import GalleryLightbox from '../../../components/GalleryLightbox.astro';
-import { getAllEvents, formatEventDatePart, formatEventTime, formatTimezoneLabel } from '../../../lib/events';
+import { getAllEvents, formatEventDatePart, formatEventTime, formatTimezoneLabel, getDisplayStatus, schemaEventStatus } from '../../../lib/events';
 import { siteConfig, eventFeatures } from '../../../config/site';
 import { ui } from '../../../i18n/ui';
 
@@ -45,7 +45,11 @@ const filteredHosts = (event.hosts ?? []).filter(
 );
 
 const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
-const isCancelled = eventFeatures.showCanceledBadge && !!event.isCanceled;
+const displayStatus = getDisplayStatus(event, { showScheduled: true });
+const statusLabel = displayStatus ? t.statusBadge[displayStatus] : null;
+const statusBadgeClass = (displayStatus === 'past' || displayStatus === 'scheduled')
+  ? 'inline-block px-2.5 py-1 text-xs font-semibold uppercase tracking-wide rounded border border-border text-text-secondary bg-surface-muted'
+  : 'inline-block px-2.5 py-1 text-xs font-semibold uppercase tracking-wide rounded border border-accent-primary text-accent-primary bg-surface-muted';
 
 const jsonLD: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -65,9 +69,7 @@ const jsonLD: Record<string, unknown> = {
   url: canonicalURL,
   ...(description ? { description } : {}),
   ...(event.image ? { image: event.image } : {}),
-  eventStatus: event.isCanceled
-    ? 'https://schema.org/EventCancelled'
-    : 'https://schema.org/EventScheduled',
+  eventStatus: schemaEventStatus(event),
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
   organizer: {
     '@type': 'Person',
@@ -116,8 +118,8 @@ const jsonLDString = JSON.stringify(jsonLD).replace(/<\//g, '<\\/');
     {/* Event details card */}
     <div class="bg-surface-muted rounded-lg border border-border mb-8">
       <dl>
-        {/* Status (optional — cancelled) */}
-        {isCancelled && (
+        {/* Status (optional — cancelled/postponed/rescheduled/moved-online/past) */}
+        {displayStatus && (
           <div class="flex items-center gap-4 px-5 py-3.5">
             <dt class="flex items-center gap-2 text-sm font-medium text-text-secondary w-28 shrink-0">
               <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -126,15 +128,15 @@ const jsonLDString = JSON.stringify(jsonLD).replace(/<\//g, '<\\/');
               {t.detail.status}
             </dt>
             <dd class="flex-1 min-w-0">
-              <span class="inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-accent-primary text-accent-primary bg-surface-muted">
-                {t.cancelled}
+              <span class={statusBadgeClass}>
+                {statusLabel}
               </span>
             </dd>
           </div>
         )}
 
         {/* Date */}
-        <div class:list={['flex items-center gap-4 px-5 py-3.5', { 'border-t border-border': isCancelled }]}>
+        <div class:list={['flex items-center gap-4 px-5 py-3.5', { 'border-t border-border': displayStatus }]}>
           <dt class="flex items-center gap-2 text-sm font-medium text-text-secondary w-28 shrink-0">
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
