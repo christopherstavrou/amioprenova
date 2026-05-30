@@ -1,0 +1,110 @@
+---
+import Card from './Card.astro';
+import Badge from './Badge.astro';
+import ShowActionsMenu from './ShowActionsMenu.astro';
+import type { Event } from '../lib/events';
+import { formatEventDate } from '../lib/events';
+import { eventFeatures } from '../config/site';
+
+export interface Props {
+  event: Event;
+  lang: 'en' | 'bg';
+  baseUrl: string;
+  labels: {
+    menuLabel: string;
+    shareLabel: string;
+    copyLink: string;
+    copied: string;
+    facebook: string;
+    twitter: string;
+    tickets: string;
+    map: string;
+    cancelled: string;
+    pastLabel?: string;
+  };
+  showPastBadge?: boolean;
+}
+
+const { event, lang, baseUrl, labels, showPastBadge = false } = Astro.props;
+
+const eventTitle = lang === 'bg' ? (event.titleBg || event.title) : (event.titleEn || event.title);
+const eventDescription = lang === 'bg' ? (event.descriptionBg || event.description) : (event.descriptionEn || event.description);
+const eventTags = lang === 'bg' ? (event.tagsBg ?? event.tags ?? []) : (event.tags ?? []);
+const locationLine = [event.venue, [event.city, event.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
+---
+
+<Card hover={true} padding="none">
+  <div class="flex flex-col sm:flex-row">
+    {event.image && (
+      <div class="relative sm:w-44 sm:self-stretch sm:shrink-0">
+        <a href={`/${lang}/shows/${event.slug}`} class="block overflow-hidden rounded-t-md sm:h-full sm:rounded-t-none sm:rounded-l-md">
+          <img
+            src={event.image}
+            alt={eventTitle}
+            class="w-full aspect-[3/1] object-cover hover:scale-105 transition-transform duration-fast sm:h-full"
+            loading="lazy"
+          />
+        </a>
+        <div class="absolute right-3 top-3 sm:hidden">
+          <ShowActionsMenu
+            items={[
+              ...(event.ticketUrl ? [{ href: event.ticketUrl, label: labels.tickets, icon: 'ticket' as const }] : []),
+              ...(event.mapUrl ? [{ href: event.mapUrl, label: labels.map, icon: 'map' as const }] : []),
+              ...(event.sourceUrl ? [{ href: event.sourceUrl, label: labels.facebook, icon: 'facebook' as const }] : []),
+            ]}
+            shareUrl={`${baseUrl}/${lang}/shows/${event.slug}`}
+            shareTitle={eventTitle}
+            labels={{ menu: labels.menuLabel, share: labels.shareLabel, copyLink: labels.copyLink, copied: labels.copied, facebook: labels.facebook, twitter: labels.twitter }}
+          />
+        </div>
+      </div>
+    )}
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 p-4 flex-1 min-w-0">
+      <div class="flex-grow min-w-0">
+        <a href={`/${lang}/shows/${event.slug}`} class="group">
+          <h2 class="font-serif text-lg font-bold mb-1 leading-snug group-hover:text-accent-primary transition-colors">
+            {eventTitle}
+          </h2>
+        </a>
+        <div class="flex flex-wrap gap-1.5 mb-1">
+          {eventFeatures.showCanceledBadge && event.isCanceled && (
+            <span class="inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-accent-primary text-accent-primary bg-surface-muted">
+              {labels.cancelled}
+            </span>
+          )}
+          {showPastBadge && labels.pastLabel && (
+            <span class="inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded border border-border text-text-secondary bg-surface-muted">
+              {labels.pastLabel}
+            </span>
+          )}
+        </div>
+        <p class="text-text-secondary text-sm mb-1">
+          <span class="font-medium">{formatEventDate(event.startDate, lang)}</span>
+        </p>
+        {locationLine && <p class="text-text-secondary text-sm mb-2">{locationLine}</p>}
+        {eventTags.length > 0 && (
+          <div class="flex gap-1.5 flex-wrap mb-2">
+            {eventTags.map(tag => (
+              <Badge>{tag}</Badge>
+            ))}
+          </div>
+        )}
+        <p class="text-text-primary text-sm line-clamp-2">
+          {eventDescription}
+        </p>
+      </div>
+      <div class:list={['shrink-0', event.image ? 'hidden sm:block' : 'block']}>
+        <ShowActionsMenu
+          items={[
+            ...(event.ticketUrl ? [{ href: event.ticketUrl, label: labels.tickets, icon: 'ticket' as const }] : []),
+            ...(event.mapUrl ? [{ href: event.mapUrl, label: labels.map, icon: 'map' as const }] : []),
+            ...(event.sourceUrl ? [{ href: event.sourceUrl, label: labels.facebook, icon: 'facebook' as const }] : []),
+          ]}
+          shareUrl={`${baseUrl}/${lang}/shows/${event.slug}`}
+          shareTitle={eventTitle}
+          labels={{ menu: labels.menuLabel, share: labels.shareLabel, copyLink: labels.copyLink, copied: labels.copied, facebook: labels.facebook, twitter: labels.twitter }}
+        />
+      </div>
+    </div>
+  </div>
+</Card>
