@@ -48,12 +48,16 @@ const taData = typeahead
     data-ta-input={taData ? inputId : undefined}
     data-ta-dropdown={taData ? dropdownId : undefined}
   >
-    <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-text-secondary group-focus-within:text-accent-primary transition-colors duration-150">
+    <button
+      type="submit"
+      aria-label={L.ariaLabel}
+      class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-text-secondary group-focus-within:text-accent-primary hover:text-accent-primary transition-colors duration-150"
+    >
       <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="11" cy="11" r="8"/>
         <path d="m21 21-4.35-4.35"/>
       </svg>
-    </span>
+    </button>
     <input
       type="text"
       name="q"
