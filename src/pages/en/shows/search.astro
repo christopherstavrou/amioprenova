@@ -1,10 +1,37 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import PageHeader from '../../../components/PageHeader.astro';
 import SearchInput from '../../../components/SearchInput.astro';
+import ShowCard from '../../../components/ShowCard.astro';
+import { getAllEvents } from '../../../lib/events';
+import { siteConfig } from '../../../config/site';
 import { ui } from '../../../i18n/ui';
 
-const t = ui['en'].shows;
+const lang = 'en' as const;
+const t = ui[lang].shows;
+const now = new Date();
+
+const allEvents = await getAllEvents();
+const sortedEvents = [...allEvents].sort((a, b) =>
+  new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+);
+
+// Compute filter options
+const years = [...new Set(sortedEvents.map(e => new Date(e.startDate).getUTCFullYear()))].sort((a, b) => b - a);
+const cities = [...new Set(sortedEvents.map(e => `${e.country} — ${e.city}`))].sort();
+const types = [...new Set(sortedEvents.filter(e => e.eventType).map(e => e.eventType!))].sort();
+
+const cardLabels = {
+  menuLabel: t.list.menuLabel,
+  shareLabel: t.list.shareLabel,
+  copyLink: t.list.copyLink,
+  copied: t.list.copied,
+  facebook: t.list.facebook,
+  twitter: t.list.twitter,
+  tickets: t.detail.tickets,
+  map: t.detail.map,
+  cancelled: t.cancelled,
+  pastLabel: t.search.pastLabel,
+};
 ---
 
 <Layout
@@ -12,140 +39,232 @@ const t = ui['en'].shows;
   description="Search all concerts and live performances by amioprenova."
   lang="en"
 >
-  <PageHeader title={t.search.heading} class="nav:text-center" />
-
   <div class="max-w-4xl mx-auto">
-    <div class="mb-8">
-      <SearchInput
-        labels={{ placeholder: t.search.searchPlaceholder, ariaLabel: 'Search' }}
-        action="/en/shows/search"
-      />
+    <!-- Back + Search on same row -->
+    <div class="flex items-center gap-4 mb-6">
+      <a href="/en/shows" class="shrink-0 text-sm text-text-secondary hover:text-accent-primary transition-colors whitespace-nowrap">
+        ← Back to Shows
+      </a>
+      <div class="flex-1">
+        <SearchInput
+          inputId="shows-search-input"
+          labels={{ placeholder: t.search.searchPlaceholder, ariaLabel: 'Search shows' }}
+        />
+      </div>
     </div>
 
-    <div id="search-status" class="text-text-secondary text-sm mb-4 hidden"></div>
+    <!-- Filter row -->
+    <div class="flex flex-wrap items-center gap-3 mb-6">
+      <!-- Scope pills -->
+      <div class="flex gap-1" id="scope-pills">
+        <button type="button" data-scope="all" class="scope-pill active-scope px-3 py-1.5 text-sm rounded-full border border-border text-text-primary bg-surface-muted font-medium transition-colors">
+          {t.search.allScopes}
+        </button>
+        <button type="button" data-scope="upcoming" class="scope-pill px-3 py-1.5 text-sm rounded-full border border-border text-text-secondary hover:text-text-primary transition-colors">
+          {t.search.upcoming}
+        </button>
+        <button type="button" data-scope="past" class="scope-pill px-3 py-1.5 text-sm rounded-full border border-border text-text-secondary hover:text-text-primary transition-colors">
+          {t.search.past}
+        </button>
+      </div>
 
-    <div id="upcoming-group" class="hidden mb-8">
-      <h2 class="text-xs font-semibold uppercase tracking-widest text-text-secondary mb-3">{t.search.upcoming}</h2>
-      <div id="upcoming-results" class="space-y-3"></div>
+      <!-- Year dropdown -->
+      {years.length > 1 && (
+        <select id="filter-year" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
+          <option value="">{t.search.allYears}</option>
+          {years.map(y => <option value={String(y)}>{y}</option>)}
+        </select>
+      )}
+
+      <!-- City dropdown -->
+      {cities.length > 1 && (
+        <select id="filter-city" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
+          <option value="">{t.search.allCities}</option>
+          {cities.map(c => <option value={c}>{c}</option>)}
+        </select>
+      )}
+
+      <!-- Type dropdown -->
+      {types.length > 1 && (
+        <select id="filter-type" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
+          <option value="">{t.search.allTypes}</option>
+          {types.map(tp => <option value={tp}>{t.eventType[tp] ?? tp}</option>)}
+        </select>
+      )}
     </div>
 
-    <div id="past-group" class="hidden">
-      <h2 class="text-xs font-semibold uppercase tracking-widest text-text-secondary mb-3">{t.search.past}</h2>
-      <div id="past-results" class="space-y-3"></div>
+    <!-- Result count -->
+    <p id="result-count" class="text-text-secondary text-sm mb-4"></p>
+
+    <!-- All event cards pre-rendered -->
+    <div id="shows-list" class="space-y-3 mb-6">
+      {sortedEvents.map(event => {
+        const isUpcoming = new Date(event.startDate) >= now;
+        const eventTitle = event.titleEn || event.title;
+        const eventDescription = event.descriptionEn || event.description;
+        const textContent = [eventTitle, eventDescription, ...(event.tags ?? [])].join(' ').toLowerCase();
+        const locationKey = `${event.country}—${event.city}`;
+        const year = new Date(event.startDate).getUTCFullYear();
+        return (
+          <div
+            class="show-card-item"
+            data-year={String(year)}
+            data-location={locationKey}
+            data-type={event.eventType ?? ''}
+            data-upcoming={isUpcoming ? '1' : '0'}
+            data-text={textContent}
+          >
+            <ShowCard
+              event={event}
+              lang={lang}
+              baseUrl={siteConfig.baseUrl}
+              labels={cardLabels}
+              showPastBadge={!isUpcoming}
+            />
+          </div>
+        );
+      })}
     </div>
 
+    <!-- No results -->
     <div id="no-results" class="hidden text-center py-12">
       <p class="text-text-secondary text-lg" id="no-results-text"></p>
     </div>
+
+    <!-- Pagination controls -->
+    <div id="pagination-controls" class="flex items-center justify-center gap-2 mt-6"></div>
   </div>
 </Layout>
 
-<script>
-  const LANG = 'en';
-  const t = {
-    resultsPrefix: 'results for',
-    noResults: 'No shows found for',
-    upcoming: 'Upcoming',
-    past: 'Past',
-  };
+<script is:inline>
+  var PAGE_SIZE = 12;
+  var currentPage = 1;
+  var visibleItems = [];
+  var activeScope = 'all';
 
-  function renderCard(item: SearchEntry, isPast: boolean): string {
-    return `
-      <a href="${item.url}" class="block rounded-xl border border-border bg-surface hover:border-accent-primary transition-all duration-fast p-4 ${isPast ? 'opacity-70' : ''}">
-        <div class="flex items-start justify-between gap-3">
-          <div class="min-w-0">
-            <h3 class="font-serif text-lg font-bold leading-snug mb-1 hover:text-accent-primary transition-colors">${escapeHtml(item.title)}</h3>
-            <p class="text-text-secondary text-sm mb-2">${escapeHtml(item.date)}</p>
-            ${item.description ? `<p class="text-text-primary text-sm line-clamp-2">${escapeHtml(item.description)}</p>` : ''}
-          </div>
-          ${isPast ? '<span class="shrink-0 text-xs text-text-secondary bg-surface-muted border border-border px-2 py-0.5 rounded">' + t.past + '</span>' : ''}
-        </div>
-      </a>
-    `;
+  var searchInput = /** @type {HTMLInputElement|null} */ (document.getElementById('shows-search-input'));
+  var filterYear = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-year'));
+  var filterCity = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-city'));
+  var filterType = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-type'));
+  var resultCount = document.getElementById('result-count');
+  var noResults = document.getElementById('no-results');
+  var noResultsText = document.getElementById('no-results-text');
+  var paginationControls = document.getElementById('pagination-controls');
+
+  var allItems = Array.from(document.querySelectorAll('.show-card-item'));
+
+  // Scope pills
+  document.querySelectorAll('.scope-pill').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      activeScope = btn.getAttribute('data-scope') || 'all';
+      document.querySelectorAll('.scope-pill').forEach(function(b) {
+        b.classList.remove('active-scope', 'bg-surface-muted', 'text-text-primary', 'font-medium');
+        b.classList.add('text-text-secondary');
+        b.classList.remove('text-text-primary');
+      });
+      btn.classList.add('active-scope', 'bg-surface-muted', 'text-text-primary', 'font-medium');
+      btn.classList.remove('text-text-secondary');
+      currentPage = 1;
+      applyFilters();
+    });
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      var q = searchInput.value.trim();
+      history.replaceState(null, '', q ? '?q=' + encodeURIComponent(q) : window.location.pathname);
+      currentPage = 1;
+      applyFilters();
+    });
   }
 
-  function escapeHtml(str: string): string {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  [filterYear, filterCity, filterType].forEach(function(sel) {
+    if (sel) sel.addEventListener('change', function() { currentPage = 1; applyFilters(); });
+  });
+
+  function applyFilters() {
+    var q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+    var year = filterYear ? filterYear.value : '';
+    var city = filterCity ? filterCity.value : '';
+    var type = filterType ? filterType.value : '';
+
+    visibleItems = allItems.filter(function(item) {
+      var text = item.getAttribute('data-text') || '';
+      if (q && !text.includes(q)) return false;
+      if (year && item.getAttribute('data-year') !== year) return false;
+      if (city && item.getAttribute('data-location') !== city) return false;
+      if (type && item.getAttribute('data-type') !== type) return false;
+      if (activeScope === 'upcoming' && item.getAttribute('data-upcoming') !== '1') return false;
+      if (activeScope === 'past' && item.getAttribute('data-upcoming') !== '0') return false;
+      return true;
+    });
+
+    renderPage();
   }
 
-  interface SearchEntry {
-    type: 'event' | 'post';
-    title: string;
-    description?: string;
-    date: string;
-    startDate?: string;
-    tags: string[];
-    url: string;
-    lang: string;
-  }
+  function renderPage() {
+    allItems.forEach(function(item) {
+      var el = /** @type {HTMLElement} */ (item);
+      el.style.display = 'none';
+    });
 
-  async function runSearch(query: string) {
-    const statusEl = document.getElementById('search-status')!;
-    const upcomingGroup = document.getElementById('upcoming-group')!;
-    const pastGroup = document.getElementById('past-group')!;
-    const upcomingResults = document.getElementById('upcoming-results')!;
-    const pastResults = document.getElementById('past-results')!;
-    const noResults = document.getElementById('no-results')!;
-    const noResultsText = document.getElementById('no-results-text')!;
+    var total = visibleItems.length;
+    var start = (currentPage - 1) * PAGE_SIZE;
+    var end = Math.min(start + PAGE_SIZE, total);
+    visibleItems.slice(start, end).forEach(function(item) {
+      var el = /** @type {HTMLElement} */ (item);
+      el.style.display = '';
+    });
 
-    if (!query.trim()) {
-      statusEl.classList.add('hidden');
-      upcomingGroup.classList.add('hidden');
-      pastGroup.classList.add('hidden');
-      noResults.classList.add('hidden');
-      return;
+    if (resultCount) {
+      var q = searchInput ? searchInput.value.trim() : '';
+      resultCount.textContent = q
+        ? total + ' results for "' + q + '"'
+        : total + ' shows';
     }
 
-    const res = await fetch('/search-index.json');
-    const index: SearchEntry[] = await res.json();
-    const q = query.toLowerCase();
-    const now = new Date();
-
-    const matches = index.filter(item =>
-      item.type === 'event' &&
-      item.lang === LANG &&
-      (item.title.toLowerCase().includes(q) ||
-       (item.description ?? '').toLowerCase().includes(q) ||
-       item.tags.some(tag => tag.toLowerCase().includes(q)))
-    );
-
-    const upcoming = matches.filter(item => item.startDate && new Date(item.startDate) >= now);
-    const past = matches.filter(item => !item.startDate || new Date(item.startDate) < now);
-
-    statusEl.textContent = `${matches.length} ${t.resultsPrefix} "${query}"`;
-    statusEl.classList.remove('hidden');
-
-    if (matches.length === 0) {
-      upcomingGroup.classList.add('hidden');
-      pastGroup.classList.add('hidden');
-      noResultsText.textContent = `${t.noResults} "${query}"`;
-      noResults.classList.remove('hidden');
-      return;
+    if (noResults && noResultsText) {
+      if (total === 0) {
+        var q2 = searchInput ? searchInput.value.trim() : '';
+        noResultsText.textContent = q2
+          ? 'No shows found for "' + q2 + '"'
+          : 'No shows match the current filters.';
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+      }
     }
 
-    noResults.classList.add('hidden');
-
-    if (upcoming.length > 0) {
-      upcomingResults.innerHTML = upcoming.map(item => renderCard(item, false)).join('');
-      upcomingGroup.classList.remove('hidden');
-    } else {
-      upcomingGroup.classList.add('hidden');
-    }
-
-    if (past.length > 0) {
-      pastResults.innerHTML = past.map(item => renderCard(item, true)).join('');
-      pastGroup.classList.remove('hidden');
-    } else {
-      pastGroup.classList.add('hidden');
-    }
+    renderPagination(total);
   }
 
-  const params = new URLSearchParams(window.location.search);
-  const q = params.get('q') ?? '';
+  function renderPagination(total) {
+    if (!paginationControls) return;
+    var lastPage = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if (lastPage <= 1) { paginationControls.innerHTML = ''; return; }
 
-  if (q) {
-    const input = document.querySelector<HTMLInputElement>('input[name="q"]');
-    if (input) input.value = q;
-    runSearch(q);
+    var html = '';
+    if (currentPage > 1) {
+      html += '<button type="button" class="pagination-btn px-4 py-2 text-sm border border-border rounded-lg hover:border-accent-primary hover:text-accent-primary transition-colors" data-page="' + (currentPage - 1) + '">← Previous</button>';
+    }
+    html += '<span class="text-sm text-text-secondary">Page ' + currentPage + ' of ' + lastPage + '</span>';
+    if (currentPage < lastPage) {
+      html += '<button type="button" class="pagination-btn px-4 py-2 text-sm border border-border rounded-lg hover:border-accent-primary hover:text-accent-primary transition-colors" data-page="' + (currentPage + 1) + '">Next →</button>';
+    }
+    paginationControls.innerHTML = html;
+
+    paginationControls.querySelectorAll('.pagination-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        currentPage = parseInt(btn.getAttribute('data-page') || '1', 10);
+        renderPage();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
   }
+
+  // Init
+  var params = new URLSearchParams(window.location.search);
+  var initQ = params.get('q') || '';
+  if (initQ && searchInput) searchInput.value = initQ;
+  applyFilters();
 </script>
