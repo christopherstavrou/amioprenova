@@ -2,6 +2,7 @@
 import Layout from '../../../layouts/Layout.astro';
 import SearchInput from '../../../components/SearchInput.astro';
 import ShowCard from '../../../components/ShowCard.astro';
+import BackLink from '../../../components/BackLink.astro';
 import { getAllEvents } from '../../../lib/events';
 import { siteConfig } from '../../../config/site';
 import { ui } from '../../../i18n/ui';
@@ -40,61 +41,56 @@ const cardLabels = {
   lang="en"
 >
   <div class="max-w-4xl mx-auto">
-    <!-- Back + Search on same row -->
-    <div class="flex items-center gap-4 mb-6">
-      <a href="/en/shows" class="shrink-0 text-sm text-text-secondary hover:text-accent-primary transition-colors whitespace-nowrap">
-        ← Back to Shows
-      </a>
-      <div class="flex-1">
-        <SearchInput
-          inputId="shows-search-input"
-          labels={{ placeholder: t.search.searchPlaceholder, ariaLabel: 'Search shows' }}
-        />
-      </div>
+    <!-- Back link -->
+    <BackLink href="/en/shows" label={t.search.back} />
+
+    <!-- Search (full width) -->
+    <div class="mt-3 mb-5">
+      <SearchInput
+        inputId="shows-search-input"
+        labels={{ placeholder: t.search.searchPlaceholder, ariaLabel: 'Search shows' }}
+      />
     </div>
 
-    <!-- Filter row -->
-    <div class="flex flex-wrap items-center gap-3 mb-6">
-      <!-- Scope pills -->
-      <div class="flex gap-1" id="scope-pills">
-        <button type="button" data-scope="all" class="scope-pill active-scope px-3 py-1.5 text-sm rounded-full border border-border text-text-primary bg-surface-muted font-medium transition-colors">
-          {t.search.allScopes}
-        </button>
-        <button type="button" data-scope="upcoming" class="scope-pill px-3 py-1.5 text-sm rounded-full border border-border text-text-secondary hover:text-text-primary transition-colors">
-          {t.search.upcoming}
-        </button>
-        <button type="button" data-scope="past" class="scope-pill px-3 py-1.5 text-sm rounded-full border border-border text-text-secondary hover:text-text-primary transition-colors">
-          {t.search.past}
-        </button>
-      </div>
-
-      <!-- Year dropdown -->
-      {years.length > 1 && (
-        <select id="filter-year" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
-          <option value="">{t.search.allYears}</option>
-          {years.map(y => <option value={String(y)}>{y}</option>)}
-        </select>
-      )}
-
-      <!-- City dropdown -->
-      {cities.length > 1 && (
-        <select id="filter-city" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
-          <option value="">{t.search.allCities}</option>
-          {cities.map(c => <option value={c}>{c}</option>)}
-        </select>
-      )}
-
-      <!-- Type dropdown -->
-      {types.length > 1 && (
-        <select id="filter-type" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
-          <option value="">{t.search.allTypes}</option>
-          {types.map(tp => <option value={tp}>{t.eventType[tp] ?? tp}</option>)}
-        </select>
-      )}
+    <!-- Filter tier 1: scope pills -->
+    <div class="flex gap-1.5 mb-3" id="scope-pills">
+      <button type="button" data-scope="all" class="scope-pill active-scope px-3.5 py-1.5 text-sm rounded-full border border-accent-primary bg-accent-primary text-text-inverse font-medium transition-all">
+        {t.search.allScopes}
+      </button>
+      <button type="button" data-scope="upcoming" class="scope-pill px-3.5 py-1.5 text-sm rounded-full border border-border text-text-secondary hover:border-accent-primary hover:text-accent-primary transition-all">
+        {t.search.upcoming}
+      </button>
+      <button type="button" data-scope="past" class="scope-pill px-3.5 py-1.5 text-sm rounded-full border border-border text-text-secondary hover:border-accent-primary hover:text-accent-primary transition-all">
+        {t.search.past}
+      </button>
     </div>
+
+    <!-- Filter tier 2: dropdowns -->
+    {(years.length > 1 || cities.length > 1 || types.length > 1) && (
+      <div class="flex flex-wrap gap-2 mb-5">
+        {years.length > 1 && (
+          <select id="filter-year" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
+            <option value="">{t.search.allYears}</option>
+            {years.map(y => <option value={String(y)}>{y}</option>)}
+          </select>
+        )}
+        {cities.length > 1 && (
+          <select id="filter-city" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
+            <option value="">{t.search.allCities}</option>
+            {cities.map(c => <option value={c}>{c}</option>)}
+          </select>
+        )}
+        {types.length > 1 && (
+          <select id="filter-type" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
+            <option value="">{t.search.allTypes}</option>
+            {types.map(tp => <option value={tp}>{t.eventType[tp] ?? tp}</option>)}
+          </select>
+        )}
+      </div>
+    )}
 
     <!-- Result count -->
-    <p id="result-count" class="text-text-secondary text-sm mb-4"></p>
+    <p id="result-count" class="text-text-secondary text-sm font-medium mb-4"></p>
 
     <!-- All event cards pre-rendered -->
     <div id="shows-list" class="space-y-3 mb-6">
@@ -133,6 +129,10 @@ const cardLabels = {
 
     <!-- Pagination controls -->
     <div id="pagination-controls" class="flex items-center justify-center gap-2 mt-6"></div>
+
+    <footer class="border-t border-border pt-8 mt-8">
+      <BackLink href="/en/shows" label={t.search.back} />
+    </footer>
   </div>
 </Layout>
 
@@ -158,12 +158,11 @@ const cardLabels = {
     btn.addEventListener('click', function() {
       activeScope = btn.getAttribute('data-scope') || 'all';
       document.querySelectorAll('.scope-pill').forEach(function(b) {
-        b.classList.remove('active-scope', 'bg-surface-muted', 'text-text-primary', 'font-medium');
-        b.classList.add('text-text-secondary');
-        b.classList.remove('text-text-primary');
+        b.classList.remove('active-scope', 'bg-accent-primary', 'text-text-inverse', 'border-accent-primary', 'font-medium');
+        b.classList.add('text-text-secondary', 'border-border');
       });
-      btn.classList.add('active-scope', 'bg-surface-muted', 'text-text-primary', 'font-medium');
-      btn.classList.remove('text-text-secondary');
+      btn.classList.add('active-scope', 'bg-accent-primary', 'text-text-inverse', 'border-accent-primary', 'font-medium');
+      btn.classList.remove('text-text-secondary', 'border-border');
       currentPage = 1;
       applyFilters();
     });
@@ -218,9 +217,10 @@ const cardLabels = {
 
     if (resultCount) {
       var q = searchInput ? searchInput.value.trim() : '';
-      resultCount.textContent = q
-        ? total + ' results for "' + q + '"'
-        : total + ' shows';
+      var countHtml = '<span style="color:var(--color-accent-primary);font-weight:600">' + total + '</span>';
+      resultCount.innerHTML = q
+        ? countHtml + ' results for &ldquo;' + q.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '&rdquo;'
+        : countHtml + ' shows';
     }
 
     if (noResults && noResultsText) {

@@ -4,6 +4,7 @@ import Layout from '../../../../layouts/Layout.astro';
 import PageHeader from '../../../../components/PageHeader.astro';
 import ShowsList from '../../../../components/ShowsList.astro';
 import SearchInput from '../../../../components/SearchInput.astro';
+import BackLink from '../../../../components/BackLink.astro';
 import { getPastEvents } from '../../../../lib/events';
 import { siteConfig } from '../../../../config/site';
 import { ui } from '../../../../i18n/ui';
@@ -29,14 +30,13 @@ const events = page.data;
   <PageHeader title={t.archive.heading} class="nav:text-center" />
 
   <div class="max-w-4xl mx-auto">
-    <div class="flex items-center gap-4 mb-8">
-      <a href="/bg/shows" class="shrink-0 text-sm text-text-secondary hover:text-accent-primary transition-colors whitespace-nowrap">
-        {t.archive.back}
-      </a>
-      <div class="flex-1">
+    <div class="mb-6">
+      <BackLink href="/bg/shows" label={t.archive.back} />
+      <div class="mt-3">
         <SearchInput
           labels={{ placeholder: t.archive.searchPlaceholder, ariaLabel: 'Търси' }}
           action="/bg/shows/search"
+          typeahead={{ type: 'event', lang: 'bg', seeAllLabel: t.archive.seeAllLabel }}
         />
       </div>
     </div>
@@ -66,5 +66,9 @@ const events = page.data;
       mode="archive"
       hideSearch={true}
     />
+
+    <footer class="border-t border-border pt-8 mt-8">
+      <BackLink href="/bg/shows" label={t.archive.back} />
+    </footer>
   </div>
 </Layout>

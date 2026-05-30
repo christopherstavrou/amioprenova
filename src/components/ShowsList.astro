@@ -11,6 +11,7 @@ export interface Props {
   baseUrl: string;
   labels: {
     searchPlaceholder: string;
+    seeAllLabel?: string;
     empty: string;
     menuLabel: string;
     shareLabel: string;
@@ -48,8 +49,14 @@ const detail = ui[lang].shows.detail;
 
 <div>
   {!hideSearch && (
-    <div class="flex justify-end mb-8">
-      <SearchInput labels={{ placeholder: labels.searchPlaceholder }} action={searchAction} />
+    <div class="mb-6">
+      <SearchInput
+        labels={{ placeholder: labels.searchPlaceholder }}
+        action={searchAction}
+        typeahead={searchAction && labels.seeAllLabel
+          ? { type: 'event', lang, seeAllLabel: labels.seeAllLabel }
+          : undefined}
+      />
     </div>
   )}
 

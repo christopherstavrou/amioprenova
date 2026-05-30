@@ -4,6 +4,7 @@ import Layout from '../../../layouts/Layout.astro';
 import SearchInput from '../../../components/SearchInput.astro';
 import Card from '../../../components/Card.astro';
 import Badge from '../../../components/Badge.astro';
+import BackLink from '../../../components/BackLink.astro';
 import { ui } from '../../../i18n/ui';
 
 const lang = 'bg' as const;
@@ -30,22 +31,19 @@ function readingMinutes(description: string): number {
   lang="bg"
 >
   <div class="max-w-4xl mx-auto">
-    <!-- Back + Search on same row -->
-    <div class="flex items-center gap-4 mb-6">
-      <a href="/bg/news" class="shrink-0 text-sm text-text-secondary hover:text-accent-primary transition-colors whitespace-nowrap">
-        ← Обратно към новините
-      </a>
-      <div class="flex-1">
-        <SearchInput
-          inputId="news-search-input"
-          labels={{ placeholder: t.news.search.searchPlaceholder, ariaLabel: 'Търси новини' }}
-        />
-      </div>
+    <!-- Back link -->
+    <BackLink href="/bg/news" label={t.news.back} />
+
+    <!-- Search (full width) -->
+    <div class="mt-3 mb-5">
+      <SearchInput
+        inputId="news-search-input"
+        labels={{ placeholder: t.news.search.searchPlaceholder, ariaLabel: 'Търси новини' }}
+      />
     </div>
 
-    <!-- Filter row -->
-    <div class="flex flex-wrap items-center gap-3 mb-6">
-      <!-- Year dropdown -->
+    <!-- Filters -->
+    <div class="flex flex-wrap items-center gap-3 mb-5">
       {years.length > 1 && (
         <select id="filter-year" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
           <option value="">{t.news.search.allYears}</option>
@@ -53,24 +51,32 @@ function readingMinutes(description: string): number {
         </select>
       )}
 
-      <!-- Tag pills -->
       {allTags.length > 0 && (
-        <div class="flex flex-wrap gap-1.5" id="tag-pills">
-          {allTags.map(tag => (
+        <div class="flex flex-wrap gap-1.5 items-center" id="tag-pills">
+          {allTags.map((tag, i) => (
             <button
               type="button"
               data-tag={tag}
-              class="tag-pill px-3 py-1 text-xs rounded-full border border-border text-text-secondary hover:text-text-primary transition-colors"
+              class={`tag-pill px-3 py-1 text-xs rounded-full border border-border text-text-secondary hover:border-accent-primary hover:text-accent-primary transition-all${i >= 10 ? ' hidden tag-pill-extra' : ''}`}
             >
               {tag}
             </button>
           ))}
+          {allTags.length > 10 && (
+            <button
+              type="button"
+              id="show-more-tags"
+              class="px-2 py-1 text-xs text-accent-primary hover:text-accent-primary-hover transition-colors"
+            >
+              +{allTags.length - 10} още
+            </button>
+          )}
         </div>
       )}
     </div>
 
     <!-- Result count -->
-    <p id="result-count" class="text-text-secondary text-sm mb-4"></p>
+    <p id="result-count" class="text-text-secondary text-sm font-medium mb-4"></p>
 
     <!-- All posts pre-rendered -->
     <div id="news-list" class="space-y-3 mb-6">
@@ -135,6 +141,10 @@ function readingMinutes(description: string): number {
 
     <!-- Pagination controls -->
     <div id="pagination-controls" class="flex items-center justify-center gap-2 mt-6"></div>
+
+    <footer class="border-t border-border pt-8 mt-8">
+      <BackLink href="/bg/news" label={t.news.back} />
+    </footer>
   </div>
 </Layout>
 
@@ -158,12 +168,12 @@ function readingMinutes(description: string): number {
       var tag = btn.getAttribute('data-tag') || '';
       if (activeTags.has(tag)) {
         activeTags.delete(tag);
-        btn.classList.remove('bg-surface-muted', 'text-text-primary', 'font-medium');
-        btn.classList.add('text-text-secondary');
+        btn.classList.remove('bg-accent-primary', 'text-text-inverse', 'border-accent-primary', 'font-medium');
+        btn.classList.add('text-text-secondary', 'border-border');
       } else {
         activeTags.add(tag);
-        btn.classList.add('bg-surface-muted', 'text-text-primary', 'font-medium');
-        btn.classList.remove('text-text-secondary');
+        btn.classList.add('bg-accent-primary', 'text-text-inverse', 'border-accent-primary', 'font-medium');
+        btn.classList.remove('text-text-secondary', 'border-border');
       }
       currentPage = 1;
       applyFilters();
@@ -216,9 +226,10 @@ function readingMinutes(description: string): number {
 
     if (resultCount) {
       var q = searchInput ? searchInput.value.trim() : '';
-      resultCount.textContent = q
-        ? total + ' резултата за "' + q + '"'
-        : total + ' статии';
+      var countHtml = '<span style="color:var(--color-accent-primary);font-weight:600">' + total + '</span>';
+      resultCount.innerHTML = q
+        ? countHtml + ' резултата за &ldquo;' + q.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '&rdquo;'
+        : countHtml + ' статии';
     }
 
     if (noResults && noResultsText) {
@@ -264,4 +275,14 @@ function readingMinutes(description: string): number {
   var initQ = params.get('q') || '';
   if (initQ && searchInput) searchInput.value = initQ;
   applyFilters();
+
+  var showMoreTagsBtn = document.getElementById('show-more-tags');
+  if (showMoreTagsBtn) {
+    showMoreTagsBtn.addEventListener('click', function() {
+      document.querySelectorAll('.tag-pill-extra').forEach(function(el) {
+        el.classList.remove('hidden');
+      });
+      showMoreTagsBtn.style.display = 'none';
+    });
+  }
 </script>

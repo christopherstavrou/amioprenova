@@ -41,8 +41,12 @@ function readingMinutes(description: string): number {
 
   <div class="max-w-4xl mx-auto">
     {posts.length > 0 && (
-      <div class="flex justify-end mb-8">
-        <SearchInput labels={{ placeholder: t.news.search.searchPlaceholder, ariaLabel: 'Search' }} action="/en/news/search" />
+      <div class="mb-6">
+        <SearchInput
+          labels={{ placeholder: t.news.search.searchPlaceholder, ariaLabel: 'Search' }}
+          action="/en/news/search"
+          typeahead={{ type: 'post', lang: 'en', seeAllLabel: t.news.seeAllLabel }}
+        />
       </div>
     )}
 
@@ -57,7 +61,7 @@ function readingMinutes(description: string): number {
             year: 'numeric', month: 'long', day: 'numeric'
           });
           const mins = readingMinutes(post.data.description ?? '');
-          const isHero = page.currentPage === 1 && idx === 0;
+          const isHero = page.currentPage === 1 && idx === 0 && !!post.data.image;
 
           if (isHero) {
             return (

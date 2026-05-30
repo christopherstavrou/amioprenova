@@ -373,12 +373,12 @@ textarea::placeholder {
   background-color: color-mix(in srgb, var(--color-surface) 78%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: none;
+  border: 1px solid var(--color-accent-primary);
   transition: background-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .show-actions-trigger:hover {
-  background-color: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 92%, transparent);
   box-shadow: var(--shadow-md);
 }
 
@@ -476,6 +476,67 @@ textarea,
   transition-property: background-color, border-color, color, transform, box-shadow, opacity;
   transition-duration: var(--transition-fast);
   transition-timing-function: ease;
+}
+
+/* ===== Search ===== */
+
+/* Override the global input[type="text"] padding rule (specificity 0,1,1)
+   which beats Tailwind utilities (0,1,0). These must be !important. */
+.search-pill {
+  padding-top: 0.625rem !important;    /* py-2.5 */
+  padding-bottom: 0.625rem !important;
+  padding-left: 2.5rem !important;     /* pl-10 */
+  padding-right: 2.5rem !important;    /* pr-10 */
+}
+
+/* Soft accent glow on focused search pill */
+.search-pill:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent-primary) 15%, transparent);
+}
+
+/* Search clear button — fade + scale in when input has value */
+.search-clear {
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+  transition: opacity 130ms ease, transform 130ms ease;
+}
+.search-clear.is-visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* Typeahead dropdown — CSS slide-in (replaces hidden/display toggle) */
+.search-dropdown {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.985);
+  pointer-events: none;
+  transition: opacity 160ms ease-out, transform 160ms ease-out;
+  will-change: opacity, transform;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: color-mix(in srgb, var(--color-surface-elevated) 94%, transparent) !important;
+}
+
+.search-dropdown.ta-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Left accent strip on "See all" row */
+.ta-see-all {
+  box-shadow: inset 3px 0 0 var(--color-accent-primary);
+}
+
+/* Hover arrow reveal on individual result items */
+.ta-item .ta-arrow {
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+.ta-item:hover .ta-arrow {
+  opacity: 0.35;
 }
 
 /* ===== Page Load Animation ===== */

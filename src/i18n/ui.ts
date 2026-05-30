@@ -35,7 +35,8 @@ export const ui = {
         admission: 'Admission',
         type: 'Type',
         gallery: 'Gallery',
-        back: '← Back to all shows',
+        back: 'Back to Shows',
+        status: 'Status',
         tickets: 'Tickets',
         map: 'Map',
         facebook: 'Facebook',
@@ -67,6 +68,7 @@ export const ui = {
       },
       list: {
         searchPlaceholder: 'Search shows...',
+        seeAllLabel: 'See all shows for',
         empty: 'No upcoming shows at the moment. Check back soon or follow on social media for announcements!',
         showPast: 'Show past shows',
         hidePast: 'Hide past shows',
@@ -81,12 +83,14 @@ export const ui = {
       },
       archive: {
         heading: 'Past Shows',
-        back: '← Back to upcoming shows',
+        back: 'Back to Shows',
         empty: 'No past shows found.',
         searchPlaceholder: 'Search past shows...',
+        seeAllLabel: 'See all shows for',
       },
       search: {
         heading: 'Search Shows',
+        back: 'Back to Shows',
         resultsPrefix: 'results for',
         noResults: 'No shows found for',
         upcoming: 'Upcoming',
@@ -103,6 +107,8 @@ export const ui = {
     },
     news: {
       minRead: 'min read',
+      seeAllLabel: 'See all articles for',
+      back: 'Back to News',
       search: {
         heading: 'Search News',
         resultsPrefix: 'results for',
@@ -121,6 +127,7 @@ export const ui = {
       of: 'of',
     },
     links: {
+      backHome: 'Back to Home',
       shows: {
         heading: 'Upcoming Shows',
         viewAll: 'View all shows →',
@@ -171,7 +178,8 @@ export const ui = {
         admission: 'Вход',
         type: 'Тип',
         gallery: 'Галерия',
-        back: '← Обратно към всички концерти',
+        back: 'Обратно към концертите',
+        status: 'Статус',
         tickets: 'Билети',
         map: 'Карта',
         facebook: 'Фейсбук',
@@ -203,6 +211,7 @@ export const ui = {
       },
       list: {
         searchPlaceholder: 'Търсене на концерти...',
+        seeAllLabel: 'Виж всички концерти за',
         empty: 'Няма предстоящи концерти в момента. Проверете отново скоро или последвайте в социалните мрежи за обяви!',
         showPast: 'Покажи минали концерти',
         hidePast: 'Скрий минали концерти',
@@ -217,12 +226,14 @@ export const ui = {
       },
       archive: {
         heading: 'Минали концерти',
-        back: '← Към предстоящи концерти',
+        back: 'Обратно към концертите',
         empty: 'Няма намерени минали концерти.',
         searchPlaceholder: 'Търсене на минали концерти...',
+        seeAllLabel: 'Виж всички концерти за',
       },
       search: {
         heading: 'Търсене на концерти',
+        back: 'Обратно към концертите',
         resultsPrefix: 'резултата за',
         noResults: 'Не са намерени концерти за',
         upcoming: 'Предстоящи',
@@ -239,6 +250,8 @@ export const ui = {
     },
     news: {
       minRead: 'мин. четене',
+      seeAllLabel: 'Виж всички статии за',
+      back: 'Обратно към новините',
       search: {
         heading: 'Търсене в новините',
         resultsPrefix: 'резултата за',
@@ -257,6 +270,7 @@ export const ui = {
       of: 'от',
     },
     links: {
+      backHome: 'Обратно към началото',
       shows: {
         heading: 'Предстоящи концерти',
         viewAll: 'Виж всички концерти →',

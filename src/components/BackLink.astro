@@ -1,0 +1,28 @@
+---
+/**
+ * BackLink — standardized back / breadcrumb link used site-wide.
+ * Single source of truth for the back-link style: accent colour with
+ * underline-on-hover and a consistent leading arrow. Used at both the
+ * top and bottom of subpages. The arrow lives here, NOT in i18n strings.
+ */
+export interface Props {
+  href: string;
+  label: string;
+  class?: string;
+}
+
+const { href, label, class: className = '' } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    'inline-flex items-center gap-1.5 text-sm text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors',
+    className,
+  ]}
+>
+  <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+  </svg>
+  <span>{label}</span>
+</a>

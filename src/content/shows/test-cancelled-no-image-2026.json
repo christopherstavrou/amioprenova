@@ -1,0 +1,19 @@
+{
+  "id": "test-cancelled-no-image",
+  "slug": "test-cancelled-no-image-2026",
+  "title": "Rooftop Jazz Night [TEST - CANCELLED, NO IMAGE]",
+  "titleEn": "Rooftop Jazz Night [TEST - CANCELLED, NO IMAGE]",
+  "titleBg": "Джаз на покрива [ТЕСТ - ОТМЕНЕНО, БЕЗ СНИМКА]",
+  "description": "An intimate rooftop jazz session cancelled at short notice.",
+  "descriptionEn": "An intimate rooftop jazz session unfortunately cancelled at short notice due to venue unavailability.",
+  "descriptionBg": "Интимна джаз сесия на покрива, за съжаление отменена в последния момент.",
+  "startDate": "2026-09-10T19:30:00+03:00",
+  "venue": "Rooftop Bar",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "isCanceled": true,
+  "eventType": "concert",
+  "admission": { "type": "paid", "price": "20 BGN" },
+  "tags": ["jazz", "rooftop", "cancelled"],
+  "tagsBg": ["джаз", "покрив", "отменено"]
+}

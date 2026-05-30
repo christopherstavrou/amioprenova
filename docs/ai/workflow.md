@@ -132,6 +132,39 @@ The PR quality gate catches the most common mechanical issues automatically. The
 
 ---
 
+## Visual verification
+
+For any UI/UX change, a clean `npm run build` proves it compiles — not that it *looks right*. Verify visually by driving the real app with Playwright (already in `node_modules`) and screenshotting at both breakpoints. This is the loop used for the search, show-card, and detail-page work.
+
+**Standard viewports:** mobile **390×844** and desktop **1280×900**. The project's only custom Tailwind breakpoint is `nav: 1180px`, so 1280 exercises the desktop nav and 390 a typical phone. For dark mode, set `data-theme="dark"` on `<html>` via `page.evaluate`.
+
+**The loop:**
+1. Start the dev server in the background on a non-default port: `npm run dev -- --port 4323 &` (4321/4322 are often already in use).
+2. Write a throwaway `shot.mjs` at the repo root. Run it with `node shot.mjs` from the repo root so it resolves `playwright` from `node_modules`. Save PNGs under `/tmp/` (outside the repo).
+3. Read the screenshots, iterate on the code, re-screenshot.
+4. **Clean up when done:** `kill $(lsof -ti:4323)` and `rm -f shot.mjs`. (Throwaway scripts are gitignored as `/shot.mjs` and `/screenshot*.mjs`, but still delete them.)
+
+Minimal `shot.mjs`:
+```js
+import { chromium } from 'playwright';
+import { mkdirSync } from 'fs';
+mkdirSync('/tmp/shots', { recursive: true });
+const BASE = 'http://localhost:4323';
+const b = await chromium.launch({ headless: true });
+const p = await b.newPage();
+for (const [w, h, tag] of [[390, 844, 'mobile'], [1280, 900, 'desktop']]) {
+  await p.setViewportSize({ width: w, height: h });
+  await p.goto(`${BASE}/en/shows`);
+  await p.waitForTimeout(500);
+  await p.screenshot({ path: `/tmp/shots/shows-${tag}.png`, fullPage: true });
+}
+await b.close();
+```
+
+Test content fixtures (e.g. `src/content/shows/test-*.json`) are committed deliberately so every visual state — including edge cases like a cancelled show with no image — has a page to screenshot. Add one when a new state has no existing example.
+
+---
+
 ## Troubleshooting
 
 **Build fails.** Read the error, fix the type or import issue, re-run. Don't commit failing builds.

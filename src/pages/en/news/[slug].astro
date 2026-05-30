@@ -3,9 +3,13 @@ import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Layout from '../../../layouts/Layout.astro';
 import Badge from '../../../components/Badge.astro';
+import BackLink from '../../../components/BackLink.astro';
 import SharePopover from '../../../components/SharePopover.astro';
 import GalleryLightbox from '../../../components/GalleryLightbox.astro';
 import { siteConfig } from '../../../config/site';
+import { ui } from '../../../i18n/ui';
+
+const t = ui['en'];
 
 export const getStaticPaths = (async () => {
   const allPosts = await getCollection('blog', ({ id }) => id.startsWith('en/'));
@@ -35,6 +39,12 @@ const hasGallery = galleryItems.length > 0;
   lang="en"
 >
   <article class="max-w-3xl mx-auto">
+
+    {/* Back link — top */}
+    <nav class="mb-5">
+      <BackLink href="/en/news" label={t.news.back} />
+    </nav>
+
     {post.data.image && (
       <div class="mb-8 rounded-lg overflow-hidden">
         <img
@@ -65,7 +75,7 @@ const hasGallery = galleryItems.length > 0;
     </div>
 
     {hasGallery && (
-      <section class="mb-10">
+      <section class="mb-8">
         <h2 class="font-serif text-2xl font-bold mb-4">Gallery</h2>
         <GalleryLightbox items={galleryItems} />
       </section>
@@ -73,12 +83,7 @@ const hasGallery = galleryItems.length > 0;
 
     <footer class="border-t border-border pt-8">
       <div class="flex items-center justify-between flex-wrap gap-4">
-        <a
-          href="/en/news"
-          class="inline-block text-sm text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors"
-        >
-          ← Back to all posts
-        </a>
+        <BackLink href="/en/news" label={t.news.back} />
         <SharePopover url={canonicalURL} title={post.data.title} />
       </div>
     </footer>

@@ -5,10 +5,13 @@ import LinkSection from '../../components/links/LinkSection.astro';
 import LinksShowTeaser from '../../components/links/LinksShowTeaser.astro';
 import LinksSocialStrip from '../../components/links/LinksSocialStrip.astro';
 import LinksEmailSignup from '../../components/links/LinksEmailSignup.astro';
+import BackLink from '../../components/BackLink.astro';
 import { siteConfig } from '../../config/site';
+import { ui } from '../../i18n/ui';
 
 const { linksPage } = siteConfig;
 const lang = 'bg' as const;
+const t = ui[lang];
 
 const activeSections = linksPage.sections.map(section => ({
   heading: section.heading?.[lang],
@@ -29,12 +32,7 @@ const activeSections = linksPage.sections.map(section => ({
   lang="bg"
 >
   <div class="mb-4">
-    <a
-      href="/bg"
-      class="text-sm text-text-secondary hover:text-accent-primary transition-colors"
-    >
-      ← amioprenova.com
-    </a>
+    <BackLink href="/bg" label={t.links.backHome} />
   </div>
 
   <LinksHero

@@ -73,6 +73,15 @@ design/
 # settings.json (shared plugin config) is tracked; settings.local.json is not
 .claude/settings.local.json
 
+# Claude harness scheduled-tasks lock — ephemeral, machine-local
+.claude/scheduled_tasks.lock
+
+# Local visual-verification scripts (throwaway Playwright screenshot helpers).
+# These are created at repo root during dev and deleted after; ignored as a
+# safety net. Cannot blanket-ignore *.mjs because astro/tailwind configs live here.
+/shot.mjs
+/screenshot*.mjs
+
 # WSL metadata files
 *Zone.Identifier
 
