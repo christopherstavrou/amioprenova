@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-05-30
+**Last updated**: 2026-05-30 (search/card/detail UX polish + dep bumps merged to main)
 
 ---
 
@@ -159,6 +159,24 @@ Implemented all actionable open issues from the GitHub issue tracker in a single
 
 Skipped (owner input required or infra): #51, #64, #65, #68, #69, #71, #82, #86, #89, #90, #91, #92, #93, #94, #112, #113
 
+### Search / card / detail UX polish (2026-05-30) — commit `74f54df`, merged develop → main
+
+Follow-on UX work after the overnight batch. Single commit (`74f54df`), merged straight to `develop` then `main` (both now level).
+
+- **Typeahead search** restored on list/archive pages (shows + news, EN + BG): debounced dropdown from `/search-index.json`, capped at 4 results, with a "See all results for …" row as the first item when 2+ matches exist (omitted when only one). Arrow-key nav, Enter, Escape, click-outside.
+- **`SearchInput` redesign**: pill shape, outline search icon that warms to accent on focus, soft accent focus glow, animated clear (✕) button that fades/scales in when the field has content. Fixed a specificity bug where the global `input[type=text]` padding overrode `pl-10` (icon overlapped text) — `.search-pill` now sets padding with `!important`.
+- **`ShowCard` uniformity**: cards look consistent with and without an image. Three cases — (A) image: badge+menu overlay the image on mobile, sit inline with the title on desktop; (B) no image, not cancelled: 3-dot menu inline next to title; (C) no image, cancelled: compact top bar. Cancelled badge and 3-dot trigger share the same frosted, accent-bordered styling.
+- **Detail pages** (`[slug].astro`, EN + BG shows + news): standardized vertical spacing (uniform `mb-8`, fixed doubled title gap), cinematic hero crop (`aspect-video sm:aspect-[2/1]`), and an optional **Status row** at the top of the details table showing the cancelled badge. Date/time table layout left as-is.
+- **`BackLink.astro`** — single shared component for all back/breadcrumb links. Accent colour + underline-on-hover + leading arrow (arrow lives in the component, not i18n strings). Used at **both top and bottom** of every subpage. Standardized labels in `ui.ts`: "Back to Shows" / "Back to News" / "Back to Home" (+ BG equivalents). 404's filled button intentionally left distinct.
+- **Search pages**: split filters into tiers (scope pills row + dropdowns row), capped news tag pills at 10 with a "+N more" toggle, accent-filled active filter states, accent-coloured result count.
+- **Filter pills / scope pills**: solid accent-filled active state for clear selection feedback.
+- Added test fixture `test-cancelled-no-image-2026.json` so the cancelled-without-image card state has a page to QA.
+- **Docs**: added a "Visual verification" section to `workflow.md` (Playwright screenshot loop at 390×844 / 1280×900). `.gitignore` now excludes the harness lock and throwaway `/shot.mjs` / `/screenshot*.mjs` scripts.
+
+### Dependency bumps (2026-05-30) — commit `ffefa9b`, merged develop → main
+- `astro` 6.1.5 → **6.4.2**, `@astrojs/sitemap` 3.7.2 → **3.7.3**.
+- Applied directly (not via the stale Dependabot PRs #123/#124, which branched before the UI batch). Verified `npm run build` clean (0 errors, 0 warnings) against the full current tree before merging. PRs #123/#124 auto-closed; their branches deleted.
+
 ---
 
 ## ⏭ Next
@@ -197,7 +215,7 @@ Awaiting answers from the artist/owner before these can progress:
 ## 🔢 Build Status
 
 ```bash
-npm run build   # Expected: 153 pages, 0 errors
+npm run build   # Expected: ~158 pages, 0 errors
 npm run dev     # Expected: http://localhost:4321
 ```
 
