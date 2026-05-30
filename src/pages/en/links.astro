@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import LinksLayout from '../../layouts/LinksLayout.astro';
 import LinksHero from '../../components/links/LinksHero.astro';
 import LinkSection from '../../components/links/LinkSection.astro';
 import LinksShowTeaser from '../../components/links/LinksShowTeaser.astro';
@@ -23,37 +23,44 @@ const activeSections = linksPage.sections.map(section => ({
 })).filter(s => s.links.length > 0);
 ---
 
-<Layout
+<LinksLayout
   title="Links - amioprenova"
   description="All links in one place. Follow amioprenova on social media, stream music, and find all platforms here."
   lang="en"
 >
-  <div class="max-w-2xl mx-auto">
-    <LinksHero
-      name="amioprenova"
-      tagline={linksPage.profile.tagline[lang]}
-      image={linksPage.profile.image}
-      lang="en"
-      altLang="bg"
-      altLangUrl="/bg/links"
-    />
-
-    {activeSections.length > 0 ? (
-      <div class="space-y-8">
-        {activeSections.map(section => (
-          <LinkSection heading={section.heading} links={section.links} />
-        ))}
-      </div>
-    ) : (
-      <div class="text-center py-12">
-        <p class="text-text-secondary text-lg">Links coming soon. Check back later!</p>
-      </div>
-    )}
-
-    <div class="mt-10 space-y-8">
-      <LinksShowTeaser lang="en" />
-      <LinksSocialStrip icons={[...linksPage.socialIcons]} />
-      <LinksEmailSignup lang="en" />
-    </div>
+  <div class="mb-4">
+    <a
+      href="/en"
+      class="text-sm text-text-secondary hover:text-accent-primary transition-colors"
+    >
+      ← amioprenova.com
+    </a>
   </div>
-</Layout>
+
+  <LinksHero
+    name="amioprenova"
+    tagline={linksPage.profile.tagline[lang]}
+    image={linksPage.profile.image}
+    lang="en"
+    altLang="bg"
+    altLangUrl="/bg/links"
+  />
+
+  {activeSections.length > 0 ? (
+    <div class="space-y-8">
+      {activeSections.map(section => (
+        <LinkSection heading={section.heading} links={section.links} />
+      ))}
+    </div>
+  ) : (
+    <div class="text-center py-12">
+      <p class="text-text-secondary text-lg">Links coming soon. Check back later!</p>
+    </div>
+  )}
+
+  <div class="mt-10 space-y-8">
+    <LinksShowTeaser lang="en" />
+    <LinksSocialStrip icons={[...linksPage.socialIcons]} />
+    <LinksEmailSignup lang="en" />
+  </div>
+</LinksLayout>

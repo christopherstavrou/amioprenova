@@ -57,7 +57,7 @@ export const siteConfig = {
   // Links page (linktree-style hub)
   linksPage: {
     profile: {
-      image: '/images/ami-profile.jpg', // TODO: Replace with real artist photo path
+      image: '/images/ami-portrait.jpg',
       tagline: {
         en: 'Jazz vocalist · Sofia & London',
         bg: 'Джаз вокалист · София и Лондон',

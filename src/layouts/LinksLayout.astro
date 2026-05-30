@@ -1,0 +1,74 @@
+---
+import { siteConfig } from '../config/site';
+import type { Language } from '../i18n/ui';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  lang: Language;
+  ogImage?: string;
+}
+
+const { title, description, lang, ogImage } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, siteConfig.baseUrl).href;
+const ogImageUrl = new URL(ogImage || siteConfig.ogImage, siteConfig.baseUrl).href;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" type="image/x-icon" />
+
+    <!-- SEO: Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- SEO: OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content={siteConfig.siteName} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'bg_BG'} />
+
+    <!-- SEO: Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!--
+      Inline theme script — must run before <body> paints to avoid FOUC.
+    -->
+    <script is:inline>
+      (function() {
+        function getCookie(name) {
+          var value = '; ' + document.cookie;
+          var parts = value.split('; ' + name + '=');
+          if (parts.length === 2) return parts.pop().split(';').shift();
+          return null;
+        }
+        function getSystemTheme() {
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        var savedTheme = getCookie('site_theme');
+        var theme = (savedTheme === 'light' || savedTheme === 'dark') ? savedTheme : getSystemTheme();
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen bg-bg text-text-primary">
+    <main class="container mx-auto px-4 py-8 max-w-2xl">
+      <slot />
+    </main>
+  </body>
+</html>
