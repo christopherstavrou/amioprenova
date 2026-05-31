@@ -85,6 +85,11 @@ jobs:
       # bot cannot push directly. Open a PR from a bot branch instead; a human
       # reviews + merges the event-data diff. (Enable auto-merge here if you'd
       # rather it land unattended.)
+      # NOTE: PRs opened with the default GITHUB_TOKEN do not trigger other
+      # workflows, so this PR lands without PR-level CI. That's acceptable here:
+      # the scraped JSON is schema-validated at build time, and Cloudflare builds
+      # `develop` on merge (catching malformed data). To run full PR checks
+      # instead, swap GH_TOKEN for a PAT/App-token secret.
       - name: Open a PR with the changes if any
         if: steps.changes.outputs.changed == 'true'
         env:
