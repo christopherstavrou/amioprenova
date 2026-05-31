@@ -107,10 +107,13 @@ All text content visible to users must be available in both English and Bulgaria
 | `admission.note` | English booking or exception note (e.g. "Reservations via Eventbrite"). |
 | `admission.noteBg` | Bulgarian translation of `admission.note`. Set whenever `admission.note` is set. Lock. |
 | `eventType` | If not set: infer from title/body keywords (see EventType values below). Lock. |
+| `status` | Event lifecycle status (schema.org `EventStatusType`). Omit for normal events (= `scheduled`). Set to `cancelled`/`postponed`/`rescheduled`/`moved-online` only when the body/source clearly says so. Lock when set. |
 
 **Valid `eventType` values:** `concert`, `jam`, `collaboration`, `charity`, `album-launch`, `workshop`, `birthday`
 
 **Valid `admission.type` values:** `free`, `free-booking`, `paid`, `donation`
+
+**Valid `status` values:** `scheduled` (default — omit), `cancelled`, `postponed`, `rescheduled`, `moved-online`. The legacy boolean `isCanceled: true` still works (the Facebook scraper sets it) and is treated as `cancelled`; prefer `status` for manual entries. A "past" badge is **derived from the date** — never set it as a status. The status drives the detail-page status row, the card badge, the search Status filter, and `eventStatus` in the JSON-LD.
 
 ## Tag Taxonomy
 

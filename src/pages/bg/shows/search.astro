@@ -21,6 +21,11 @@ const presentStatuses = STATUS_ORDER.filter(s =>
   sortedEvents.some(e => getDisplayStatus(e, { showScheduled: true }) === s)
 );
 const years = [...new Set(sortedEvents.map(e => new Date(e.startDate).getUTCFullYear()))].sort((a, b) => b - a);
+const presentMonths = [...new Set(sortedEvents.map(e => new Date(e.startDate).getUTCMonth() + 1))].sort((a, b) => a - b);
+const monthOptions = presentMonths.map(m => ({
+  value: String(m),
+  label: new Date(Date.UTC(2000, m - 1, 1)).toLocaleDateString('bg-BG', { timeZone: 'UTC', month: 'long' }),
+}));
 const countries = [...new Set(sortedEvents.map(e => e.country))].sort();
 const cities = [...new Map(sortedEvents.map(e => [`${e.city}|${e.country}`, { city: e.city, country: e.country }])).values()]
   .sort((a, b) => a.city.localeCompare(b.city));
@@ -37,7 +42,7 @@ const cardLabels = {
   map: t.detail.map,
 };
 
-const selectClass = 'w-full sm:w-auto text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer';
+const selectClass = 'filter-select w-full sm:w-auto sm:flex-1 sm:min-w-0 sm:max-w-[12rem] text-sm bg-surface border border-border rounded-full pl-3.5 pr-9 py-2 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer';
 ---
 
 <Layout
@@ -78,7 +83,7 @@ const selectClass = 'w-full sm:w-auto text-sm bg-surface border border-border ro
         </svg>
       </button>
 
-      <div id="filters" class="hidden sm:flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center mt-2 sm:mt-0">
+      <div id="filters" class="hidden flex-col gap-2 rounded-xl border border-border bg-surface-muted p-3 mt-2 sm:mt-3 sm:flex sm:flex-row sm:flex-nowrap sm:items-center">
         <select id="filter-status" aria-label={t.search.allStatuses} class={selectClass}>
           <option value="">{t.search.allStatuses}</option>
           {presentStatuses.map(s => <option value={s}>{t.statusBadge[s]}</option>)}
@@ -105,6 +110,13 @@ const selectClass = 'w-full sm:w-auto text-sm bg-surface border border-border ro
           </select>
         )}
 
+        {monthOptions.length > 1 && (
+          <select id="filter-month" aria-label={t.search.allMonths} class={selectClass}>
+            <option value="">{t.search.allMonths}</option>
+            {monthOptions.map(m => <option value={m.value}>{m.label}</option>)}
+          </select>
+        )}
+
         {types.length > 1 && (
           <select id="filter-type" aria-label={t.search.allTypes} class={selectClass}>
             <option value="">{t.search.allTypes}</option>
@@ -112,7 +124,7 @@ const selectClass = 'w-full sm:w-auto text-sm bg-surface border border-border ro
           </select>
         )}
 
-        <button id="clear-filters" type="button" class="hidden text-sm text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors px-2 py-1.5 text-left sm:text-center">
+        <button id="clear-filters" type="button" class="hidden text-sm text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors px-2 py-1.5 text-left sm:ml-auto sm:shrink-0 sm:whitespace-nowrap">
           {t.search.clearFilters}
         </button>
       </div>
@@ -128,11 +140,13 @@ const selectClass = 'w-full sm:w-auto text-sm bg-surface border border-border ro
         const eventDescription = event.descriptionBg || event.description;
         const textContent = [eventTitle, eventDescription, ...(event.tagsBg ?? event.tags ?? [])].join(' ').toLowerCase();
         const year = new Date(event.startDate).getUTCFullYear();
+        const month = new Date(event.startDate).getUTCMonth() + 1;
         const status = getDisplayStatus(event, { showScheduled: true });
         return (
           <div
             class="show-card-item"
             data-year={String(year)}
+            data-month={String(month)}
             data-country={event.country}
             data-city={event.city}
             data-type={event.eventType ?? ''}
@@ -170,12 +184,7 @@ const selectClass = 'w-full sm:w-auto text-sm bg-surface border border-border ro
   var currentPage = 1;
   var visibleItems = [];
 
-  var searchInput = /** @type {HTMLInputElement|null} */ (document.getElementById('shows-search-input'));
-  var filterStatus = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-status'));
-  var filterCountry = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-country'));
-  var filterCity = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-city'));
-  var filterYear = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-year'));
-  var filterType = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-type'));
+  var searchInput = document.getElementById('shows-search-input');
   var clearBtn = document.getElementById('clear-filters');
   var filtersToggle = document.getElementById('filters-toggle');
   var filtersPanel = document.getElementById('filters');
@@ -186,35 +195,45 @@ const selectClass = 'w-full sm:w-auto text-sm bg-surface border border-border ro
   var noResultsText = document.getElementById('no-results-text');
   var paginationControls = document.getElementById('pagination-controls');
 
-  var selects = [filterStatus, filterCountry, filterCity, filterYear, filterType].filter(Boolean);
+  // Each filter: its <select> + the card attribute it matches against.
+  var FILTERS = [
+    { el: document.getElementById('filter-status'),  attr: 'data-status' },
+    { el: document.getElementById('filter-country'), attr: 'data-country' },
+    { el: document.getElementById('filter-city'),    attr: 'data-city' },
+    { el: document.getElementById('filter-year'),    attr: 'data-year' },
+    { el: document.getElementById('filter-month'),   attr: 'data-month' },
+    { el: document.getElementById('filter-type'),    attr: 'data-type' }
+  ].filter(function(f) { return f.el; });
+
   var allItems = Array.from(document.querySelectorAll('.show-card-item'));
+
+  function queryMatches(item) {
+    var q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+    return !q || (item.getAttribute('data-text') || '').indexOf(q) !== -1;
+  }
+
+  function itemMatches(item, exceptFilter) {
+    if (!queryMatches(item)) return false;
+    for (var i = 0; i < FILTERS.length; i++) {
+      var f = FILTERS[i];
+      if (f === exceptFilter) continue;
+      var v = f.el.value;
+      if (v && (item.getAttribute(f.attr) || '') !== v) return false;
+    }
+    return true;
+  }
 
   if (filtersToggle && filtersPanel) {
     filtersToggle.addEventListener('click', function() {
       var open = filtersPanel.style.display !== 'flex';
-      // inline style only affects mobile; desktop keeps its sm:flex from CSS
       filtersPanel.style.display = open ? 'flex' : '';
       filtersToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       if (filtersChevron) filtersChevron.style.transform = open ? 'rotate(180deg)' : '';
     });
   }
 
-  function syncCityOptions() {
-    if (!filterCountry || !filterCity) return;
-    var country = filterCountry.value;
-    var current = filterCity.value;
-    var stillValid = !current;
-    Array.from(filterCity.options).forEach(function(opt) {
-      if (!opt.value) return;
-      var match = !country || opt.getAttribute('data-country') === country;
-      opt.hidden = !match;
-      if (match && opt.value === current) stillValid = true;
-    });
-    if (!stillValid) filterCity.value = '';
-  }
-
   function activeCount() {
-    return selects.filter(function(s) { return s.value; }).length;
+    return FILTERS.filter(function(f) { return f.el.value; }).length;
   }
 
   function updateChrome() {
@@ -227,53 +246,49 @@ const selectClass = 'w-full sm:w-auto text-sm bg-surface border border-border ro
     }
   }
 
+  // Faceting: hide options that would yield zero results given the OTHER active
+  // filters. The currently-selected option always stays visible.
+  function recomputeFacets() {
+    FILTERS.forEach(function(f) {
+      var avail = {};
+      allItems.forEach(function(it) {
+        if (itemMatches(it, f)) avail[it.getAttribute(f.attr) || ''] = true;
+      });
+      Array.from(f.el.options).forEach(function(opt) {
+        if (!opt.value) return;
+        opt.hidden = !avail[opt.value] && opt.value !== f.el.value;
+      });
+    });
+  }
+
+  function update() {
+    currentPage = 1;
+    recomputeFacets();
+    updateChrome();
+    applyFilters();
+  }
+
   if (searchInput) {
     searchInput.addEventListener('input', function() {
       var q = searchInput.value.trim();
       history.replaceState(null, '', q ? '?q=' + encodeURIComponent(q) : window.location.pathname);
-      currentPage = 1;
-      applyFilters();
+      update();
     });
   }
 
-  selects.forEach(function(sel) {
-    sel.addEventListener('change', function() {
-      if (sel === filterCountry) syncCityOptions();
-      currentPage = 1;
-      updateChrome();
-      applyFilters();
-    });
+  FILTERS.forEach(function(f) {
+    f.el.addEventListener('change', update);
   });
 
   if (clearBtn) {
     clearBtn.addEventListener('click', function() {
-      selects.forEach(function(s) { s.value = ''; });
-      syncCityOptions();
-      currentPage = 1;
-      updateChrome();
-      applyFilters();
+      FILTERS.forEach(function(f) { f.el.value = ''; });
+      update();
     });
   }
 
   function applyFilters() {
-    var q = searchInput ? searchInput.value.trim().toLowerCase() : '';
-    var status = filterStatus ? filterStatus.value : '';
-    var country = filterCountry ? filterCountry.value : '';
-    var city = filterCity ? filterCity.value : '';
-    var year = filterYear ? filterYear.value : '';
-    var type = filterType ? filterType.value : '';
-
-    visibleItems = allItems.filter(function(item) {
-      var text = item.getAttribute('data-text') || '';
-      if (q && !text.includes(q)) return false;
-      if (status && item.getAttribute('data-status') !== status) return false;
-      if (country && item.getAttribute('data-country') !== country) return false;
-      if (city && item.getAttribute('data-city') !== city) return false;
-      if (year && item.getAttribute('data-year') !== year) return false;
-      if (type && item.getAttribute('data-type') !== type) return false;
-      return true;
-    });
-
+    visibleItems = allItems.filter(function(item) { return itemMatches(item, null); });
     renderPage();
   }
 
@@ -341,7 +356,7 @@ const selectClass = 'w-full sm:w-auto text-sm bg-surface border border-border ro
   var params = new URLSearchParams(window.location.search);
   var initQ = params.get('q') || '';
   if (initQ && searchInput) searchInput.value = initQ;
-  syncCityOptions();
+  recomputeFacets();
   updateChrome();
   applyFilters();
 </script>

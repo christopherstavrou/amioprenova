@@ -494,6 +494,18 @@ textarea,
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent-primary) 15%, transparent);
 }
 
+/* Filter dropdowns — strip the native arrow and draw a consistent chevron,
+   so alignment is identical across browsers, themes, mobile and desktop. */
+.filter-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23999999' stroke-width='2'><path stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1rem 1rem;
+}
+
 /* Search clear button — fade + scale in when input has value */
 .search-clear {
   opacity: 0;

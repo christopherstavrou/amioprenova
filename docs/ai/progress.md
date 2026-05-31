@@ -2,7 +2,7 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-05-30 (search/card/detail UX polish + dep bumps merged to main)
+**Last updated**: 2026-05-31 (faceted search filters + month filter merged to main)
 
 ---
 
@@ -172,6 +172,23 @@ Follow-on UX work after the overnight batch. Single commit (`74f54df`), merged s
 - **Filter pills / scope pills**: solid accent-filled active state for clear selection feedback.
 - Added test fixture `test-cancelled-no-image-2026.json` so the cancelled-without-image card state has a page to QA.
 - **Docs**: added a "Visual verification" section to `workflow.md` (Playwright screenshot loop at 390×844 / 1280×900). `.gitignore` now excludes the harness lock and throwaway `/shot.mjs` / `/screenshot*.mjs` scripts.
+
+### Event status field + search filter redesign (2026-05-30) — commits `5c97309`, `6f6cc41`, merged develop → main
+
+- **Proper status field** aligned to schema.org `EventStatusType`: new `status` enum (`scheduled/cancelled/postponed/rescheduled/moved-online`) on the shows schema; legacy `isCanceled` still maps to cancelled (scraper-safe). `getDisplayStatus()` resolves explicit status → derived `past` → `scheduled`; `schemaEventStatus()` feeds JSON-LD.
+- Status badge renders wherever the cancelled badge did (card top-bar + detail status row). **Scheduled** shows in full search + detail, hidden on the main upcoming list. `scheduled`/`past` neutral styling; other statuses accent.
+- **Search filter redesign**: scope pills → full **Status** dropdown (all statuses); location split into dependent **Country + City** (country narrows the city list); single-select + **Clear filters** link; mobile **collapsible "Filters" panel** with active-count badge, desktop single inline row. Cards carry `data-status/country/city`.
+- Removed orphaned i18n keys + dead `ShowCard` props (`cancelled`/`pastLabel`/`showPastBadge`). Added test fixtures for every status across future/past dates.
+
+### Faceted filters + month filter + filter polish (2026-05-31) — merged develop → main
+
+Follow-on to the filter redesign, addressing review feedback.
+
+- **Full faceting** on shows + news search: every dropdown hides options that would produce zero results given the other active filters, recomputed live (`recomputeFacets()` / `itemMatches(item, exceptFilter)` in each search page). The selected option always stays visible. This subsumes the earlier bespoke country→city dependency.
+- **Month filter** added to shows + news (both locales): localized month names, only months present in the data, narrowed by the selected year (and everything else) via faceting. Default "All months".
+- **Filter bar polish**: single-line toolbar on desktop (`bg-surface-muted` container, `sm:flex-1 sm:max-w-[12rem]` even widths, `sm:flex-nowrap`, Clear pinned right); custom dropdown chevron via `.filter-select` in `global.css` (fixes native arrow alignment across browsers/themes, mobile + desktop).
+- **News filter unified with shows**: tag-pill wall replaced by a **Topics** dropdown alongside Year/Month inside the same collapsible "Filters" panel (mobile show/hide + active-count + Clear).
+- **Detail status icon**: x-circle → neutral **flag**.
 
 ### Dependency bumps (2026-05-30) — commit `ffefa9b`, merged develop → main
 - `astro` 6.1.5 → **6.4.2**, `@astrojs/sitemap` 3.7.2 → **3.7.3**.

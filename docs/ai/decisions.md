@@ -187,6 +187,22 @@ This document records key decisions made during the project's development.
 
 **Date**: 2026-04-14
 
+### Event status field (schema.org EventStatusType)
+
+**Decision**: Event lifecycle state is a single `status` enum on the shows schema — `scheduled | cancelled | postponed | rescheduled | moved-online` — aligned to schema.org `EventStatusType`. Omitting it means `scheduled`. The legacy boolean `isCanceled` is retained (the Facebook scraper only exposes cancellation) and maps to `cancelled`.
+
+**Rationale**:
+- A boolean only models cancellation; an enum captures the real lifecycle and feeds `eventStatus` in the Event JSON-LD with the correct schema.org URL.
+- "Past" is **not** a stored status — it's derived from the date at render time, so it never needs manual upkeep. Explicit statuses take priority over the derived `past`.
+
+**How it works**:
+- `getDisplayStatus(event, { showScheduled })` in `src/lib/events.ts` resolves the badge to show: explicit status → derived `past` → `scheduled` (only when `showScheduled`, so the main upcoming list stays badge-free while full search + detail show it). `schemaEventStatus()` maps to the JSON-LD URL.
+- Rendered as a badge on the card top-bar and the detail-page status row, and as the **Status** facet in shows search.
+
+**Status**: ✅ Implemented
+
+**Date**: 2026-05-31
+
 ---
 
 ### Placeholder Strategy

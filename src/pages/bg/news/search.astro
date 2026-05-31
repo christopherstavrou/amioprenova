@@ -15,14 +15,21 @@ const sortedPosts = allPosts.sort((a, b) =>
   new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
 );
 
-// Compute filter options
+// Filter options
 const years = [...new Set(sortedPosts.map(p => new Date(p.data.pubDate).getFullYear()))].sort((a, b) => b - a);
+const presentMonths = [...new Set(sortedPosts.map(p => new Date(p.data.pubDate).getMonth() + 1))].sort((a, b) => a - b);
+const monthOptions = presentMonths.map(m => ({
+  value: String(m),
+  label: new Date(2000, m - 1, 1).toLocaleDateString('bg-BG', { month: 'long' }),
+}));
 const allTags = [...new Set(sortedPosts.flatMap(p => p.data.tags ?? []))].sort();
 
 function readingMinutes(description: string): number {
   const wordCount = (description || '').split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.ceil(wordCount / 200));
 }
+
+const selectClass = 'filter-select w-full sm:w-auto sm:flex-1 sm:min-w-0 sm:max-w-[12rem] text-sm bg-surface border border-border rounded-full pl-3.5 pr-9 py-2 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer';
 ---
 
 <Layout
@@ -35,7 +42,7 @@ function readingMinutes(description: string): number {
     <BackLink href="/bg/news" label={t.news.back} />
 
     <!-- Search (full width) -->
-    <div class="mt-3 mb-5">
+    <div class="mt-3 mb-4">
       <SearchInput
         inputId="news-search-input"
         labels={{ placeholder: t.news.search.searchPlaceholder, ariaLabel: 'Търси новини' }}
@@ -43,36 +50,52 @@ function readingMinutes(description: string): number {
     </div>
 
     <!-- Filters -->
-    <div class="flex flex-wrap items-center gap-3 mb-5">
-      {years.length > 1 && (
-        <select id="filter-year" class="text-sm bg-surface border border-border rounded-full px-3 py-1.5 text-text-primary focus:outline-none focus:border-accent-primary cursor-pointer">
-          <option value="">{t.news.search.allYears}</option>
-          {years.map(y => <option value={String(y)}>{y}</option>)}
-        </select>
-      )}
+    <div class="mb-5">
+      <button
+        id="filters-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="filters"
+        class="sm:hidden flex items-center justify-between w-full rounded-full border border-border px-4 py-2 text-sm text-text-primary"
+      >
+        <span class="inline-flex items-center gap-2">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 6h18M7 12h10M11 18h2" />
+          </svg>
+          {t.shows.search.filters}
+          <span id="filters-count" class="hidden items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-accent-primary text-text-inverse text-xs font-semibold"></span>
+        </span>
+        <svg id="filters-chevron" class="w-4 h-4 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
 
-      {allTags.length > 0 && (
-        <div class="flex flex-wrap gap-1.5 items-center" id="tag-pills">
-          {allTags.map((tag, i) => (
-            <button
-              type="button"
-              data-tag={tag}
-              class={`tag-pill px-3 py-1 text-xs rounded-full border border-border text-text-secondary hover:border-accent-primary hover:text-accent-primary transition-all${i >= 10 ? ' hidden tag-pill-extra' : ''}`}
-            >
-              {tag}
-            </button>
-          ))}
-          {allTags.length > 10 && (
-            <button
-              type="button"
-              id="show-more-tags"
-              class="px-2 py-1 text-xs text-accent-primary hover:text-accent-primary-hover transition-colors"
-            >
-              +{allTags.length - 10} още
-            </button>
-          )}
-        </div>
-      )}
+      <div id="filters" class="hidden flex-col gap-2 rounded-xl border border-border bg-surface-muted p-3 mt-2 sm:mt-3 sm:flex sm:flex-row sm:flex-nowrap sm:items-center">
+        {allTags.length > 0 && (
+          <select id="filter-topic" aria-label={t.news.search.allTags} class={selectClass}>
+            <option value="">{t.news.search.allTags}</option>
+            {allTags.map(tag => <option value={tag}>{tag}</option>)}
+          </select>
+        )}
+
+        {years.length > 1 && (
+          <select id="filter-year" aria-label={t.news.search.allYears} class={selectClass}>
+            <option value="">{t.news.search.allYears}</option>
+            {years.map(y => <option value={String(y)}>{y}</option>)}
+          </select>
+        )}
+
+        {monthOptions.length > 1 && (
+          <select id="filter-month" aria-label={t.shows.search.allMonths} class={selectClass}>
+            <option value="">{t.shows.search.allMonths}</option>
+            {monthOptions.map(m => <option value={m.value}>{m.label}</option>)}
+          </select>
+        )}
+
+        <button id="clear-filters" type="button" class="hidden text-sm text-accent-primary hover:text-accent-primary-hover hover:underline transition-colors px-2 py-1.5 text-left sm:ml-auto sm:shrink-0 sm:whitespace-nowrap">
+          {t.shows.search.clearFilters}
+        </button>
+      </div>
     </div>
 
     <!-- Result count -->
@@ -90,12 +113,14 @@ function readingMinutes(description: string): number {
         const tagsStr = (post.data.tags ?? []).join(' ').toLowerCase();
         const textContent = [post.data.title, post.data.description ?? '', tagsStr].join(' ').toLowerCase();
         const year = new Date(post.data.pubDate).getFullYear();
+        const month = new Date(post.data.pubDate).getMonth() + 1;
         const tagsData = (post.data.tags ?? []).join(' ');
 
         return (
           <div
             class="news-card-item"
             data-year={String(year)}
+            data-month={String(month)}
             data-tags={tagsData}
             data-text={textContent}
           >
@@ -152,67 +177,110 @@ function readingMinutes(description: string): number {
   var PAGE_SIZE = 12;
   var currentPage = 1;
   var visibleItems = [];
-  var activeTags = new Set();
 
-  var searchInput = /** @type {HTMLInputElement|null} */ (document.getElementById('news-search-input'));
-  var filterYear = /** @type {HTMLSelectElement|null} */ (document.getElementById('filter-year'));
+  var searchInput = document.getElementById('news-search-input');
+  var clearBtn = document.getElementById('clear-filters');
+  var filtersToggle = document.getElementById('filters-toggle');
+  var filtersPanel = document.getElementById('filters');
+  var filtersCount = document.getElementById('filters-count');
+  var filtersChevron = document.getElementById('filters-chevron');
   var resultCount = document.getElementById('result-count');
   var noResults = document.getElementById('no-results');
   var noResultsText = document.getElementById('no-results-text');
   var paginationControls = document.getElementById('pagination-controls');
 
+  // Each filter: its <select> + how to read the matching value(s) off a card.
+  // Topic is multi-value (a post has several tags); year/month are single.
+  var FILTERS = [
+    { el: document.getElementById('filter-topic'), vals: function(it) { var s = it.getAttribute('data-tags') || ''; return s ? s.split(' ') : []; } },
+    { el: document.getElementById('filter-year'),  vals: function(it) { return [it.getAttribute('data-year') || '']; } },
+    { el: document.getElementById('filter-month'), vals: function(it) { return [it.getAttribute('data-month') || '']; } }
+  ].filter(function(f) { return f.el; });
+
   var allItems = Array.from(document.querySelectorAll('.news-card-item'));
 
-  document.querySelectorAll('.tag-pill').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var tag = btn.getAttribute('data-tag') || '';
-      if (activeTags.has(tag)) {
-        activeTags.delete(tag);
-        btn.classList.remove('bg-accent-primary', 'text-text-inverse', 'border-accent-primary', 'font-medium');
-        btn.classList.add('text-text-secondary', 'border-border');
-      } else {
-        activeTags.add(tag);
-        btn.classList.add('bg-accent-primary', 'text-text-inverse', 'border-accent-primary', 'font-medium');
-        btn.classList.remove('text-text-secondary', 'border-border');
-      }
-      currentPage = 1;
-      applyFilters();
+  function queryMatches(item) {
+    var q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+    return !q || (item.getAttribute('data-text') || '').indexOf(q) !== -1;
+  }
+
+  function itemMatches(item, exceptFilter) {
+    if (!queryMatches(item)) return false;
+    for (var i = 0; i < FILTERS.length; i++) {
+      var f = FILTERS[i];
+      if (f === exceptFilter) continue;
+      var v = f.el.value;
+      if (v && f.vals(item).indexOf(v) === -1) return false;
+    }
+    return true;
+  }
+
+  if (filtersToggle && filtersPanel) {
+    filtersToggle.addEventListener('click', function() {
+      var open = filtersPanel.style.display !== 'flex';
+      filtersPanel.style.display = open ? 'flex' : '';
+      filtersToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (filtersChevron) filtersChevron.style.transform = open ? 'rotate(180deg)' : '';
     });
-  });
+  }
+
+  function activeCount() {
+    return FILTERS.filter(function(f) { return f.el.value; }).length;
+  }
+
+  function updateChrome() {
+    var n = activeCount();
+    if (clearBtn) clearBtn.classList.toggle('hidden', n === 0);
+    if (filtersCount) {
+      filtersCount.textContent = String(n);
+      filtersCount.classList.toggle('hidden', n === 0);
+      filtersCount.classList.toggle('inline-flex', n > 0);
+    }
+  }
+
+  // Faceting: hide options that would yield zero results given the OTHER active
+  // filters. The currently-selected option always stays visible.
+  function recomputeFacets() {
+    FILTERS.forEach(function(f) {
+      var avail = {};
+      allItems.forEach(function(it) {
+        if (itemMatches(it, f)) f.vals(it).forEach(function(v) { if (v) avail[v] = true; });
+      });
+      Array.from(f.el.options).forEach(function(opt) {
+        if (!opt.value) return;
+        opt.hidden = !avail[opt.value] && opt.value !== f.el.value;
+      });
+    });
+  }
+
+  function update() {
+    currentPage = 1;
+    recomputeFacets();
+    updateChrome();
+    applyFilters();
+  }
 
   if (searchInput) {
     searchInput.addEventListener('input', function() {
       var q = searchInput.value.trim();
       history.replaceState(null, '', q ? '?q=' + encodeURIComponent(q) : window.location.pathname);
-      currentPage = 1;
-      applyFilters();
+      update();
     });
   }
 
-  if (filterYear) {
-    filterYear.addEventListener('change', function() { currentPage = 1; applyFilters(); });
+  FILTERS.forEach(function(f) {
+    f.el.addEventListener('change', update);
+  });
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function() {
+      FILTERS.forEach(function(f) { f.el.value = ''; });
+      update();
+    });
   }
 
   function applyFilters() {
-    var q = searchInput ? searchInput.value.trim().toLowerCase() : '';
-    var year = filterYear ? filterYear.value : '';
-
-    visibleItems = allItems.filter(function(item) {
-      var text = item.getAttribute('data-text') || '';
-      if (q && !text.includes(q)) return false;
-      if (year && item.getAttribute('data-year') !== year) return false;
-      if (activeTags.size > 0) {
-        var itemTagsStr = item.getAttribute('data-tags') || '';
-        var itemTags = itemTagsStr ? itemTagsStr.split(' ') : [];
-        var hasAll = true;
-        activeTags.forEach(function(tag) {
-          if (!itemTags.includes(tag)) hasAll = false;
-        });
-        if (!hasAll) return false;
-      }
-      return true;
-    });
-
+    visibleItems = allItems.filter(function(item) { return itemMatches(item, null); });
     renderPage();
   }
 
@@ -274,15 +342,7 @@ function readingMinutes(description: string): number {
   var params = new URLSearchParams(window.location.search);
   var initQ = params.get('q') || '';
   if (initQ && searchInput) searchInput.value = initQ;
+  recomputeFacets();
+  updateChrome();
   applyFilters();
-
-  var showMoreTagsBtn = document.getElementById('show-more-tags');
-  if (showMoreTagsBtn) {
-    showMoreTagsBtn.addEventListener('click', function() {
-      document.querySelectorAll('.tag-pill-extra').forEach(function(el) {
-        el.classList.remove('hidden');
-      });
-      showMoreTagsBtn.style.display = 'none';
-    });
-  }
 </script>
