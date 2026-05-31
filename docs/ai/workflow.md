@@ -165,6 +165,59 @@ Test content fixtures (e.g. `src/content/shows/test-*.json`) are committed delib
 
 ---
 
+## Consuming the sitekit web kit
+
+Several building blocks (design tokens, UI components, the faceted-search
+engine, the events scraper) live in the private **[`sitekit`](https://github.com/christopherstavrou/sitekit)**
+monorepo and are consumed here as `@sitekit/*` packages. During the
+git-consumption phase, `sitekit` is vendored as a **git submodule** at
+`vendor/sitekit`, and each package is a `file:` dependency in `package.json`.
+
+**Always sync the submodule after pulling or switching branches** — `git pull`
+updates the submodule *pointer* but never its working tree, so a stale
+submodule shows up as broken styling / missing components (e.g. an unstyled
+gallery or mispositioned search icon):
+
+```bash
+git submodule update --init --recursive
+npm install
+```
+
+Tip: `git config submodule.recurse true` makes pull/checkout update submodules
+automatically. Tailwind's `content` in `tailwind.config.mjs` scans
+`vendor/sitekit/packages/ui/src` so package-only utility classes are generated.
+
+**Updating to newer kit code:** advance the submodule, reinstall, commit the
+pointer:
+```bash
+git -C vendor/sitekit pull origin main
+npm install && git add vendor/sitekit && git commit -m "chore: bump sitekit"
+```
+
+### Cloudflare Pages caveat (deployment)
+
+Cloudflare Pages does **not** init private submodules by default, so a branch
+that consumes `sitekit` via submodule will fail to build there until one of:
+- the kit is published to a **registry** (Phase 6 — the clean fix; drops the
+  submodule entirely), or
+- `sitekit` is made public so Pages can clone the submodule, or
+- the Pages build command is changed to `git submodule update --init --recursive
+  && npm ci && npm run build` **and** Pages has access to the private submodule.
+
+Until then, verify web-kit branches **locally** (`npm run dev`), not on the
+`*.pages.dev` preview.
+
+### Scrape workflow + branch protection
+
+`main` and `develop` require PRs (enforced for admins), so the weekly
+`scrape-events.yml` job **opens a PR** from a `bot/scrape-events-*` branch
+instead of pushing to `develop`; a human merges the event-data diff. The
+checkout step uses `submodules: recursive` and runs the `sitekit-scrape-events`
+bin. Enable auto-merge in that workflow only if you want the sync to land
+unattended.
+
+---
+
 ## Troubleshooting
 
 **Build fails.** Read the error, fix the type or import issue, re-run. Don't commit failing builds.
@@ -204,3 +257,4 @@ Never force-push to `develop` or `main` — they are protected.
 | Two agents open PRs for the same issue | Close the duplicate; comment on it pointing to the PR that continues the work |
 | Open a PR without linking the issue | Add `Closes #N` — the quality gate will remind you |
 | Start work without opening a draft PR | Open a draft PR on the first commit so other agents see the work is in flight |
+| Debug "broken" `@sitekit/*` styling by changing CSS | First run `git submodule update --init --recursive && npm install` — a stale submodule is the usual cause |

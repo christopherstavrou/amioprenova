@@ -24,6 +24,7 @@ jobs:
 
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - name: Checkout develop
@@ -77,12 +78,22 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Commit and push to develop if changed
+      # develop is branch-protected (PR required, enforced for admins), so the
+      # bot cannot push directly. Open a PR from a bot branch instead; a human
+      # reviews + merges the event-data diff. (Enable auto-merge here if you'd
+      # rather it land unattended.)
+      - name: Open a PR with the changes if any
         if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
+          BRANCH="bot/scrape-events-$(date +%Y%m%d-%H%M%S)"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
           git add src/content/shows/ public/images/events/
-          git commit -m "chore(events): sync Facebook events [skip ci]"
-          git pull --rebase origin develop
-          git push origin develop
+          git commit -m "chore(events): sync Facebook events"
+          git push origin "$BRANCH"
+          gh pr create --base develop --head "$BRANCH" \
+            --title "chore(events): sync Facebook events" \
+            --body "Automated weekly Facebook events sync via @sitekit/events-scraper. Review the event-data diff and merge."
