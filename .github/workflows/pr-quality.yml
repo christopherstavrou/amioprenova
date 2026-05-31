@@ -21,6 +21,14 @@ jobs:
             const errors = [];
             const warnings = [];
 
+            // Release PRs (develop -> main) are exempt: they're history-only
+            // promotions with no feature content of their own. Merge with a
+            // merge commit so develop and main stay in sync (no back-merge).
+            if (pr.base.ref === 'main' && pr.head.ref === 'develop') {
+              console.log('Release PR (develop -> main) — quality gate skipped.');
+              return;
+            }
+
             // 1. Base branch — all feature work must target develop
             if (pr.base.ref === 'main') {
               errors.push('❌ **Wrong base branch** — target `develop`, not `main`. Retarget this PR: `gh pr edit ' + pr.number + ' --base develop`.');
