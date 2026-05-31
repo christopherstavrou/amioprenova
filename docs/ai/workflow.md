@@ -169,52 +169,44 @@ Test content fixtures (e.g. `src/content/shows/test-*.json`) are committed delib
 
 Several building blocks (design tokens, UI components, the faceted-search
 engine, the events scraper) live in the private **[`sitekit`](https://github.com/christopherstavrou/sitekit)**
-monorepo and are consumed here as `@sitekit/*` packages. During the
-git-consumption phase, `sitekit` is vendored as a **git submodule** at
-`vendor/sitekit`, and each package is a `file:` dependency in `package.json`.
+monorepo and are consumed here as versioned **`@christopherstavrou/*`** packages
+published to **private GitHub Packages**. They install like any npm dependency —
+no submodule.
 
-**Always sync the submodule after pulling or switching branches** — `git pull`
-updates the submodule *pointer* but never its working tree, so a stale
-submodule shows up as broken styling / missing components (e.g. an unstyled
-gallery or mispositioned search icon):
+### Authentication (one-time, every install location)
 
-```bash
-git submodule update --init --recursive
-npm install
+Installs require a **classic PAT with `read:packages`**, exposed as
+`NODE_AUTH_TOKEN`. The repo's committed `.npmrc` maps the scope + reads that env
+var:
+
+```
+@christopherstavrou:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
 ```
 
-Tip: `git config submodule.recurse true` makes pull/checkout update submodules
-automatically. Tailwind's `content` in `tailwind.config.mjs` scans
-`vendor/sitekit/packages/ui/src` so package-only utility classes are generated.
+Set `NODE_AUTH_TOKEN` in three places:
+- **Local dev:** `export NODE_AUTH_TOKEN=<pat>` (e.g. in your shell profile), then `npm install`.
+- **GitHub Actions:** repo secret `NODE_AUTH_TOKEN` (referenced by `scrape-events.yml`'s install step).
+- **Cloudflare Pages:** project **environment variable** `NODE_AUTH_TOKEN` (so the build can install).
 
-**Updating to newer kit code:** advance the submodule, reinstall, commit the
-pointer:
+Tailwind's `content` in `tailwind.config.mjs` scans
+`node_modules/@christopherstavrou/ui/src` so package-only utility classes are generated.
+
+### Updating to a newer kit release
+
+Bump the version in `sitekit` (changesets), let its `release` workflow publish,
+then here:
 ```bash
-git -C vendor/sitekit pull origin main
-npm install && git add vendor/sitekit && git commit -m "chore: bump sitekit"
+npm install @christopherstavrou/ui@latest   # or bump the range in package.json
 ```
-
-### Cloudflare Pages caveat (deployment)
-
-Cloudflare Pages does **not** init private submodules by default, so a branch
-that consumes `sitekit` via submodule will fail to build there until one of:
-- the kit is published to a **registry** (Phase 6 — the clean fix; drops the
-  submodule entirely), or
-- `sitekit` is made public so Pages can clone the submodule, or
-- the Pages build command is changed to `git submodule update --init --recursive
-  && npm ci && npm run build` **and** Pages has access to the private submodule.
-
-Until then, verify web-kit branches **locally** (`npm run dev`), not on the
-`*.pages.dev` preview.
 
 ### Scrape workflow + branch protection
 
 `main` and `develop` require PRs (enforced for admins), so the weekly
 `scrape-events.yml` job **opens a PR** from a `bot/scrape-events-*` branch
-instead of pushing to `develop`; a human merges the event-data diff. The
-checkout step uses `submodules: recursive` and runs the `sitekit-scrape-events`
-bin. Enable auto-merge in that workflow only if you want the sync to land
-unattended.
+instead of pushing to `develop`; a human merges the event-data diff. Its install
+step needs the `NODE_AUTH_TOKEN` secret. Enable auto-merge there only if you want
+the sync to land unattended.
 
 ---
 
@@ -257,4 +249,4 @@ Never force-push to `develop` or `main` — they are protected.
 | Two agents open PRs for the same issue | Close the duplicate; comment on it pointing to the PR that continues the work |
 | Open a PR without linking the issue | Add `Closes #N` — the quality gate will remind you |
 | Start work without opening a draft PR | Open a draft PR on the first commit so other agents see the work is in flight |
-| Debug "broken" `@sitekit/*` styling by changing CSS | First run `git submodule update --init --recursive && npm install` — a stale submodule is the usual cause |
+| `npm install` fails on `@christopherstavrou/*` 401/403 | Set `NODE_AUTH_TOKEN` (read:packages PAT) — see § Consuming the sitekit web kit |

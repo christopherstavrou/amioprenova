@@ -1,10 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../../layouts/Layout.astro';
-import SearchInput from '@sitekit/ui/SearchInput.astro';
-import Card from '@sitekit/ui/Card.astro';
-import Badge from '@sitekit/ui/Badge.astro';
-import BackLink from '@sitekit/ui/BackLink.astro';
+import SearchInput from '@christopherstavrou/ui/SearchInput.astro';
+import Card from '@christopherstavrou/ui/Card.astro';
+import Badge from '@christopherstavrou/ui/Badge.astro';
+import BackLink from '@christopherstavrou/ui/BackLink.astro';
 import { ui } from '../../../i18n/ui';
 
 const lang = 'en' as const;
@@ -174,7 +174,7 @@ const selectClass = 'filter-select w-full sm:w-auto sm:flex-1 sm:min-w-0 sm:max-
 </Layout>
 
 <script>
-  import { mountFacetedSearch } from '@sitekit/search';
+  import { mountFacetedSearch } from '@christopherstavrou/search';
   mountFacetedSearch({
     searchInputId: 'news-search-input',
     itemSelector: '.news-card-item',

@@ -21,7 +21,7 @@ gallery:
 ---
 
 This is a test post used to verify the gallery lightbox (images + embedded
-video) on news detail pages while migrating to the `@sitekit/ui` components.
+video) on news detail pages while migrating to the `@christopherstavrou/ui` components.
 
 ## Gallery
 

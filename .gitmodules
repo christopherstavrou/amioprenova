@@ -1,3 +1,0 @@
-[submodule "vendor/sitekit"]
-	path = vendor/sitekit
-	url = https://github.com/christopherstavrou/sitekit.git
