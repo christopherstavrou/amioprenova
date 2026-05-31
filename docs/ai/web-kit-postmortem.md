@@ -62,6 +62,28 @@ as versioned deps; net **~2,700 fewer lines** in the site (PR #136). Epic #125.
    **open a PR** from a bot branch. *Lesson: when you add protection, audit the
    automations that push to the protected branch.*
 
+7. **Squash-only merges silently diverged `develop` and `main`.** With the repo
+   set to squash-only, promoting `develop` → `main` created a *new* commit on
+   `main` that didn't exist on `develop`, so the branches diverged by hash after
+   every release and needed a `main` → `develop` back-merge PR each time. Fixed
+   by allowing **merge commits** and turning OFF `required_linear_history` on
+   `main` (a history-style rule, not a security control — PR-required +
+   enforce_admins stayed on). Releases now merge-commit, making develop's tip a
+   parent of main, so the branches stay in sync with no back-merge. *Lesson: use
+   squash for feature → develop, but a merge commit for develop → main; "require
+   linear history" is incompatible with that and forces the divergence.*
+
+8. **CI gates existed but weren't enforced — or aimed at the wrong branch.** The
+   PR quality gate only linted PR *metadata* and failed every release PR with a
+   false "wrong base branch"; CodeQL's `pull_request` trigger targeted only
+   `main`, so the feature PRs that actually target `develop` got no PR-time
+   security scan; and no check was *required* by branch protection, so a red gate
+   never blocked a merge. Fixed: gate now skips release (`develop→main`) and
+   `bot/*` PRs, CodeQL runs on `develop` PRs too, and `develop` now **requires**
+   the quality gate, CodeQL, and the Cloudflare build to be green. *Lesson: a
+   check that isn't in `required_status_checks` is advisory only; and align each
+   trigger's branch filter with where PRs actually land.*
+
 6. **Committed `dist/` for the TS package** during git-consumption (no
    build-on-install step). The registry tarball makes this unnecessary — a
    reason the registry path is cleaner.
@@ -80,4 +102,5 @@ as versioned deps; net **~2,700 fewer lines** in the site (PR #136). Epic #125.
 ## References
 - Consumption + token setup: `docs/ai/workflow.md` § "Consuming the sitekit web kit"
 - Kit repo: https://github.com/christopherstavrou/sitekit (`AGENTS.md`, `docs/ai/`)
-- Epic: #125 · PR: #136
+- Epic: #125 · PRs: #136 (extraction), #137 (release), #139 (gate skips release PRs), #140 (release via merge commit), #141 (CodeQL on develop PRs + bot-PR gate exempt)
+- Release flow + branch protection specifics: agent memory `feedback_release_flow`, `feedback_branch_protection`
