@@ -29,6 +29,13 @@ jobs:
               return;
             }
 
+            // Automated PRs (e.g. the weekly scrape bot) use `bot/*` branches
+            // and have no human-authored Summary — exempt them from the gate.
+            if (pr.head.ref.startsWith('bot/')) {
+              console.log('Automated bot PR — quality gate skipped.');
+              return;
+            }
+
             // 1. Base branch — all feature work must target develop
             if (pr.base.ref === 'main') {
               errors.push('❌ **Wrong base branch** — target `develop`, not `main`. Retarget this PR: `gh pr edit ' + pr.number + ' --base develop`.');
