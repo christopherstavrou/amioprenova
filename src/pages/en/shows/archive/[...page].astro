@@ -1,10 +1,10 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import Layout from '../../../../layouts/Layout.astro';
-import PageHeader from '../../../../components/PageHeader.astro';
+import PageHeader from '@christopherstavrou/ui/PageHeader.astro';
 import ShowsList from '../../../../components/ShowsList.astro';
-import SearchInput from '../../../../components/SearchInput.astro';
-import BackLink from '../../../../components/BackLink.astro';
+import SearchInput from '@christopherstavrou/ui/SearchInput.astro';
+import BackLink from '@christopherstavrou/ui/BackLink.astro';
 import { getPastEvents } from '../../../../lib/events';
 import { siteConfig } from '../../../../config/site';
 import { ui } from '../../../../i18n/ui';

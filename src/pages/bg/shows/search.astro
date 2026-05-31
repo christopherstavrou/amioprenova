@@ -1,8 +1,8 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import SearchInput from '../../../components/SearchInput.astro';
+import SearchInput from '@christopherstavrou/ui/SearchInput.astro';
 import ShowCard from '../../../components/ShowCard.astro';
-import BackLink from '../../../components/BackLink.astro';
+import BackLink from '@christopherstavrou/ui/BackLink.astro';
 import { getAllEvents, getDisplayStatus } from '../../../lib/events';
 import { siteConfig } from '../../../config/site';
 import { ui } from '../../../i18n/ui';
@@ -179,184 +179,26 @@ const selectClass = 'filter-select w-full sm:w-auto sm:flex-1 sm:min-w-0 sm:max-
   </div>
 </Layout>
 
-<script is:inline>
-  var PAGE_SIZE = 12;
-  var currentPage = 1;
-  var visibleItems = [];
-
-  var searchInput = document.getElementById('shows-search-input');
-  var clearBtn = document.getElementById('clear-filters');
-  var filtersToggle = document.getElementById('filters-toggle');
-  var filtersPanel = document.getElementById('filters');
-  var filtersCount = document.getElementById('filters-count');
-  var filtersChevron = document.getElementById('filters-chevron');
-  var resultCount = document.getElementById('result-count');
-  var noResults = document.getElementById('no-results');
-  var noResultsText = document.getElementById('no-results-text');
-  var paginationControls = document.getElementById('pagination-controls');
-
-  // Each filter: its <select> + the card attribute it matches against.
-  var FILTERS = [
-    { el: document.getElementById('filter-status'),  attr: 'data-status' },
-    { el: document.getElementById('filter-country'), attr: 'data-country' },
-    { el: document.getElementById('filter-city'),    attr: 'data-city' },
-    { el: document.getElementById('filter-year'),    attr: 'data-year' },
-    { el: document.getElementById('filter-month'),   attr: 'data-month' },
-    { el: document.getElementById('filter-type'),    attr: 'data-type' }
-  ].filter(function(f) { return f.el; });
-
-  var allItems = Array.from(document.querySelectorAll('.show-card-item'));
-
-  function queryMatches(item) {
-    var q = searchInput ? searchInput.value.trim().toLowerCase() : '';
-    return !q || (item.getAttribute('data-text') || '').indexOf(q) !== -1;
-  }
-
-  function itemMatches(item, exceptFilter) {
-    if (!queryMatches(item)) return false;
-    for (var i = 0; i < FILTERS.length; i++) {
-      var f = FILTERS[i];
-      if (f === exceptFilter) continue;
-      var v = f.el.value;
-      if (v && (item.getAttribute(f.attr) || '') !== v) return false;
-    }
-    return true;
-  }
-
-  if (filtersToggle && filtersPanel) {
-    filtersToggle.addEventListener('click', function() {
-      var open = filtersPanel.style.display !== 'flex';
-      filtersPanel.style.display = open ? 'flex' : '';
-      filtersToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if (filtersChevron) filtersChevron.style.transform = open ? 'rotate(180deg)' : '';
-    });
-  }
-
-  function activeCount() {
-    return FILTERS.filter(function(f) { return f.el.value; }).length;
-  }
-
-  function updateChrome() {
-    var n = activeCount();
-    if (clearBtn) clearBtn.classList.toggle('hidden', n === 0);
-    if (filtersCount) {
-      filtersCount.textContent = String(n);
-      filtersCount.classList.toggle('hidden', n === 0);
-      filtersCount.classList.toggle('inline-flex', n > 0);
-    }
-  }
-
-  // Faceting: hide options that would yield zero results given the OTHER active
-  // filters. The currently-selected option always stays visible.
-  function recomputeFacets() {
-    FILTERS.forEach(function(f) {
-      var avail = {};
-      allItems.forEach(function(it) {
-        if (itemMatches(it, f)) avail[it.getAttribute(f.attr) || ''] = true;
-      });
-      Array.from(f.el.options).forEach(function(opt) {
-        if (!opt.value) return;
-        opt.hidden = !avail[opt.value] && opt.value !== f.el.value;
-      });
-    });
-  }
-
-  function update() {
-    currentPage = 1;
-    recomputeFacets();
-    updateChrome();
-    applyFilters();
-  }
-
-  if (searchInput) {
-    searchInput.addEventListener('input', function() {
-      var q = searchInput.value.trim();
-      history.replaceState(null, '', q ? '?q=' + encodeURIComponent(q) : window.location.pathname);
-      update();
-    });
-  }
-
-  FILTERS.forEach(function(f) {
-    f.el.addEventListener('change', update);
+<script>
+  import { mountFacetedSearch } from '@christopherstavrou/search';
+  mountFacetedSearch({
+    searchInputId: 'shows-search-input',
+    itemSelector: '.show-card-item',
+    pageSize: 12,
+    filters: [
+      { id: 'filter-status', attr: 'data-status' },
+      { id: 'filter-country', attr: 'data-country' },
+      { id: 'filter-city', attr: 'data-city' },
+      { id: 'filter-year', attr: 'data-year' },
+      { id: 'filter-month', attr: 'data-month' },
+      { id: 'filter-type', attr: 'data-type' },
+    ],
+    labels: {
+      resultsFor: 'резултата за',
+      countNoun: 'концерта',
+      noResultsQuery: 'Не са намерени концерти за',
+      noResultsFilters: 'Няма концерти, отговарящи на филтрите.',
+      prev: '← Предишна', next: 'Следваща →', page: 'Страница', of: 'от',
+    },
   });
-
-  if (clearBtn) {
-    clearBtn.addEventListener('click', function() {
-      FILTERS.forEach(function(f) { f.el.value = ''; });
-      update();
-    });
-  }
-
-  function applyFilters() {
-    visibleItems = allItems.filter(function(item) { return itemMatches(item, null); });
-    renderPage();
-  }
-
-  function renderPage() {
-    allItems.forEach(function(item) {
-      var el = /** @type {HTMLElement} */ (item);
-      el.style.display = 'none';
-    });
-
-    var total = visibleItems.length;
-    var start = (currentPage - 1) * PAGE_SIZE;
-    var end = Math.min(start + PAGE_SIZE, total);
-    visibleItems.slice(start, end).forEach(function(item) {
-      var el = /** @type {HTMLElement} */ (item);
-      el.style.display = '';
-    });
-
-    if (resultCount) {
-      var q = searchInput ? searchInput.value.trim() : '';
-      var countHtml = '<span style="color:var(--color-accent-primary);font-weight:600">' + total + '</span>';
-      resultCount.innerHTML = q
-        ? countHtml + ' резултата за &ldquo;' + q.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '&rdquo;'
-        : countHtml + ' концерта';
-    }
-
-    if (noResults && noResultsText) {
-      if (total === 0) {
-        var q2 = searchInput ? searchInput.value.trim() : '';
-        noResultsText.textContent = q2
-          ? 'Не са намерени концерти за "' + q2 + '"'
-          : 'Няма концерти, отговарящи на филтрите.';
-        noResults.classList.remove('hidden');
-      } else {
-        noResults.classList.add('hidden');
-      }
-    }
-
-    renderPagination(total);
-  }
-
-  function renderPagination(total) {
-    if (!paginationControls) return;
-    var lastPage = Math.max(1, Math.ceil(total / PAGE_SIZE));
-    if (lastPage <= 1) { paginationControls.innerHTML = ''; return; }
-
-    var html = '';
-    if (currentPage > 1) {
-      html += '<button type="button" class="pagination-btn px-4 py-2 text-sm border border-border rounded-lg hover:border-accent-primary hover:text-accent-primary transition-colors" data-page="' + (currentPage - 1) + '">← Предишна</button>';
-    }
-    html += '<span class="text-sm text-text-secondary">Страница ' + currentPage + ' от ' + lastPage + '</span>';
-    if (currentPage < lastPage) {
-      html += '<button type="button" class="pagination-btn px-4 py-2 text-sm border border-border rounded-lg hover:border-accent-primary hover:text-accent-primary transition-colors" data-page="' + (currentPage + 1) + '">Следваща →</button>';
-    }
-    paginationControls.innerHTML = html;
-
-    paginationControls.querySelectorAll('.pagination-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        currentPage = parseInt(btn.getAttribute('data-page') || '1', 10);
-        renderPage();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    });
-  }
-
-  var params = new URLSearchParams(window.location.search);
-  var initQ = params.get('q') || '';
-  if (initQ && searchInput) searchInput.value = initQ;
-  recomputeFacets();
-  updateChrome();
-  applyFilters();
 </script>

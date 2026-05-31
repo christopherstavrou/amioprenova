@@ -1,11 +1,11 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import Layout from '../../../layouts/Layout.astro';
-import Button from '../../../components/Button.astro';
-import Badge from '../../../components/Badge.astro';
-import BackLink from '../../../components/BackLink.astro';
-import SharePopover from '../../../components/SharePopover.astro';
-import GalleryLightbox from '../../../components/GalleryLightbox.astro';
+import Button from '@christopherstavrou/ui/Button.astro';
+import Badge from '@christopherstavrou/ui/Badge.astro';
+import BackLink from '@christopherstavrou/ui/BackLink.astro';
+import SharePopover from '@christopherstavrou/ui/SharePopover.astro';
+import GalleryLightbox from '@christopherstavrou/ui/GalleryLightbox.astro';
 import { getAllEvents, formatEventDatePart, formatEventTime, formatTimezoneLabel, getDisplayStatus, schemaEventStatus } from '../../../lib/events';
 import { siteConfig, eventFeatures } from '../../../config/site';
 import { ui } from '../../../i18n/ui';

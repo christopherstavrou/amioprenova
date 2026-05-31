@@ -2,11 +2,11 @@
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Layout from '../../../layouts/Layout.astro';
-import PageHeader from '../../../components/PageHeader.astro';
-import Card from '../../../components/Card.astro';
-import Badge from '../../../components/Badge.astro';
-import SearchInput from '../../../components/SearchInput.astro';
-import Pagination from '../../../components/Pagination.astro';
+import PageHeader from '@christopherstavrou/ui/PageHeader.astro';
+import Card from '@christopherstavrou/ui/Card.astro';
+import Badge from '@christopherstavrou/ui/Badge.astro';
+import SearchInput from '@christopherstavrou/ui/SearchInput.astro';
+import Pagination from '@christopherstavrou/ui/Pagination.astro';
 import { ui } from '../../../i18n/ui';
 
 export const getStaticPaths = (async ({ paginate }) => {
