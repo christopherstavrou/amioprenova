@@ -2,11 +2,32 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-05-31 (faceted search filters + month filter merged to main)
+**Last updated**: 2026-05-31 (web-kit extraction → @christopherstavrou packages; PR open)
 
 ---
 
 ## ✅ Done
+
+### Web-kit extraction → @christopherstavrou packages (2026-05-31) — branch `feature/web-kit`, epic #125
+
+Extracted the reusable building blocks into the private **sitekit** monorepo,
+published privately to **GitHub Packages**, and migrated amioprenova to consume
+them as versioned deps. PR `feature/web-kit → develop` open.
+
+- **Packages** (`@christopherstavrou/* @ 0.1.0`): `theme` (CSS-var tokens +
+  Tailwind preset), `ui` (Badge/Button/Card/BackLink/PageHeader/SectionHeader/
+  SocialIcon/Pagination/SearchInput/GalleryLightbox/SharePopover), `search`
+  (`mountFacetedSearch` faceting engine), `events-scraper` (FB scraper CLI).
+- **Adoption:** local components deleted; imports point at the packages; tokens
+  via `@christopherstavrou/theme` (global.css `@import` + Tailwind preset);
+  the 4 search pages call `mountFacetedSearch`; scrape workflow uses the bin.
+- **Distribution:** private GitHub Packages; install needs `NODE_AUTH_TOKEN`
+  (read:packages PAT) in local + Actions secret + Cloudflare env (Production
+  **and** Preview). Submodule removed. Cloudflare preview green.
+- **Branch protection:** `main`/`develop` require PRs (enforced for admins);
+  scrape workflow opens a PR instead of pushing to develop.
+- Docs: "Consuming the sitekit web kit" section in `workflow.md`; sitekit repo
+  has its own `AGENTS.md` + `docs/ai/`.
 
 ### Rollback to PR #47 baseline (2026-05-29)
 - Rolled back both `main` and `develop` to commit `032ec69` (PR #47) via `rollback-prep` branch
