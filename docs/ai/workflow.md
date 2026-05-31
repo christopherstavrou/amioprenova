@@ -187,7 +187,7 @@ var:
 Set `NODE_AUTH_TOKEN` in three places:
 - **Local dev:** `export NODE_AUTH_TOKEN=<pat>` (e.g. in your shell profile), then `npm install`.
 - **GitHub Actions:** repo secret `NODE_AUTH_TOKEN` (referenced by `scrape-events.yml`'s install step).
-- **Cloudflare Pages:** project **environment variable** `NODE_AUTH_TOKEN` (so the build can install).
+- **Cloudflare Pages:** project **environment variable** `NODE_AUTH_TOKEN`. ⚠️ Cloudflare keeps **separate** variable sets for **Production** and **Preview** — add it to **both** (toggle at the top of "Variables and secrets"). A branch deploy is a *Preview* build, so a Production-only token gives `npm error 401 Unauthorized` on `@christopherstavrou/*`.
 
 Tailwind's `content` in `tailwind.config.mjs` scans
 `node_modules/@christopherstavrou/ui/src` so package-only utility classes are generated.
