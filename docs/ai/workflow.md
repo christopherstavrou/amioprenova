@@ -165,6 +165,51 @@ Test content fixtures (e.g. `src/content/shows/test-*.json`) are committed delib
 
 ---
 
+## Consuming the sitekit web kit
+
+Several building blocks (design tokens, UI components, the faceted-search
+engine, the events scraper) live in the private **[`sitekit`](https://github.com/christopherstavrou/sitekit)**
+monorepo and are consumed here as versioned **`@christopherstavrou/*`** packages
+published to **private GitHub Packages**. They install like any npm dependency —
+no submodule.
+
+### Authentication (one-time, every install location)
+
+Installs require a **classic PAT with `read:packages`**, exposed as
+`NODE_AUTH_TOKEN`. The repo's committed `.npmrc` maps the scope + reads that env
+var:
+
+```
+@christopherstavrou:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+```
+
+Set `NODE_AUTH_TOKEN` in three places:
+- **Local dev:** `export NODE_AUTH_TOKEN=<pat>` (e.g. in your shell profile), then `npm install`.
+- **GitHub Actions:** repo secret `NODE_AUTH_TOKEN` (referenced by `scrape-events.yml`'s install step).
+- **Cloudflare Pages:** project **environment variable** `NODE_AUTH_TOKEN`. ⚠️ Cloudflare keeps **separate** variable sets for **Production** and **Preview** — add it to **both** (toggle at the top of "Variables and secrets"). A branch deploy is a *Preview* build, so a Production-only token gives `npm error 401 Unauthorized` on `@christopherstavrou/*`.
+
+Tailwind's `content` in `tailwind.config.mjs` scans
+`node_modules/@christopherstavrou/ui/src` so package-only utility classes are generated.
+
+### Updating to a newer kit release
+
+Bump the version in `sitekit` (changesets), let its `release` workflow publish,
+then here:
+```bash
+npm install @christopherstavrou/ui@latest   # or bump the range in package.json
+```
+
+### Scrape workflow + branch protection
+
+`main` and `develop` require PRs (enforced for admins), so the weekly
+`scrape-events.yml` job **opens a PR** from a `bot/scrape-events-*` branch
+instead of pushing to `develop`; a human merges the event-data diff. Its install
+step needs the `NODE_AUTH_TOKEN` secret. Enable auto-merge there only if you want
+the sync to land unattended.
+
+---
+
 ## Troubleshooting
 
 **Build fails.** Read the error, fix the type or import issue, re-run. Don't commit failing builds.
@@ -204,3 +249,4 @@ Never force-push to `develop` or `main` — they are protected.
 | Two agents open PRs for the same issue | Close the duplicate; comment on it pointing to the PR that continues the work |
 | Open a PR without linking the issue | Add `Closes #N` — the quality gate will remind you |
 | Start work without opening a draft PR | Open a draft PR on the first commit so other agents see the work is in flight |
+| `npm install` fails on `@christopherstavrou/*` 401/403 | Set `NODE_AUTH_TOKEN` (read:packages PAT) — see § Consuming the sitekit web kit |

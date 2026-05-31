@@ -1,60 +1,17 @@
+import sitekitTheme from '@christopherstavrou/theme/preset';
+
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-  // Match the project's data-theme model: any `dark:` variant that ever
-  // appears in the codebase will activate against [data-theme="dark"] on
-  // <html>, not prefers-color-scheme. Components should still avoid `dark:`
-  // — dark mode is handled by CSS-variable overrides in global.css.
-  darkMode: ['selector', '[data-theme="dark"]'],
-  theme: {
-    extend: {
-      screens: {
-        nav: '1180px',
-      },
-      colors: {
-        // Using CSS variables for automatic light/dark mode support
-        bg: 'var(--color-bg)',
-        surface: 'var(--color-surface)',
-        'surface-muted': 'var(--color-surface-muted)',
-        'surface-elevated': 'var(--color-surface-elevated)',
-        'text-primary': 'var(--color-text-primary)',
-        'text-secondary': 'var(--color-text-secondary)',
-        'text-inverse': 'var(--color-text-inverse)',
-        accent: {
-          primary: 'var(--color-accent-primary)',
-          'primary-hover': 'var(--color-accent-primary-hover)',
-          secondary: 'var(--color-accent-secondary)',
-        },
-        border: 'var(--color-border)',
-        'border-light': 'var(--color-border-light)',
-        'border-focus': 'var(--color-border-focus)',
-      },
-      fontFamily: {
-        sans: ['Inter', 'Open Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-        serif: ['Playfair Display', 'Merriweather', 'Georgia', 'serif'],
-      },
-      boxShadow: {
-        sm: 'var(--shadow-sm)',
-        DEFAULT: 'var(--shadow-md)',
-        md: 'var(--shadow-md)',
-        lg: 'var(--shadow-lg)',
-      },
-      borderRadius: {
-        sm: 'var(--radius-sm)',
-        DEFAULT: 'var(--radius-md)',
-        md: 'var(--radius-md)',
-        lg: 'var(--radius-lg)',
-      },
-      maxWidth: {
-        'content': '1200px',
-        'prose': '65ch',
-      },
-      transitionDuration: {
-        'fast': '150ms',
-        'base': '250ms',
-        'slow': '500ms',
-      },
-    },
-  },
+  // Theme tokens (colors→CSS vars, fonts, shadows, radii, screens, etc.) and the
+  // data-theme dark-mode selector come from the shared @christopherstavrou/theme preset.
+  // Components should avoid `dark:` — dark mode is driven by CSS-variable
+  // overrides in @christopherstavrou/theme/tokens.css.
+  presets: [sitekitTheme],
+  content: [
+    './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
+    // @christopherstavrou/ui ships Astro source; scan the installed package so
+    // utility classes used only inside its components are generated.
+    './node_modules/@christopherstavrou/ui/src/**/*.{astro,ts,js}',
+  ],
   plugins: [],
 };
