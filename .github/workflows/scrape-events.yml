@@ -31,6 +31,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: develop
+          # Persist a PAT (not the default GITHUB_TOKEN) so the PR opened below
+          # triggers the required CI workflows. PRs opened with GITHUB_TOKEN do
+          # NOT trigger other workflows, which would leave required checks
+          # unreported and the PR permanently blocked. Fine-grained PAT scoped to
+          # this repo with contents:write + pull-requests:write, stored as the
+          # SCRAPE_TOKEN secret. Falls back to GITHUB_TOKEN if unset (CI won't
+          # run on the PR in that case — see required checks on develop).
+          token: ${{ secrets.SCRAPE_TOKEN || github.token }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -85,15 +93,13 @@ jobs:
       # bot cannot push directly. Open a PR from a bot branch instead; a human
       # reviews + merges the event-data diff. (Enable auto-merge here if you'd
       # rather it land unattended.)
-      # NOTE: PRs opened with the default GITHUB_TOKEN do not trigger other
-      # workflows, so this PR lands without PR-level CI. That's acceptable here:
-      # the scraped JSON is schema-validated at build time, and Cloudflare builds
-      # `develop` on merge (catching malformed data). To run full PR checks
-      # instead, swap GH_TOKEN for a PAT/App-token secret.
+      # The PR is opened with SCRAPE_TOKEN (a PAT) so it triggers the required CI
+      # checks on develop — the quality gate skips bot/* PRs, CodeQL + the
+      # Cloudflare build run and gate the merge like any other PR.
       - name: Open a PR with the changes if any
         if: steps.changes.outputs.changed == 'true'
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.SCRAPE_TOKEN || github.token }}
         run: |
           BRANCH="bot/scrape-events-$(date +%Y%m%d-%H%M%S)"
           git config user.name "github-actions[bot]"
