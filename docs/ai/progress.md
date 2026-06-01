@@ -2,17 +2,39 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-05-31 (web-kit extraction → @christopherstavrou packages; PR open)
+**Last updated**: 2026-06-01 (web-kit merged + released to main; release flow & CI hardening)
 
 ---
 
 ## ✅ Done
 
-### Web-kit extraction → @christopherstavrou packages (2026-05-31) — branch `feature/web-kit`, epic #125
+### Release flow & CI hardening (2026-06-01)
+
+Sorted out the `develop`/`main` merge mechanics and tightened CI after the
+web-kit merge surfaced gaps.
+
+- **Release flow:** feature PRs squash-merge into `develop`; `develop → main`
+  releases use a **merge commit** so the branches stay in sync (no back-merge).
+  Enabled merge commits + turned OFF `required_linear_history` on `main` (it
+  forbade merge commits); PR-required + enforce_admins + no-force-push/deletions
+  unchanged. (#137, #139, #140, #143)
+- **Quality gate** (`pr-quality.yml`) now **skips** release PRs (`develop→main`)
+  and `bot/*` PRs (the scrape bot has no human Summary). (#139, #141)
+- **CodeQL** `pull_request` now covers `develop` (feature PRs target develop, so
+  they previously had no PR-time security scan). (#141)
+- **Required status checks on `develop`** (enforced for admins): `PR quality
+  gate`, `Analyze (javascript-typescript)`, `Cloudflare Pages` — a red check now
+  actually blocks a merge. (#141)
+- Post-mortem updated with the squash-divergence + CI lessons (#142). Note on
+  release PRs: GitHub shows `BLOCKED` while checks run, then `UNSTABLE` (the
+  skipped `claude` check) — safe to `gh pr merge --merge` once checks are green.
+
+### Web-kit extraction → @christopherstavrou packages (2026-05-31) — merged via PR #136, epic #125
 
 Extracted the reusable building blocks into the private **sitekit** monorepo,
 published privately to **GitHub Packages**, and migrated amioprenova to consume
-them as versioned deps. PR `feature/web-kit → develop` open.
+them as versioned deps. **Merged** (`feature/web-kit → develop`, PR #136) and
+released to `main` (PR #137); ~2,700 fewer lines in the site.
 
 - **Packages** (`@christopherstavrou/* @ 0.1.0`): `theme` (CSS-var tokens +
   Tailwind preset), `ui` (Badge/Button/Card/BackLink/PageHeader/SectionHeader/
