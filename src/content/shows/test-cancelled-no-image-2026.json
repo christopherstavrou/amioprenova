@@ -13,7 +13,18 @@
   "country": "Bulgaria",
   "isCanceled": true,
   "eventType": "concert",
-  "admission": { "type": "paid", "price": "20 BGN" },
-  "tags": ["jazz", "rooftop", "cancelled"],
-  "tagsBg": ["джаз", "покрив", "отменено"]
+  "admission": {
+    "type": "paid",
+    "price": "20 BGN"
+  },
+  "tags": [
+    "jazz",
+    "rooftop",
+    "cancelled"
+  ],
+  "tagsBg": [
+    "джаз",
+    "покрив",
+    "отменено"
+  ]
 }

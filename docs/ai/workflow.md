@@ -204,9 +204,19 @@ npm install @christopherstavrou/ui@latest   # or bump the range in package.json
 
 `main` and `develop` require PRs (enforced for admins), so the weekly
 `scrape-events.yml` job **opens a PR** from a `bot/scrape-events-*` branch
-instead of pushing to `develop`; a human merges the event-data diff. Its install
-step needs the `NODE_AUTH_TOKEN` secret. Enable auto-merge there only if you want
-the sync to land unattended.
+instead of pushing to `develop`; a human merges the event-data diff. Enable
+auto-merge there only if you want the sync to land unattended.
+
+Two secrets are required:
+- `NODE_AUTH_TOKEN` — read:packages PAT for the private-package install (above).
+- `SCRAPE_TOKEN` — a **fine-grained PAT scoped to this repo** with
+  **Contents: Read & write** + **Pull requests: Read & write**. The job checks
+  out and opens the PR with this token so the PR **triggers the required CI
+  checks** on `develop`. Without it the PR would be opened by the default
+  `GITHUB_TOKEN`, which does **not** trigger other workflows — leaving the
+  required `PR quality gate` / `Analyze` checks unreported and the PR
+  **permanently blocked** (even for admins). The quality gate skips `bot/*` PRs,
+  so it passes; CodeQL + the Cloudflare build run and gate the merge normally.
 
 ---
 
