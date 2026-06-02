@@ -14,9 +14,13 @@ on:
           - upcoming
           - past
 
+  # Weekly auto-run PAUSED: the published events-scraper overwrites files
+  # wholesale and does NOT honor the `_overrides` locks, so it clobbers
+  # human-curated EN/BG content (see scraper fix issue). Re-enable this
+  # schedule once the scraper merges against existing files + respects locks.
   # Automatically every Monday at 08:00 UTC
-  schedule:
-    - cron: '0 8 * * 1'
+  # schedule:
+  #   - cron: '0 8 * * 1'
 
 jobs:
   scrape:

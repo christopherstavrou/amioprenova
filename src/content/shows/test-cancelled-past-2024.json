@@ -13,19 +13,8 @@
   "country": "Bulgaria",
   "status": "cancelled",
   "eventType": "concert",
-  "admission": {
-    "type": "paid",
-    "price": "30 BGN"
-  },
-  "tags": [
-    "jazz",
-    "gala",
-    "cancelled"
-  ],
-  "tagsBg": [
-    "джаз",
-    "гала",
-    "отменено"
-  ],
+  "admission": { "type": "paid", "price": "30 BGN" },
+  "tags": ["jazz", "gala", "cancelled"],
+  "tagsBg": ["джаз", "гала", "отменено"],
   "image": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=1280&h=720&auto=format&fit=crop"
 }
