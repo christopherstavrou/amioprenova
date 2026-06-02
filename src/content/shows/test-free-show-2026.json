@@ -12,17 +12,7 @@
   "city": "Sofia",
   "country": "Bulgaria",
   "eventType": "jam",
-  "admission": {
-    "type": "free"
-  },
-  "tags": [
-    "jazz",
-    "jam",
-    "free"
-  ],
-  "tagsBg": [
-    "джаз",
-    "джем",
-    "безплатно"
-  ]
+  "admission": { "type": "free" },
+  "tags": ["jazz", "jam", "free"],
+  "tagsBg": ["джаз", "джем", "безплатно"]
 }
