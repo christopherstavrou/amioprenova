@@ -30,12 +30,13 @@ jobs:
             }
 
             // Automated PRs have no human-authored Summary — exempt them from
-            // the gate: the weekly scrape bot (`bot/*`) and Dependabot
-            // (`dependabot/*` branches, `dependabot[bot]` author).
+            // the gate: the weekly scrape bot (`bot/*`) and Dependabot. The
+            // Dependabot exemption requires the `dependabot[bot]` author, not
+            // just a `dependabot/` branch name, so a human can't bypass the
+            // gate by naming their branch `dependabot/...`.
             if (
               pr.head.ref.startsWith('bot/') ||
-              pr.head.ref.startsWith('dependabot/') ||
-              pr.user?.login === 'dependabot[bot]'
+              (pr.head.ref.startsWith('dependabot/') && pr.user?.login === 'dependabot[bot]')
             ) {
               console.log('Automated PR (bot/dependabot) — quality gate skipped.');
               return;
