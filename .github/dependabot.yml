@@ -2,6 +2,10 @@ version: 2
 updates:
   - package-ecosystem: "npm"
     directory: "/"
+    # Open update PRs against develop (the integration branch), not the default
+    # branch — keeps the two-branch flow intact and lets the PR quality gate /
+    # CI run before changes reach main via a release.
+    target-branch: "develop"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
