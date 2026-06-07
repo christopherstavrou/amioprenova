@@ -8,6 +8,7 @@ import SharePopover from '@christopherstavrou/ui/SharePopover.astro';
 import GalleryLightbox from '@christopherstavrou/ui/GalleryLightbox.astro';
 import { getAllEvents, formatEventDatePart, formatEventTime, formatTimezoneLabel, getDisplayStatus, schemaEventStatus } from '../../../lib/events';
 import { siteConfig, eventFeatures } from '../../../config/site';
+import { localizeCountry } from '../../../lib/locations';
 import { ui } from '../../../i18n/ui';
 
 export const getStaticPaths = (async () => {
@@ -35,7 +36,7 @@ const timeRange = eventFeatures.showEndTime && endTime ? `${startTime} – ${end
 const canonicalURL = `${siteConfig.baseUrl}/en/shows/${event.slug}`;
 const hasGallery = (event.gallery ?? []).length > 0;
 
-const cityCountryLine = [event.city, event.country].filter(Boolean).join(', ');
+const cityCountryLine = [event.city, localizeCountry(event.country, 'en')].filter(Boolean).join(', ');
 const hasLocation = !!(event.venue || cityCountryLine);
 
 // Strip the FB page owner and any host name that duplicates the venue
