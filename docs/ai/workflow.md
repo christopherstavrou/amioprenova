@@ -227,6 +227,30 @@ Two required secrets, plus one optional:
 
 ---
 
+## Secrets inventory
+
+The secrets and tokens the CI workflows depend on. **Values are never stored in
+the repo** — GitHub Actions secrets are write-only (you cannot read them back,
+only overwrite), so keep your own copy in a password manager. Record the name,
+scope, where it's used, and a rotate-by date for each.
+
+| Secret | Type / scope | Used by | Where it lives | Rotation |
+|---|---|---|---|---|
+| `NODE_AUTH_TOKEN` | Classic PAT, `read:packages` | Installing private `@christopherstavrou/*` packages | Actions secret · Cloudflare Pages env (**Production *and* Preview**) · local shell | 6–12 months, or on leak |
+| `SCRAPE_TOKEN` | Fine-grained PAT, this repo only — **Contents: R/W**, **Pull requests: R/W** | `scrape-events.yml` (opens the bot PR + posts the `@claude` enrich comment); `auto-update-branches.yml` (re-triggers CI on freshened branches) | Actions secret | 6–12 months, or on leak |
+| `SCRAPE_COOKIES` *(optional)* | Cookie-Editor JSON export of a logged-in Facebook session | `scrape-events.yml` — writes `scripts/facebook-cookies.json` so the scraper browses authenticated | Actions secret | Every few weeks (FB cookies expire — refresh when the scrape log says "browsing as guest") |
+
+Set/rotate Actions secrets at **repo → Settings → Secrets and variables →
+Actions → Secrets**. Cloudflare env vars at **Pages project → Settings →
+Variables and secrets** (remember the separate Production/Preview sets).
+
+**Hygiene:** one secret per service/scope (rotate one without touching others);
+prefer fine-grained PATs scoped to this repo with the minimum permissions; never
+commit a secret, paste it in chat, or put it in a tracked `.env`. The cookies
+file is gitignored — keep it that way.
+
+---
+
 ## Troubleshooting
 
 **Build fails.** Read the error, fix the type or import issue, re-run. Don't commit failing builds.
