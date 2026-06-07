@@ -16,7 +16,7 @@
     "@christopherstavrou/search": "^0.1.0",
     "@christopherstavrou/theme": "^0.1.0",
     "@christopherstavrou/ui": "^0.1.0",
-    "astro": "^6.4.2",
+    "astro": "^6.4.4",
     "zod": "^4.3.6"
   },
   "engines": {
