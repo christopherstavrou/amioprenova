@@ -10,6 +10,7 @@ import releases from '../../data/releases.json';
 import videos from '../../data/videos.json';
 import { getNextEvents, formatShortDate } from '../../lib/events';
 import heroImage from '../../assets/images/hero-performance.jpg';
+import { musicGroupJsonLd } from '../../lib/structured-data';
 
 const t = ui['bg'];
 
@@ -27,6 +28,7 @@ const upcomingShows = (await getNextEvents(3)).map(event => ({
   description="Джаз вокалистка и композитор Ами Опренова. Открийте вълнуващи интерпретации, предстоящи концерти и неподвластна на времето музика."
   lang="bg"
 >
+  <script slot="head" type="application/ld+json" set:html={musicGroupJsonLd()} />
   <!-- Split Hero -->
   <section class="hero-split relative -mx-4 -mt-6 md:-mt-8 nav:-mt-10 mb-6 pb-0 flex flex-col md:flex-row min-h-[600px]">
     <!-- Photo column -->
