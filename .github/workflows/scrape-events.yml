@@ -63,6 +63,30 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install chromium
 
+      # Optional Facebook auth (#161). If a SCRAPE_COOKIES secret is present
+      # (a Cookie-Editor JSON export), write it to the cookies file so the
+      # scraper browses as a logged-in user and can see older/hidden events.
+      # Absent → the scraper falls back to guest mode (only currently-public
+      # events). The file is gitignored and never committed. FB session cookies
+      # expire every few weeks; refresh the secret when the scraper log shows
+      # "browsing as guest". Guarded in bash rather than `if:` because the
+      # `secrets` context isn't available in step conditions.
+      - name: Write Facebook cookies (optional)
+        env:
+          SCRAPE_COOKIES: ${{ secrets.SCRAPE_COOKIES }}
+        run: |
+          if [ -n "$SCRAPE_COOKIES" ]; then
+            mkdir -p scripts
+            # Restrict to owner before writing the credential, so later steps /
+            # third-party actions can't read the session cookies off the disk.
+            touch scripts/facebook-cookies.json
+            chmod 600 scripts/facebook-cookies.json
+            printf '%s' "$SCRAPE_COOKIES" > scripts/facebook-cookies.json
+            echo "Wrote cookies file ($(wc -c < scripts/facebook-cookies.json) bytes) — scraping authenticated."
+          else
+            echo "No SCRAPE_COOKIES secret set — scraping as guest (older events may be hidden)."
+          fi
+
       - name: Determine scrape flags
         id: flags
         run: |
