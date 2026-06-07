@@ -151,11 +151,37 @@ before rollback):
    "if 2+ PRs hit conflicts, pause and report"). When it trips, stop and surface
    for human review rather than escalating fixes unattended.
 
+### Multi-agent orchestration
+
+When a task is large enough to delegate to subagents, follow Anthropic's
+orchestrator–worker guidance ([multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system),
+[when to use multi-agent systems](https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them)):
+
+1. **Split by workload, not by job title.** Subagents work best isolating
+   high-volume, low-relevance work (a broad search, a test run, log processing) so
+   only the conclusion returns to the orchestrator. Splitting by developer "role"
+   (frontend/backend/QA agents handing off to each other) degrades into a telephone
+   game that spends more tokens coordinating than working — avoid it.
+2. **Give each subagent a complete brief.** Objective, expected output format, which
+   tools/files to use, and explicit task boundaries. Vague briefs cause subagents to
+   duplicate work or leave gaps.
+3. **Scale effort to complexity in the prompt.** State how much exploration a subtask
+   warrants — agents over- or under-invest otherwise.
+4. **Orchestrator owns integration.** Subagents return findings; the orchestrator
+   synthesises, decides merge order, and runs the [Coordinator checklist](#coordinator-checklist)
+   and [Batch safety limits](#batch-safety-limits) above. Subagents never merge.
+
 ---
 
 ## Visual verification
 
-For any UI/UX change, a clean `npm run build` proves it compiles — not that it *looks right*. Verify visually by driving the real app with Playwright (already in `node_modules`) and screenshotting at both breakpoints. This is the loop used for the search, show-card, and detail-page work.
+For any UI/UX change, a clean `npm run build` proves it compiles — not that it
+*looks right* or *works*. Verify visually **on every UI change and at the end of
+every batch round**, before calling it done, by driving the real app with Playwright
+(already in `node_modules`). Don't stop at static screenshots — **interact**: click
+the filter buttons, toggle the dropdowns, paginate, switch locale and theme, and
+confirm the actual behaviour, then screenshot the result at both breakpoints. This
+is the loop used for the search, show-card, and detail-page work.
 
 **Standard viewports:** mobile **390×844** and desktop **1280×900**. The project's only custom Tailwind breakpoint is `nav: 1180px`, so 1280 exercises the desktop nav and 390 a typical phone. For dark mode, set `data-theme="dark"` on `<html>` via `page.evaluate`.
 
@@ -178,6 +204,10 @@ for (const [w, h, tag] of [[390, 844, 'mobile'], [1280, 900, 'desktop']]) {
   await p.goto(`${BASE}/en/shows`);
   await p.waitForTimeout(500);
   await p.screenshot({ path: `/tmp/shots/shows-${tag}.png`, fullPage: true });
+  // Interact, don't just look: exercise the control and re-shoot.
+  // await p.locator('#filter-type').selectOption('workshop');
+  // await p.waitForTimeout(300);
+  // await p.screenshot({ path: `/tmp/shots/shows-${tag}-filtered.png`, fullPage: true });
 }
 await b.close();
 ```
