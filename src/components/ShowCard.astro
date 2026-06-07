@@ -4,6 +4,7 @@ import Badge from '@christopherstavrou/ui/Badge.astro';
 import ShowActionsMenu from './ShowActionsMenu.astro';
 import type { Event } from '../lib/events';
 import { formatEventDate, formatTimezoneLabel, getDisplayStatus } from '../lib/events';
+import { localizeCountry } from '../lib/locations';
 import { ui } from '../i18n/ui';
 
 export interface Props {
@@ -30,7 +31,7 @@ const { event, lang, baseUrl, labels, showScheduledBadge = false } = Astro.props
 const eventTitle = lang === 'bg' ? (event.titleBg || event.title) : (event.titleEn || event.title);
 const eventDescription = lang === 'bg' ? (event.descriptionBg || event.description) : (event.descriptionEn || event.description);
 const eventTags = lang === 'bg' ? (event.tagsBg ?? event.tags ?? []) : (event.tags ?? []);
-const locationLine = [event.venue, [event.city, event.country].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
+const locationLine = [event.venue, [event.city, localizeCountry(event.country, lang)].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
 
 // Resolved lifecycle status (explicit status, else derived 'past'/'scheduled', else none).
 const displayStatus = getDisplayStatus(event, { showScheduled: showScheduledBadge });
