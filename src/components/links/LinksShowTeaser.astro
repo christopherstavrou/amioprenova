@@ -22,7 +22,7 @@ const shows = upcomingEvents.slice(0, 3);
         const title = lang === 'bg' ? (event.titleBg || event.title) : (event.titleEn || event.title);
         const locationParts = [event.venue, event.city].filter(Boolean);
         const location = locationParts.join(' · ');
-        const date = formatShortDate(event.startDate, locale);
+        const date = formatShortDate(event.startDate, locale, event.timezone);
         const detailUrl = `/${lang}/shows/${event.slug}`;
 
         return (

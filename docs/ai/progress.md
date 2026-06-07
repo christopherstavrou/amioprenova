@@ -8,6 +8,22 @@ Session-to-session anchor for AI agents. Read this at the start of every session
 
 ## ✅ Done
 
+### Venue timezone + calendar export (2026-06-07)
+- **IANA timezone persisted.** events-scraper 0.2.0 writes a lockable
+  `timezone` field (e.g. `Europe/Sofia`); schema gains optional `timezone`.
+  Dependency bumped to `^0.2.0`.
+- **DST-safe venue-local rendering.** `lib/events.ts` formatters take an optional
+  IANA timezone: when present, times/labels are formatted in the venue's zone
+  (DST-correct) via `Intl`; otherwise they fall back to the offset baked into
+  `startDate` (older events keep rendering unchanged). Times are always
+  venue-local, never the viewer's — standard for ticketing sites.
+- **Zone label in list view** (ShowCard), matching the detail page.
+- **`.ics` calendar export** at `/{lang}/shows/<slug>.ics` for upcoming events,
+  with absolute-UTC timestamps so the user's calendar app converts to their own
+  timezone (the one correct place for per-viewer conversion). "Add to calendar"
+  button on detail pages (plain `<a download>` since static hosting drops the
+  endpoint's Content-Disposition).
+
 ### Scrape automation hardening (2026-06-07)
 - **Root-cause fix released** — `events-scraper` 0.1.1 (sitekit#1) now honors
   `_overrides` locks and merges against existing files, ending the data
