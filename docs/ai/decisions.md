@@ -374,3 +374,30 @@ These are hard limits that MUST NOT be violated in V1:
 **Status**: ✅ Implemented (removal); links hub itself deferred to a future standalone repo.
 
 **Date**: 2026-06-07
+
+---
+
+### Automated UI verification: batch at the release gate, not per-PR (#201, Phase 1)
+
+**Decision**: Add an automated UI verification stage that runs as a **batch agent audit at the `develop`→`main` release boundary (and on-demand), scoped to everything changed since the last release plus overlapping areas** — not a per-feature-PR gate, and not a new git branch.
+
+**Why batch over per-PR (for this repo)**:
+- Most PRs here are docs/CI/infra with zero UI surface — a per-PR agent mostly burns tokens on nothing. Agent runs are billed; per-PR × low-value-PRs is the expensive quadrant.
+- The manual audit (`docs/ai/ui-audit.md`) showed that the highest-value findings (BG country/city localization, BG-news-empty) are **cross-feature** and only surface in a holistic sweep — a per-issue scoped check misses them by design.
+- Pre-launch, change comes in bursts with large owner-driven rework pending; a periodic sweep fits that rhythm better than gating each commit.
+
+**Why no new `test` branch**: the "stage between dev and prod" is a *staging environment*, which already exists as the **Cloudflare preview deploy**. A third protected branch adds sync/merge overhead against a deliberately lean release flow (squash→develop, merge-commit→main).
+
+**Architecture (recommended)**:
+- **Trigger** — primary: the `develop→main` release PR; secondary: on-demand (`workflow_dispatch`/label) for a full sweep; (optional, later) weekly schedule during active dev.
+- **Scope** — `git diff main...develop` → changed files → affected routes via a component→route map; agent verifies those + flagged overlaps + always-on critical pages (home, shows, news). Whole-site only on an explicit full audit.
+- **Hybrid** — deterministic Playwright screenshots (reusable harness, fixtures via `INCLUDE_TEST_FIXTURES=1`) for "did anything change unexpectedly"; agent layer for issue-scoped judgement + cross-feature side-effects, reading the diff + issue context.
+- **Output** — findings appended to a dated `docs/ai/ui-audit-*.md` + a PR comment; **advisory (non-blocking) to start**, can become a blocking gate once false-positive rate is known.
+
+**Key caveat — flakiness**: the site renders **time-derived states** (`past`/`upcoming` from `now()`); dynamic dates are the top source of visual-diff flakiness. Freeze/mock the clock and/or mask dynamic regions; pin CI rendering (Linux fonts). Seeded `test-*` fixtures already provide deterministic states.
+
+**Reuses**: the throwaway audit harness (to be promoted to a committed `scripts/ui-audit.mjs`), the `INCLUDE_TEST_FIXTURES` system, the page/component map from the audit, and the visual-verification loop in `workflow.md`.
+
+**Status**: ✅ Phase 1 decided (this entry). Implementation tracked as a task breakdown on #201.
+
+**Date**: 2026-06-08
