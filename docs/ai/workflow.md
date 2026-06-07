@@ -130,6 +130,27 @@ Run when multiple PRs are in flight — typically after a batch of issues comple
 
 The PR quality gate catches the most common mechanical issues automatically. The coordinator checklist covers the coordination that requires judgement.
 
+### Batch safety limits
+
+Hard rules for unattended / autonomous batches, learned from the overnight batch
+that had to be rolled back (37 issues across 4 dependency rounds, 14 PRs merged
+before rollback):
+
+1. **≤ 6 PRs per unattended batch.** Anything larger requires a human checkpoint
+   between rounds — the blast radius of an early mistake is otherwise enormous.
+2. **Architectural PRs block everything downstream.** If a PR restructures a shared
+   component or shared config (e.g. extracting a shared list component, reworking
+   `src/i18n/ui.ts`), every downstream agent branch must be triggered *after* it
+   merges — never before. Branches based on the old structure turn every rebase
+   into a multi-file conflict.
+3. **Preview before the next round.** After a round merges, verify the Cloudflare
+   preview URL renders correctly before triggering the next round. Green CI
+   (Cloudflare build + CodeQL) is necessary but not sufficient — it does not prove
+   the rendered output is correct.
+4. **Define a stop condition up front.** Agree a threshold before starting (e.g.
+   "if 2+ PRs hit conflicts, pause and report"). When it trips, stop and surface
+   for human review rather than escalating fixes unattended.
+
 ---
 
 ## Visual verification
