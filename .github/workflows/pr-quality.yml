@@ -29,10 +29,15 @@ jobs:
               return;
             }
 
-            // Automated PRs (e.g. the weekly scrape bot) use `bot/*` branches
-            // and have no human-authored Summary — exempt them from the gate.
-            if (pr.head.ref.startsWith('bot/')) {
-              console.log('Automated bot PR — quality gate skipped.');
+            // Automated PRs have no human-authored Summary — exempt them from
+            // the gate: the weekly scrape bot (`bot/*`) and Dependabot
+            // (`dependabot/*` branches, `dependabot[bot]` author).
+            if (
+              pr.head.ref.startsWith('bot/') ||
+              pr.head.ref.startsWith('dependabot/') ||
+              pr.user?.login === 'dependabot[bot]'
+            ) {
+              console.log('Automated PR (bot/dependabot) — quality gate skipped.');
               return;
             }
 
