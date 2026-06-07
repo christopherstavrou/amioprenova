@@ -482,6 +482,15 @@ const isActive = (href: string) => {
         }
       });
 
+      // Close the mobile menu if the viewport grows past the nav breakpoint
+      // (1180px) while it's open — otherwise it stays stuck open and the page
+      // remains scroll-locked after a resize or device rotation.
+      window.matchMedia('(min-width: 1180px)').addEventListener('change', (e) => {
+        if (e.matches && menuOpen) {
+          toggleMobileMenu();
+        }
+      });
+
       // ===== Language Switcher =====
       const languageSwitcher = document.getElementById('language-switcher') as HTMLSelectElement; // safe: element is defined in this template
       const mobileLanguageSwitcher = document.getElementById('mobile-language-switcher') as HTMLSelectElement; // safe: element is defined in this template
