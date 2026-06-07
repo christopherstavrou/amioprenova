@@ -2,11 +2,19 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-06-07 (web-kit epic closed out; auto-update PR-branch workflow)
+**Last updated**: 2026-06-07 (web-kit epic closed out; auto-update PR-branch workflow; CI automation hardening)
 
 ---
 
 ## ✅ Done
+
+### CI automation hardening (2026-06-07)
+- **`pr-quality.yml`** — the Dependabot gate exemption now requires the
+  `dependabot[bot]` author, not just a `dependabot/` branch name, so a human
+  can't bypass the quality gate by naming their branch `dependabot/...`.
+- **`auto-update-branches.yml`** — guarded the `git push` (a rejected push no
+  longer aborts the whole run under `set -e`; the branch is skipped instead) and
+  the conflict-comment path now no-ops cleanly when no PR number resolves.
 
 ### Auto-update open PR branches (#113) (2026-06-07)
 - **`auto-update-branches.yml`** — on every push to `develop`, merges `develop`

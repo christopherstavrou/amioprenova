@@ -59,13 +59,20 @@ jobs:
             git checkout -B "$branch" "origin/$branch" || { echo "⚠️ could not check out $branch — skipped"; echo "::endgroup::"; continue; }
 
             if git merge --no-edit origin/develop; then
-              git push origin "$branch"
-              echo "✅ $branch updated"
+              if git push origin "$branch"; then
+                echo "✅ $branch updated"
+              else
+                echo "⚠️ could not push $branch (protection / non-fast-forward?) — skipped"
+              fi
             else
               git merge --abort
               PR_NUMBER=$(gh pr list --base develop --head "$branch" --json number -q '.[0].number')
-              gh pr comment "$PR_NUMBER" --body "⚠️ This branch could not be auto-updated from \`develop\` — merge conflict detected. Please merge \`develop\` in and resolve manually before pushing further commits."
-              echo "⚠️ $branch has conflicts — skipped, PR #$PR_NUMBER notified"
+              if [ -n "$PR_NUMBER" ] && [ "$PR_NUMBER" != "null" ]; then
+                gh pr comment "$PR_NUMBER" --body "⚠️ This branch could not be auto-updated from \`develop\` — merge conflict detected. Please merge \`develop\` in and resolve manually before pushing further commits."
+                echo "⚠️ $branch has conflicts — skipped, PR #$PR_NUMBER notified"
+              else
+                echo "⚠️ $branch has conflicts — skipped, no PR found to notify"
+              fi
             fi
             echo "::endgroup::"
           done
