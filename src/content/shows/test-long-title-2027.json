@@ -1,0 +1,17 @@
+{
+  "id": "test-long-title",
+  "slug": "test-long-title-2027",
+  "title": "An Extraordinarily Long Event Title That Goes On And On To Test How Cards, Grids, Detail Headers And The Browser Tab Title Handle Wrapping Across Multiple Lines On Both Mobile And Desktop Layouts [TEST]",
+  "titleEn": "An Extraordinarily Long Event Title That Goes On And On To Test How Cards, Grids, Detail Headers And The Browser Tab Title Handle Wrapping Across Multiple Lines On Both Mobile And Desktop Layouts [TEST]",
+  "titleBg": "Изключително дълго заглавие на събитие, което продължава дълго, за да тества как картите, мрежите и заглавията се пренасят на няколко реда [ТЕСТ]",
+  "description": "A very long description that should be line-clamped on cards but shown in full on the detail page. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+  "startDate": "2027-02-14T20:00:00+02:00",
+  "venue": "Kulturhaus der Deutschen Minderheit in der Region Banat",
+  "city": "Timișoara",
+  "country": "Romania",
+  "timezone": "Europe/Bucharest",
+  "eventType": "concert",
+  "admission": { "type": "paid", "price": "30 BGN" },
+  "tags": ["jazz", "test"],
+  "image": "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?q=80&w=1280&h=720&auto=format&fit=crop"
+}

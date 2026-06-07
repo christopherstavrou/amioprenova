@@ -1,0 +1,20 @@
+{
+  "id": "test-empty-gallery",
+  "slug": "test-empty-gallery-2027",
+  "title": "Empty Gallery Event [TEST]",
+  "titleEn": "Empty Gallery Event [TEST]",
+  "titleBg": "Събитие с празна галерия [ТЕСТ]",
+  "description": "Has an explicitly empty gallery array — the gallery section should not render.",
+  "descriptionEn": "Has an explicitly empty gallery array — the gallery section should not render.",
+  "descriptionBg": "Има изрично празен масив за галерия — секцията не трябва да се показва.",
+  "startDate": "2027-06-20T19:00:00+03:00",
+  "venue": "Open Air Stage",
+  "city": "Burgas",
+  "country": "Bulgaria",
+  "timezone": "Europe/Sofia",
+  "eventType": "charity",
+  "admission": { "type": "donation", "note": "Proceeds to charity" },
+  "tags": ["charity"],
+  "gallery": [],
+  "image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1280&h=720&auto=format&fit=crop"
+}

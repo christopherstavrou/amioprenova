@@ -1,0 +1,20 @@
+{
+  "id": "test-many-tags",
+  "slug": "test-many-tags-2027",
+  "title": "Many Tags Stress Test [TEST]",
+  "titleEn": "Many Tags Stress Test [TEST]",
+  "titleBg": "Тест с много етикети [ТЕСТ]",
+  "description": "Event with many tags to test badge-row wrapping and overflow.",
+  "descriptionEn": "Event with many tags to test badge-row wrapping and overflow.",
+  "descriptionBg": "Събитие с много етикети за тестване на пренасянето на етикетите.",
+  "startDate": "2027-03-05T19:00:00+02:00",
+  "venue": "Studio 5",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "timezone": "Europe/Sofia",
+  "eventType": "jam",
+  "admission": { "type": "donation" },
+  "tags": ["jazz", "swing", "bebop", "vocal", "improv", "trio", "live", "standards", "latin", "bossa", "fusion", "soul", "blues", "acoustic", "festival", "late-night"],
+  "tagsBg": ["джаз", "суинг", "бибоп", "вокал", "импровизация", "трио", "на живо", "стандарти", "латино", "боса", "фюжън", "соул", "блус", "акустика", "фестивал", "нощно"],
+  "image": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=1280&h=720&auto=format&fit=crop"
+}

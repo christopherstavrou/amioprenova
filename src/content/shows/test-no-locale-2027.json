@@ -1,0 +1,14 @@
+{
+  "id": "test-no-locale",
+  "slug": "test-no-locale-2027",
+  "title": "Untranslated Event [TEST]",
+  "description": "Only the base title and description are set (no titleEn/titleBg). Tests locale fallback on the BG site.",
+  "startDate": "2027-07-11T20:00:00+03:00",
+  "venue": "Riverside Club",
+  "city": "Ruse",
+  "country": "Bulgaria",
+  "timezone": "Europe/Sofia",
+  "eventType": "album-launch",
+  "admission": { "type": "paid", "price": "20 BGN", "concessions": "15 BGN students" },
+  "tags": ["album-launch"]
+}

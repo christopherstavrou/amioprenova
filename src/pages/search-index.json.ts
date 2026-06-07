@@ -1,8 +1,12 @@
 import { getCollection } from 'astro:content';
 import { getAllEvents, formatEventDate } from '../lib/events';
+import { includeTestFixtures, isTestEntry } from '../lib/test-fixtures';
 
 export async function GET() {
-  const allPosts = await getCollection('blog');
+  const allPosts = await getCollection(
+    'blog',
+    ({ id }) => includeTestFixtures() || !isTestEntry(id),
+  );
 
   const postEntries = allPosts.map(post => {
     const lang = post.id.startsWith('en/') ? 'en' : 'bg';

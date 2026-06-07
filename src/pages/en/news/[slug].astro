@@ -1,6 +1,7 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
+import { getBlogPosts } from '../../../lib/blog';
 import Layout from '../../../layouts/Layout.astro';
 import Badge from '@christopherstavrou/ui/Badge.astro';
 import BackLink from '@christopherstavrou/ui/BackLink.astro';
@@ -12,7 +13,7 @@ import { ui } from '../../../i18n/ui';
 const t = ui['en'];
 
 export const getStaticPaths = (async () => {
-  const allPosts = await getCollection('blog', ({ id }) => id.startsWith('en/'));
+  const allPosts = await getBlogPosts('en');
   return allPosts.map(post => ({
     params: { slug: post.id.replace('en/', '') },
     props: { post },

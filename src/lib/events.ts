@@ -2,6 +2,7 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import type { GalleryItem } from './gallery-schema';
 import { eventFeatures } from '../config/site';
+import { includeTestFixtures, isTestEntry } from './test-fixtures';
 
 export type { GalleryItem };
 export type Event = CollectionEntry<'shows'>['data'];
@@ -56,7 +57,11 @@ let allEventsPromise: Promise<readonly Event[]> | undefined;
 
 async function loadAllEvents(): Promise<readonly Event[]> {
   if (!allEventsPromise || import.meta.env.DEV) {
-    allEventsPromise = getCollection('shows').then(collection => collection.map(entry => entry.data));
+    allEventsPromise = getCollection('shows').then(collection =>
+      collection
+        .filter(entry => includeTestFixtures() || !isTestEntry(entry.id))
+        .map(entry => entry.data),
+    );
   }
   return allEventsPromise;
 }
