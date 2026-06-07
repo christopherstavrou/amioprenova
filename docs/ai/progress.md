@@ -2,11 +2,27 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-06-01 (web-kit merged + released to main; release flow & CI hardening)
+**Last updated**: 2026-06-07 (scraper lock fix released; scrape automation hardened)
 
 ---
 
 ## ✅ Done
+
+### Scrape automation hardening (2026-06-07)
+- **Root-cause fix released** — `events-scraper` 0.1.1 (sitekit#1) now honors
+  `_overrides` locks and merges against existing files, ending the data
+  clobbering that forced the #147 revert. Bumped the dependency to `^0.1.1`.
+- **Rolling scrape branch (#152)** — `scrape-events.yml` resets a single
+  `bot/scrape-events` branch on develop each run and reuses the open PR, so
+  there are no stale/duplicate scrape PRs.
+- **Auto-enrich (#151)** — after opening the rolling PR, the workflow posts an
+  `@claude` comment (via `SCRAPE_TOKEN`, which passes claude.yml's
+  author_association gate) asking the agent to run the `enrich-events` skill:
+  translate EN↔BG, fill curated fields, set `_overrides` locks, normalise
+  hosts/venue. Pipeline: scrape → auto-enrich → human review → merge.
+- **Cron still paused** — re-enable the weekly schedule only after a manual
+  `workflow_dispatch` run confirms locks are preserved and the enrich comment
+  fires.
 
 ### Release flow & CI hardening (2026-06-01)
 

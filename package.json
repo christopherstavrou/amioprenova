@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
-    "@christopherstavrou/events-scraper": "^0.1.0",
+    "@christopherstavrou/events-scraper": "^0.1.1",
     "@christopherstavrou/search": "^0.1.0",
     "@christopherstavrou/theme": "^0.1.0",
     "@christopherstavrou/ui": "^0.1.0",
