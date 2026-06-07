@@ -97,6 +97,7 @@ All text content visible to users must be available in both English and Bulgaria
 | `venue` | Fix obvious scraper mistakes (street address stored as venue name). Lock. |
 | `city` | Infer from venue name (known venues), address in body, or web search. Lock. |
 | `country` | Same as city. Use display names: "UK" not "United Kingdom", "USA" not "United States". Lock. |
+| `timezone` | IANA zone of the venue (e.g. `Europe/Sofia`, `Europe/London`). Scraper-set. If missing, infer from city/country and set it — it drives DST-safe venue-local time display and the .ics export. Lock once correct. |
 | `hosts` | Leave as scraped. Remove duplicates of artist name/page and venue name. |
 | `tags` | See Tag Taxonomy below. Lowercase English. Include venue slug, city, country. 3–8 tags. Lock. |
 | `tagsBg` | Bulgarian equivalents of `tags`. City/country use BG names (e.g. `sofia` → `София`). Venue slugs identical to EN. Lock. |

@@ -14,13 +14,13 @@ on:
           - upcoming
           - past
 
-  # Weekly auto-run PAUSED: the published events-scraper overwrites files
-  # wholesale and does NOT honor the `_overrides` locks, so it clobbers
-  # human-curated EN/BG content (see scraper fix issue). Re-enable this
-  # schedule once the scraper merges against existing files + respects locks.
-  # Automatically every Monday at 08:00 UTC
-  # schedule:
-  #   - cron: '0 8 * * 1'
+  # Weekly auto-run. The original clobbering bug is fixed: the scraper honors
+  # `_overrides` locks (events-scraper 0.2.1) and curated events now lock
+  # title/hosts/startDate/timezone, so scrapes can't revert human content.
+  # Verified end-to-end via workflow_dispatch (rolling PR + @claude enrichment).
+  # Automatically every Monday at 08:00 UTC.
+  schedule:
+    - cron: '0 8 * * 1'
 
 jobs:
   scrape:
@@ -100,18 +100,50 @@ jobs:
       # The PR is opened with SCRAPE_TOKEN (a PAT) so it triggers the required CI
       # checks on develop — the quality gate skips bot/* PRs, CodeQL + the
       # Cloudflare build run and gate the merge like any other PR.
-      - name: Open a PR with the changes if any
+      #
+      # Single rolling branch (#152): reset `bot/scrape-events` on top of the
+      # freshly-checked-out develop each run and force-push, so there is exactly
+      # one open scrape PR. A pending PR is refreshed in place rather than
+      # spawning a timestamped duplicate, and it can never go stale against
+      # develop. Coordination caveat: a force-push replaces any enrichment
+      # commits still sitting unmerged on the branch — review + merge the rolling
+      # PR before the next run so curated content isn't dropped (the scraper now
+      # honors `_overrides` locks, so already-merged enrichment is safe).
+      - name: Open or update the rolling scrape PR
+        if: steps.changes.outputs.changed == 'true'
+        id: open_pr
+        env:
+          GH_TOKEN: ${{ secrets.SCRAPE_TOKEN || github.token }}
+        run: |
+          BRANCH="bot/scrape-events"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$BRANCH"
+          git add src/content/shows/ public/images/events/
+          git commit -m "chore(events): sync Facebook events"
+          git push --force origin "$BRANCH"
+          # Reuse the open PR if one exists (rolling), else create it.
+          PR_NUMBER=$(gh pr list --head "$BRANCH" --base develop --state open --json number --jq '.[0].number')
+          if [ -z "$PR_NUMBER" ]; then
+            PR_URL=$(gh pr create --base develop --head "$BRANCH" \
+              --title "chore(events): sync Facebook events" \
+              --body "Automated Facebook events sync via @christopherstavrou/events-scraper. Rolling PR — refreshed in place each run (#152). Review the event-data diff and merge.")
+            PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+          fi
+          echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+
+      # Auto-enrich (#151): ask the Claude agent (via claude.yml, which triggers
+      # on @claude mentions) to curate the raw scraped content — translate EN↔BG,
+      # fill missing curated fields, set `_overrides` locks, normalise
+      # hosts/venue. The comment must come from SCRAPE_TOKEN (a PAT): claude.yml's
+      # security gate checks author_association, and a GITHUB_TOKEN comment has no
+      # association so it would be silently skipped. The scraper honoring
+      # `_overrides` (sitekit#1) is what keeps this enrichment from being wiped on
+      # the next scrape.
+      - name: Ask Claude to enrich new events
         if: steps.changes.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.SCRAPE_TOKEN || github.token }}
         run: |
-          BRANCH="bot/scrape-events-$(date +%Y%m%d-%H%M%S)"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$BRANCH"
-          git add src/content/shows/ public/images/events/
-          git commit -m "chore(events): sync Facebook events"
-          git push origin "$BRANCH"
-          gh pr create --base develop --head "$BRANCH" \
-            --title "chore(events): sync Facebook events" \
-            --body "Automated weekly Facebook events sync via @christopherstavrou/events-scraper. Review the event-data diff and merge."
+          gh pr comment ${{ steps.open_pr.outputs.pr_number }} \
+            --body "@claude please run the \`enrich-events\` skill on the new/changed \`src/content/shows/\` files in this PR. For each changed file: translate EN fields to English and BG fields to Bulgarian, fill all missing curated fields, set \`_overrides\` locks, and normalise hosts/venue. Refer to \`docs/ai/event-enrichment.md\` for the full field guide."

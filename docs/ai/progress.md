@@ -2,11 +2,59 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-06-01 (web-kit merged + released to main; release flow & CI hardening)
+**Last updated**: 2026-06-07 (scraper lock fix released; scrape automation hardened)
 
 ---
 
 ## ✅ Done
+
+### Timezone backfill + locks + cron live (2026-06-07)
+- **Backfilled `timezone`** on all 49 non-test events from country
+  (Bulgaria→Europe/Sofia, UK→Europe/London, Italy→Europe/Rome) — the CI scrape
+  runs as a guest (cookies file is gitignored / not provided as a secret) so it
+  only re-fetches currently-public events; the backfill gives every event a zone.
+- **Locked `title`/`hosts`/`startDate`/`timezone`** on all FB-sourced events so
+  scrapes can no longer revert curated values (added to the existing bilingual
+  locks). 172 lock keys added.
+- **Re-enabled the weekly cron** (Mon 08:00 UTC) now that locks protect content.
+- Superseded scrape PR #156 (its only new data — 7 timezone values — is
+  reproduced deterministically here; merging it would have re-imported the raw-BG
+  churn the locks now prevent).
+- **Known gap:** CI scrapes have no Facebook auth. To re-fetch older/hidden
+  events, add a `SCRAPE_COOKIES` secret and write the cookies file in the
+  workflow (cookies expire every few weeks — ongoing maintenance).
+
+### Venue timezone + calendar export (2026-06-07)
+- **IANA timezone persisted.** events-scraper 0.2.0 writes a lockable
+  `timezone` field (e.g. `Europe/Sofia`); schema gains optional `timezone`.
+  Dependency bumped to `^0.2.0`.
+- **DST-safe venue-local rendering.** `lib/events.ts` formatters take an optional
+  IANA timezone: when present, times/labels are formatted in the venue's zone
+  (DST-correct) via `Intl`; otherwise they fall back to the offset baked into
+  `startDate` (older events keep rendering unchanged). Times are always
+  venue-local, never the viewer's — standard for ticketing sites.
+- **Zone label in list view** (ShowCard), matching the detail page.
+- **`.ics` calendar export** at `/{lang}/shows/<slug>.ics` for upcoming events,
+  with absolute-UTC timestamps so the user's calendar app converts to their own
+  timezone (the one correct place for per-viewer conversion). "Add to calendar"
+  button on detail pages (plain `<a download>` since static hosting drops the
+  endpoint's Content-Disposition).
+
+### Scrape automation hardening (2026-06-07)
+- **Root-cause fix released** — `events-scraper` 0.1.1 (sitekit#1) now honors
+  `_overrides` locks and merges against existing files, ending the data
+  clobbering that forced the #147 revert. Bumped the dependency to `^0.1.1`.
+- **Rolling scrape branch (#152)** — `scrape-events.yml` resets a single
+  `bot/scrape-events` branch on develop each run and reuses the open PR, so
+  there are no stale/duplicate scrape PRs.
+- **Auto-enrich (#151)** — after opening the rolling PR, the workflow posts an
+  `@claude` comment (via `SCRAPE_TOKEN`, which passes claude.yml's
+  author_association gate) asking the agent to run the `enrich-events` skill:
+  translate EN↔BG, fill curated fields, set `_overrides` locks, normalise
+  hosts/venue. Pipeline: scrape → auto-enrich → human review → merge.
+- **Cron still paused** — re-enable the weekly schedule only after a manual
+  `workflow_dispatch` run confirms locks are preserved and the enrich comment
+  fires.
 
 ### Release flow & CI hardening (2026-06-01)
 
