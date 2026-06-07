@@ -1,0 +1,71 @@
+name: Auto-update open PR branches
+
+# When a PR merges to develop, every other open PR branch targeting develop
+# becomes stale. Left unattended, the next rebase accumulates rounds of
+# conflicts — especially on high-churn files (src/i18n/ui.ts,
+# src/components/ShowsList.astro, src/config/site.ts). This was the primary
+# cause of the overnight batch failure (#112). This workflow merges develop
+# into each open PR branch on every push, so branches stay fresh and conflicts
+# surface one at a time. See issue #113.
+
+on:
+  push:
+    branches: [develop]
+
+# Serialise runs so two quick develop merges don't race on the same PR branch.
+concurrency:
+  group: auto-update-branches
+  cancel-in-progress: false
+
+jobs:
+  update-branches:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+          # A push made with GITHUB_TOKEN does not re-trigger the PR's required
+          # checks (Cloudflare preview, CodeQL). Persist SCRAPE_TOKEN (a
+          # fine-grained PAT with contents:write + pull-requests:write) so the
+          # auto-update push reruns CI on the freshened branch. Falls back to
+          # GITHUB_TOKEN if unset — the merge still lands, but the PR's checks
+          # won't re-run until the next manual commit.
+          token: ${{ secrets.SCRAPE_TOKEN || github.token }}
+
+      - name: Merge develop into all open PR branches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          BRANCHES=$(gh pr list --base develop --state open --json headRefName -q '.[].headRefName')
+
+          if [ -z "$BRANCHES" ]; then
+            echo "No open PRs targeting develop — nothing to update."
+            exit 0
+          fi
+
+          for branch in $BRANCHES; do
+            echo "::group::Updating $branch"
+            git fetch origin "$branch" || { echo "⚠️ could not fetch $branch — skipped"; echo "::endgroup::"; continue; }
+            git checkout -B "$branch" "origin/$branch" || { echo "⚠️ could not check out $branch — skipped"; echo "::endgroup::"; continue; }
+
+            if git merge --no-edit origin/develop; then
+              git push origin "$branch"
+              echo "✅ $branch updated"
+            else
+              git merge --abort
+              PR_NUMBER=$(gh pr list --base develop --head "$branch" --json number -q '.[0].number')
+              gh pr comment "$PR_NUMBER" --body "⚠️ This branch could not be auto-updated from \`develop\` — merge conflict detected. Please merge \`develop\` in and resolve manually before pushing further commits."
+              echo "⚠️ $branch has conflicts — skipped, PR #$PR_NUMBER notified"
+            fi
+            echo "::endgroup::"
+          done
