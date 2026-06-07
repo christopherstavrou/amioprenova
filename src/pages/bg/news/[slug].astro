@@ -82,7 +82,7 @@ const hasGallery = galleryItems.length > 0;
 
     {hasGallery && (
       <section class="mb-8">
-        <h2 class="font-serif text-2xl font-bold mb-4">Галерия</h2>
+        <h2 class="font-serif text-2xl font-bold mb-4">{t.shows.detail.gallery}</h2>
         <GalleryLightbox items={galleryItems} labels={{ dialog: 'Преглед на галерия', close: 'Затвори галерия', previous: 'Предишна', next: 'Следваща', viewPrefix: 'Виж ', goToPrefix: 'Към елемент ' }} />
       </section>
     )}
