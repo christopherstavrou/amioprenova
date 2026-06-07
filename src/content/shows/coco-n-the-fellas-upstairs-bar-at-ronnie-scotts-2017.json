@@ -64,6 +64,11 @@
     "eventType": "locked",
     "tags": "locked",
     "tagsBg": "locked",
-    "ticketUrl": "locked"
-  }
+    "ticketUrl": "locked",
+    "title": "locked",
+    "hosts": "locked",
+    "startDate": "locked",
+    "timezone": "locked"
+  },
+  "timezone": "Europe/London"
 }

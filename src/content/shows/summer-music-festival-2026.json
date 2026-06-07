@@ -60,5 +60,6 @@
     "tags": "locked",
     "tagsBg": "locked",
     "venue": "locked"
-  }
+  },
+  "timezone": "Europe/Sofia"
 }

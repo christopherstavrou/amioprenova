@@ -60,6 +60,11 @@
     "admission": "locked",
     "eventType": "locked",
     "tags": "locked",
-    "tagsBg": "locked"
-  }
+    "tagsBg": "locked",
+    "title": "locked",
+    "hosts": "locked",
+    "startDate": "locked",
+    "timezone": "locked"
+  },
+  "timezone": "Europe/Sofia"
 }
