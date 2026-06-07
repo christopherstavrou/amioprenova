@@ -207,8 +207,15 @@ npm install @christopherstavrou/ui@latest   # or bump the range in package.json
 instead of pushing to `develop`; a human merges the event-data diff. Enable
 auto-merge there only if you want the sync to land unattended.
 
-Two secrets are required:
+Two required secrets, plus one optional:
 - `NODE_AUTH_TOKEN` — read:packages PAT for the private-package install (above).
+- `SCRAPE_COOKIES` *(optional)* — a Cookie-Editor JSON export of a logged-in
+  Facebook session. When set, the workflow writes it to
+  `scripts/facebook-cookies.json` so the scraper browses authenticated and can
+  see older/hidden events; when absent it scrapes as a guest (only
+  currently-public events). FB cookies expire every few weeks — refresh the
+  secret when the scraper log shows "browsing as guest". Never commit the file
+  (it's gitignored).
 - `SCRAPE_TOKEN` — a **fine-grained PAT scoped to this repo** with
   **Contents: Read & write** + **Pull requests: Read & write**. The job checks
   out and opens the PR with this token so the PR **triggers the required CI

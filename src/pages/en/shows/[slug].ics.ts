@@ -11,6 +11,7 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 export const GET: APIRoute = ({ props }) => {
+  // Safe cast: `event` is injected by getStaticPaths above during prerender.
   const { event } = props as { event: Event };
   return new Response(buildEventICS(event, 'en', siteConfig.baseUrl), {
     headers: {
