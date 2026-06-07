@@ -2,11 +2,26 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-06-07 (scraper lock fix released; scrape automation hardened)
+**Last updated**: 2026-06-07 (web-kit epic closed out; auto-update PR-branch workflow)
 
 ---
 
 ## ✅ Done
+
+### Auto-update open PR branches (#113) (2026-06-07)
+- **`auto-update-branches.yml`** — on every push to `develop`, merges `develop`
+  into each open PR branch that targets it, so stale branches no longer pile up
+  rounds of merge conflicts (the #112 overnight-batch failure mode). Branches
+  with conflicts are skipped and get a PR comment so the author knows to merge
+  manually. Serialised via a `concurrency` group; uses `SCRAPE_TOKEN` (PAT) so
+  the freshened branch re-runs its required checks, falling back to
+  `GITHUB_TOKEN` if unset.
+
+### web-kit epic closed (#125) (2026-06-07)
+- Verified the site fully consumes the published `@christopherstavrou/*`
+  packages (theme/ui/search/events-scraper); inline search code and local kit
+  copies gone, `npm run build` clean. Closed the stale tracking issues #132
+  (5a), #133 (5b), and the umbrella epic #125 — the migration landed via #135.
 
 ### Timezone backfill + locks + cron live (2026-06-07)
 - **Backfilled `timezone`** on all 49 non-test events from country
@@ -248,7 +263,7 @@ Implemented all actionable open issues from the GitHub issue tracker in a single
 - **#87** — `LinksShowTeaser` component: next 3 upcoming shows on links page
 - **#88** — `LinksSocialStrip` (icon-only row) and `LinksEmailSignup` (mailto CTA) components
 
-Skipped (owner input required or infra): #51, #64, #65, #68, #69, #71, #82, #86, #89, #90, #91, #92, #93, #94, #112, #113
+Skipped (owner input required or infra): #51, #64, #65, #68, #69, #71, #82, #86, #89, #90, #91, #92, #93, #94, #112 (#113 done 2026-06-07)
 
 ### Search / card / detail UX polish (2026-05-30) — commit `74f54df`, merged develop → main
 
