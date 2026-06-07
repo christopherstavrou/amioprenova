@@ -207,7 +207,7 @@ npm install @christopherstavrou/ui@latest   # or bump the range in package.json
 instead of pushing to `develop`; a human merges the event-data diff. Enable
 auto-merge there only if you want the sync to land unattended.
 
-Two secrets are required, one optional:
+Two required secrets, plus one optional:
 - `NODE_AUTH_TOKEN` — read:packages PAT for the private-package install (above).
 - `SCRAPE_COOKIES` *(optional)* — a Cookie-Editor JSON export of a logged-in
   Facebook session. When set, the workflow writes it to
