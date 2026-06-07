@@ -3,7 +3,7 @@ import Card from '@christopherstavrou/ui/Card.astro';
 import Badge from '@christopherstavrou/ui/Badge.astro';
 import ShowActionsMenu from './ShowActionsMenu.astro';
 import type { Event } from '../lib/events';
-import { formatEventDate, getDisplayStatus } from '../lib/events';
+import { formatEventDate, formatTimezoneLabel, getDisplayStatus } from '../lib/events';
 import { ui } from '../i18n/ui';
 
 export interface Props {
@@ -174,7 +174,8 @@ const shareUrl = `${baseUrl}/${lang}/shows/${event.slug}`;
       {/* ── Shared content: date, location, tags, description ── */}
       <div class="px-4 pb-4">
         <p class="text-text-secondary text-sm mb-1">
-          <span class="font-medium">{formatEventDate(event.startDate, lang)}</span>
+          <span class="font-medium">{formatEventDate(event.startDate, lang, event.timezone)}</span>
+          <span class="text-text-secondary"> {formatTimezoneLabel(event.startDate, event.timezone)}</span>
         </p>
         {locationLine && <p class="text-text-secondary text-sm mb-2">{locationLine}</p>}
         {eventTags.length > 0 && (

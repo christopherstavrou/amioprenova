@@ -152,12 +152,30 @@ function parseWallClockDate(dateString: string): Date {
   return date;
 }
 
+// Is `tz` a real IANA zone the runtime can format with? Older events have no
+// timezone and fall back to the offset baked into the date string.
+function isValidTimeZone(tz: string | undefined): tz is string {
+  if (!tz) return false;
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone: tz });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// All event-time formatting renders in the VENUE's local time, never the
+// viewer's: a 19:00 Sofia concert reads "19:00" everywhere. When an IANA
+// `timezone` is present we format the absolute instant in that zone (DST-safe);
+// otherwise we fall back to the wall-clock value parsed from the stored offset.
+
 // Date part only — "Sun 4 Jun 2024" / "нд 4 юни 2024"
 // Uses formatToParts so we control the order and strip commas ourselves.
-export function formatEventDatePart(dateString: string, locale: string = 'en'): string {
-  const date = parseWallClockDate(dateString);
+export function formatEventDatePart(dateString: string, locale: string = 'en', timezone?: string): string {
+  const useIana = isValidTimeZone(timezone);
+  const date = useIana ? new Date(dateString) : parseWallClockDate(dateString);
   const parts = new Intl.DateTimeFormat(locale, {
-    timeZone: 'UTC',
+    timeZone: useIana ? timezone : 'UTC',
     weekday: 'short',
     day: 'numeric',
     month: 'short',
@@ -169,7 +187,17 @@ export function formatEventDatePart(dateString: string, locale: string = 'en'): 
 }
 
 // Time only — always 24h, not locale-dependent: "19:00"
-export function formatEventTime(dateString: string): string {
+export function formatEventTime(dateString: string, timezone?: string): string {
+  if (isValidTimeZone(timezone)) {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: timezone,
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).formatToParts(new Date(dateString));
+    const get = (type: string) => parts.find(p => p.type === type)?.value ?? '';
+    return `${get('hour')}:${get('minute')}`;
+  }
   const date = parseWallClockDate(dateString);
   const h = String(date.getUTCHours()).padStart(2, '0');
   const m = String(date.getUTCMinutes()).padStart(2, '0');
@@ -177,23 +205,41 @@ export function formatEventTime(dateString: string): string {
 }
 
 // Combined date + time for list views: "Sun 4 Jun 2024 · 19:00"
-export function formatEventDateTime(dateString: string, locale: string = 'en'): string {
-  return `${formatEventDatePart(dateString, locale)} · ${formatEventTime(dateString)}`;
+export function formatEventDateTime(dateString: string, locale: string = 'en', timezone?: string): string {
+  return `${formatEventDatePart(dateString, locale, timezone)} · ${formatEventTime(dateString, timezone)}`;
 }
 
 // Format date for display — kept for search index and other consumers
-export function formatEventDate(dateString: string, locale: string = 'en'): string {
-  return formatEventDateTime(dateString, locale);
+export function formatEventDate(dateString: string, locale: string = 'en', timezone?: string): string {
+  return formatEventDateTime(dateString, locale, timezone);
 }
 
 // Format date for compact display — day, short month, year only
-export function formatShortDate(dateString: string, locale: string = 'en-US'): string {
-  const date = parseWallClockDate(dateString);
-  return date.toLocaleDateString(locale, { timeZone: 'UTC', day: 'numeric', month: 'short', year: 'numeric' });
+export function formatShortDate(dateString: string, locale: string = 'en-US', timezone?: string): string {
+  const useIana = isValidTimeZone(timezone);
+  const date = useIana ? new Date(dateString) : parseWallClockDate(dateString);
+  return date.toLocaleDateString(locale, {
+    timeZone: useIana ? timezone : 'UTC',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
 }
 
-// Extract UTC offset from ISO date string and format as "GMT+3", "GMT+5:30", or "UTC"
-export function formatTimezoneLabel(dateString: string): string {
+// Short zone label for display — "GMT+3", "GMT+5:30", or "UTC". With an IANA
+// timezone the offset is computed at the event's instant (so it's DST-correct);
+// otherwise it's read from the offset suffix in the date string.
+export function formatTimezoneLabel(dateString: string, timezone?: string): string {
+  if (isValidTimeZone(timezone)) {
+    const part = new Intl.DateTimeFormat('en-US', {
+      timeZone: timezone,
+      timeZoneName: 'shortOffset',
+    })
+      .formatToParts(new Date(dateString))
+      .find(p => p.type === 'timeZoneName')?.value;
+    // 'shortOffset' yields e.g. "GMT+2"/"GMT" — normalise bare "GMT" to "UTC".
+    if (part) return part === 'GMT' ? 'UTC' : part;
+  }
   const match = dateString.match(/([+-])(\d{2}):(\d{2})$/);
   if (!match) return 'UTC';
   const [, sign, hourStr, minStr] = match;
@@ -202,4 +248,88 @@ export function formatTimezoneLabel(dateString: string): string {
   if (hours === 0 && minutes === 0) return 'UTC';
   const minPart = minutes > 0 ? `:${String(minutes).padStart(2, '0')}` : '';
   return `GMT${sign}${hours}${minPart}`;
+}
+
+// ---------------------------------------------------------------------------
+// Calendar (.ics) export
+// ---------------------------------------------------------------------------
+// Builds an RFC 5545 VCALENDAR for a single event. Timestamps are emitted as
+// absolute UTC instants (…Z), so the user's calendar app converts them to their
+// own local timezone — which is the one place per-viewer conversion is correct.
+// The stored startDate carries an offset, so `new Date()` yields the right
+// instant regardless of the build machine's timezone.
+
+// Escape per RFC 5545 §3.3.11: backslash, semicolon, comma, and newlines.
+function icsEscape(value: string): string {
+  return value
+    .replace(/\\/g, '\\\\')
+    .replace(/;/g, '\\;')
+    .replace(/,/g, '\\,')
+    .replace(/\r?\n/g, '\\n');
+}
+
+// Fold long content lines to ≤75 octets per RFC 5545 §3.1 (continuation lines
+// start with a single space).
+function icsFold(line: string): string {
+  if (line.length <= 75) return line;
+  const chunks: string[] = [];
+  let rest = line;
+  chunks.push(rest.slice(0, 75));
+  rest = rest.slice(75);
+  while (rest.length > 74) {
+    chunks.push(' ' + rest.slice(0, 74));
+    rest = rest.slice(74);
+  }
+  if (rest.length) chunks.push(' ' + rest);
+  return chunks.join('\r\n');
+}
+
+function toICSUtc(dateString: string): string {
+  // YYYYMMDDTHHMMSSZ
+  return new Date(dateString).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+}
+
+/**
+ * Build an .ics document for one event.
+ * @param baseUrl  Site origin (no trailing slash) for the UID and event URL.
+ */
+export function buildEventICS(event: Event, locale: 'en' | 'bg', baseUrl: string): string {
+  const summary = locale === 'bg'
+    ? (event.titleBg || event.title)
+    : (event.titleEn || event.title);
+  const desc = locale === 'bg'
+    ? (event.descriptionBg || event.description)
+    : (event.descriptionEn || event.description);
+
+  const start = toICSUtc(event.startDate);
+  // Default to a 2-hour duration when no explicit end is set.
+  const end = event.endDate
+    ? toICSUtc(event.endDate)
+    : toICSUtc(new Date(new Date(event.startDate).getTime() + 2 * 60 * 60 * 1000).toISOString());
+
+  const location = [event.venue, event.city, event.country].filter(Boolean).join(', ');
+  const url = `${baseUrl}/${locale}/shows/${event.slug}`;
+  const cancelled = event.status === 'cancelled' || event.isCanceled;
+
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//amioprenova//events//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:${event.slug}@amioprenova.com`,
+    `DTSTAMP:${toICSUtc(new Date().toISOString())}`,
+    `DTSTART:${start}`,
+    `DTEND:${end}`,
+    `SUMMARY:${icsEscape(summary)}`,
+    desc ? `DESCRIPTION:${icsEscape(desc)}` : '',
+    location ? `LOCATION:${icsEscape(location)}` : '',
+    `URL:${icsEscape(event.sourceUrl || url)}`,
+    `STATUS:${cancelled ? 'CANCELLED' : 'CONFIRMED'}`,
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].filter(Boolean);
+
+  return lines.map(icsFold).join('\r\n') + '\r\n';
 }

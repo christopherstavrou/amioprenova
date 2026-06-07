@@ -27,10 +27,10 @@ const bodyText = event.bodyEn || (event.bodyBg ? '' : event.body) || '';
 const bodyParagraphs = bodyText.split(/\n\n+/).map(p => p.trim()).filter(Boolean);
 const tags = event.tags ?? [];
 
-const datePart = formatEventDatePart(event.startDate, 'en');
-const startTime = formatEventTime(event.startDate);
-const endTime = event.endDate ? formatEventTime(event.endDate) : null;
-const timezoneLabel = formatTimezoneLabel(event.startDate);
+const datePart = formatEventDatePart(event.startDate, 'en', event.timezone);
+const startTime = formatEventTime(event.startDate, event.timezone);
+const endTime = event.endDate ? formatEventTime(event.endDate, event.timezone) : null;
+const timezoneLabel = formatTimezoneLabel(event.startDate, event.timezone);
 const timeRange = eventFeatures.showEndTime && endTime ? `${startTime} – ${endTime} · ${timezoneLabel}` : `${startTime} · ${timezoneLabel}`;
 const canonicalURL = `${siteConfig.baseUrl}/en/shows/${event.slug}`;
 const hasGallery = (event.gallery ?? []).length > 0;
@@ -45,6 +45,9 @@ const filteredHosts = (event.hosts ?? []).filter(
 );
 
 const hasActions = !!(event.ticketUrl || event.mapUrl || event.sourceUrl);
+// Calendar export only makes sense for events that haven't happened yet.
+const isUpcoming = new Date(event.startDate) >= new Date();
+const icsHref = `/en/shows/${event.slug}.ics`;
 const displayStatus = getDisplayStatus(event, { showScheduled: true });
 const statusLabel = displayStatus ? t.statusBadge[displayStatus] : null;
 const statusBadgeClass = (displayStatus === 'past' || displayStatus === 'scheduled')
@@ -239,8 +242,23 @@ const jsonLDString = JSON.stringify(jsonLD).replace(/<\//g, '<\\/');
       </dl>
     </div>
 
-    {hasActions && (
+    {(hasActions || isUpcoming) && (
       <div class="mb-8 flex flex-wrap gap-3">
+        {isUpcoming && (
+          /* Plain anchor (not <Button>) so the `download` attribute drives the
+             save — the static host doesn't apply the endpoint's
+             Content-Disposition header. Styled to match a secondary Button. */
+          <a
+            href={icsHref}
+            download={`${event.slug}.ics`}
+            class="inline-flex items-center justify-center px-6 py-3 rounded-md font-medium transition-all duration-fast focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary border-2 border-accent-primary text-accent-primary bg-transparent hover:bg-accent-primary hover:text-text-inverse gap-2.5"
+          >
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span>{t.detail.addToCalendar}</span>
+          </a>
+        )}
         {event.ticketUrl && (
           <Button
             variant="primary"

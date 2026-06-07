@@ -45,6 +45,10 @@ const showsCollection = defineCollection({
     venue: z.string(),
     city: z.string(),
     country: z.string(),
+    // IANA timezone of the venue (e.g. "Europe/Sofia"). Optional: older events
+    // predate the field and fall back to the offset baked into startDate. When
+    // present it enables DST-safe venue-local formatting and a real zone label.
+    timezone: z.string().optional(),
     hosts: z.array(z.string()).optional(),
     tags: z.array(z.string()).optional(),
     tagsBg: z.array(z.string()).optional(),
