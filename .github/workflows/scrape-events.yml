@@ -123,7 +123,10 @@ jobs:
           git commit -m "chore(events): sync Facebook events"
           git push --force origin "$BRANCH"
           # Reuse the open PR if one exists (rolling), else create it.
-          PR_NUMBER=$(gh pr list --head "$BRANCH" --base develop --state open --json number --jq '.[0].number')
+          # `// ""` coerces the no-match case to an empty string — without it jq
+          # prints the literal "null", which `-z` treats as non-empty and we'd
+          # try to comment on PR "null".
+          PR_NUMBER=$(gh pr list --head "$BRANCH" --base develop --state open --json number --jq '.[0].number // ""')
           if [ -z "$PR_NUMBER" ]; then
             PR_URL=$(gh pr create --base develop --head "$BRANCH" \
               --title "chore(events): sync Facebook events" \

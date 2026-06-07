@@ -193,7 +193,9 @@ export function formatEventTime(dateString: string, timezone?: string): string {
       timeZone: timezone,
       hour: '2-digit',
       minute: '2-digit',
-      hour12: false,
+      // hourCycle h23 guarantees 00–23 (hour12:false can yield "24:00" for
+      // midnight on some runtimes).
+      hourCycle: 'h23',
     }).formatToParts(new Date(dateString));
     const get = (type: string) => parts.find(p => p.type === type)?.value ?? '';
     return `${get('hour')}:${get('minute')}`;
@@ -269,19 +271,32 @@ function icsEscape(value: string): string {
 }
 
 // Fold long content lines to ≤75 octets per RFC 5545 §3.1 (continuation lines
-// start with a single space).
+// start with a single space). Folding is by UTF-8 byte length, not string
+// length, and never splits a multi-byte character — Cyrillic/emoji summaries
+// would otherwise exceed 75 octets and break stricter calendar clients.
+const icsEncoder = new TextEncoder();
 function icsFold(line: string): string {
-  if (line.length <= 75) return line;
-  const chunks: string[] = [];
-  let rest = line;
-  chunks.push(rest.slice(0, 75));
-  rest = rest.slice(75);
-  while (rest.length > 74) {
-    chunks.push(' ' + rest.slice(0, 74));
-    rest = rest.slice(74);
+  const enc = icsEncoder;
+  if (enc.encode(line).length <= 75) return line;
+  const out: string[] = [];
+  let cur = '';
+  let curBytes = 0;
+  let first = true;
+  for (const ch of line) { // iterate by code point, not UTF-16 unit
+    const chBytes = enc.encode(ch).length;
+    const limit = first ? 75 : 74; // continuation lines spend 1 octet on the leading space
+    if (curBytes + chBytes > limit) {
+      out.push(first ? cur : ' ' + cur);
+      first = false;
+      cur = ch;
+      curBytes = chBytes;
+    } else {
+      cur += ch;
+      curBytes += chBytes;
+    }
   }
-  if (rest.length) chunks.push(' ' + rest);
-  return chunks.join('\r\n');
+  if (cur) out.push(first ? cur : ' ' + cur);
+  return out.join('\r\n');
 }
 
 function toICSUtc(dateString: string): string {
