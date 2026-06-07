@@ -19,6 +19,7 @@ export interface Props {
     twitter: string;
     tickets: string;
     map: string;
+    addToCalendar: string;
   };
   /** Show a 'Scheduled' badge for normal future events (full search), vs hide it (main list). */
   showScheduledBadge?: boolean;
@@ -39,7 +40,10 @@ const statusBadgeClass = (displayStatus === 'past' || displayStatus === 'schedul
   ? 'inline-flex h-9 items-center px-3 rounded-md border border-border bg-surface-muted text-text-secondary text-xs font-semibold uppercase tracking-wide'
   : 'show-actions-trigger inline-flex h-9 items-center px-3 rounded-md shadow-sm text-accent-primary text-xs font-semibold uppercase tracking-wide';
 
+// Calendar export only for events that haven't happened yet.
+const isUpcoming = new Date(event.startDate) >= new Date();
 const menuItems = [
+  ...(isUpcoming ? [{ href: `/${lang}/shows/${event.slug}.ics`, label: labels.addToCalendar, icon: 'calendar' as const, download: true }] : []),
   ...(event.ticketUrl ? [{ href: event.ticketUrl, label: labels.tickets, icon: 'ticket' as const }] : []),
   ...(event.mapUrl ? [{ href: event.mapUrl, label: labels.map, icon: 'map' as const }] : []),
   ...(event.sourceUrl ? [{ href: event.sourceUrl, label: labels.facebook, icon: 'facebook' as const }] : []),

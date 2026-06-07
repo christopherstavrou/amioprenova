@@ -27,7 +27,8 @@ Session-to-session anchor for AI agents. Read this at the start of every session
 ### Venue timezone + calendar export (2026-06-07)
 - **IANA timezone persisted.** events-scraper 0.2.0 writes a lockable
   `timezone` field (e.g. `Europe/Sofia`); schema gains optional `timezone`.
-  Dependency bumped to `^0.2.0`.
+  Dependency bumped to `^0.2.0` (later `^0.2.1` — see the top entry, which adds
+  country-based inference since Facebook only reports a bare offset).
 - **DST-safe venue-local rendering.** `lib/events.ts` formatters take an optional
   IANA timezone: when present, times/labels are formatted in the venue's zone
   (DST-correct) via `Intl`; otherwise they fall back to the offset baked into
@@ -52,9 +53,8 @@ Session-to-session anchor for AI agents. Read this at the start of every session
   author_association gate) asking the agent to run the `enrich-events` skill:
   translate EN↔BG, fill curated fields, set `_overrides` locks, normalise
   hosts/venue. Pipeline: scrape → auto-enrich → human review → merge.
-- **Cron still paused** — re-enable the weekly schedule only after a manual
-  `workflow_dispatch` run confirms locks are preserved and the enrich comment
-  fires.
+- **Cron still paused** at the time of this entry — re-enabled later the same
+  day once locks were in place (see the top "cron live" entry).
 
 ### Release flow & CI hardening (2026-06-01)
 
