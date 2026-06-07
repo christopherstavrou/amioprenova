@@ -8,6 +8,14 @@ Session-to-session anchor for AI agents. Read this at the start of every session
 
 ## ✅ Done
 
+### Links page removed (2026-06-07)
+- Deleted the half-built Linktree-style links page (`/{en,bg}/links`,
+  `src/components/links/*`, the `linksPage` config block, related i18n, and the
+  homepage "All Links →" CTA). A links hub, if ever built, will be its own
+  standalone project in a separate repo (self-hosted Linktree we own) — not part
+  of this site. Closed the links-redesign cluster (#86, #89, #90–#94); rationale
+  in [`decisions.md`](./decisions.md). See tracking issue for the future project.
+
 ### CI automation hardening (2026-06-07)
 - **`pr-quality.yml`** — the Dependabot gate exemption now requires the
   `dependabot[bot]` author, not just a `dependabot/` branch name, so a human

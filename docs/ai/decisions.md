@@ -356,3 +356,21 @@ These are hard limits that MUST NOT be violated in V1:
 **Status**: ✅ Implemented
 
 **Date**: 2026-04-13
+
+---
+
+### Remove the in-repo Linktree-style links page
+
+**Decision**: Delete the half-built links page (`/{en,bg}/links`, `src/components/links/*`, the `linksPage` config block, and related i18n + the homepage "All Links →" CTA). Do **not** continue the links-redesign cluster in this repo. If a links hub is ever built, it will be its own standalone project in a separate repo — essentially a self-hosted Linktree we own.
+
+**Rationale** (build-vs-buy):
+- On the axes that matter for a brand site — visual cohesion, own domain, performance, privacy (no third-party tracking/ads/upsell), and live integration with our own content (e.g. auto-pulling upcoming shows) — a custom page beats Linktree easily.
+- The two things Linktree genuinely does better are **self-serve no-deploy editing** (a non-technical owner changing/reordering/scheduling links from a phone) and **built-in per-link analytics**. Analytics is cheaply solved (Cloudflare Web Analytics / Plausible). The editing workflow is the real differentiator and depends on how often links change and who maintains them.
+- The cluster is also **content- and infra-blocked** (real release art, platform URLs, Formspree/presave accounts, subdomain DNS) — none of which exists yet — and the whole direction is unconfirmed by the owner.
+- Conclusion: a links hub is a product in its own right. Keeping a speculative half-implementation in the main site is dead weight and rework risk. Remove it now; revisit as a dedicated project if/when the owner wants it.
+
+**Superseded issues**: #86, #89, #90, #91, #92, #93, #94 — closed as not-planned, vision captured in a single tracking issue.
+
+**Status**: ✅ Implemented (removal); links hub itself deferred to a future standalone repo.
+
+**Date**: 2026-06-07
