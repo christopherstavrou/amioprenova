@@ -342,6 +342,16 @@ export function buildEventICS(event: Event, locale: 'en' | 'bg', baseUrl: string
     location ? `LOCATION:${icsEscape(location)}` : '',
     `URL:${icsEscape(event.sourceUrl || url)}`,
     `STATUS:${cancelled ? 'CANCELLED' : 'CONFIRMED'}`,
+    // Default reminder: a display alarm 1 hour before the event starts. Skip it
+    // for cancelled events so the calendar doesn't notify about a show that
+    // isn't happening.
+    ...(cancelled ? [] : [
+      'BEGIN:VALARM',
+      'ACTION:DISPLAY',
+      `DESCRIPTION:${icsEscape(summary)}`,
+      'TRIGGER:-PT1H',
+      'END:VALARM',
+    ]),
     'END:VEVENT',
     'END:VCALENDAR',
   ].filter(Boolean);
