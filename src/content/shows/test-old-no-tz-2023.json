@@ -1,0 +1,18 @@
+{
+  "id": "test-old-no-tz",
+  "slug": "test-old-no-tz-2023",
+  "title": "Old Show Without Timezone [TEST]",
+  "titleEn": "Old Show Without Timezone [TEST]",
+  "titleBg": "Стар концерт без часова зона [ТЕСТ]",
+  "description": "A past event with no timezone field — falls back to the startDate offset; renders in the archive with a Past badge.",
+  "descriptionEn": "A past event with no timezone field — falls back to the startDate offset.",
+  "descriptionBg": "Минало събитие без часова зона — използва отместването от датата.",
+  "startDate": "2023-03-12T19:00:00+02:00",
+  "venue": "Old Town Hall",
+  "city": "Plovdiv",
+  "country": "Bulgaria",
+  "eventType": "concert",
+  "admission": { "type": "free" },
+  "tags": ["jazz", "archive"],
+  "image": "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1280&h=720&auto=format&fit=crop"
+}

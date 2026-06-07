@@ -1,6 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
 import Layout from '../../../layouts/Layout.astro';
+import { getBlogPosts } from '../../../lib/blog';
 import SearchInput from '@christopherstavrou/ui/SearchInput.astro';
 import Card from '@christopherstavrou/ui/Card.astro';
 import Badge from '@christopherstavrou/ui/Badge.astro';
@@ -10,7 +10,7 @@ import { ui } from '../../../i18n/ui';
 const lang = 'en' as const;
 const t = ui[lang];
 
-const allPosts = await getCollection('blog', ({ id }) => id.startsWith('en/'));
+const allPosts = await getBlogPosts('en');
 const sortedPosts = allPosts.sort((a, b) =>
   new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
 );

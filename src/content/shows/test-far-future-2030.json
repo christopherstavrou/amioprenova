@@ -1,0 +1,19 @@
+{
+  "id": "test-far-future",
+  "slug": "test-far-future-2030",
+  "title": "Far Future Show [TEST]",
+  "titleEn": "Far Future Show [TEST]",
+  "titleBg": "Концерт в далечно бъдеще [ТЕСТ]",
+  "description": "A show several years out — tests year facet and date formatting.",
+  "descriptionEn": "A show several years out — tests year facet and date formatting.",
+  "descriptionBg": "Концерт след няколко години — тества форматирането на датата.",
+  "startDate": "2030-12-31T22:00:00+02:00",
+  "venue": "Future Hall",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "timezone": "Europe/Sofia",
+  "eventType": "concert",
+  "admission": { "type": "paid", "price": "40 BGN" },
+  "tags": ["jazz"],
+  "image": "https://images.unsplash.com/photo-1416339306562-f3d12fefd36f?q=80&w=1280&h=720&auto=format&fit=crop"
+}
