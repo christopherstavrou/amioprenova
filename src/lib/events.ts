@@ -274,8 +274,9 @@ function icsEscape(value: string): string {
 // start with a single space). Folding is by UTF-8 byte length, not string
 // length, and never splits a multi-byte character — Cyrillic/emoji summaries
 // would otherwise exceed 75 octets and break stricter calendar clients.
+const icsEncoder = new TextEncoder();
 function icsFold(line: string): string {
-  const enc = new TextEncoder();
+  const enc = icsEncoder;
   if (enc.encode(line).length <= 75) return line;
   const out: string[] = [];
   let cur = '';

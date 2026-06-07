@@ -51,7 +51,7 @@ const L = {
     {items.map((item) => (
       <a
         href={item.href}
-        download={item.download ? '' : undefined}
+        download={item.download}
         target={item.download ? undefined : '_blank'}
         rel={item.download ? undefined : 'noopener noreferrer'}
         class="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-text-primary hover:bg-surface-muted transition-colors"
