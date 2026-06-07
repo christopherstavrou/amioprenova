@@ -55,5 +55,6 @@
     "eventType": "locked",
     "tags": "locked",
     "tagsBg": "locked"
-  }
+  },
+  "timezone": "Europe/Sofia"
 }

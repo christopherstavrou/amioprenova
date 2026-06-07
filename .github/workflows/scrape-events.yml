@@ -14,15 +14,13 @@ on:
           - upcoming
           - past
 
-  # Weekly auto-run PAUSED pending a manual end-to-end verification. The root
-  # cause (the scraper clobbering human-curated EN/BG content + ignoring
-  # `_overrides` locks) is FIXED in events-scraper 0.1.1 (sitekit#1). Before
-  # re-enabling, run this workflow once via workflow_dispatch and confirm the
-  # rolling PR (a) preserves locked fields and (b) gets the @claude enrichment
-  # comment. Then uncomment the schedule below.
-  # Automatically every Monday at 08:00 UTC
-  # schedule:
-  #   - cron: '0 8 * * 1'
+  # Weekly auto-run. The original clobbering bug is fixed: the scraper honors
+  # `_overrides` locks (events-scraper 0.2.1) and curated events now lock
+  # title/hosts/startDate/timezone, so scrapes can't revert human content.
+  # Verified end-to-end via workflow_dispatch (rolling PR + @claude enrichment).
+  # Automatically every Monday at 08:00 UTC.
+  schedule:
+    - cron: '0 8 * * 1'
 
 jobs:
   scrape:
