@@ -308,6 +308,11 @@ const isActive = (href: string) => {
           )}
         </div>
 
+        <!-- Legal links -->
+        <div class="flex justify-center mb-3">
+          <a href={`/${lang}/privacy`} class="text-sm text-text-secondary hover:text-accent-primary transition-colors">{t.footer.privacy}</a>
+        </div>
+
         <!-- Copyright -->
         <div class="text-center text-sm text-text-secondary">
           <p>&copy; {new Date().getFullYear()} {siteConfig.copyrightName}. {t.footer.copyright}</p>

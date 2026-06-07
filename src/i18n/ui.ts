@@ -136,6 +136,7 @@ export const ui = {
     },
     footer: {
       copyright: 'All rights reserved.',
+      privacy: 'Privacy',
     },
     a11y: {
       skipToContent: 'Skip to content',
@@ -275,6 +276,7 @@ export const ui = {
     },
     footer: {
       copyright: 'Всички права запазени.',
+      privacy: 'Поверителност',
     },
     a11y: {
       skipToContent: 'Към съдържанието',
