@@ -12,6 +12,7 @@ Operational manuals for AI agents working on the **amioprenova** project.
 | [decisions.md](decisions.md) | Why major architectural choices were made |
 | [tech-debt.md](tech-debt.md) | Running log of deferred refactors and pre-existing gaps |
 | [event-enrichment.md](event-enrichment.md) | Enriching, translating, and creating event entries |
+| [metadata.md](metadata.md) | Page metadata + structured data (JSON-LD): what, why, when to update |
 | [github-integration.md](github-integration.md) | Claude Actions + Copilot custom instructions |
 
 ## Outside this directory

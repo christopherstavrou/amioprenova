@@ -14,7 +14,6 @@ export const ui = {
       news: 'News',
       press: 'Press',
       contact: 'Contact',
-      links: 'Links',
       toggleTheme: 'Toggle Theme',
       toggleMenu: 'Toggle menu',
       closeMenu: 'Close menu',
@@ -135,20 +134,13 @@ export const ui = {
       page: 'Page',
       of: 'of',
     },
-    links: {
-      backHome: 'Back to Home',
-      shows: {
-        heading: 'Upcoming Shows',
-        viewAll: 'View all shows →',
-        tickets: 'Tickets',
-        moreInfo: 'More info →',
-      },
-      emailSignup: {
-        cta: 'Get updates',
-      },
-    },
     footer: {
       copyright: 'All rights reserved.',
+      privacy: 'Privacy',
+    },
+    rss: {
+      news: 'News feed',
+      shows: 'Shows feed',
     },
     a11y: {
       skipToContent: 'Skip to content',
@@ -166,7 +158,6 @@ export const ui = {
       news: 'Новини',
       press: 'Преса',
       contact: 'Контакт',
-      links: 'Връзки',
       toggleTheme: 'Смяна на тема',
       toggleMenu: 'Меню',
       closeMenu: 'Затвори менюто',
@@ -287,20 +278,13 @@ export const ui = {
       page: 'Страница',
       of: 'от',
     },
-    links: {
-      backHome: 'Обратно към началото',
-      shows: {
-        heading: 'Предстоящи концерти',
-        viewAll: 'Виж всички концерти →',
-        tickets: 'Билети',
-        moreInfo: 'Виж повече →',
-      },
-      emailSignup: {
-        cta: 'Абонирай се',
-      },
-    },
     footer: {
       copyright: 'Всички права запазени.',
+      privacy: 'Поверителност',
+    },
+    rss: {
+      news: 'Новини (RSS)',
+      shows: 'Концерти (RSS)',
     },
     a11y: {
       skipToContent: 'Към съдържанието',

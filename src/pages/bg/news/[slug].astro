@@ -1,6 +1,7 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
+import { getBlogPosts } from '../../../lib/blog';
 import Layout from '../../../layouts/Layout.astro';
 import Badge from '@christopherstavrou/ui/Badge.astro';
 import BackLink from '@christopherstavrou/ui/BackLink.astro';
@@ -12,7 +13,7 @@ import { ui } from '../../../i18n/ui';
 const t = ui['bg'];
 
 export const getStaticPaths = (async () => {
-  const allPosts = await getCollection('blog', ({ id }) => id.startsWith('bg/'));
+  const allPosts = await getBlogPosts('bg');
 
   if (allPosts.length === 0) {
     return [];
@@ -81,7 +82,7 @@ const hasGallery = galleryItems.length > 0;
 
     {hasGallery && (
       <section class="mb-8">
-        <h2 class="font-serif text-2xl font-bold mb-4">Галерия</h2>
+        <h2 class="font-serif text-2xl font-bold mb-4">{t.shows.detail.gallery}</h2>
         <GalleryLightbox items={galleryItems} labels={{ dialog: 'Преглед на галерия', close: 'Затвори галерия', previous: 'Предишна', next: 'Следваща', viewPrefix: 'Виж ', goToPrefix: 'Към елемент ' }} />
       </section>
     )}

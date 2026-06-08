@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import Layout from '../../../layouts/Layout.astro';
 import PageHeader from '@christopherstavrou/ui/PageHeader.astro';
 import ShowsList from '../../../components/ShowsList.astro';
+import RssLink from '../../../components/RssLink.astro';
 import { getUpcomingEvents, getPastEvents } from '../../../lib/events';
 import { siteConfig } from '../../../config/site';
 import { ui } from '../../../i18n/ui';
@@ -29,6 +30,9 @@ const pastCount = (await getPastEvents()).length;
   <PageHeader title="Предстоящи концерти" class="nav:text-center" />
 
   <div class="max-w-4xl mx-auto">
+    <div class="flex justify-end mb-4">
+      <RssLink href="/shows.xml" label={ui['bg'].rss.shows} />
+    </div>
     <ShowsList
       events={events}
       lang="bg"

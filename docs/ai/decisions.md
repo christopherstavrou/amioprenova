@@ -356,3 +356,48 @@ These are hard limits that MUST NOT be violated in V1:
 **Status**: ✅ Implemented
 
 **Date**: 2026-04-13
+
+---
+
+### Remove the in-repo Linktree-style links page
+
+**Decision**: Delete the half-built links page (`/{en,bg}/links`, `src/components/links/*`, the `linksPage` config block, and related i18n + the homepage "All Links →" CTA). Do **not** continue the links-redesign cluster in this repo. If a links hub is ever built, it will be its own standalone project in a separate repo — essentially a self-hosted Linktree we own.
+
+**Rationale** (build-vs-buy):
+- On the axes that matter for a brand site — visual cohesion, own domain, performance, privacy (no third-party tracking/ads/upsell), and live integration with our own content (e.g. auto-pulling upcoming shows) — a custom page beats Linktree easily.
+- The two things Linktree genuinely does better are **self-serve no-deploy editing** (a non-technical owner changing/reordering/scheduling links from a phone) and **built-in per-link analytics**. Analytics is cheaply solved (Cloudflare Web Analytics / Plausible). The editing workflow is the real differentiator and depends on how often links change and who maintains them.
+- The cluster is also **content- and infra-blocked** (real release art, platform URLs, Formspree/presave accounts, subdomain DNS) — none of which exists yet — and the whole direction is unconfirmed by the owner.
+- Conclusion: a links hub is a product in its own right. Keeping a speculative half-implementation in the main site is dead weight and rework risk. Remove it now; revisit as a dedicated project if/when the owner wants it.
+
+**Superseded issues**: #86, #89, #90, #91, #92, #93, #94 — closed as not-planned, vision captured in a single tracking issue.
+
+**Status**: ✅ Implemented (removal); links hub itself deferred to a future standalone repo.
+
+**Date**: 2026-06-07
+
+---
+
+### Automated UI verification: batch at the release gate, not per-PR (#201, Phase 1)
+
+**Decision**: Add an automated UI verification stage that runs as a **batch agent audit at the `develop`→`main` release boundary (and on-demand), scoped to everything changed since the last release plus overlapping areas** — not a per-feature-PR gate, and not a new git branch.
+
+**Why batch over per-PR (for this repo)**:
+- Most PRs here are docs/CI/infra with zero UI surface — a per-PR agent mostly burns tokens on nothing. Agent runs are billed; per-PR × low-value-PRs is the expensive quadrant.
+- The manual audit (`docs/ai/ui-audit.md`) showed that the highest-value findings (BG country/city localization, BG-news-empty) are **cross-feature** and only surface in a holistic sweep — a per-issue scoped check misses them by design.
+- Pre-launch, change comes in bursts with large owner-driven rework pending; a periodic sweep fits that rhythm better than gating each commit.
+
+**Why no new `test` branch**: the "stage between dev and prod" is a *staging environment*, which already exists as the **Cloudflare preview deploy**. A third protected branch adds sync/merge overhead against a deliberately lean release flow (squash→develop, merge-commit→main).
+
+**Architecture (recommended)**:
+- **Trigger** — primary: the `develop→main` release PR; secondary: on-demand (`workflow_dispatch`/label) for a full sweep; (optional, later) weekly schedule during active dev.
+- **Scope** — `git diff main...develop` → changed files → affected routes via a component→route map; agent verifies those + flagged overlaps + always-on critical pages (home, shows, news). Whole-site only on an explicit full audit.
+- **Hybrid** — deterministic Playwright screenshots (reusable harness, fixtures via `INCLUDE_TEST_FIXTURES=1`) for "did anything change unexpectedly"; agent layer for issue-scoped judgement + cross-feature side-effects, reading the diff + issue context.
+- **Output** — findings appended to a dated `docs/ai/ui-audit-*.md` + a PR comment; **advisory (non-blocking) to start**, can become a blocking gate once false-positive rate is known.
+
+**Key caveat — flakiness**: the site renders **time-derived states** (`past`/`upcoming` from `now()`); dynamic dates are the top source of visual-diff flakiness. Freeze/mock the clock and/or mask dynamic regions; pin CI rendering (Linux fonts). Seeded `test-*` fixtures already provide deterministic states.
+
+**Reuses**: the throwaway audit harness (to be promoted to a committed `scripts/ui-audit.mjs`), the `INCLUDE_TEST_FIXTURES` system, the page/component map from the audit, and the visual-verification loop in `workflow.md`.
+
+**Status**: ✅ Phase 1 decided (this entry). Implementation tracked as a task breakdown on #201.
+
+**Date**: 2026-06-08

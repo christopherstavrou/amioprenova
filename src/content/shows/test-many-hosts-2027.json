@@ -1,0 +1,20 @@
+{
+  "id": "test-many-hosts",
+  "slug": "test-many-hosts-2027",
+  "title": "Big Collaboration Night [TEST]",
+  "titleEn": "Big Collaboration Night [TEST]",
+  "titleBg": "Голяма вечер на сътрудничество [ТЕСТ]",
+  "description": "Event with many long host names to test the hosts line layout.",
+  "descriptionEn": "Event with many long host names to test the hosts line layout.",
+  "descriptionBg": "Събитие с много дълги имена на гости за тестване на оформлението.",
+  "startDate": "2027-04-18T20:30:00+03:00",
+  "venue": "The Grand Concert Hall",
+  "city": "London",
+  "country": "United Kingdom",
+  "timezone": "Europe/London",
+  "hosts": ["Ami Oprenova Quartet", "The Riverside Collective Big Band", "Daniele Ciuffreda Trio", "Sofia Philharmonic Strings", "The Late Night Swing Ensemble", "Maria Petrova & Friends", "The Balkan Brass Project", "Guest soloist Yannis Constantinou", "The Camden Jazz Workshop Players", "Special guests to be announced"],
+  "eventType": "collaboration",
+  "admission": { "type": "free-booking", "note": "Free entry, booking required" },
+  "tags": ["collaboration", "bigband"],
+  "image": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1280&h=720&auto=format&fit=crop"
+}

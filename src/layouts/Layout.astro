@@ -72,6 +72,10 @@ const isActive = (href: string) => {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
+    <!-- RSS feed discovery -->
+    <link rel="alternate" type="application/rss+xml" title="Ami Oprenova — News" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Ami Oprenova — Upcoming Shows" href="/shows.xml" />
+
     <!--
       Inline theme script — must run before <body> paints.
 
@@ -304,6 +308,11 @@ const isActive = (href: string) => {
           )}
         </div>
 
+        <!-- Legal links -->
+        <div class="flex justify-center mb-3">
+          <a href={`/${lang}/privacy`} class="text-sm text-text-secondary hover:text-accent-primary transition-colors">{t.footer.privacy}</a>
+        </div>
+
         <!-- Copyright -->
         <div class="text-center text-sm text-text-secondary">
           <p>&copy; {new Date().getFullYear()} {siteConfig.copyrightName}. {t.footer.copyright}</p>
@@ -478,6 +487,15 @@ const isActive = (href: string) => {
       // Close mobile menu when clicking a nav link (event delegation)
       mobileMenu?.querySelector('nav')?.addEventListener('click', (e) => {
         if (e.target instanceof Element && e.target.closest('a') && menuOpen) {
+          toggleMobileMenu();
+        }
+      });
+
+      // Close the mobile menu if the viewport grows past the nav breakpoint
+      // (1180px) while it's open — otherwise it stays stuck open and the page
+      // remains scroll-locked after a resize or device rotation.
+      window.matchMedia('(min-width: 1180px)').addEventListener('change', (e) => {
+        if (e.matches && menuOpen) {
           toggleMobileMenu();
         }
       });

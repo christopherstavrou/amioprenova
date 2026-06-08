@@ -1,0 +1,10 @@
+{
+  "id": "test-minimal",
+  "slug": "test-minimal-2027",
+  "title": "Minimal Event (required fields only) [TEST]",
+  "description": "Only the required fields are set: no image, hosts, admission, tags, timezone, eventType, gallery or body. Tests empty-section handling and offset fallback.",
+  "startDate": "2027-05-09T18:00:00+03:00",
+  "venue": "Backroom",
+  "city": "Varna",
+  "country": "Bulgaria"
+}

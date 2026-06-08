@@ -1,16 +1,17 @@
 ---
-import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
+import { getBlogPosts } from '../../../lib/blog';
 import Layout from '../../../layouts/Layout.astro';
 import PageHeader from '@christopherstavrou/ui/PageHeader.astro';
 import Card from '@christopherstavrou/ui/Card.astro';
 import Badge from '@christopherstavrou/ui/Badge.astro';
 import SearchInput from '@christopherstavrou/ui/SearchInput.astro';
 import Pagination from '@christopherstavrou/ui/Pagination.astro';
+import RssLink from '../../../components/RssLink.astro';
 import { ui } from '../../../i18n/ui';
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const allPosts = await getCollection('blog', ({ id }) => id.startsWith('bg/'));
+  const allPosts = await getBlogPosts('bg');
   const sortedPosts = allPosts.sort((a, b) =>
     new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
   );
@@ -40,6 +41,9 @@ function readingMinutes(description: string): number {
   <PageHeader title="Новини" class="nav:text-center" />
 
   <div class="max-w-4xl mx-auto">
+    <div class="flex justify-end mb-4">
+      <RssLink href="/rss.xml" label={t.rss.news} />
+    </div>
     {posts.length > 0 && (
       <div class="mb-6">
         <SearchInput

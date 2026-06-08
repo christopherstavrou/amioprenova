@@ -1,0 +1,19 @@
+{
+  "id": "test-birthday",
+  "slug": "test-birthday-2027",
+  "title": "Birthday Celebration Concert [TEST]",
+  "titleEn": "Birthday Celebration Concert [TEST]",
+  "titleBg": "Рожден ден концерт [ТЕСТ]",
+  "description": "Tests the birthday eventType and free-booking admission.",
+  "descriptionEn": "Tests the birthday eventType and free-booking admission.",
+  "descriptionBg": "Тества типа събитие рожден ден.",
+  "startDate": "2027-09-30T21:00:00+03:00",
+  "venue": "Jazz Cellar",
+  "city": "Sofia",
+  "country": "Bulgaria",
+  "timezone": "Europe/Sofia",
+  "eventType": "birthday",
+  "admission": { "type": "free-booking" },
+  "tags": ["birthday", "party"],
+  "image": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1280&h=720&auto=format&fit=crop"
+}

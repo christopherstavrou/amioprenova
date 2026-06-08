@@ -1,0 +1,19 @@
+{
+  "id": "test-workshop",
+  "slug": "test-workshop-2027",
+  "title": "Vocal Improv Workshop [TEST]",
+  "titleEn": "Vocal Improv Workshop [TEST]",
+  "titleBg": "Уъркшоп по вокална импровизация [ТЕСТ]",
+  "description": "A hands-on workshop — tests the workshop eventType facet.",
+  "descriptionEn": "A hands-on workshop — tests the workshop eventType facet.",
+  "descriptionBg": "Практически уъркшоп — тества типа събитие.",
+  "startDate": "2027-08-22T11:00:00+03:00",
+  "venue": "Music Academy",
+  "city": "Rome",
+  "country": "Italy",
+  "timezone": "Europe/Rome",
+  "eventType": "workshop",
+  "admission": { "type": "free" },
+  "tags": ["workshop", "vocal"],
+  "image": "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=1280&h=720&auto=format&fit=crop"
+}

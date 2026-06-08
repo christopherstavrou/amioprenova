@@ -31,6 +31,10 @@ export const siteConfig = {
   // Newsletter
   mailchimpSignupUrl: '', // TODO: Add when verified
 
+  // Artist identity (used for search-engine structured data / JSON-LD)
+  artistName: 'Ami Oprenova',
+  artistDescription: 'Jazz vocalist and composer whose musicianship spans from classical violin to the jazz stage.',
+
   // Press / Media Kit
   genres: ['Jazz', 'Vocal Jazz', 'Contemporary Jazz'], // TODO: Replace with actual genres
   riylTags: ['Ella Fitzgerald', 'Sarah Vaughan', 'Diana Krall'], // TODO: Replace with "Recommended If You Like" artists
@@ -53,110 +57,6 @@ export const siteConfig = {
       note: 'Software recommendations',
     },
   ],
-
-  // Links page (linktree-style hub)
-  linksPage: {
-    profile: {
-      image: '/images/ami-portrait.jpg',
-      tagline: {
-        en: 'Jazz vocalist · Sofia & London',
-        bg: 'Джаз вокалист · София и Лондон',
-      },
-    },
-    featuredRelease: {
-      active: false, // Toggle on when a release is ready
-      albumArt: '', // TODO: album art path
-      title: { en: '', bg: '' },
-      subtitle: { en: 'Out now', bg: 'Вече е навън' },
-      youtubeId: '',
-      platforms: [] as Array<{ label: string; icon: string; url: string }>,
-      countdownTo: '',
-    },
-    sections: [
-      {
-        heading: { en: 'Music', bg: 'Музика' },
-        links: [
-          {
-            label: { en: 'Listen on Spotify', bg: 'Слушай в Spotify' },
-            url: '', // TODO: Add when verified
-            icon: 'spotify',
-            variant: 'default' as 'featured' | 'default' | 'subtle',
-            external: true,
-          },
-          {
-            label: { en: 'Buy on Bandcamp', bg: 'Купи в Bandcamp' },
-            url: 'https://amioprenova.bandcamp.com',
-            icon: 'bandcamp',
-            variant: 'default' as 'featured' | 'default' | 'subtle',
-            external: true,
-          },
-          {
-            label: { en: 'Watch on YouTube', bg: 'Гледай в YouTube' },
-            url: 'https://www.youtube.com/@amioprenova496',
-            icon: 'youtube',
-            variant: 'default' as 'featured' | 'default' | 'subtle',
-            external: true,
-          },
-        ],
-      },
-      {
-        heading: { en: 'Connect', bg: 'Последвай' },
-        links: [
-          {
-            label: { en: 'Instagram', bg: 'Instagram' },
-            url: 'https://www.instagram.com/amioprenovamusic',
-            icon: 'instagram',
-            variant: 'default' as 'featured' | 'default' | 'subtle',
-            external: true,
-          },
-          {
-            label: { en: 'TikTok', bg: 'TikTok' },
-            url: 'https://www.tiktok.com/@amioprenovamusic',
-            icon: 'tiktok',
-            variant: 'default' as 'featured' | 'default' | 'subtle',
-            external: true,
-          },
-          {
-            label: { en: 'Facebook', bg: 'Facebook' },
-            url: 'https://www.facebook.com/amioprenovamusic/',
-            icon: 'facebook',
-            variant: 'default' as 'featured' | 'default' | 'subtle',
-            external: true,
-          },
-        ],
-      },
-      {
-        heading: { en: 'Support', bg: 'Подкрепи' },
-        links: [
-          {
-            label: { en: 'Support Me', bg: 'Подкрепи ме' },
-            url: '', // TODO: Add when verified
-            icon: 'heart',
-            variant: 'featured' as 'featured' | 'default' | 'subtle',
-            external: true,
-          },
-          {
-            label: { en: 'Get Tickets', bg: 'Вземи билети' },
-            url: '', // TODO: Add when verified
-            icon: 'ticket',
-            variant: 'default' as 'featured' | 'default' | 'subtle',
-            external: true,
-          },
-        ],
-      },
-    ],
-    socialIcons: [
-      { platform: 'instagram', url: 'https://www.instagram.com/amioprenovamusic' },
-      { platform: 'tiktok', url: 'https://www.tiktok.com/@amioprenovamusic' },
-      { platform: 'facebook', url: 'https://www.facebook.com/amioprenovamusic/' },
-      { platform: 'youtube', url: 'https://www.youtube.com/@amioprenova496' },
-    ],
-    emailSignup: {
-      active: true,
-      heading: { en: 'Stay close', bg: 'Бъди близо' },
-      subtext: { en: 'News before anyone else.', bg: 'Новини преди всички.' },
-    },
-  },
 } as const;
 
 /**

@@ -2,24 +2,42 @@
 import Layout from '../../layouts/Layout.astro';
 import Button from '@christopherstavrou/ui/Button.astro';
 import Card from '@christopherstavrou/ui/Card.astro';
-import SocialIcon from '@christopherstavrou/ui/SocialIcon.astro';
+import RssLink from '../../components/RssLink.astro';
 import { Image } from 'astro:assets';
 import { siteConfig } from '../../config/site';
 import { ui } from '../../i18n/ui';
 import releases from '../../data/releases.json';
 import videos from '../../data/videos.json';
-import { getNextEvents, formatShortDate } from '../../lib/events';
+import { getNextEvents, formatEventDate, formatTimezoneLabel, getDisplayStatus } from '../../lib/events';
+import { localizeCountry } from '../../lib/locations';
+import { getBlogPosts } from '../../lib/blog';
 import heroImage from '../../assets/images/hero-performance.jpg';
+import { musicGroupJsonLd } from '../../lib/structured-data';
 
 const t = ui['en'];
 
 const featuredRelease = releases.find(r => r.featured) || releases[0];
 const featuredVideo = videos.find(v => v.featured) || videos[0];
-const upcomingShows = (await getNextEvents(3)).map(event => ({
-  ...event,
-  formattedDate: formatShortDate(event.startDate, 'en-US', event.timezone),
-  displayTitle: event.titleEn ?? event.title,
-}));
+const upcomingShows = (await getNextEvents(3)).map(event => {
+  const status = getDisplayStatus(event);
+  return {
+    ...event,
+    formattedDate: formatEventDate(event.startDate, 'en', event.timezone),
+    timezoneLabel: formatTimezoneLabel(event.startDate, event.timezone),
+    locationLine: [event.venue, event.city, localizeCountry(event.country, 'en')].filter(Boolean).join(', '),
+    displayTitle: event.titleEn ?? event.title,
+    // Only surface a badge for notable (non-routine) statuses.
+    statusLabel: status && status !== 'scheduled' && status !== 'past' ? t.shows.statusBadge[status] : null,
+  };
+});
+const latestNews = (await getBlogPosts('en'))
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+  .slice(0, 3)
+  .map(post => ({
+    slug: post.id.replace('en/', ''),
+    title: post.data.title,
+    formattedDate: new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+  }));
 ---
 
 <Layout
@@ -27,6 +45,7 @@ const upcomingShows = (await getNextEvents(3)).map(event => ({
   description="Jazz vocalist and composer Ami Oprenova. Discover soulful interpretations, upcoming shows, and timeless music."
   lang="en"
 >
+  <script slot="head" type="application/ld+json" set:html={musicGroupJsonLd()} />
   <!-- Split Hero -->
   <section class="hero-split relative -mx-4 -mt-6 md:-mt-8 nav:-mt-10 mb-6 pb-0 flex flex-col md:flex-row min-h-[600px]">
     <!-- Photo column -->
@@ -67,7 +86,7 @@ const upcomingShows = (await getNextEvents(3)).map(event => ({
   <div class="space-y-10">
     <!-- 3-column cards: Release / Video / Show -->
     <section class="py-0">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
 
         <!-- Latest Release -->
         <Card padding="none" hover class="flex flex-col overflow-hidden">
@@ -150,9 +169,16 @@ const upcomingShows = (await getNextEvents(3)).map(event => ({
                 {upcomingShows.map(event => (
                   <li class="py-3">
                     <a href={`/en/shows/${event.slug}`} class="block group">
-                      <p class="text-xs text-text-secondary mb-0.5">{event.formattedDate}</p>
-                      <p class="text-sm font-medium group-hover:text-accent-primary transition-colors">{event.displayTitle}</p>
-                      <p class="text-xs text-text-secondary">{event.venue}, {event.city}</p>
+                      <p class="text-xs text-text-secondary mb-0.5">
+                        {event.formattedDate} <span class="text-text-secondary">{event.timezoneLabel}</span>
+                      </p>
+                      <div class="flex items-start justify-between gap-2">
+                        <p class="text-sm font-medium group-hover:text-accent-primary transition-colors">{event.displayTitle}</p>
+                        {event.statusLabel && (
+                          <span class="shrink-0 inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide text-accent-primary">{event.statusLabel}</span>
+                        )}
+                      </div>
+                      <p class="text-xs text-text-secondary">{event.locationLine}</p>
                     </a>
                   </li>
                 ))}
@@ -162,10 +188,41 @@ const upcomingShows = (await getNextEvents(3)).map(event => ({
                 Catch Ami Oprenova live — jazz concerts, intimate sessions, and festival stages across Europe.
               </p>
             )}
-            <div class="mt-auto">
+            <div class="mt-auto flex items-center justify-between gap-3">
               <Button variant="primary" href="/en/shows">
                 View Shows
               </Button>
+              <RssLink href="/shows.xml" label={t.rss.shows} />
+            </div>
+          </div>
+        </Card>
+
+        <!-- Latest News -->
+        <Card padding="none" hover class="flex flex-col overflow-hidden">
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-4">Latest News</p>
+            <h2 class="font-serif text-xl font-bold mb-4">News &amp; Updates</h2>
+            {latestNews.length > 0 ? (
+              <ul class="flex-1 divide-y divide-border mb-6">
+                {latestNews.map(post => (
+                  <li class="py-3">
+                    <a href={`/en/news/${post.slug}`} class="block group">
+                      <p class="text-xs text-text-secondary mb-0.5">{post.formattedDate}</p>
+                      <p class="text-sm font-medium group-hover:text-accent-primary transition-colors">{post.title}</p>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p class="text-text-secondary text-sm mb-6 flex-1">
+                News, releases, and announcements from Ami Oprenova — check back soon.
+              </p>
+            )}
+            <div class="mt-auto flex items-center justify-between gap-3">
+              <Button variant="primary" href="/en/news">
+                Read News
+              </Button>
+              <RssLink href="/rss.xml" label={t.rss.news} />
             </div>
           </div>
         </Card>
@@ -197,29 +254,6 @@ const upcomingShows = (await getNextEvents(3)).map(event => ({
               </Button>
             </div>
           </form>
-
-          <!-- Social Links -->
-          <div class="flex justify-center gap-6 mb-6">
-            {siteConfig.instagramUrl && (
-              <a href={siteConfig.instagramUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-secondary transition-colors" aria-label="Instagram">
-                <SocialIcon name="instagram" />
-              </a>
-            )}
-            {siteConfig.facebookUrl && (
-              <a href={siteConfig.facebookUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-secondary transition-colors" aria-label="Facebook">
-                <SocialIcon name="facebook" />
-              </a>
-            )}
-            {siteConfig.youtubeUrl && (
-              <a href={siteConfig.youtubeUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-secondary transition-colors" aria-label="YouTube">
-                <SocialIcon name="youtube" />
-              </a>
-            )}
-          </div>
-
-          <a href="/en/links" class="inline-block text-accent-secondary hover:text-accent-primary font-semibold">
-            All Links →
-          </a>
         </div>
       </div>
     </section>
