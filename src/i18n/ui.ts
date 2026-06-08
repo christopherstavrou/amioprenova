@@ -18,6 +18,8 @@ export const ui = {
       toggleMenu: 'Toggle menu',
       closeMenu: 'Close menu',
       language: 'Language',
+      primaryNav: 'Main navigation',
+      mobileNav: 'Mobile navigation',
     },
     home: {
       playVideo: 'Play',
@@ -175,6 +177,8 @@ export const ui = {
       toggleMenu: 'Меню',
       closeMenu: 'Затвори менюто',
       language: 'Език',
+      primaryNav: 'Основна навигация',
+      mobileNav: 'Мобилна навигация',
     },
     home: {
       playVideo: 'Пусни',

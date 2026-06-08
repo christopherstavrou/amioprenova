@@ -14,7 +14,7 @@ const lastUpdated = '9 юни 2026 г.';
 >
   <PageHeader title="Поверителност" class="nav:text-center" />
 
-  <div class="max-w-3xl mx-auto space-y-8">
+  <div class="policy max-w-3xl mx-auto space-y-8">
     <p class="text-text-secondary">Последна актуализация: {lastUpdated}</p>
 
     <p>
@@ -113,3 +113,10 @@ const lastUpdated = '9 юни 2026 г.';
     </section>
   </div>
 </Layout>
+
+<style>
+  /* Inline policy links must be distinguishable without relying on colour (WCAG 1.4.1). */
+  .policy a {
+    text-decoration: underline;
+  }
+</style>

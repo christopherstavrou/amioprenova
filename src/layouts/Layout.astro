@@ -130,7 +130,7 @@ const isActive = (href: string) => {
           </a>
 
           <!-- Desktop Navigation -->
-          <nav class="hidden nav:flex gap-4 xl:gap-7 flex-1 justify-center flex-nowrap">
+          <nav class="hidden nav:flex gap-4 xl:gap-7 flex-1 justify-center flex-nowrap" aria-label={t.nav.primaryNav}>
             {navItems.map(item => (
               <a
                 href={item.href}
@@ -219,7 +219,7 @@ const isActive = (href: string) => {
       <!-- Scrollable nav content -->
       <div class="flex-1 overflow-y-auto">
         <div class="mobile-menu-body container mx-auto px-4 pb-6 pt-4">
-          <nav class="flex flex-col border-t border-border">
+          <nav class="flex flex-col border-t border-border" aria-label={t.nav.mobileNav}>
             {navItems.map(item => (
               <a
                 href={item.href}

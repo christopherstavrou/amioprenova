@@ -14,7 +14,7 @@ const lastUpdated = '9 June 2026';
 >
   <PageHeader title="Privacy" class="nav:text-center" />
 
-  <div class="max-w-3xl mx-auto space-y-8">
+  <div class="policy max-w-3xl mx-auto space-y-8">
     <p class="text-text-secondary">Last updated: {lastUpdated}</p>
 
     <p>
@@ -114,3 +114,10 @@ const lastUpdated = '9 June 2026';
     </section>
   </div>
 </Layout>
+
+<style>
+  /* Inline policy links must be distinguishable without relying on colour (WCAG 1.4.1). */
+  .policy a {
+    text-decoration: underline;
+  }
+</style>
