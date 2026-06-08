@@ -138,6 +138,10 @@ export const ui = {
       copyright: 'All rights reserved.',
       privacy: 'Privacy',
     },
+    rss: {
+      news: 'News feed',
+      shows: 'Shows feed',
+    },
     a11y: {
       skipToContent: 'Skip to content',
     },
@@ -277,6 +281,10 @@ export const ui = {
     footer: {
       copyright: 'Всички права запазени.',
       privacy: 'Поверителност',
+    },
+    rss: {
+      news: 'Новини (RSS)',
+      shows: 'Концерти (RSS)',
     },
     a11y: {
       skipToContent: 'Към съдържанието',
