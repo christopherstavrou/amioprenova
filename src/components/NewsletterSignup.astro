@@ -4,22 +4,17 @@ import { ui, type Language } from '../i18n/ui';
 import { siteConfig } from '../config/site';
 
 /**
- * NewsletterSignup — Mailchimp email-capture form with GDPR consent note.
+ * NewsletterSignup — Mailchimp email-capture, submitted inline (no redirect).
  *
- * Renders the "Stay Connected" form (email input + subscribe + consent line +
- * bot honeypot). The heading/description stay in the page (page copy), this owns
- * the form so EN/BG don't duplicate it.
+ * Posts to Mailchimp's classic embedded-form endpoint, but the client script
+ * submits via the JSONP `/subscribe/post-json` endpoint so the visitor never
+ * leaves the page — they get an inline status message instead. If JS is off,
+ * the plain form still POSTs to Mailchimp's hosted page as a fallback.
  *
- * Wiring (owner action, see issues #182/#193):
- *   1. Mailchimp audience → Signup forms → Embedded form. Copy the <form action="…">
- *      URL into siteConfig.mailchimpSignupUrl
- *      (https://<dc>.list-manage.com/subscribe/post?u=USER_ID&id=LIST_ID).
- *   2. From the same embed, copy the hidden honeypot field name (b_USER_ID_LIST_ID)
- *      into siteConfig.mailchimpHoneypotField.
- *   3. Enable double opt-in on the audience (GDPR — #182).
- *
- * Until a signup URL is configured the component renders nothing, so the section
- * never ships a broken form.
+ * Wiring (owner action, see #182/#193): set siteConfig.mailchimpSignupUrl to the
+ * embedded-form action URL and siteConfig.mailchimpHoneypotField to the b_<u>_<id>
+ * honeypot name, and enable double opt-in on the audience. Renders nothing until
+ * a signup URL is configured.
  */
 export interface Props {
   lang: Language;
@@ -29,10 +24,27 @@ const { lang } = Astro.props;
 const t = ui[lang].newsletter;
 const signupUrl = siteConfig.mailchimpSignupUrl;
 const honeypot = siteConfig.mailchimpHoneypotField;
+
+// Messages handed to the client script for inline status (localised).
+const messages = JSON.stringify({
+  loading: t.loading,
+  success: t.success,
+  error: t.error,
+  already: t.already,
+  invalid: t.invalid,
+});
 ---
 
 {signupUrl && (
-  <form class="mb-3" action={signupUrl} method="post" target="_blank" novalidate>
+  <form
+    id="newsletter-form"
+    class="mb-3"
+    action={signupUrl}
+    method="post"
+    target="_blank"
+    novalidate
+    data-messages={messages}
+  >
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
       <label for="newsletter-email" class="sr-only">{t.emailLabel}</label>
       <input
@@ -55,9 +67,74 @@ const honeypot = siteConfig.mailchimpHoneypotField;
       </div>
     )}
 
-    <p class="text-xs text-text-secondary mt-3">
+    <p id="newsletter-status" class="text-sm mt-3 min-h-[1.25rem]" role="status" aria-live="polite"></p>
+
+    <p class="text-xs text-text-secondary mt-1">
       {t.consentText}{' '}
       <a href={`/${lang}/privacy`} class="underline hover:text-accent-primary transition-colors">{t.privacyLink}</a>{t.consentSuffix}
     </p>
   </form>
 )}
+
+<script>
+  // Inline Mailchimp signup via JSONP (no redirect). Progressive enhancement:
+  // without JS the form still POSTs to Mailchimp's hosted page.
+  function initNewsletter() {
+    const form = document.getElementById('newsletter-form') as HTMLFormElement | null;
+    if (!form || form.dataset.bound) return;
+    form.dataset.bound = 'true';
+
+    const status = document.getElementById('newsletter-status');
+    const messages = JSON.parse(form.dataset.messages || '{}');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const emailInput = form.querySelector('input[name="EMAIL"]') as HTMLInputElement;
+      const setStatus = (text: string, ok: boolean | null = null) => {
+        if (!status) return;
+        status.textContent = text;
+        status.className =
+          'text-sm mt-3 min-h-[1.25rem] ' +
+          (ok === true ? 'text-accent-primary' : ok === false ? 'text-red-600 dark:text-red-400' : 'text-text-secondary');
+      };
+
+      if (!emailInput.value.trim() || !emailInput.checkValidity()) {
+        setStatus(messages.invalid, false);
+        return;
+      }
+      setStatus(messages.loading);
+
+      // /subscribe/post -> /subscribe/post-json, append the form fields + JSONP callback.
+      const action = form.getAttribute('action')!.replace('/post', '/post-json');
+      const params = new URLSearchParams(new FormData(form) as any);
+      const cb = 'mc_' + Date.now();
+      params.set('c', cb);
+      const url = action + (action.includes('?') ? '&' : '?') + params.toString();
+
+      const script = document.createElement('script');
+      const cleanup = () => {
+        delete (window as any)[cb];
+        script.remove();
+      };
+      (window as any)[cb] = (data: { result?: string; msg?: string }) => {
+        if (data.result === 'success') {
+          setStatus(messages.success, true);
+          form.reset();
+        } else {
+          const msg = (data.msg || '').toLowerCase();
+          setStatus(msg.includes('already subscribed') ? messages.already : messages.error, false);
+        }
+        cleanup();
+      };
+      script.onerror = () => {
+        setStatus(messages.error, false);
+        cleanup();
+      };
+      script.src = url;
+      document.body.appendChild(script);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initNewsletter);
+  document.addEventListener('astro:page-load', initNewsletter);
+</script>

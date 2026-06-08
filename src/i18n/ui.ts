@@ -149,6 +149,11 @@ export const ui = {
       consentText: 'By subscribing you agree to our',
       privacyLink: 'Privacy Policy',
       consentSuffix: '. Unsubscribe anytime.',
+      loading: 'Subscribing…',
+      success: 'Thanks! Check your inbox to confirm your subscription.',
+      error: 'Something went wrong. Please try again.',
+      already: "You're already subscribed.",
+      invalid: 'Please enter a valid email address.',
     },
     a11y: {
       skipToContent: 'Skip to content',
@@ -301,6 +306,11 @@ export const ui = {
       consentText: 'Абонирайки се, приемате нашата',
       privacyLink: 'Политика за поверителност',
       consentSuffix: '. Можете да се отпишете по всяко време.',
+      loading: 'Абониране…',
+      success: 'Благодарим! Проверете пощата си, за да потвърдите абонамента.',
+      error: 'Нещо се обърка. Опитайте отново.',
+      already: 'Вече сте абонирани.',
+      invalid: 'Моля, въведете валиден имейл адрес.',
     },
     a11y: {
       skipToContent: 'Към съдържанието',
