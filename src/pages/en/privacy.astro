@@ -1,16 +1,116 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '@christopherstavrou/ui/PageHeader.astro';
+import { siteConfig } from '../../config/site';
+
+const contactEmail = siteConfig.bookingEmail;
+const lastUpdated = '9 June 2026';
 ---
 
 <Layout
   title="Privacy - amioprenova"
-  description="Privacy policy for amioprenova website. Learn how we handle your data and protect your privacy."
+  description="Privacy policy for amioprenova.com — what data is collected, how it is used, the cookies we set, and your rights."
   lang="en"
 >
   <PageHeader title="Privacy" class="nav:text-center" />
 
-  <div class="max-w-3xl mx-auto">
-    <p class="text-text-secondary">Privacy page placeholder</p>
+  <div class="max-w-3xl mx-auto space-y-8">
+    <p class="text-text-secondary">Last updated: {lastUpdated}</p>
+
+    <p>
+      This policy explains what personal data <strong>{siteConfig.baseUrl.replace('https://', '')}</strong>
+      collects, why, how it is handled, and the rights you have over it. The site is run
+      personally by Ami Oprenova; it is a small artist website, and we collect as little as
+      possible.
+    </p>
+
+    <section class="space-y-3">
+      <h2>What we collect</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>
+          <strong>Newsletter email address</strong> — only if you choose to subscribe. We store
+          your email address (and nothing else) to send you news and show announcements. This is
+          handled by Mailchimp (see “Third-party services”).
+        </li>
+        <li>
+          <strong>No accounts, no contact forms, no server logs of you.</strong> The site is a
+          static website. Getting in touch is by email link only — when you email us, we receive
+          whatever you write, the same as any email.
+        </li>
+      </ul>
+    </section>
+
+    <section class="space-y-3">
+      <h2>Cookies &amp; local storage</h2>
+      <p>
+        We do <strong>not</strong> use advertising or analytics cookies, and there is no tracking.
+        The only things stored in your browser are two strictly-necessary preference cookies that
+        remember your choices:
+      </p>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>site_theme</strong> — remembers light or dark mode. Lasts up to 1 year.</li>
+        <li><strong>site_lang</strong> — remembers your language (English or Bulgarian). Lasts up to 1 year.</li>
+      </ul>
+      <p>
+        These are functional cookies you can clear at any time in your browser; the site works
+        without them. Because they are strictly necessary for your preferences and set no
+        tracking, no cookie banner is required.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2>Third-party services</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>
+          <strong>Mailchimp</strong> (newsletter) — if you subscribe, your email is processed by
+          Intuit Mailchimp, a service based in the United States. This means your email address is
+          transferred to and stored in the US. See
+          <a href="https://www.intuit.com/privacy/statement/" target="_blank" rel="noopener noreferrer">Mailchimp’s privacy statement</a>.
+        </li>
+        <li>
+          <strong>YouTube</strong> (video embeds) — videos are embedded using YouTube’s
+          privacy-enhanced mode (<code>youtube-nocookie.com</code>) and only load <em>after</em> you
+          click play. Until then, no request is sent to YouTube. Once you press play, YouTube’s own
+          terms and
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">privacy policy</a> apply.
+        </li>
+        <li>
+          <strong>Cloudflare</strong> — the site is hosted on Cloudflare’s network, which processes
+          requests to keep the site fast and secure. No personal data is collected by us through it.
+        </li>
+      </ul>
+    </section>
+
+    <section class="space-y-3">
+      <h2>Lawful basis &amp; retention</h2>
+      <p>
+        We process your newsletter email on the basis of your <strong>consent</strong>, which you
+        give by subscribing (with a confirmation email) and can withdraw at any time using the
+        unsubscribe link in any email, or by contacting us. We keep your email only for as long as
+        you stay subscribed. The preference cookies are kept on the basis of necessity for the
+        feature you used.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2>Your rights</h2>
+      <p>If you are in the EU/UK, you have the right to:</p>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>access the personal data we hold about you;</li>
+        <li>correct it if it is wrong;</li>
+        <li>have it deleted (“right to be forgotten”);</li>
+        <li>withdraw your consent at any time;</li>
+        <li>complain to your local data-protection authority.</li>
+      </ul>
+      <p>To exercise any of these, just email us — we’ll handle it promptly.</p>
+    </section>
+
+    <section class="space-y-3">
+      <h2>Contact</h2>
+      <p>
+        Questions about this policy or your data? Email
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+      </p>
+    </section>
   </div>
 </Layout>
