@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Button from '@christopherstavrou/ui/Button.astro';
 import Card from '@christopherstavrou/ui/Card.astro';
 import RssLink from '../../components/RssLink.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
 import { Image } from 'astro:assets';
 import { siteConfig } from '../../config/site';
 import { ui } from '../../i18n/ui';
@@ -230,33 +231,19 @@ const latestNews = (await getBlogPosts('en'))
       </div>
     </section>
 
-    <!-- Stay Connected -->
-    <section id="newsletter" class="py-0">
-      <div class="bg-surface rounded-md p-6 md:p-8 shadow-md border border-border">
-        <div class="max-w-2xl mx-auto text-center">
-          <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">Stay Connected</h2>
-          <p class="text-lg mb-8 text-text-secondary">Get the latest news, show announcements, and exclusive content delivered to your inbox.</p>
+    {/* Stay Connected — shown once the Mailchimp signup URL is configured (#182/#193) */}
+    {siteConfig.mailchimpSignupUrl && (
+      <section id="newsletter" class="py-0">
+        <div class="bg-surface rounded-md p-6 md:p-8 shadow-md border border-border">
+          <div class="max-w-2xl mx-auto text-center">
+            <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">Stay Connected</h2>
+            <p class="text-lg mb-8 text-text-secondary">Get the latest news, show announcements, and exclusive content delivered to your inbox.</p>
 
-          <!-- Newsletter Signup Form -->
-          <form class="mb-5" action={siteConfig.mailchimpSignupUrl} method="post" target="_blank">
-            <div class="flex flex-col sm:flex-row gap-3 justify-center">
-              <label for="newsletter-email" class="sr-only">Email address</label>
-              <input
-                type="email"
-                id="newsletter-email"
-                name="EMAIL"
-                placeholder="Your email address"
-                required
-                class="px-4 py-3 rounded-md flex-grow max-w-md bg-surface text-text-primary border border-border focus:border-accent-primary focus:ring-2 focus:ring-accent-primary focus:ring-opacity-20"
-              />
-              <Button variant="primary" type="submit">
-                Subscribe
-              </Button>
-            </div>
-          </form>
+            <NewsletterSignup lang="en" />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
   </div>
 </Layout>
 

@@ -1,0 +1,139 @@
+---
+import Button from '@christopherstavrou/ui/Button.astro';
+import { ui, type Language } from '../i18n/ui';
+import { siteConfig } from '../config/site';
+
+/**
+ * NewsletterSignup — Mailchimp email-capture, submitted without leaving the page.
+ *
+ * Newer (Intuit-era) Mailchimp accounts no longer serve the classic
+ * `/subscribe/post-json` JSONP endpoint, so we submit the working
+ * `/subscribe/post` endpoint into a hidden iframe: the page never navigates and
+ * we show an inline status message. With double opt-in on, the honest message is
+ * "check your inbox to confirm". Cross-origin means we can't read Mailchimp's
+ * response, so success is shown on the iframe load that follows a submit.
+ *
+ * No-JS fallback: the form still posts into the iframe (or, if the iframe is
+ * unavailable, to Mailchimp's hosted page).
+ *
+ * Wiring (owner action, see #182/#193): set siteConfig.mailchimpSignupUrl to the
+ * embedded-form action URL (.../subscribe/post?u=<u>&id=<id>) and
+ * siteConfig.mailchimpHoneypotField to the b_<u>_<id> honeypot name, and enable
+ * double opt-in on the audience. Renders nothing until a signup URL is set.
+ */
+export interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang].newsletter;
+const signupUrl = siteConfig.mailchimpSignupUrl;
+const honeypot = siteConfig.mailchimpHoneypotField;
+
+const messages = JSON.stringify({
+  loading: t.loading,
+  success: t.success,
+  invalid: t.invalid,
+});
+
+// Per-instance ids/names so the component is safe to render more than once
+// on a page (e.g. homepage + footer) without colliding labels/iframes.
+const uid = 'nl-' + Math.random().toString(36).slice(2, 8);
+const emailId = `email-${uid}`;
+const iframeName = `mc-iframe-${uid}`;
+---
+
+{signupUrl && (
+  <Fragment>
+  <form
+    class="mb-3"
+    action={signupUrl}
+    method="post"
+    target={iframeName}
+    novalidate
+    data-newsletter
+    data-messages={messages}
+  >
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <label for={emailId} class="sr-only">{t.emailLabel}</label>
+      <input
+        type="email"
+        id={emailId}
+        name="EMAIL"
+        placeholder={t.placeholder}
+        autocomplete="email"
+        required
+        class="px-4 py-3 rounded-md flex-grow max-w-md bg-surface text-text-primary border border-border focus:border-accent-primary focus:ring-2 focus:ring-accent-primary focus:ring-opacity-20"
+      />
+      <Button variant="primary" type="submit">
+        {t.subscribe}
+      </Button>
+    </div>
+
+    {/* Mailchimp anti-bot honeypot — real users never fill this; kept off-screen. */}
+    {honeypot && (
+      <div style="position: absolute; left: -5000px;" aria-hidden="true">
+        <input type="text" name={honeypot} tabindex="-1" value="" autocomplete="off" />
+      </div>
+    )}
+
+    <p data-status class="text-sm mt-3 min-h-[1.25rem]" role="status" aria-live="polite"></p>
+
+    <p class="text-xs text-text-secondary mt-1">
+      {t.consentText}{' '}
+      <a href={`/${lang}/privacy`} class="underline hover:text-accent-primary transition-colors">{t.privacyLink}</a>{t.consentSuffix}
+    </p>
+  </form>
+
+  {/* Hidden sink for the form POST so the page never navigates. */}
+  <iframe name={iframeName} title="Newsletter signup" aria-hidden="true" tabindex="-1" style="display:none"></iframe>
+  </Fragment>
+)}
+
+<script>
+  // Submit Mailchimp into a hidden iframe so the visitor stays on the page.
+  // Scoped per form so multiple instances on one page don't collide.
+  function initNewsletter() {
+    document.querySelectorAll<HTMLFormElement>('form[data-newsletter]').forEach((form) => {
+      if (form.dataset.bound) return;
+      const iframe = document.querySelector<HTMLIFrameElement>(`iframe[name="${form.target}"]`);
+      if (!iframe) return;
+      form.dataset.bound = 'true';
+
+      const status = form.querySelector<HTMLElement>('[data-status]');
+      const messages = JSON.parse(form.dataset.messages || '{}');
+      let submitted = false;
+
+      const setStatus = (text: string, ok: boolean | null = null) => {
+        if (!status) return;
+        status.textContent = text;
+        status.className =
+          'text-sm mt-3 min-h-[1.25rem] ' +
+          (ok === true ? 'text-accent-primary' : ok === false ? 'text-red-600 dark:text-red-400' : 'text-text-secondary');
+      };
+
+      form.addEventListener('submit', (e) => {
+        const emailInput = form.querySelector('input[name="EMAIL"]') as HTMLInputElement;
+        if (!emailInput.value.trim() || !emailInput.checkValidity()) {
+          e.preventDefault();
+          setStatus(messages.invalid, false);
+          return;
+        }
+        // Let the form POST into the hidden iframe; just flag it and show progress.
+        submitted = true;
+        setStatus(messages.loading);
+      });
+
+      // Fires when Mailchimp's response finishes loading in the hidden iframe.
+      iframe.addEventListener('load', () => {
+        if (!submitted) return; // ignore the initial blank load
+        submitted = false;
+        setStatus(messages.success, true);
+        form.reset();
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initNewsletter);
+  document.addEventListener('astro:page-load', initNewsletter);
+</script>

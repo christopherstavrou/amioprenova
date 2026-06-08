@@ -11,7 +11,10 @@ export default defineConfig({
   },
   vite: {
     server: {
-      allowedHosts: ['desktop-43evha2.taile2204d.ts.net'],
+      allowedHosts: [
+        'desktop-43evha2.taile2204d.ts.net',
+        'desktop-43evha2-wsl.taile2204d.ts.net',
+      ],
     },
   },
   // Note: Sitemap generation is disabled until production domain is confirmed.
