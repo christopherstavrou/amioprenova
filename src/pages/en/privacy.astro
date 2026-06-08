@@ -4,6 +4,7 @@ import PageHeader from '@christopherstavrou/ui/PageHeader.astro';
 import { siteConfig } from '../../config/site';
 
 const contactEmail = siteConfig.bookingEmail;
+const siteDomain = new URL(siteConfig.baseUrl).hostname;
 const lastUpdated = '9 June 2026';
 ---
 
@@ -18,7 +19,7 @@ const lastUpdated = '9 June 2026';
     <p class="text-text-secondary">Last updated: {lastUpdated}</p>
 
     <p>
-      This policy explains what personal data <strong>{siteConfig.baseUrl.replace('https://', '')}</strong>
+      This policy explains what personal data <strong>{siteDomain}</strong>
       collects, why, how it is handled, and the rights you have over it. The site is run
       personally by Ami Oprenova; it is a small artist website, and we collect as little as
       possible.

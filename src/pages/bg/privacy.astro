@@ -4,6 +4,7 @@ import PageHeader from '@christopherstavrou/ui/PageHeader.astro';
 import { siteConfig } from '../../config/site';
 
 const contactEmail = siteConfig.bookingEmail;
+const siteDomain = new URL(siteConfig.baseUrl).hostname;
 const lastUpdated = '9 юни 2026 г.';
 ---
 
@@ -18,7 +19,7 @@ const lastUpdated = '9 юни 2026 г.';
     <p class="text-text-secondary">Последна актуализация: {lastUpdated}</p>
 
     <p>
-      Тази политика обяснява какви лични данни събира <strong>{siteConfig.baseUrl.replace('https://', '')}</strong>,
+      Тази политика обяснява какви лични данни събира <strong>{siteDomain}</strong>,
       защо, как се обработват и какви права имате върху тях. Сайтът се поддържа лично от Ами
       Опренова; това е малък артистичен уебсайт и събираме възможно най-малко данни.
     </p>
