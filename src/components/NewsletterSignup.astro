@@ -35,26 +35,33 @@ const messages = JSON.stringify({
   success: t.success,
   invalid: t.invalid,
 });
+
+// Per-instance ids/names so the component is safe to render more than once
+// on a page (e.g. homepage + footer) without colliding labels/iframes.
+const uid = 'nl-' + Math.random().toString(36).slice(2, 8);
+const emailId = `email-${uid}`;
+const iframeName = `mc-iframe-${uid}`;
 ---
 
 {signupUrl && (
   <Fragment>
   <form
-    id="newsletter-form"
     class="mb-3"
     action={signupUrl}
     method="post"
-    target="mc-iframe"
+    target={iframeName}
     novalidate
+    data-newsletter
     data-messages={messages}
   >
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <label for="newsletter-email" class="sr-only">{t.emailLabel}</label>
+      <label for={emailId} class="sr-only">{t.emailLabel}</label>
       <input
         type="email"
-        id="newsletter-email"
+        id={emailId}
         name="EMAIL"
         placeholder={t.placeholder}
+        autocomplete="email"
         required
         class="px-4 py-3 rounded-md flex-grow max-w-md bg-surface text-text-primary border border-border focus:border-accent-primary focus:ring-2 focus:ring-accent-primary focus:ring-opacity-20"
       />
@@ -70,7 +77,7 @@ const messages = JSON.stringify({
       </div>
     )}
 
-    <p id="newsletter-status" class="text-sm mt-3 min-h-[1.25rem]" role="status" aria-live="polite"></p>
+    <p data-status class="text-sm mt-3 min-h-[1.25rem]" role="status" aria-live="polite"></p>
 
     <p class="text-xs text-text-secondary mt-1">
       {t.consentText}{' '}
@@ -79,48 +86,51 @@ const messages = JSON.stringify({
   </form>
 
   {/* Hidden sink for the form POST so the page never navigates. */}
-  <iframe name="mc-iframe" title="Newsletter signup" aria-hidden="true" tabindex="-1" style="display:none"></iframe>
+  <iframe name={iframeName} title="Newsletter signup" aria-hidden="true" tabindex="-1" style="display:none"></iframe>
   </Fragment>
 )}
 
 <script>
   // Submit Mailchimp into a hidden iframe so the visitor stays on the page.
+  // Scoped per form so multiple instances on one page don't collide.
   function initNewsletter() {
-    const form = document.getElementById('newsletter-form') as HTMLFormElement | null;
-    const iframe = document.querySelector('iframe[name="mc-iframe"]') as HTMLIFrameElement | null;
-    if (!form || !iframe || form.dataset.bound) return;
-    form.dataset.bound = 'true';
+    document.querySelectorAll<HTMLFormElement>('form[data-newsletter]').forEach((form) => {
+      if (form.dataset.bound) return;
+      const iframe = document.querySelector<HTMLIFrameElement>(`iframe[name="${form.target}"]`);
+      if (!iframe) return;
+      form.dataset.bound = 'true';
 
-    const status = document.getElementById('newsletter-status');
-    const messages = JSON.parse(form.dataset.messages || '{}');
-    let submitted = false;
+      const status = form.querySelector<HTMLElement>('[data-status]');
+      const messages = JSON.parse(form.dataset.messages || '{}');
+      let submitted = false;
 
-    const setStatus = (text: string, ok: boolean | null = null) => {
-      if (!status) return;
-      status.textContent = text;
-      status.className =
-        'text-sm mt-3 min-h-[1.25rem] ' +
-        (ok === true ? 'text-accent-primary' : ok === false ? 'text-red-600 dark:text-red-400' : 'text-text-secondary');
-    };
+      const setStatus = (text: string, ok: boolean | null = null) => {
+        if (!status) return;
+        status.textContent = text;
+        status.className =
+          'text-sm mt-3 min-h-[1.25rem] ' +
+          (ok === true ? 'text-accent-primary' : ok === false ? 'text-red-600 dark:text-red-400' : 'text-text-secondary');
+      };
 
-    form.addEventListener('submit', (e) => {
-      const emailInput = form.querySelector('input[name="EMAIL"]') as HTMLInputElement;
-      if (!emailInput.value.trim() || !emailInput.checkValidity()) {
-        e.preventDefault();
-        setStatus(messages.invalid, false);
-        return;
-      }
-      // Let the form POST into the hidden iframe; just flag it and show progress.
-      submitted = true;
-      setStatus(messages.loading);
-    });
+      form.addEventListener('submit', (e) => {
+        const emailInput = form.querySelector('input[name="EMAIL"]') as HTMLInputElement;
+        if (!emailInput.value.trim() || !emailInput.checkValidity()) {
+          e.preventDefault();
+          setStatus(messages.invalid, false);
+          return;
+        }
+        // Let the form POST into the hidden iframe; just flag it and show progress.
+        submitted = true;
+        setStatus(messages.loading);
+      });
 
-    // Fires when Mailchimp's response finishes loading in the hidden iframe.
-    iframe.addEventListener('load', () => {
-      if (!submitted) return; // ignore the initial blank load
-      submitted = false;
-      setStatus(messages.success, true);
-      form.reset();
+      // Fires when Mailchimp's response finishes loading in the hidden iframe.
+      iframe.addEventListener('load', () => {
+        if (!submitted) return; // ignore the initial blank load
+        submitted = false;
+        setStatus(messages.success, true);
+        form.reset();
+      });
     });
   }
 
