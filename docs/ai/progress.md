@@ -2,11 +2,21 @@
 
 Session-to-session anchor for AI agents. Read this at the start of every session.
 
-**Last updated**: 2026-06-07 (web-kit epic closed out; auto-update PR-branch workflow; CI automation hardening)
+**Last updated**: 2026-06-09 (overnight compliance + fundamentals batch — one mega branch, unmerged)
 
 ---
 
 ## ✅ Done
+
+### Overnight compliance + fundamentals batch (2026-06-09) — branch `overnight/compliance-fundamentals`, PR open & UNMERGED
+- **#180** youtube-nocookie embeds + self-hosted video thumbnails (no pre-consent Google requests).
+- **#179** real privacy policy content (EN/BG parity), replacing the placeholder.
+- **#181/#183** decisions.md: no cookie banner (functional cookies only); prefer cookieless analytics (owner-wired).
+- **#186** a11y fixes: unique nav landmark labels, underlined policy links, comprehensive `prefers-reduced-motion`. (Remaining: shared `@christopherstavrou/ui` Pagination disabled-button contrast — flagged, WCAG-exempt.)
+- **#225** self-hosted fonts (latin+cyrillic, removes Google Fonts request — perf + GDPR) + `docs/ai/perf-baseline.md`.
+- **#187** security headers: HSTS, COOP, and a **report-only** CSP (verified 0 violations sitewide — promotable to enforcing).
+- Verified: build clean (151 pages), console/CSP clean at 390×844 + 1280×900, video plays via nocookie, newsletter still submits.
+- **Held for owner:** privacy-policy wording sign-off; promoting CSP to enforcing; analytics account; the develop→main release. Sync PR #228 also pending.
 
 ### Links page removed (2026-06-07)
 - Deleted the half-built Linktree-style links page (`/{en,bg}/links`,
