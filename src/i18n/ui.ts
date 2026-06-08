@@ -142,6 +142,14 @@ export const ui = {
       news: 'News feed',
       shows: 'Shows feed',
     },
+    newsletter: {
+      emailLabel: 'Email address',
+      placeholder: 'Your email address',
+      subscribe: 'Subscribe',
+      consentText: 'By subscribing you agree to our',
+      privacyLink: 'Privacy Policy',
+      consentSuffix: '. Unsubscribe anytime.',
+    },
     a11y: {
       skipToContent: 'Skip to content',
     },
@@ -285,6 +293,14 @@ export const ui = {
     rss: {
       news: 'Новини (RSS)',
       shows: 'Концерти (RSS)',
+    },
+    newsletter: {
+      emailLabel: 'Имейл адрес',
+      placeholder: 'Вашият имейл адрес',
+      subscribe: 'Абонирай се',
+      consentText: 'Абонирайки се, приемате нашата',
+      privacyLink: 'Политика за поверителност',
+      consentSuffix: '. Можете да се отпишете по всяко време.',
     },
     a11y: {
       skipToContent: 'Към съдържанието',

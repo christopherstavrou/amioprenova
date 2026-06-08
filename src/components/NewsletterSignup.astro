@@ -1,0 +1,63 @@
+---
+import Button from '@christopherstavrou/ui/Button.astro';
+import { ui, type Language } from '../i18n/ui';
+import { siteConfig } from '../config/site';
+
+/**
+ * NewsletterSignup — Mailchimp email-capture form with GDPR consent note.
+ *
+ * Renders the "Stay Connected" form (email input + subscribe + consent line +
+ * bot honeypot). The heading/description stay in the page (page copy), this owns
+ * the form so EN/BG don't duplicate it.
+ *
+ * Wiring (owner action, see issues #182/#193):
+ *   1. Mailchimp audience → Signup forms → Embedded form. Copy the <form action="…">
+ *      URL into siteConfig.mailchimpSignupUrl
+ *      (https://<dc>.list-manage.com/subscribe/post?u=USER_ID&id=LIST_ID).
+ *   2. From the same embed, copy the hidden honeypot field name (b_USER_ID_LIST_ID)
+ *      into siteConfig.mailchimpHoneypotField.
+ *   3. Enable double opt-in on the audience (GDPR — #182).
+ *
+ * Until a signup URL is configured the component renders nothing, so the section
+ * never ships a broken form.
+ */
+export interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang].newsletter;
+const signupUrl = siteConfig.mailchimpSignupUrl;
+const honeypot = siteConfig.mailchimpHoneypotField;
+---
+
+{signupUrl && (
+  <form class="mb-3" action={signupUrl} method="post" target="_blank" novalidate>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <label for="newsletter-email" class="sr-only">{t.emailLabel}</label>
+      <input
+        type="email"
+        id="newsletter-email"
+        name="EMAIL"
+        placeholder={t.placeholder}
+        required
+        class="px-4 py-3 rounded-md flex-grow max-w-md bg-surface text-text-primary border border-border focus:border-accent-primary focus:ring-2 focus:ring-accent-primary focus:ring-opacity-20"
+      />
+      <Button variant="primary" type="submit">
+        {t.subscribe}
+      </Button>
+    </div>
+
+    {/* Mailchimp anti-bot honeypot — real users never fill this; kept off-screen. */}
+    {honeypot && (
+      <div style="position: absolute; left: -5000px;" aria-hidden="true">
+        <input type="text" name={honeypot} tabindex="-1" value="" autocomplete="off" />
+      </div>
+    )}
+
+    <p class="text-xs text-text-secondary mt-3">
+      {t.consentText}{' '}
+      <a href={`/${lang}/privacy`} class="underline hover:text-accent-primary transition-colors">{t.privacyLink}</a>{t.consentSuffix}
+    </p>
+  </form>
+)}
