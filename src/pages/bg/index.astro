@@ -90,7 +90,7 @@ const latestNews = (await getBlogPosts('bg'))
 
     <!-- ── Featured Video ── -->
     <section class="bg-surface-muted border-y border-border">
-      <div class="max-w-content mx-auto px-4 py-12 md:py-16 grid md:grid-cols-2 gap-8 lg:gap-14 items-center">
+      <div class="max-w-content mx-auto px-4 py-8 md:py-16 grid md:grid-cols-2 gap-6 lg:gap-14 items-center">
         <div class="video-card relative rounded-lg overflow-hidden shadow-lg" data-youtube-id={featuredVideo.youtubeId}>
           <button
             type="button"
@@ -106,9 +106,9 @@ const latestNews = (await getBlogPosts('bg'))
         </div>
         <div>
           <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-3">Препоръчано Видео</p>
-          <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4 leading-tight">{featuredVideo.title}</h2>
+          <h2 class="font-serif text-2xl md:text-4xl font-bold mb-3 md:mb-4 leading-tight">{featuredVideo.title}</h2>
           {featuredVideo.description && (
-            <p class="text-text-secondary text-lg leading-relaxed mb-6">{featuredVideo.description}</p>
+            <p class="text-text-secondary text-base md:text-lg leading-relaxed mb-4 md:mb-6">{featuredVideo.description}</p>
           )}
           <Button variant="primary" href="/bg/video">Още Видеа</Button>
         </div>
@@ -117,15 +117,15 @@ const latestNews = (await getBlogPosts('bg'))
 
     <!-- ── Latest Release ── -->
     <section>
-      <div class="max-w-content mx-auto px-4 py-12 md:py-16 grid md:grid-cols-2 gap-8 lg:gap-14 items-center">
-        <div class="max-w-sm mx-auto md:mx-0 w-full">
+      <div class="max-w-content mx-auto px-4 py-8 md:py-16 grid md:grid-cols-2 gap-6 lg:gap-14 items-center">
+        <div class="max-w-[200px] sm:max-w-xs md:max-w-sm mx-auto md:mx-0 w-full">
           <img src={featuredRelease.coverImage} alt={featuredRelease.title} class="w-full aspect-square object-cover rounded-lg shadow-lg" loading="lazy" />
         </div>
         <div>
           <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-3">Ново Издание</p>
-          <h2 class="font-serif text-3xl md:text-4xl font-bold mb-1 leading-tight">{featuredRelease.title}</h2>
+          <h2 class="font-serif text-2xl md:text-4xl font-bold mb-1 leading-tight">{featuredRelease.title}</h2>
           <p class="text-text-secondary text-base mb-4">{featuredRelease.year}</p>
-          <p class="text-text-secondary text-lg leading-relaxed mb-6">{featuredRelease.description}</p>
+          <p class="text-text-secondary text-base md:text-lg leading-relaxed mb-4 md:mb-6">{featuredRelease.description}</p>
           <div class="flex flex-wrap gap-3">
             {featuredRelease.bandcampUrl && (
               <Button variant="primary" href={featuredRelease.bandcampUrl} target="_blank" rel="noopener noreferrer">Слушай в Bandcamp</Button>
@@ -143,11 +143,11 @@ const latestNews = (await getBlogPosts('bg'))
 
     <!-- ── Upcoming Shows ── -->
     <section class="bg-surface-muted border-y border-border">
-      <div class="max-w-content mx-auto px-4 py-12 md:py-16 grid md:grid-cols-2 gap-8 lg:gap-14 md:items-start">
+      <div class="max-w-content mx-auto px-4 py-8 md:py-16 grid md:grid-cols-2 gap-6 lg:gap-14 md:items-start">
         <div>
           <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-3">Предстоящи Концерти</p>
-          <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4 leading-tight">Живи Изпълнения</h2>
-          <p class="text-text-secondary text-lg leading-relaxed mb-6">
+          <h2 class="font-serif text-2xl md:text-4xl font-bold mb-3 md:mb-4 leading-tight">Живи Изпълнения</h2>
+          <p class="text-text-secondary text-base md:text-lg leading-relaxed mb-4 md:mb-6">
             Гледайте Ами Опренова на живо — джаз концерти, интимни сесии и фестивални сцени из цяла Европа.
           </p>
           <div class="flex items-center gap-5">
@@ -158,7 +158,7 @@ const latestNews = (await getBlogPosts('bg'))
         {upcomingShows.length > 0 && (
           <ul class="divide-y divide-border">
             {upcomingShows.map(event => (
-              <li class="py-4 first:pt-0">
+              <li class="py-3 md:py-4 first:pt-0">
                 <a href={`/bg/shows/${event.slug}`} class="group block">
                   <p class="text-sm text-text-secondary mb-1">
                     {event.formattedDate} <span class="text-text-secondary">{event.timezoneLabel}</span>
@@ -180,11 +180,11 @@ const latestNews = (await getBlogPosts('bg'))
 
     <!-- ── Latest News ── -->
     <section>
-      <div class="max-w-content mx-auto px-4 py-12 md:py-16 grid md:grid-cols-2 gap-8 lg:gap-14 md:items-start">
+      <div class="max-w-content mx-auto px-4 py-8 md:py-16 grid md:grid-cols-2 gap-6 lg:gap-14 md:items-start">
         <div>
           <p class="text-xs font-semibold uppercase tracking-widest text-accent-secondary mb-3">Последни Новини</p>
-          <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4 leading-tight">Новини и Обновления</h2>
-          <p class="text-text-secondary text-lg leading-relaxed mb-6">
+          <h2 class="font-serif text-2xl md:text-4xl font-bold mb-3 md:mb-4 leading-tight">Новини и Обновления</h2>
+          <p class="text-text-secondary text-base md:text-lg leading-relaxed mb-4 md:mb-6">
             Издания, обявления и истории от пътя и студиото.
           </p>
           <div class="flex items-center gap-5">
@@ -195,7 +195,7 @@ const latestNews = (await getBlogPosts('bg'))
         {latestNews.length > 0 && (
           <ul class="divide-y divide-border">
             {latestNews.map(post => (
-              <li class="py-4 first:pt-0">
+              <li class="py-3 md:py-4 first:pt-0">
                 <a href={`/bg/news/${post.slug}`} class="group flex gap-4 items-start">
                   {post.image && (
                     <img src={post.image} alt={post.title} class="shrink-0 w-24 h-16 object-cover rounded-md" loading="lazy" />
@@ -215,7 +215,7 @@ const latestNews = (await getBlogPosts('bg'))
 
     <!-- ── Stay Connected ── -->
     <section id="newsletter" class="bg-surface-muted border-t border-border">
-      <div class="max-w-2xl mx-auto px-4 py-12 md:py-16 text-center">
+      <div class="max-w-2xl mx-auto px-4 py-10 md:py-16 text-center">
         <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">Бъдете Свързани</h2>
         <p class="text-lg mb-8 text-text-secondary">Получавайте последните новини, обявления за концерти и ексклузивно съдържание директно във вашата електронна поща.</p>
 
