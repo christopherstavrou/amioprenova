@@ -28,8 +28,11 @@ export const siteConfig = {
   donationUrl: '', // TODO: Add when verified
   ticketsPlatformUrl: '', // TODO: Add when verified
 
-  // Newsletter
-  mailchimpSignupUrl: '', // TODO: Add when verified
+  // Newsletter (Mailchimp embedded form — see docs in NewsletterSignup.astro)
+  // Form action, e.g. https://<dc>.list-manage.com/subscribe/post?u=USER_ID&id=LIST_ID
+  mailchimpSignupUrl: 'https://amioprenova.us7.list-manage.com/subscribe/post?u=d3311050d0d864d742eb96ec2&id=8ee0435718',
+  // Bot honeypot field name from the same embed, e.g. b_USER_ID_LIST_ID (anti-spam)
+  mailchimpHoneypotField: 'b_d3311050d0d864d742eb96ec2_8ee0435718',
 
   // Artist identity (used for search-engine structured data / JSON-LD)
   artistName: 'Ami Oprenova',
