@@ -4,17 +4,22 @@ import { ui, type Language } from '../i18n/ui';
 import { siteConfig } from '../config/site';
 
 /**
- * NewsletterSignup — Mailchimp email-capture, submitted inline (no redirect).
+ * NewsletterSignup — Mailchimp email-capture, submitted without leaving the page.
  *
- * Posts to Mailchimp's classic embedded-form endpoint, but the client script
- * submits via the JSONP `/subscribe/post-json` endpoint so the visitor never
- * leaves the page — they get an inline status message instead. If JS is off,
- * the plain form still POSTs to Mailchimp's hosted page as a fallback.
+ * Newer (Intuit-era) Mailchimp accounts no longer serve the classic
+ * `/subscribe/post-json` JSONP endpoint, so we submit the working
+ * `/subscribe/post` endpoint into a hidden iframe: the page never navigates and
+ * we show an inline status message. With double opt-in on, the honest message is
+ * "check your inbox to confirm". Cross-origin means we can't read Mailchimp's
+ * response, so success is shown on the iframe load that follows a submit.
+ *
+ * No-JS fallback: the form still posts into the iframe (or, if the iframe is
+ * unavailable, to Mailchimp's hosted page).
  *
  * Wiring (owner action, see #182/#193): set siteConfig.mailchimpSignupUrl to the
- * embedded-form action URL and siteConfig.mailchimpHoneypotField to the b_<u>_<id>
- * honeypot name, and enable double opt-in on the audience. Renders nothing until
- * a signup URL is configured.
+ * embedded-form action URL (.../subscribe/post?u=<u>&id=<id>) and
+ * siteConfig.mailchimpHoneypotField to the b_<u>_<id> honeypot name, and enable
+ * double opt-in on the audience. Renders nothing until a signup URL is set.
  */
 export interface Props {
   lang: Language;
@@ -25,23 +30,21 @@ const t = ui[lang].newsletter;
 const signupUrl = siteConfig.mailchimpSignupUrl;
 const honeypot = siteConfig.mailchimpHoneypotField;
 
-// Messages handed to the client script for inline status (localised).
 const messages = JSON.stringify({
   loading: t.loading,
   success: t.success,
-  error: t.error,
-  already: t.already,
   invalid: t.invalid,
 });
 ---
 
 {signupUrl && (
+  <Fragment>
   <form
     id="newsletter-form"
     class="mb-3"
     action={signupUrl}
     method="post"
-    target="_blank"
+    target="mc-iframe"
     novalidate
     data-messages={messages}
   >
@@ -74,64 +77,50 @@ const messages = JSON.stringify({
       <a href={`/${lang}/privacy`} class="underline hover:text-accent-primary transition-colors">{t.privacyLink}</a>{t.consentSuffix}
     </p>
   </form>
+
+  {/* Hidden sink for the form POST so the page never navigates. */}
+  <iframe name="mc-iframe" title="Newsletter signup" aria-hidden="true" tabindex="-1" style="display:none"></iframe>
+  </Fragment>
 )}
 
 <script>
-  // Inline Mailchimp signup via JSONP (no redirect). Progressive enhancement:
-  // without JS the form still POSTs to Mailchimp's hosted page.
+  // Submit Mailchimp into a hidden iframe so the visitor stays on the page.
   function initNewsletter() {
     const form = document.getElementById('newsletter-form') as HTMLFormElement | null;
-    if (!form || form.dataset.bound) return;
+    const iframe = document.querySelector('iframe[name="mc-iframe"]') as HTMLIFrameElement | null;
+    if (!form || !iframe || form.dataset.bound) return;
     form.dataset.bound = 'true';
 
     const status = document.getElementById('newsletter-status');
     const messages = JSON.parse(form.dataset.messages || '{}');
+    let submitted = false;
+
+    const setStatus = (text: string, ok: boolean | null = null) => {
+      if (!status) return;
+      status.textContent = text;
+      status.className =
+        'text-sm mt-3 min-h-[1.25rem] ' +
+        (ok === true ? 'text-accent-primary' : ok === false ? 'text-red-600 dark:text-red-400' : 'text-text-secondary');
+    };
 
     form.addEventListener('submit', (e) => {
-      e.preventDefault();
       const emailInput = form.querySelector('input[name="EMAIL"]') as HTMLInputElement;
-      const setStatus = (text: string, ok: boolean | null = null) => {
-        if (!status) return;
-        status.textContent = text;
-        status.className =
-          'text-sm mt-3 min-h-[1.25rem] ' +
-          (ok === true ? 'text-accent-primary' : ok === false ? 'text-red-600 dark:text-red-400' : 'text-text-secondary');
-      };
-
       if (!emailInput.value.trim() || !emailInput.checkValidity()) {
+        e.preventDefault();
         setStatus(messages.invalid, false);
         return;
       }
+      // Let the form POST into the hidden iframe; just flag it and show progress.
+      submitted = true;
       setStatus(messages.loading);
+    });
 
-      // /subscribe/post -> /subscribe/post-json, append the form fields + JSONP callback.
-      const action = form.getAttribute('action')!.replace('/post', '/post-json');
-      const params = new URLSearchParams(new FormData(form) as any);
-      const cb = 'mc_' + Date.now();
-      params.set('c', cb);
-      const url = action + (action.includes('?') ? '&' : '?') + params.toString();
-
-      const script = document.createElement('script');
-      const cleanup = () => {
-        delete (window as any)[cb];
-        script.remove();
-      };
-      (window as any)[cb] = (data: { result?: string; msg?: string }) => {
-        if (data.result === 'success') {
-          setStatus(messages.success, true);
-          form.reset();
-        } else {
-          const msg = (data.msg || '').toLowerCase();
-          setStatus(msg.includes('already subscribed') ? messages.already : messages.error, false);
-        }
-        cleanup();
-      };
-      script.onerror = () => {
-        setStatus(messages.error, false);
-        cleanup();
-      };
-      script.src = url;
-      document.body.appendChild(script);
+    // Fires when Mailchimp's response finishes loading in the hidden iframe.
+    iframe.addEventListener('load', () => {
+      if (!submitted) return; // ignore the initial blank load
+      submitted = false;
+      setStatus(messages.success, true);
+      form.reset();
     });
   }
 
