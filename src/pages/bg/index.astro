@@ -2,7 +2,6 @@
 import Layout from '../../layouts/Layout.astro';
 import Button from '@christopherstavrou/ui/Button.astro';
 import Card from '@christopherstavrou/ui/Card.astro';
-import SocialIcon from '@christopherstavrou/ui/SocialIcon.astro';
 import RssLink from '../../components/RssLink.astro';
 import { Image } from 'astro:assets';
 import { siteConfig } from '../../config/site';
@@ -255,25 +254,6 @@ const latestNews = (await getBlogPosts('bg'))
               </Button>
             </div>
           </form>
-
-          <!-- Social Links -->
-          <div class="flex justify-center gap-6 mb-6">
-            {siteConfig.instagramUrl && (
-              <a href={siteConfig.instagramUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-secondary transition-colors" aria-label="Instagram">
-                <SocialIcon name="instagram" />
-              </a>
-            )}
-            {siteConfig.facebookUrl && (
-              <a href={siteConfig.facebookUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-secondary transition-colors" aria-label="Facebook">
-                <SocialIcon name="facebook" />
-              </a>
-            )}
-            {siteConfig.youtubeUrl && (
-              <a href={siteConfig.youtubeUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent-secondary transition-colors" aria-label="YouTube">
-                <SocialIcon name="youtube" />
-              </a>
-            )}
-          </div>
         </div>
       </div>
     </section>
