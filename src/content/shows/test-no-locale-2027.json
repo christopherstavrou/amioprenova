@@ -15,6 +15,20 @@
     "concessions": "15 BGN students"
   },
   "tags": [
-    "album-launch"
-  ]
+    "album-launch",
+    "bulgaria"
+  ],
+  "tagsBg": [
+    "представяне на албум",
+    "България"
+  ],
+  "_overrides": {
+    "city": "locked",
+    "country": "locked",
+    "timezone": "locked",
+    "eventType": "locked",
+    "admission": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
 }

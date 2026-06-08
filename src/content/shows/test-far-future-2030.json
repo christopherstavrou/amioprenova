@@ -18,7 +18,27 @@
     "price": "40 BGN"
   },
   "tags": [
-    "jazz"
+    "jazz",
+    "sofia",
+    "bulgaria"
   ],
-  "image": "https://images.unsplash.com/photo-1416339306562-f3d12fefd36f?q=80&w=1280&h=720&auto=format&fit=crop"
+  "tagsBg": [
+    "джаз",
+    "София",
+    "България"
+  ],
+  "image": "https://images.unsplash.com/photo-1416339306562-f3d12fefd36f?q=80&w=1280&h=720&auto=format&fit=crop",
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "timezone": "locked",
+    "eventType": "locked",
+    "admission": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
 }

@@ -18,7 +18,26 @@
   },
   "tags": [
     "birthday",
-    "party"
+    "sofia",
+    "bulgaria"
   ],
-  "image": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1280&h=720&auto=format&fit=crop"
+  "tagsBg": [
+    "рожден тържество",
+    "София",
+    "България"
+  ],
+  "image": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1280&h=720&auto=format&fit=crop",
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "timezone": "locked",
+    "eventType": "locked",
+    "admission": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
 }

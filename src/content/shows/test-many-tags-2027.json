@@ -52,5 +52,18 @@
     "фестивал",
     "нощно"
   ],
-  "image": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=1280&h=720&auto=format&fit=crop"
+  "image": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=1280&h=720&auto=format&fit=crop",
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "timezone": "locked",
+    "eventType": "locked",
+    "admission": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
 }

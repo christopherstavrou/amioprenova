@@ -11,6 +11,7 @@
   "venue": "Jazz Club",
   "city": "Sofia",
   "country": "Bulgaria",
+  "timezone": "Europe/Sofia",
   "status": "rescheduled",
   "eventType": "concert",
   "admission": {
@@ -20,11 +21,27 @@
   "tags": [
     "jazz",
     "quartet",
-    "rescheduled"
+    "sofia",
+    "bulgaria"
   ],
   "tagsBg": [
     "джаз",
     "квартет",
-    "преместено"
-  ]
+    "София",
+    "България"
+  ],
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "timezone": "locked",
+    "status": "locked",
+    "eventType": "locked",
+    "admission": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
 }
