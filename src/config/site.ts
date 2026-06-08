@@ -31,6 +31,10 @@ export const siteConfig = {
   // Newsletter
   mailchimpSignupUrl: '', // TODO: Add when verified
 
+  // Artist identity (used for search-engine structured data / JSON-LD)
+  artistName: 'Ami Oprenova',
+  artistDescription: 'Jazz vocalist and composer whose musicianship spans from classical violin to the jazz stage.',
+
   // Press / Media Kit
   genres: ['Jazz', 'Vocal Jazz', 'Contemporary Jazz'], // TODO: Replace with actual genres
   riylTags: ['Ella Fitzgerald', 'Sarah Vaughan', 'Diana Krall'], // TODO: Replace with "Recommended If You Like" artists
