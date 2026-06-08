@@ -13,7 +13,18 @@
   "country": "Bulgaria",
   "status": "rescheduled",
   "eventType": "concert",
-  "admission": { "type": "paid", "price": "20 BGN" },
-  "tags": ["jazz", "quartet", "rescheduled"],
-  "tagsBg": ["джаз", "квартет", "преместено"]
+  "admission": {
+    "type": "paid",
+    "price": "20 BGN"
+  },
+  "tags": [
+    "jazz",
+    "quartet",
+    "rescheduled"
+  ],
+  "tagsBg": [
+    "джаз",
+    "квартет",
+    "преместено"
+  ]
 }

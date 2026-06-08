@@ -13,7 +13,12 @@
   "country": "Bulgaria",
   "timezone": "Europe/Sofia",
   "eventType": "birthday",
-  "admission": { "type": "free-booking" },
-  "tags": ["birthday", "party"],
+  "admission": {
+    "type": "free-booking"
+  },
+  "tags": [
+    "birthday",
+    "party"
+  ],
   "image": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1280&h=720&auto=format&fit=crop"
 }

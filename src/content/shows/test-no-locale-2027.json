@@ -9,6 +9,12 @@
   "country": "Bulgaria",
   "timezone": "Europe/Sofia",
   "eventType": "album-launch",
-  "admission": { "type": "paid", "price": "20 BGN", "concessions": "15 BGN students" },
-  "tags": ["album-launch"]
+  "admission": {
+    "type": "paid",
+    "price": "20 BGN",
+    "concessions": "15 BGN students"
+  },
+  "tags": [
+    "album-launch"
+  ]
 }

@@ -13,7 +13,12 @@
   "country": "Bulgaria",
   "timezone": "Europe/Sofia",
   "eventType": "concert",
-  "admission": { "type": "paid", "price": "40 BGN" },
-  "tags": ["jazz"],
+  "admission": {
+    "type": "paid",
+    "price": "40 BGN"
+  },
+  "tags": [
+    "jazz"
+  ],
   "image": "https://images.unsplash.com/photo-1416339306562-f3d12fefd36f?q=80&w=1280&h=720&auto=format&fit=crop"
 }

@@ -12,9 +12,26 @@
   "city": "London",
   "country": "United Kingdom",
   "timezone": "Europe/London",
-  "hosts": ["Ami Oprenova Quartet", "The Riverside Collective Big Band", "Daniele Ciuffreda Trio", "Sofia Philharmonic Strings", "The Late Night Swing Ensemble", "Maria Petrova & Friends", "The Balkan Brass Project", "Guest soloist Yannis Constantinou", "The Camden Jazz Workshop Players", "Special guests to be announced"],
+  "hosts": [
+    "Ami Oprenova Quartet",
+    "The Riverside Collective Big Band",
+    "Daniele Ciuffreda Trio",
+    "Sofia Philharmonic Strings",
+    "The Late Night Swing Ensemble",
+    "Maria Petrova & Friends",
+    "The Balkan Brass Project",
+    "Guest soloist Yannis Constantinou",
+    "The Camden Jazz Workshop Players",
+    "Special guests to be announced"
+  ],
   "eventType": "collaboration",
-  "admission": { "type": "free-booking", "note": "Free entry, booking required" },
-  "tags": ["collaboration", "bigband"],
+  "admission": {
+    "type": "free-booking",
+    "note": "Free entry, booking required"
+  },
+  "tags": [
+    "collaboration",
+    "bigband"
+  ],
   "image": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1280&h=720&auto=format&fit=crop"
 }

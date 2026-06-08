@@ -13,7 +13,12 @@
   "country": "Italy",
   "timezone": "Europe/Rome",
   "eventType": "workshop",
-  "admission": { "type": "free" },
-  "tags": ["workshop", "vocal"],
+  "admission": {
+    "type": "free"
+  },
+  "tags": [
+    "workshop",
+    "vocal"
+  ],
   "image": "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=1280&h=720&auto=format&fit=crop"
 }
