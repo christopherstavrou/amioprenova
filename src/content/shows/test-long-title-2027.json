@@ -4,7 +4,7 @@
   "title": "An Extraordinarily Long Event Title That Goes On And On To Test How Cards, Grids, Detail Headers And The Browser Tab Title Handle Wrapping Across Multiple Lines On Both Mobile And Desktop Layouts [TEST]",
   "titleEn": "An Extraordinarily Long Event Title That Goes On And On To Test How Cards, Grids, Detail Headers And The Browser Tab Title Handle Wrapping Across Multiple Lines On Both Mobile And Desktop Layouts [TEST]",
   "titleBg": "Изключително дълго заглавие на събитие, което продължава дълго, за да тества как картите, мрежите и заглавията се пренасят на няколко реда [ТЕСТ]",
-  "description": "A very long description that should be line-clamped on cards but shown in full on the detail page. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+  "description": "A very long description that should be line-clamped on cards but shown in full on the detail page. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.",
   "descriptionBg": "Много дълго описание, което трябва да се съкращава на картите, но да се показва изцяло на страницата с детайли. Lorem ipsum dolor sit amet.",
   "startDate": "2027-02-14T20:00:00+02:00",
   "venue": "Kulturhaus der Deutschen Minderheit in der Region Banat",

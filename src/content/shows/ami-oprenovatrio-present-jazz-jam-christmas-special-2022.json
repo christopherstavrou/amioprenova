@@ -5,7 +5,7 @@
   "title": "Ami Oprenova & Trio: Jazz Jam Christmas Special",
   "titleEn": "Ami Oprenova & Trio: Jazz Jam Christmas Special",
   "titleBg": "Ами Опренова и трио: Коледно джаз джем издание",
-  "description": "Светлите празници наближат, и все повече ни завладява коледният дух.",
+  "description": "A special festive edition of the traditional Jazz Jam with Ami Oprenova & Trio at Bar National.",
   "descriptionEn": "A special festive edition of the traditional Jazz Jam with Ami Oprenova & Trio at Bar National.",
   "descriptionBg": "Специално празнично издание на традиционния джаз джем с Ами Опренова и трио в Bar National.",
   "body": "Светлите празници наближат, и все повече ни завладява коледният дух. \nГреяно вино с канела, топъл шоколад,красива украса  и хубава музика са само част от празничната атмосфера, която ни заобикаля.\n\nПредставяме на вниманието ви, специалнотo издание на традиционния \n и така любим на всички ни Jazz Jam, представен от Ами Опренова & Trio. Те отново са ни приготвили много и хубава музика, но този път е специално подбрана и носеща в себе си магията на предстоящите Коледни празници.\n\nИ когато работим с професионалисти, и екипът е единен в идеите си :-)  - нашите бармани са подготвили коктейли,  които да допринесат за празничното настроение и допълнят усещането за наближаващата Коледа, създадено от музиката на Ами & Trio.\n\nbar National - Author's cocktails and live music \n\nОчакваме ви!",
@@ -64,7 +64,8 @@
     "title": "locked",
     "hosts": "locked",
     "startDate": "locked",
-    "timezone": "locked"
+    "timezone": "locked",
+    "description": "locked"
   },
   "timezone": "Europe/Sofia"
 }
