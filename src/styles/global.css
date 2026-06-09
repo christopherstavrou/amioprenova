@@ -41,8 +41,11 @@
  * variant in components.
  */
 
-/* ===== Google Fonts ===== */
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;700&display=swap');
+/* ===== Fonts (self-hosted — see src/styles/fonts.css) =====
+   Replaced the Google Fonts CSS @import: self-hosting removes the third-party
+   request to Google on every page load (privacy + GDPR) and avoids the
+   render-blocking import chain. Subsets: latin + cyrillic (EN/BG). */
+@import './fonts.css';
 
 /* ===== Design tokens (sourced from @christopherstavrou/theme) ===== */
 @import "@christopherstavrou/theme/tokens.css";
@@ -463,7 +466,16 @@ main {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  main {
-    animation: none;
+  /* Honour the OS "reduce motion" setting site-wide: near-instant transitions/
+     animations (incl. hover image zooms, fades, slide-ins) and no smooth scroll. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
   }
 }

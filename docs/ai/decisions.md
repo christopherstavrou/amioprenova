@@ -401,3 +401,48 @@ These are hard limits that MUST NOT be violated in V1:
 **Status**: ✅ Phase 1 decided (this entry). Implementation tracked as a task breakdown on #201.
 
 **Date**: 2026-06-08
+
+---
+
+### No cookie banner — strictly-necessary cookies only (#181)
+
+**Decision**: Do **not** add a cookie-consent banner. Keep the site to first-party,
+strictly-necessary functional cookies only, and load all third parties on explicit
+interaction.
+
+**Rationale**:
+- The only browser storage we set is two **functional** cookies — `site_theme` and
+  `site_lang` (theme + language preference). Under the ePrivacy Directive / GDPR these are
+  *strictly necessary* for a feature the user chose and are **consent-exempt**, so no banner
+  is required. They are disclosed in the privacy policy (name, purpose, lifetime).
+- We set **no** analytics or advertising cookies and do no tracking.
+- Third parties that could set cookies are **gated behind user action**: YouTube embeds use
+  `youtube-nocookie.com` and only load **after** a click (#180); Mailchimp only receives data
+  on explicit newsletter submit. Nothing third-party runs on page load.
+- A banner with no non-essential cookies to gate would be misleading "consent theatre" and
+  hurts UX/CWV for no legal benefit.
+
+**Consequence / guardrail**: if we ever add analytics or any pre-consent third-party that sets
+cookies, this decision must be revisited — that would require either a cookieless tool (see the
+analytics note below / #183) or a proper consent mechanism. The privacy policy's cookie section
+is the source of truth for what we set.
+
+**Status**: ✅ Decided — no banner; policy documents the functional cookies.
+
+**Date**: 2026-06-09
+
+---
+
+### Analytics: prefer cookieless (Cloudflare Web Analytics) — not yet wired (#183)
+
+**Decision (recommendation)**: If/when analytics is wanted, use a **cookieless, privacy-first**
+tool — **Cloudflare Web Analytics** is the natural fit (already on Cloudflare, no cookies, no
+cross-site tracking, no consent banner needed, free). Plausible/Fathom are equivalent alternatives.
+
+**Why not now**: enabling Cloudflare Web Analytics is an **owner action** in the Cloudflare
+dashboard (it issues a beacon token); it can't be fully wired without that. Avoid anything
+cookie-based (e.g. Google Analytics) — it would force a consent banner and break the decision above.
+
+**Status**: ⏸️ Deferred — recommendation recorded; live wiring needs the owner's Cloudflare account.
+
+**Date**: 2026-06-09
