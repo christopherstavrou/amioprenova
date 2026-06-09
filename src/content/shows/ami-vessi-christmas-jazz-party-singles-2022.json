@@ -70,7 +70,8 @@
     "title": "locked",
     "hosts": "locked",
     "startDate": "locked",
-    "timezone": "locked"
+    "timezone": "locked",
+    "description": "locked"
   },
   "timezone": "Europe/Sofia"
 }

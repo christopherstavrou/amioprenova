@@ -41,7 +41,6 @@
   ],
   "image": "/images/events/fb-478312354857525.jpg",
   "gallery": [],
-  "ticketUrl": "",
   "mapUrl": "https://maps.google.com/?q=42.688577955059,23.336336",
   "sourceUrl": "https://www.facebook.com/events/478312354857525/",
   "usersResponded": 107,
@@ -69,7 +68,8 @@
     "title": "locked",
     "hosts": "locked",
     "startDate": "locked",
-    "timezone": "locked"
+    "timezone": "locked",
+    "description": "locked"
   },
   "timezone": "Europe/Sofia"
 }
