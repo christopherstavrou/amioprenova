@@ -19,6 +19,24 @@ const eventStatusEnum = z.enum(['scheduled', 'cancelled', 'postponed', 'reschedu
 
 const overridePolicyEnum = z.enum(['locked', 'fallback']);
 
+// `description` is the canonical clean English summary used for cards' fallback
+// and HTML <meta> tags — NOT raw event body text. The Facebook scraper writes the
+// first paragraph of the post (truncated to 200 chars) into this field, which is
+// full of emoji and Bulgarian copy. Enrichment is meant to replace that with a
+// clean ≤200-char English summary and lock it via `_overrides`. This guard fails
+// the build if a raw/scraped description slips through unenriched, so it can never
+// reach production. See docs/ai/event-enrichment.md → `description`.
+const EMOJI_OR_SYMBOL =
+  /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{2190}-\u{21FF}\u{FE00}-\u{FE0F}\u{FFFC}\u{1F1E6}-\u{1F1FF}]/u;
+const cleanSummary = z
+  .string()
+  .max(200, 'description must be ≤200 chars — a clean summary, not raw body text')
+  .refine(
+    (s) => !EMOJI_OR_SYMBOL.test(s),
+    'description must not contain emoji/symbols — this looks like raw scraped text. Write a clean English summary and lock it in _overrides (see docs/ai/event-enrichment.md).'
+  )
+  .refine((s) => !/https?:\/\//.test(s), 'description must not contain URLs');
+
 const showsCollection = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/shows' }),
   schema: z.object({
@@ -28,7 +46,7 @@ const showsCollection = defineCollection({
     title: z.string(),
     titleEn: z.string().optional(),
     titleBg: z.string().optional(),
-    description: z.string(),
+    description: cleanSummary,
     descriptionEn: z.string().optional(),
     descriptionBg: z.string().optional(),
     body: z.string().optional(),

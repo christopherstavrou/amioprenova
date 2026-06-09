@@ -11,10 +11,36 @@
   "venue": "The Garden Venue",
   "city": "Sofia",
   "country": "Bulgaria",
+  "timezone": "Europe/Sofia",
   "status": "cancelled",
   "eventType": "concert",
-  "admission": { "type": "paid", "price": "15 BGN" },
-  "tags": ["jazz", "outdoor", "cancelled"],
-  "tagsBg": ["джаз", "открит", "отменено"],
-  "image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1280&h=720&auto=format&fit=crop"
+  "admission": {
+    "type": "paid",
+    "price": "15 BGN"
+  },
+  "tags": [
+    "jazz",
+    "outdoor",
+    "cancelled"
+  ],
+  "tagsBg": [
+    "джаз",
+    "на открито",
+    "отменено"
+  ],
+  "image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1280&h=720&auto=format&fit=crop",
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "timezone": "locked",
+    "status": "locked",
+    "eventType": "locked",
+    "admission": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
 }

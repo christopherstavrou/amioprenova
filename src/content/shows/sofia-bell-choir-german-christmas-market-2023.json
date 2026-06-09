@@ -39,10 +39,9 @@
   ],
   "image": "/images/events/fb-369360818874808.jpg",
   "gallery": [],
-  "ticketUrl": "",
   "mapUrl": "https://maps.google.com/?q=42.695483389502,23.325798758353",
   "sourceUrl": "https://www.facebook.com/events/369360818874808/",
-  "usersResponded": 71,
+  "usersResponded": 72,
   "eventType": "concert",
   "admission": {
     "type": "free"
@@ -64,7 +63,8 @@
     "title": "locked",
     "hosts": "locked",
     "startDate": "locked",
-    "timezone": "locked"
+    "timezone": "locked",
+    "description": "locked"
   },
   "timezone": "Europe/Sofia"
 }

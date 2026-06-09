@@ -83,7 +83,7 @@ All text content visible to users must be available in both English and Bulgaria
 |-------|------|
 | `titleEn` | Write an English title if `title` is in Bulgarian. Omit if `title` is already English. Lock. |
 | `titleBg` | Write a Bulgarian title if `title` is in English. Omit if `title` is already Bulgarian. Lock. |
-| `description` | Canonical English fallback for both locales and for HTML meta tags. If empty or <30 chars: write a clean 1–2 sentence English summary from title + venue + body. No emoji. Max 200 chars. Lock. |
+| `description` | Canonical English fallback for both locales and for HTML meta tags. If empty or <30 chars: write a clean 1–2 sentence English summary from title + venue + body. No emoji. Max 200 chars. **Lock** (otherwise the scraper overwrites it with raw post text). **Enforced at build time** — the content schema (`src/content.config.ts`) rejects emoji, the `￼` object-replacement char, URLs, or >200 chars, so an unenriched scraped description fails `npm run build` / CI before it can ship. |
 | `descriptionEn` | English short description for EN pages and meta. Set if `description` is in Bulgarian or a better English phrasing exists. Max 200 chars, no emoji. Lock. |
 | `descriptionBg` | Bulgarian short description for BG pages and meta. Always set — translate `descriptionEn ?? description`. Max 200 chars, no emoji. Lock. |
 | `body` | Scraped body text — canonical fallback for both locales. Only fix structural issues (broken encoding, stray URLs). |

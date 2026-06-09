@@ -11,9 +11,37 @@
   "venue": "Jazz Club",
   "city": "Sofia",
   "country": "Bulgaria",
+  "timezone": "Europe/Sofia",
   "status": "rescheduled",
   "eventType": "concert",
-  "admission": { "type": "paid", "price": "20 BGN" },
-  "tags": ["jazz", "quartet", "rescheduled"],
-  "tagsBg": ["джаз", "квартет", "преместено"]
+  "admission": {
+    "type": "paid",
+    "price": "20 BGN"
+  },
+  "tags": [
+    "jazz",
+    "quartet",
+    "sofia",
+    "bulgaria"
+  ],
+  "tagsBg": [
+    "джаз",
+    "квартет",
+    "София",
+    "България"
+  ],
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "timezone": "locked",
+    "status": "locked",
+    "eventType": "locked",
+    "admission": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
 }

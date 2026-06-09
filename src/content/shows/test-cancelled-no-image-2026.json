@@ -11,9 +11,34 @@
   "venue": "Rooftop Bar",
   "city": "Sofia",
   "country": "Bulgaria",
+  "timezone": "Europe/Sofia",
   "isCanceled": true,
   "eventType": "concert",
-  "admission": { "type": "paid", "price": "20 BGN" },
-  "tags": ["jazz", "rooftop", "cancelled"],
-  "tagsBg": ["джаз", "покрив", "отменено"]
+  "admission": {
+    "type": "paid",
+    "price": "20 BGN"
+  },
+  "tags": [
+    "jazz",
+    "rooftop",
+    "cancelled"
+  ],
+  "tagsBg": [
+    "джаз",
+    "покрив",
+    "отменено"
+  ],
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "timezone": "locked",
+    "eventType": "locked",
+    "admission": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
 }

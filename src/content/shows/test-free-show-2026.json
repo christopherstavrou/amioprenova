@@ -11,8 +11,34 @@
   "venue": "Hakaset Bar",
   "city": "Sofia",
   "country": "Bulgaria",
+  "timezone": "Europe/Sofia",
   "eventType": "jam",
-  "admission": { "type": "free" },
-  "tags": ["jazz", "jam", "free"],
-  "tagsBg": ["джаз", "джем", "безплатно"]
+  "admission": {
+    "type": "free"
+  },
+  "tags": [
+    "jazz",
+    "jam-session",
+    "sofia",
+    "bulgaria"
+  ],
+  "tagsBg": [
+    "джаз",
+    "джем сесия",
+    "София",
+    "България"
+  ],
+  "_overrides": {
+    "titleEn": "locked",
+    "titleBg": "locked",
+    "descriptionEn": "locked",
+    "descriptionBg": "locked",
+    "city": "locked",
+    "country": "locked",
+    "timezone": "locked",
+    "eventType": "locked",
+    "admission": "locked",
+    "tags": "locked",
+    "tagsBg": "locked"
+  }
 }
