@@ -35,7 +35,8 @@ function playVideo(card: HTMLElement) {
 
   const iframe = document.createElement('iframe');
   if (youtubeId) {
-    iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+    // youtube-nocookie: no tracking cookies set until the visitor clicks play (#180).
+    iframe.src = `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1`;
     iframe.title = 'YouTube video player';
     iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
   } else if (vimeoId) {
